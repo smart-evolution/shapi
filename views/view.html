@@ -1,0 +1,20 @@
+{{define "base"}}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {{.Title}}
+    </title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="c-body">
+    {{template "navigation" .}}
+    {{template "body" .}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGoiW42ZGLDe2OEDlhmjavixKIhYumiOk"></script>
+    <script src="/static/scripts.js"></script>
+</body>
+<footer class="c-footer">
+    Version: {{.Version}}
+</footer>
+</html>
+{{end}}

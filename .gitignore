@@ -1,0 +1,12 @@
+.idea/
+.env
+.DS_Store
+
+node_modules/
+elm-stuff/
+
+public/
+
+version.go
+
+smarthome
