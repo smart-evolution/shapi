@@ -12,18 +12,18 @@ const temperatureContainer = document.querySelector('.js-temperature');
 const sagaMiddleware = createSagaMiddleware();
 
 if (temperatureContainer) {
-    const store = createStore(
-        temperatureChartReducer,
-        applyMiddleware(sagaMiddleware)
-    );
+  const store = createStore(
+    temperatureChartReducer,
+    applyMiddleware(sagaMiddleware)
+  );
 
-    sagaMiddleware.run(temperatureChartSagas);
+  sagaMiddleware.run(temperatureChartSagas);
 
-    render(
-        <Provider store={store}>
-            <TemperatureChart />
-        </Provider>,
-        temperatureContainer
-    );
+  render(
+    <Provider store={store}>
+      <TemperatureChart />
+    </Provider>,
+    temperatureContainer
+  );
 }
 

@@ -1,0 +1,34 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Indentation override for all go
+[*.go]
+indent_style = space
+indent_size = 4
+
+# Indentation override for all JS
+[*.js,*.jsx]
+indent_style = space
+indent_size = 2
+
+# Indentation override for all Elm
+[*.elm]
+indent_style = space
+indent_size = 2
+
+# Indentation override for all scss
+[*.scss]
+indent_style = space
+indent_size = 4
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
