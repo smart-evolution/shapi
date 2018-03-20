@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import TravelMap from './TravelMap';
+import TemperatureChart from './TemperatureChart';
 
 const mapStateToProps = state => ({
-  countries: state.countries,
+    temperature: state.temperature,
 });
 
 const mapDispatchToProps = () => ({});
@@ -10,4 +10,4 @@ const mapDispatchToProps = () => ({});
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TravelMap);
+)(TemperatureChart);

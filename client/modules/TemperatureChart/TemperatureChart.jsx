@@ -9,8 +9,10 @@ export default class TemperatureChart extends Component {
 
 
   render() {
+    const { temperature } = this.props;
+
     return (<div className="temperature-chart">
-        Temperature chart
+        Current temp: {temperature} *C
     </div>);
   }
 }

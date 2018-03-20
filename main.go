@@ -27,6 +27,7 @@ serverOptions := gws.WebServerOptions{
 }
 
 server := gws.New(serverOptions, controllers.NotFound)
+server.Router.AddRoute("/", controllers.CtrDashboard)
 server.Router.AddRoute("/api/home", api.CtrHome)
 
 server.Run()

@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     context: `${__dirname}/client`,
     entry: {
-        scripts: './app.jsx',
+        scripts: ['regenerator-runtime/runtime', './app.jsx'],
         css: './app.scss',
     },
     output: {
@@ -11,7 +11,6 @@ module.exports = {
         filename: 'scripts.js',
     },
     externals: {
-        gmaps: 'google.maps',
     },
     devtool: '#inline-source-map',
     module: {

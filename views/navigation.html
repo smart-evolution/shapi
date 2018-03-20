@@ -4,40 +4,7 @@
     </a>
     <nav class="c-header__navigation">
         <ul class="c-navigation">
-            <li class="c-navigation__option"
-                role="presentation">
-                <a class="c-navigation__link" href="/">
-                    Home
-                </a>
-            </li>
-            {{if not .IsLogged}}
-            <li class="c-navigation__option"
-                role="presentation">
-                <a class="c-navigation__link" href="/login">
-                    Login
-                </a>
-            </li>
-            {{end}}
-            {{if .IsLogged}}
-            <li class="c-navigation__option"
-                role="presentation">
-                <a class="c-navigation__link" href="/trips">
-                    Trips
-                </a>
-            </li>
-            <li class="c-navigation__option"
-                role="presentation">
-                <a class="c-navigation__link" href="/travel-map">
-                    Travel Map
-                </a>
-            </li>
-            <li class="c-navigation__option"
-                role="presentation">
-                <a class="c-navigation__link" href="/login/logout">
-                    Logout
-                </a>
-            </li>
-            {{end}}
+
         </ul>
     </nav>
 </header>
