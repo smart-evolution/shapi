@@ -1,20 +1,21 @@
 package api
 
 import (
-"log"
-"strings"
-"net/http"
-"encoding/json"
-"github.com/tarm/serial"
-"github.com/oskarszura/gowebserver/router"
-"github.com/oskarszura/gowebserver/session"
+    "os"
+    "log"
+    "strings"
+    "net/http"
+    "encoding/json"
+    "github.com/tarm/serial"
+    "github.com/oskarszura/gowebserver/router"
+    "github.com/oskarszura/gowebserver/session"
 )
 
 
 func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
-	config := &serial.Config{Name: "/dev/tty.usbmodem1411", Baud: 9600}
+	config := &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
 	port, oErr := serial.OpenPort(config)
 
 	if oErr != nil {

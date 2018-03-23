@@ -5,7 +5,7 @@ const TemperatureChart = (props) => {
   const { temperature } = props;
 
   return (<div className="temperature-chart">
-    Current temp: {temperature} *C
+    Current: {temperature} &#8451;
   </div>);
 };
 
