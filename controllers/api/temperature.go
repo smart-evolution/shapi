@@ -11,16 +11,23 @@ import (
     "github.com/oskarszura/gowebserver/session"
 )
 
+var (
+    config  serial.Config
+    port    serial.Port
+    err     error
+)
+
+func InitCtrlHome() {
+    config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
+    port, err = serial.OpenPort(config)
+
+    if err != nil {
+        log.Fatal(err)
+    }
+}
 
 func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-
-	config := &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
-	port, oErr := serial.OpenPort(config)
-
-	if oErr != nil {
-		log.Fatal(oErr)
-	}
 
 	buf := make([]byte, 128)
 	bufLen, pErr := port.Read(buf)
