@@ -3,6 +3,7 @@ package api
 import (
     "os"
     "log"
+    "regexp"
     "strings"
     "net/http"
     "encoding/json"
@@ -12,10 +13,21 @@ import (
 )
 
 var (
-    config  serial.Config
-    port    serial.Port
+    config  *serial.Config
+    port    *serial.Port
     err     error
 )
+
+func getPackageData(stream string) string {
+    pkgRegExp, _ := regexp.Compile("<[0-9]+\\.[0-9]+>")
+    dataPackage := pkgRegExp.FindString(stream)
+
+    return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0]
+}
+
+func getTemperature(data string) string {
+    return data
+}
 
 func InitCtrlHome() {
     config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
@@ -36,10 +48,15 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 		log.Fatal(pErr)
 	}
 
+    dataStream := string(buf[:bufLen])
+
+    unwrappedData := getPackageData(dataStream)
+    temperature := getTemperature(unwrappedData)
+
 	data := struct {
-		Temperature    string   	    `json:"temperature"`
+		Temperature string  `json:"temperature"`
 	} {
-		strings.Split(strings.Replace(string(buf[:bufLen]), "\n", "", -1), "\r")[0],
+        temperature,
 	}
 
 	json.NewEncoder(w).Encode(data)
