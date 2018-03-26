@@ -11,7 +11,7 @@ const TemperaturePanel = (props) => {
 
    return (<div className="temperature-panel">
       <div className="temperature-panel__current">
-        Current: {currentTmp} &#8451;
+        {currentTmp} &#8451;
       </div>
       <div className="temperature-panel__chart">
         <TemperatureChart
