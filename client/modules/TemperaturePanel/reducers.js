@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
+const DATA_RANGE = 30;
+
 const defaultState = {
     temperature: [],
 };
@@ -17,9 +19,9 @@ export default function reducer(state = defaultState, action) {
       }
       const updatedTemps = _.concat(state.temperature, [temperatureObj]);
 
-      const start = updatedTemps.length >= 30 ? 1 : 0;
+      const start = updatedTemps.length >= DATA_RANGE ? 1 : 0;
 
-      const temperature = _.slice(updatedTemps, start, start + 30);
+      const temperature = _.slice(updatedTemps, start, start + DATA_RANGE);
 
       return Object.assign({}, state, {
         temperature,
