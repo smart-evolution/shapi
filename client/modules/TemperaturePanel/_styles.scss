@@ -1,0 +1,13 @@
+@import "./TemperatureChart/styles";
+
+.temperature-panel {
+    &__current {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &__chart {
+        text-align: center;
+    }
+}
