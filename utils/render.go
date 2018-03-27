@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"html/template"
-	. "github.com/oskarszura/trips/models"
+	. "github.com/oskarszura/smarthome/models"
 	. "github.com/oskarszura/gowebserver/session"
 )
 
