@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"fmt"
+    "github.com/oskarszura/smarthome/utils"
 	"github.com/oskarszura/smarthome/controllers"
 	"github.com/oskarszura/smarthome/controllers/api"
 	gws "github.com/oskarszura/gowebserver"
@@ -17,21 +18,25 @@ func getServerAddress() (string, error) {
 	return ":" + port, nil
 }
 
+//go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
+
 func main() {
 	addr, _ := getServerAddress()
 
-serverOptions := gws.WebServerOptions{
-	addr,
-	"/static/",
-	"public",
-}
+    utils.VERSION = VERSION
 
-api.InitCtrlHome()
+    serverOptions := gws.WebServerOptions{
+        addr,
+        "/static/",
+        "public",
+    }
 
-server := gws.New(serverOptions, controllers.NotFound)
-server.Router.AddRoute("/", controllers.CtrDashboard)
-server.Router.AddRoute("/api/home", api.CtrHome)
+    api.InitCtrlHome()
 
-server.Run()
+    server := gws.New(serverOptions, controllers.NotFound)
+    server.Router.AddRoute("/", controllers.CtrDashboard)
+    server.Router.AddRoute("/api/home", api.CtrHome)
+
+    server.Run()
 }
 
