@@ -19,14 +19,18 @@ var (
 )
 
 func getPackageData(stream string) string {
-    pkgRegExp, _ := regexp.Compile("<[0-9]+\\.[0-9]+>")
+    pkgRegExp, _ := regexp.Compile("<[0-9]+\\.[0-9]+\\|[0-1]>")
     dataPackage := pkgRegExp.FindString(stream)
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0]
 }
 
 func getTemperature(data string) string {
-    return data
+    return strings.Split(data, "|")[0]
+}
+
+func getPresence(data string) string {
+    return strings.Split(data, "|")[1]
 }
 
 func InitCtrlHome() {
@@ -52,11 +56,14 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 
     unwrappedData := getPackageData(dataStream)
     temperature := getTemperature(unwrappedData)
+    presence := getPresence(unwrappedData)
 
 	data := struct {
 		Temperature string  `json:"temperature"`
+        Presence    string  `json:"presence"`
 	} {
         temperature,
+        presence,
 	}
 
 	json.NewEncoder(w).Encode(data)
