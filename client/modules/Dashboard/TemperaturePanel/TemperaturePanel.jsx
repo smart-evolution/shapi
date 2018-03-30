@@ -10,7 +10,10 @@ const TemperaturePanel = (props) => {
   const currentTmp = _.isUndefined(lastTmp) ? NODATA_SIGN : lastTmp.value;
 
    return (<div className="temperature-panel">
-      <div className="temperature-panel__current">
+      <div className="temperature-panel__title">
+       Temperature
+     </div>
+     <div className="temperature-panel__current">
         {currentTmp} &#8451;
       </div>
       <div className="temperature-panel__chart">
@@ -22,6 +25,7 @@ const TemperaturePanel = (props) => {
 }
 
 TemperaturePanel.propTypes = {
+  timestamp: PropTypes.number,
   temperature: PropTypes.array,
 };
 

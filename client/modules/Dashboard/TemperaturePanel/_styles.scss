@@ -1,6 +1,13 @@
 @import "TemperatureChart/styles";
 
 .temperature-panel {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
+    &__title {
+        @extend .c-panel__title;
+    }
+
     &__current {
         font-size: 24px;
         font-weight: bold;

@@ -1,16 +1,24 @@
+import _ from 'lodash';
 import { delay } from 'redux-saga'
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 
-function detData() {
-  return fetch('/api/home').then(response => response.json());
+function getData() {
+  return fetch('/api/home')
+    .then(response => response.json())
+    .catch(() => "Fetching data failed");
 }
 
 function* fetchData() {
   while (true) {
-    const data = yield call(detData);
+    const data = yield call(getData);
 
-    yield put(actions.fetchedData(data.temperature, data.presence));
+    if(_.isObject(data)) {
+      yield put(actions.fetchedData(Date.now(), data.temperature, data.presence));
+    } else {
+      yield put(actions.fetchDataFail(data));
+    }
+
     yield delay(1000);
   }
 }

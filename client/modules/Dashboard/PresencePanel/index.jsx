@@ -3,6 +3,7 @@ import PresencePanel from './PresencePanel';
 
 const mapStateToProps = state => ({
   presence: state.presence,
+  motions: state.motions,
 });
 
 const mapDispatchToProps = () => ({});
