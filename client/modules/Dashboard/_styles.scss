@@ -1,0 +1,16 @@
+@import "PresencePanel/styles";
+@import "TemperaturePanel/styles";
+
+$color-pippin: #FFE2E0;
+$color-watusi: #FFD4CC;
+$color-persimmon: #FF7157;
+
+.dashboard {
+    &__error {
+        margin-bottom: 10px;
+        color: $color-persimmon;
+        background: $color-pippin;
+        border: 1px solid $color-watusi;
+        padding: 10px;
+    }
+}

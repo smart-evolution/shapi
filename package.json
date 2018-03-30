@@ -1,7 +1,7 @@
 {
-  "name": "trips",
-  "version": "0.0.9",
-  "description": "## About the project A complete, full-stack, generic website scaffolding project for Go based websites.",
+  "name": "smarthome",
+  "version": "0.0.1",
+  "description": "Smarthome",
   "main": "index.js",
   "scripts": {
     "elm:package:install": "elm package install --yes",
@@ -47,6 +47,7 @@
     "file-loader": "^0.11.2",
     "graphen": "git://github.com/oskarszura/graphen",
     "lodash": "^4.17.5",
+    "moment": "^2.21.0",
     "node-sass": "^4.5.0",
     "postcss-loader": "^0.13.0",
     "precss": "^1.4.0",

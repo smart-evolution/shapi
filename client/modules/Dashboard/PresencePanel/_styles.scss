@@ -1,0 +1,21 @@
+.presence-panel {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
+    &__title {
+        @extend .c-panel__title;
+    }
+
+    &__current {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &__history {
+        @extend .c-list;
+        background-color: #FAFAFA;
+        height: 200px;
+        overflow: auto;
+    }
+}

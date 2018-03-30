@@ -1,28 +1,31 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import TemperaturePanel from './modules/TemperaturePanel';
-import temperaturePanelReducer from './modules/TemperaturePanel/reducers';
-import temperaturePanelSagas from './modules/TemperaturePanel/sagas';
 
-const temperatureContainer = document.querySelector('.js-temperature');
+import Dashboard from './modules/Dashboard';
+import dashboardReducer from './modules/Dashboard/reducers';
+import dashboardSagas from './modules/Dashboard/sagas';
+
+const dashboardContainer = document.querySelector('.js-dashboard');
 
 const sagaMiddleware = createSagaMiddleware();
 
-if (temperatureContainer) {
-  const store = createStore(
-    temperaturePanelReducer,
-    applyMiddleware(sagaMiddleware)
-  );
+const store = createStore(
+  dashboardReducer,
+  applyMiddleware(sagaMiddleware)
+);
 
-  sagaMiddleware.run(temperaturePanelSagas);
+sagaMiddleware.run(dashboardSagas);
 
+if (dashboardContainer) {
   render(
     <Provider store={store}>
-      <TemperaturePanel />
+      <Dashboard />
     </Provider>,
-    temperatureContainer
+    dashboardContainer
   );
 }
+
+
