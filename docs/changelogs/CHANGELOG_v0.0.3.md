@@ -1,0 +1,18 @@
+# Changelog from v0.0.3
+### Commits
+* [[`8d946f2`](http://github.com/oskarszura/smarthome/commit/8d946f204663a6e25199e145e3fb98dddcde04b9)] - Add README.md (Oskar Szura)
+* [[`36a7946`](http://github.com/oskarszura/smarthome/commit/36a7946c4aee3694984a83735c6e799cb7eaae2e)] - Merge pull request #4 from oskarszura/HOME-8 (Oskar Szura)
+* [[`4710f2e`](http://github.com/oskarszura/smarthome/commit/4710f2e8adaa6ac20c405f3a866b80c66f66c832)] - HOME-8 - Mount motion detector (Oskar Szura)
+* [[`2c96dfd`](http://github.com/oskarszura/smarthome/commit/2c96dfdee2f0b280634054aeacc8708a427b31d6)] - HOME-8 - Mount motion detector (Oskar Szura)
+* [[`adedb8c`](http://github.com/oskarszura/smarthome/commit/adedb8c1830c51461e284080d8ecea13eeebc8ef)] - Merge pull request #3 from oskarszura/HOME-5 (Oskar Szura)
+* [[`5c5c9f8`](http://github.com/oskarszura/smarthome/commit/5c5c9f800e88860babce8f8733af1dda2ee1f73b)] - HOME-5 - Embed application version into footer (Oskar Szura)
+* [[`abf7865`](http://github.com/oskarszura/smarthome/commit/abf7865c2b0b9856c285cd10e3bfaf5e60220dbb)] - Merge pull request #2 from oskarszura/HOME-9 (Oskar Szura)
+* [[`387c3e0`](http://github.com/oskarszura/smarthome/commit/387c3e0baaf5e78fe74233ecb05ad58166228e4c)] - HOME-9 - Implement Temperature Chart module (Oskar Szura)
+* [[`cd4ae3f`](http://github.com/oskarszura/smarthome/commit/cd4ae3f8c6dc1db9e4144e56dd709623d75e10bb)] - HOME-9 - Implement Temperature Chart module (Oskar Szura)
+* [[`1661bbc`](http://github.com/oskarszura/smarthome/commit/1661bbc55f710337a8030f3e6d1d5e62a1280425)] - HOME-9 - Implement Temperature Chart module (Oskar Szura)
+* [[`dceef71`](http://github.com/oskarszura/smarthome/commit/dceef7128857c03d56359a25e55911d9357d78d4)] - HOME-9 - Implement Temperature Chart module (Oskar Szura)
+* [[`67ecaa1`](http://github.com/oskarszura/smarthome/commit/67ecaa1ae4b24b666487000f6111c324342f12b3)] - Merge pull request #1 from oskarszura/HOME-3 (Oskar Szura)
+* [[`56122ff`](http://github.com/oskarszura/smarthome/commit/56122ff68dc505c263ceca7ee1c0185c8fae607c)] - HOME-3 - Fix feeding from serial port (Oskar Szura)
+* [[`5bcaa20`](http://github.com/oskarszura/smarthome/commit/5bcaa20d19232b03db24a28508d61767b921121c)] - Refactor home controller (Oskar Szura)
+* [[`c7169b8`](http://github.com/oskarszura/smarthome/commit/c7169b80b38be4fc640c50ab4e669cd879217036)] - Refactor code (Oskar Szura)
+* [[`bc457f8`](http://github.com/oskarszura/smarthome/commit/bc457f8843081d8aadc2b931b108d1720ae65d2c)] - Code style refactor (Oskar Szura)
