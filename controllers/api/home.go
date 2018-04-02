@@ -3,6 +3,7 @@ package api
 import (
     "os"
     "log"
+    "time"
     "regexp"
     "errors"
     "strings"
@@ -11,13 +12,16 @@ import (
     "github.com/tarm/serial"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
+    "github.com/influxdata/influxdb/client/v2"
 )
 
 var (
-    config      *serial.Config
-    port        *serial.Port
-    err         error
-    isConnected bool
+    config          *serial.Config
+    port            *serial.Port
+    err             error
+    isConnected     bool
+    influxClient    client.Client
+    influxBp        client.BatchPoints
 )
 
 func getPackageData(stream string) (string, error) {
@@ -39,6 +43,18 @@ func getPresence(data string) string {
     return strings.Split(data, "|")[1]
 }
 
+func influxDBClient() {
+    influxClient, err = client.NewHTTPClient(client.HTTPConfig{
+        Addr:     "http://localhost:8086",
+        Username: "",
+        Password: "",
+    })
+
+    if err != nil {
+        log.Fatalln("Error: ", err)
+    }
+}
+
 func InitCtrlHome() {
     isConnected = false;
     config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
@@ -50,6 +66,22 @@ func InitCtrlHome() {
     }
 
     isConnected = true;
+
+    influxDBClient()
+
+    influxBp, err = client.NewBatchPoints(client.BatchPointsConfig{
+        Database:  "smarthome",
+        Precision: "s",
+    })
+
+    if err != nil {
+        log.Fatalln("Error: ", err)
+    }
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
 }
 
 func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
@@ -79,6 +111,19 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 
     temperature := getTemperature(unwrappedData)
     presence := getPresence(unwrappedData)
+
+    pt, _ := client.NewPoint(
+        "home",
+        map[string]string{ "home": "home" },
+        map[string]interface{}{
+            "temperature": temperature,
+            "presence": presence,
+        },
+        time.Now(),
+    )
+    influxBp.AddPoint(pt)
+
+    err = influxClient.Write(influxBp)
 
 	data := struct {
 		Temperature string  `json:"temperature"`
