@@ -30,31 +30,12 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         times           []string
         temperatures    []string
         presences       []string
-        time            string
-        temperature     string
-        presence        string
     )
 
     for _, serie := range res.Values {
-        if serie[0] != nil {
-            time = serie[0].(string)
-        } else {
-            time = ""
-        }
-        if serie[3] != nil {
-            temperature = serie[3].(string)
-        } else {
-            temperature = ""
-        }
-        if serie[2] != nil {
-            presence = serie[2].(string)
-        } else {
-            presence = ""
-        }
-
-        times = append(times, time)
-        temperatures = append(temperatures, temperature)
-        presences = append(presences, presence)
+        times = append(times, serie[0].(string))
+        temperatures = append(temperatures, serie[3].(string))
+        presences = append(presences, serie[2].(string))
     }
 
     data := struct {

@@ -23,7 +23,7 @@ func getPackageData(stream string) (string, error) {
     dataPackage := pkgRegExp.FindString(stream)
 
     if dataPackage == "" {
-        return "", errors.New("HomeCtrl: Data package not valid")
+        return "", errors.New("Data stream not valid (" + stream + ")")
     }
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0], nil
@@ -47,7 +47,7 @@ func fetchPackage() {
 
     if err != nil {
         isConnected = false
-        log.Println(err)
+        log.Println("services: ", err)
         return
     }
 
@@ -56,7 +56,7 @@ func fetchPackage() {
     unwrappedData, err := getPackageData(dataStream)
 
     if err != nil {
-        log.Println(err)
+        log.Println("services: ", err)
         return
     }
 
@@ -90,7 +90,7 @@ func InitHomeService() {
     isConnected = true;
 }
 
-func ReadData() {
+func RunHomeService() {
     for range time.Tick(time.Second * 1){
         fetchPackage()
     }

@@ -34,7 +34,7 @@ func main() {
 
     services.InitInfluxService()
     services.InitHomeService()
-    go services.ReadData()
+    go services.RunHomeService()
 
     server := gws.New(serverOptions, controllers.NotFound)
     server.Router.AddRoute("/", controllers.CtrDashboard)

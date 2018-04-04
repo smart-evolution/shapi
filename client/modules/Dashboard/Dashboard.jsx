@@ -4,7 +4,7 @@ import TemperaturePanel from './TemperaturePanel';
 import PresencePanel from './PresencePanel';
 
 const Dashboard = (props) => {
-  const { temperature, motions, error } = props;
+  const { temperatures, motions, error } = props;
 
   return (
     <div className="dashboard">
@@ -15,7 +15,7 @@ const Dashboard = (props) => {
       )}
 
       <TemperaturePanel
-        temperature={temperature}
+        temperatures={temperatures}
       />
       <PresencePanel
         motions={motions}
@@ -25,15 +25,14 @@ const Dashboard = (props) => {
 }
 
 Dashboard.propTypes = {
-  timestamp: PropTypes.number,
-  temperature: PropTypes.array,
+  temperatures: PropTypes.array,
   motions: PropTypes.object,
   error: PropTypes.any,
 };
 
 Dashboard.defaultProps = {
-  temperature: [],
-  presence: '-',
+  temperatures: [],
+  motions: {},
 };
 
 export default Dashboard;

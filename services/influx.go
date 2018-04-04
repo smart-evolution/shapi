@@ -10,7 +10,7 @@ var (
     InfluxBp        client.BatchPoints
 )
 
-func influxDBClient() {
+func InitInfluxService() {
     InfluxClient, err = client.NewHTTPClient(client.HTTPConfig{
         Addr:     "http://localhost:8086",
         Username: "",
@@ -18,12 +18,8 @@ func influxDBClient() {
     })
 
     if err != nil {
-        log.Fatalln(err)
+        log.Println("services: ", err)
     }
-}
-
-func InitInfluxService() {
-    influxDBClient()
 
     InfluxBp, err = client.NewBatchPoints(client.BatchPointsConfig{
         Database:  "smarthome",

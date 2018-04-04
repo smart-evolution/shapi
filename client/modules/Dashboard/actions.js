@@ -1,9 +1,9 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchedData = (time, temperature, motions) => ({
-  type: actionTypes.DATA_FETCHED,
-  time,
-  temperature,
+export const fetchDataSuccess = (times, temperatures, motions) => ({
+  type: actionTypes.DATA_FETCH_SUCCESS,
+  times,
+  temperatures,
   motions,
 });
 
