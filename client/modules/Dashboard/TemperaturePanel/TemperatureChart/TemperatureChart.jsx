@@ -8,7 +8,7 @@ const TEMP_MARGIN = 5;
 
 class TemperatureChart extends React.PureComponent {
   componentWillReceiveProps(props) {
-    const { temperature } = props;
+    const { temperatures } = props;
 
     const d3Chart = d3.select(this.chart);
 
@@ -17,14 +17,14 @@ class TemperatureChart extends React.PureComponent {
     const height = 300;
     const width = 800;
 
-    const maxObj = _.maxBy(temperature, 'value');
+    const maxObj = _.maxBy(temperatures, 'value');
     const maxTemp = _.isUndefined(maxObj) ? DEFAULT_MAX_TEMP : Number(maxObj.value) + TEMP_MARGIN;
 
-    const minObj = _.minBy(temperature, 'value');
+    const minObj = _.minBy(temperatures, 'value');
     const minTemp = _.isUndefined(minObj) ? DEFAULT_MIN_TEMP : Number(minObj.value) - TEMP_MARGIN;
 
-    const earliestData = temperature[0];
-    const latestData = temperature[temperature.length -1]
+    const earliestData = temperatures[0];
+    const latestData = temperatures[temperatures.length -1]
 
     const xScale = d3.scaleTime()
       .domain([earliestData.time, latestData.time])
@@ -55,12 +55,12 @@ class TemperatureChart extends React.PureComponent {
       .call(d3.axisLeft(yScale));
 
     svg.append('path')
-      .datum(temperature)
+      .datum(temperatures)
       .attr('class', 'temperature-chart__line')
       .attr('d', line);
 
     svg.selectAll('.temperature-chart__dot')
-      .data(temperature)
+      .data(temperatures)
       .enter().append('circle')
       .attr('class', 'temperature-chart__dot')
       .attr('cx', (d, i) =>  xScale(i))
@@ -77,11 +77,11 @@ class TemperatureChart extends React.PureComponent {
 }
 
 TemperatureChart.propTypes = {
-  temperature: PropTypes.array,
+  temperatures: PropTypes.array,
 };
 
 TemperatureChart.defaultProps = {
-  temperature: [],
+  temperatures: [],
 };
 
 export default TemperatureChart;

@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
     "github.com/oskarszura/smarthome/utils"
+    services "github.com/oskarszura/smarthome/services"
 	"github.com/oskarszura/smarthome/controllers"
 	"github.com/oskarszura/smarthome/controllers/api"
 	gws "github.com/oskarszura/gowebserver"
@@ -31,7 +32,9 @@ func main() {
         "public",
     }
 
-    api.InitCtrlHome()
+    services.InitInfluxService()
+    services.InitHomeService()
+    go services.RunHomeService()
 
     server := gws.New(serverOptions, controllers.NotFound)
     server.Router.AddRoute("/", controllers.CtrDashboard)

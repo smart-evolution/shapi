@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 
 const mapStateToProps = state => ({
-  temperature: state.temperature,
-  presence: state.presence,
+  temperatures: state.temperatures,
   motions: state.motions,
   error: state.error,
 });

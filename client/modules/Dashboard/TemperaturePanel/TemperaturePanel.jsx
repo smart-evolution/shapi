@@ -5,32 +5,31 @@ import TemperatureChart from './TemperatureChart/TemperatureChart';
 const NODATA_SIGN = '-';
 
 const TemperaturePanel = (props) => {
-  const { temperature } = props;
-  const lastTmp = _.last(temperature);
-  const currentTmp = _.isUndefined(lastTmp) ? NODATA_SIGN : lastTmp.value;
+  const { temperatures } = props;
+  const nowTmp = _.head(temperatures);
+  const value = _.isUndefined(nowTmp) ? NODATA_SIGN : nowTmp.value;
 
    return (<div className="temperature-panel">
       <div className="temperature-panel__title">
        Temperature
      </div>
      <div className="temperature-panel__current">
-        {currentTmp} &#8451;
+        {value} &#8451;
       </div>
       <div className="temperature-panel__chart">
         <TemperatureChart
-          temperature={temperature}
+          temperatures={temperatures}
         />
       </div>
     </div>);
 }
 
 TemperaturePanel.propTypes = {
-  timestamp: PropTypes.number,
-  temperature: PropTypes.array,
+  temperatures: PropTypes.array,
 };
 
 TemperaturePanel.defaultProps = {
-  temperature: [],
+  temperatures: [],
 };
 
 export default TemperaturePanel;
