@@ -14,7 +14,7 @@ function* fetchData() {
     const data = yield call(getData);
 
     if(_.isObject(data)) {
-      yield put(actions.fetchedData(Date.now(), data.temperature, data.presence));
+      yield put(actions.fetchedData(data.time, data.temperature, data.presence));
     } else {
       yield put(actions.fetchDataFail(data));
     }

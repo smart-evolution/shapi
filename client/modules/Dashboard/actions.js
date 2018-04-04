@@ -1,10 +1,10 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchedData = (timestamp, temperature, presence) => ({
+export const fetchedData = (time, temperature, motions) => ({
   type: actionTypes.DATA_FETCHED,
-  timestamp,
+  time,
   temperature,
-  presence,
+  motions,
 });
 
 export const fetchDataFail = (error) => ({

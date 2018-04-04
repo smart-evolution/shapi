@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
-const DATA_RANGE = 30;
-
 const defaultState = {
+  time: [],
   temperature: [],
   motions: {},
-  presence: '-',
   error: '',
 };
 
@@ -16,27 +14,22 @@ export default function reducer(state = defaultState, action) {
       return Object.assign({}, state);
 
     case actionTypes.DATA_FETCHED:
-      const temperatureObj = {
-        time: new Date(),
-        value: action.temperature,
-      }
-      const updatedTemps = _.concat(state.temperature, [temperatureObj]);
-      const start = updatedTemps.length >= DATA_RANGE ? 1 : 0;
-      const temperature = _.slice(updatedTemps, start, start + DATA_RANGE);
+      const temperature = _.map(action.temperature, (temperature, index) => ({
+        time: new Date(action.time[index]),
+        value: temperature,
+      }));
 
-      const isMotion = Number(action.presence);
-
-      const presence = isMotion
-        ? 'Motion detected'
-        : 'No motion';
-
-      const motions = isMotion
-        ? _.merge(state.motions, {[action.presence]: Date.now()})
-        : state.motions;
+      const motions = _.chain(action.motions)
+        .filter(motion => motion > 0)
+        .mapValues((motion, index) => ({
+          time: new Date(action.time[index]),
+          value: motion,
+        }))
+        .mapKeys(motion => motion.value)
+        .value();
 
       return Object.assign({}, state, {
         temperature,
-        presence,
         motions,
         error: '',
       });

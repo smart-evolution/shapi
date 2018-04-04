@@ -25,11 +25,12 @@ const TemperaturePanel = (props) => {
 }
 
 TemperaturePanel.propTypes = {
-  timestamp: PropTypes.number,
+  time: PropTypes.array,
   temperature: PropTypes.array,
 };
 
 TemperaturePanel.defaultProps = {
+  time: [],
   temperature: [],
 };
 

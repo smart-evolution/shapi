@@ -37,6 +37,46 @@ func getPresence(data string) string {
     return strings.Split(data, "|")[1]
 }
 
+func fetchPackage() {
+    if isConnected == false {
+        InitHomeService()
+    }
+
+    buf := make([]byte, 128)
+    bufLen, err := port.Read(buf)
+
+    if err != nil {
+        isConnected = false
+        log.Println(err)
+        return
+    }
+
+    dataStream := string(buf[:bufLen])
+
+    unwrappedData, err := getPackageData(dataStream)
+
+    if err != nil {
+        log.Println(err)
+        return
+    }
+
+    temperature := getTemperature(unwrappedData)
+    presence := getPresence(unwrappedData)
+
+    pt, _ := client.NewPoint(
+        "home",
+        map[string]string{ "home": "home" },
+        map[string]interface{}{
+            "temperature": temperature,
+            "presence": presence,
+        },
+        time.Now(),
+    )
+    InfluxBp.AddPoint(pt)
+
+    err = InfluxClient.Write(InfluxBp)
+}
+
 func InitHomeService() {
     isConnected = false;
     config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
@@ -52,43 +92,7 @@ func InitHomeService() {
 
 func ReadData() {
     for range time.Tick(time.Second * 1){
-        if isConnected == false {
-            InitHomeService()
-            return
-        }
-
-        buf := make([]byte, 128)
-        bufLen, err := port.Read(buf)
-
-        if err != nil {
-            isConnected = false
-            log.Println(err)
-            return
-        }
-
-        dataStream := string(buf[:bufLen])
-
-        unwrappedData, err := getPackageData(dataStream)
-
-        if err != nil {
-            return
-        }
-
-        temperature := getTemperature(unwrappedData)
-        presence := getPresence(unwrappedData)
-
-        pt, _ := client.NewPoint(
-            "home",
-            map[string]string{ "home": "home" },
-            map[string]interface{}{
-                "temperature": temperature,
-                "presence": presence,
-            },
-            time.Now(),
-        )
-        InfluxBp.AddPoint(pt)
-
-        err = InfluxClient.Write(InfluxBp)
+        fetchPackage()
     }
 }
 
