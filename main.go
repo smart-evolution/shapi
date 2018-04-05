@@ -4,7 +4,7 @@ import (
 	"os"
 	"fmt"
     "github.com/oskarszura/smarthome/utils"
-    services "github.com/oskarszura/smarthome/services"
+    "github.com/oskarszura/smarthome/services"
 	"github.com/oskarszura/smarthome/controllers"
 	"github.com/oskarszura/smarthome/controllers/api"
 	gws "github.com/oskarszura/gowebserver"

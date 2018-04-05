@@ -1,6 +1,7 @@
 package services
 
 import (
+    "os"
     "log"
     "github.com/influxdata/influxdb/client/v2"
 )
@@ -12,7 +13,7 @@ var (
 
 func InitInfluxService() {
     InfluxClient, err = client.NewHTTPClient(client.HTTPConfig{
-        Addr:     "http://localhost:8086",
+        Addr: os.Getenv("INFLUXADDR"),
         Username: "",
         Password: "",
     })
