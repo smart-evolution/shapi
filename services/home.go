@@ -12,6 +12,10 @@ import (
     "github.com/influxdata/influxdb/client/v2"
 )
 
+const (
+    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+>"
+)
+
 var (
     config              *serial.Config
     port                *serial.Port
@@ -22,11 +26,11 @@ var (
 )
 
 func getPackageData(stream string) (string, error) {
-    pkgRegExp, _ := regexp.Compile("<[0-9]+\\.[0-9]+\\|-?[0-9]+>")
+    pkgRegExp, _ := regexp.Compile(pkgPattern)
     dataPackage := pkgRegExp.FindString(stream)
 
     if dataPackage == "" {
-        return "", errors.New("Data stream not valid (" + stream + ")")
+        return "", errors.New("Data stream doesn't contain valid package (" + stream + ")")
     }
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0], nil
