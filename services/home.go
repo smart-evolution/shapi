@@ -7,23 +7,30 @@ import (
     "regexp"
     "errors"
     "strings"
+    "strconv"
     "github.com/tarm/serial"
     "github.com/influxdata/influxdb/client/v2"
 )
 
+const (
+    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+>"
+)
+
 var (
-    config          *serial.Config
-    port            *serial.Port
-    err             error
-    isConnected     bool
+    config              *serial.Config
+    port                *serial.Port
+    err                 error
+    isConnected         bool
+    tmpNotifyTime       time.Time
+    motionNotifyTime    time.Time
 )
 
 func getPackageData(stream string) (string, error) {
-    pkgRegExp, _ := regexp.Compile("<[0-9]+\\.[0-9]+\\|[0-9]+>")
+    pkgRegExp, _ := regexp.Compile(pkgPattern)
     dataPackage := pkgRegExp.FindString(stream)
 
     if dataPackage == "" {
-        return "", errors.New("Data stream not valid (" + stream + ")")
+        return "", errors.New("Data stream doesn't contain valid package (" + stream + ")")
     }
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0], nil
@@ -33,7 +40,7 @@ func getTemperature(data string) string {
     return strings.Split(data, "|")[0]
 }
 
-func getPresence(data string) string {
+func getMotion(data string) string {
     return strings.Split(data, "|")[1]
 }
 
@@ -61,14 +68,34 @@ func fetchPackage() {
     }
 
     temperature := getTemperature(unwrappedData)
-    presence := getPresence(unwrappedData)
+    motion := getMotion(unwrappedData)
+
+    if t, err := strconv.ParseFloat(temperature, 32); err == nil {
+        if t > 30 {
+            now := time.Now()
+
+            if now.Sub(tmpNotifyTime).Hours() >= 1 {
+                tmpNotifyTime = now
+                SendEmail("[" + now.UTC().String() + "] temperature = " + temperature)
+            }
+        }
+    }
+
+    if motion != "0" {
+        now := time.Now()
+
+        if now.Sub(motionNotifyTime).Hours() >= 1 {
+            motionNotifyTime = now
+            SendEmail("[" + now.UTC().String() + "] motion detected")
+        }
+    }
 
     pt, _ := client.NewPoint(
         "home",
         map[string]string{ "home": "home" },
         map[string]interface{}{
             "temperature": temperature,
-            "presence": presence,
+            "presence": motion,
         },
         time.Now(),
     )
