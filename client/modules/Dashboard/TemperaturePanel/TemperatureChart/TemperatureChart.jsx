@@ -15,7 +15,7 @@ class TemperatureChart extends React.PureComponent {
     d3Chart.select('svg').remove();
 
     const height = 300;
-    const width = 800;
+    const width = d3Chart.node().clientWidth - 50;
 
     const maxObj = _.maxBy(temperatures, 'value');
     const maxTemp = _.isUndefined(maxObj) ? DEFAULT_MAX_TEMP : Number(maxObj.value) + TEMP_MARGIN;
@@ -43,12 +43,15 @@ class TemperatureChart extends React.PureComponent {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(50, -50)');
+      .attr('transform', 'translate(20, -70)');
 
     svg.append('g')
       .attr('class', 'temperature-chart__x-axis')
       .attr('transform', `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
+      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y-%m-%d [%I:%M]")))
+      .selectAll("text")
+      .attr("transform", "rotate(-30) translate(0, 40)")
+      .attr("dy", ".15em");
 
     svg.append('g')
       .attr('class', 'temperature-chart__y-axis')

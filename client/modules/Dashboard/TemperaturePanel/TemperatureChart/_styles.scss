@@ -1,12 +1,12 @@
 .temperature-chart {
     &__line {
         fill: none;
-        stroke: #ffab00;
-        stroke-width: 3;
+        stroke: $color-roman;
+        stroke-width: 1;
     }
 
     &__dot {
-        fill: #ffab00;
-        stroke: #fff;
+        fill: $color-roman;
+        stroke: $color-roman;
     }
 }

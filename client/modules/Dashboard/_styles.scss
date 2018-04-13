@@ -1,3 +1,4 @@
+@import "ControlPanel/styles";
 @import "PresencePanel/styles";
 @import "TemperaturePanel/styles";
 
@@ -6,11 +7,28 @@ $color-watusi: #FFD4CC;
 $color-persimmon: #FF7157;
 
 .dashboard {
+    min-height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+
     &__error {
         margin-bottom: 10px;
         color: $color-persimmon;
         background: $color-pippin;
         border: 1px solid $color-watusi;
         padding: 10px;
+    }
+
+    &__cell {
+        flex-basis: 50%;
+        min-width: 400px;
+
+        &--full {
+            flex-basis: 100%;
+        }
     }
 }

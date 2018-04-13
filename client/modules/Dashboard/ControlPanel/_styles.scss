@@ -1,0 +1,23 @@
+.control-panel {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+    padding-bottom: 10px;
+
+    &__title {
+        @extend .c-panel__title;
+    }
+
+    &__control {
+        display: inline-block;
+        border: 1px solid $brand-component-outline-color;
+        padding: 2px 7px;
+        color: $brand-text-color;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+
+    &__alerts {
+        margin-left: 15px;
+        vertical-align: middle;
+    }
+}
