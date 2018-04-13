@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
+const CHART_PADDING = 20;
 const DEFAULT_MAX_TEMP = 30;
 const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 5;
@@ -15,7 +16,7 @@ class TemperatureChart extends React.PureComponent {
     d3Chart.select('svg').remove();
 
     const height = 300;
-    const width = d3Chart.node().clientWidth - 50;
+    const width = d3Chart.node().clientWidth - CHART_PADDING;
 
     const maxObj = _.maxBy(temperatures, 'value');
     const maxTemp = _.isUndefined(maxObj) ? DEFAULT_MAX_TEMP : Number(maxObj.value) + TEMP_MARGIN;
@@ -43,7 +44,7 @@ class TemperatureChart extends React.PureComponent {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(20, -70)');
+      .attr('transform', `translate(${CHART_PADDING}, -70)`);
 
     svg.append('g')
       .attr('class', 'temperature-chart__x-axis')

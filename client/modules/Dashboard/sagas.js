@@ -36,7 +36,7 @@ function* fetchAlerts() {
 
     yield put(actions.setAlerts(isAlerts));
   } else {
-
+    // @TODO: Figure out how to handle failed actions on the UI side
   }
 }
 
