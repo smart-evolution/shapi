@@ -2,6 +2,7 @@ import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
 const defaultState = {
+  isAlerts: false,
   temperatures: [],
   motions: {},
   error: '',
@@ -35,6 +36,9 @@ export default function reducer(state = defaultState, action) {
 
     case actionTypes.DATA_FETCH_ERROR:
       return Object.assign({}, state, { error: action.error });
+
+    case actionTypes.SET_ALERTS:
+      return Object.assign({}, state, { isAlerts: action.isAlerts });
 
     default:
       return state;

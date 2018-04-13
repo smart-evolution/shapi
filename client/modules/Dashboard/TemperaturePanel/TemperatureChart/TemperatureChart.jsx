@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
+const CHART_PADDING = 20;
 const DEFAULT_MAX_TEMP = 30;
 const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 5;
@@ -15,7 +16,7 @@ class TemperatureChart extends React.PureComponent {
     d3Chart.select('svg').remove();
 
     const height = 300;
-    const width = 800;
+    const width = d3Chart.node().clientWidth - CHART_PADDING;
 
     const maxObj = _.maxBy(temperatures, 'value');
     const maxTemp = _.isUndefined(maxObj) ? DEFAULT_MAX_TEMP : Number(maxObj.value) + TEMP_MARGIN;
@@ -43,12 +44,15 @@ class TemperatureChart extends React.PureComponent {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(50, -50)');
+      .attr('transform', `translate(${CHART_PADDING}, -70)`);
 
     svg.append('g')
       .attr('class', 'temperature-chart__x-axis')
       .attr('transform', `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale));
+      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y-%m-%d [%I:%M]")))
+      .selectAll("text")
+      .attr("transform", "rotate(-30) translate(0, 40)")
+      .attr("dy", ".15em");
 
     svg.append('g')
       .attr('class', 'temperature-chart__y-axis')

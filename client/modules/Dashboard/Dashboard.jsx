@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ControlPanel from './ControlPanel'
 import TemperaturePanel from './TemperaturePanel';
 import PresencePanel from './PresencePanel';
 
 const Dashboard = (props) => {
-  const { temperatures, motions, error } = props;
+  const { isAlerts, temperatures, motions, error } = props;
 
   return (
     <div className="dashboard">
@@ -14,17 +15,27 @@ const Dashboard = (props) => {
         </div>
       )}
 
-      <TemperaturePanel
-        temperatures={temperatures}
-      />
-      <PresencePanel
-        motions={motions}
-      />
+      <div className="dashboard__cell dashboard__cell--full">
+        <ControlPanel
+          isAlerts={isAlerts}
+        />
+      </div>
+      <div className="dashboard__cell">
+        <TemperaturePanel
+          temperatures={temperatures}
+        />
+      </div>
+      <div className="dashboard__cell">
+        <PresencePanel
+          motions={motions}
+        />
+      </div>
     </div>
   );
 }
 
 Dashboard.propTypes = {
+  isAlerts: PropTypes.bool,
   temperatures: PropTypes.array,
   motions: PropTypes.object,
   error: PropTypes.any,

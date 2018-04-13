@@ -39,6 +39,7 @@ func main() {
     server := gws.New(serverOptions, controllers.NotFound)
     server.Router.AddRoute("/", controllers.CtrDashboard)
     server.Router.AddRoute("/api/home", api.CtrHome)
+    server.Router.AddRoute("/api/alerts", api.CtrAlerts)
 
     server.Run()
 }

@@ -10,6 +10,7 @@ import (
     "strconv"
     "github.com/tarm/serial"
     "github.com/influxdata/influxdb/client/v2"
+    "github.com/oskarszura/smarthome/utils"
 )
 
 const (
@@ -70,23 +71,25 @@ func fetchPackage() {
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
 
-    if t, err := strconv.ParseFloat(temperature, 32); err == nil {
-        if t > 30 {
-            now := time.Now()
+    if utils.IsAlerts == true {
+        if t, err := strconv.ParseFloat(temperature, 32); err == nil {
+            if t > 30 {
+                now := time.Now()
 
-            if now.Sub(tmpNotifyTime).Hours() >= 1 {
-                tmpNotifyTime = now
-                SendEmail("[" + now.UTC().String() + "] temperature = " + temperature)
+                if now.Sub(tmpNotifyTime).Hours() >= 1 {
+                    tmpNotifyTime = now
+                    SendEmail("[" + now.UTC().String() + "] temperature = " + temperature)
+                }
             }
         }
-    }
 
-    if motion != "0" {
-        now := time.Now()
+        if motion != "0" {
+            now := time.Now()
 
-        if now.Sub(motionNotifyTime).Hours() >= 1 {
-            motionNotifyTime = now
-            SendEmail("[" + now.UTC().String() + "] motion detected")
+            if now.Sub(motionNotifyTime).Hours() >= 1 {
+                motionNotifyTime = now
+                SendEmail("[" + now.UTC().String() + "] motion detected")
+            }
         }
     }
 
