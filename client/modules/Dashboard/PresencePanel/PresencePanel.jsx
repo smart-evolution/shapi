@@ -14,7 +14,10 @@ const PresencePanel = (props) => {
     </div>
     <ul className="presence-panel__history">
       {_.map(motions, (motion, key) => (
-        <li key={key}>
+        <li
+          className="presence-panel__history-record"
+          key={key}
+        >
           {moment(motion.time).format(DATE_FORMAT)}
         </li>
       ))}
