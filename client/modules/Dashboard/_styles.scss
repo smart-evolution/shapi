@@ -25,7 +25,10 @@ $color-persimmon: #FF7157;
 
     &__cell {
         flex-basis: 50%;
-        min-width: 400px;
+
+        @include phone {
+            flex-basis: 100%;
+        }
 
         &--full {
             flex-basis: 100%;

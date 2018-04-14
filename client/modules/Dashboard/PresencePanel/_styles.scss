@@ -14,8 +14,13 @@
 
     &__history {
         @extend .c-list;
+        padding: 5px;
         background-color: #FAFAFA;
         height: 200px;
         overflow: auto;
+
+        &-record {
+            font-size: 12px;
+        }
     }
 }
