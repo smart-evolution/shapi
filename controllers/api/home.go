@@ -14,7 +14,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
     q := client.Query{
-        Command:    "SELECT * FROM home ORDER BY time DESC LIMIT 30",
+        Command:    "SELECT time, temperature, presence, gas FROM home ORDER BY time DESC LIMIT 30",
         Database:   "smarthome",
     }
 
@@ -30,9 +30,11 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         times           []string
         temperatures    []string
         presences       []string
+        gases           []string
         time            string
         temperature     string
         presence        string
+        gas             string
     )
 
     for _, serie := range res.Values {
@@ -41,8 +43,8 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         } else {
             time = ""
         }
-        if serie[3] != nil {
-            temperature = serie[3].(string)
+        if serie[1] != nil {
+            temperature = serie[1].(string)
         } else {
             temperature = ""
         }
@@ -51,20 +53,28 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         } else {
             presence = ""
         }
+        if serie[3] != nil {
+            gas = serie[3].(string)
+        } else {
+            gas = ""
+        }
 
         times = append(times, time)
         temperatures = append(temperatures, temperature)
         presences = append(presences, presence)
+        gases = append(gases, gas)
     }
 
     data := struct {
         Time        []string  `json:"time"`
 		Temperature []string  `json:"temperature"`
         Presence    []string  `json:"presence"`
+        Gas         []string  `json:"gas"`
 	} {
         times,
         temperatures,
         presences,
+        gases,
 	}
 
 	json.NewEncoder(w).Encode(data)

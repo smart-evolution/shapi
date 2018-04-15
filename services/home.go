@@ -14,7 +14,7 @@ import (
 )
 
 const (
-    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+>"
+    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]>"
 )
 
 var (
@@ -24,6 +24,7 @@ var (
     isConnected         bool
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
+    gasNotifyTime       time.Time
 )
 
 func getPackageData(stream string) (string, error) {
@@ -43,6 +44,10 @@ func getTemperature(data string) string {
 
 func getMotion(data string) string {
     return strings.Split(data, "|")[1]
+}
+
+func getGas(data string) string {
+    return strings.Split(data, "|")[2]
 }
 
 func fetchPackage() {
@@ -70,6 +75,7 @@ func fetchPackage() {
 
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
+    gas := getGas(unwrappedData)
 
     if utils.IsAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
@@ -91,6 +97,15 @@ func fetchPackage() {
                 SendEmail("[" + now.UTC().String() + "] motion detected")
             }
         }
+
+        if gas != "1" {
+            now := time.Now()
+
+            if now.Sub(gasNotifyTime).Hours() >= 1 {
+                gasNotifyTime = now
+                SendEmail("[" + now.UTC().String() + "] gas alert")
+            }
+        }
     }
 
     pt, _ := client.NewPoint(
@@ -99,6 +114,7 @@ func fetchPackage() {
         map[string]interface{}{
             "temperature": temperature,
             "presence": motion,
+            "gas": gas,
         },
         time.Now(),
     )

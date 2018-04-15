@@ -1,12 +1,8 @@
 import { connect } from 'react-redux';
-import Dashboard from './Dashboard';
+import GasPanel from './GasPanel';
 
 const mapStateToProps = state => ({
-  isAlerts: state.isAlerts,
-  temperatures: state.temperatures,
-  motions: state.motions,
   gas: state.gas,
-  error: state.error,
 });
 
 const mapDispatchToProps = () => ({});
@@ -14,4 +10,4 @@ const mapDispatchToProps = () => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(GasPanel);

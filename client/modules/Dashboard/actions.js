@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchDataSuccess = (times, temperatures, motions) => ({
+export const fetchDataSuccess = (times, temperatures, motions, gas) => ({
   type: actionTypes.DATA_FETCH_SUCCESS,
   times,
   temperatures,
   motions,
+  gas,
 });
 
 export const fetchDataFail = (error) => ({
