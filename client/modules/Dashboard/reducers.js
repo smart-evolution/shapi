@@ -29,7 +29,7 @@ export default function reducer(state = defaultState, action) {
         .mapKeys(motion => motion.value)
         .value();
 
-      const gas = _.some(action.gas, a => a != '1');
+      const gas = _.some(action.gas, a => a == '0');
 
       return Object.assign({}, state, {
         temperatures,

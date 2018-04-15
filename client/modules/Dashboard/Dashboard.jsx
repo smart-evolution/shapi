@@ -21,6 +21,11 @@ const Dashboard = (props) => {
           isAlerts={isAlerts}
         />
       </div>
+      <div className="dashboard__cell dashboard__cell--full">
+        <GasPanel
+          gas={gas}
+        />
+      </div>
       <div className="dashboard__cell">
         <TemperaturePanel
           temperatures={temperatures}
@@ -29,11 +34,6 @@ const Dashboard = (props) => {
       <div className="dashboard__cell">
         <PresencePanel
           motions={motions}
-        />
-      </div>
-      <div className="dashboard__cell dashboard__cell--full">
-        <GasPanel
-          gas={gas}
         />
       </div>
     </div>
