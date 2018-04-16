@@ -5,6 +5,7 @@ const defaultState = {
   isAlerts: false,
   temperatures: [],
   motions: {},
+  gas: false,
   error: '',
 };
 
@@ -28,9 +29,12 @@ export default function reducer(state = defaultState, action) {
         .mapKeys(motion => motion.value)
         .value();
 
+      const gas = _.some(action.gas, a => a == '0');
+
       return Object.assign({}, state, {
         temperatures,
         motions,
+        gas,
         error: '',
       });
 

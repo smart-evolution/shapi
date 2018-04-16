@@ -1,0 +1,8 @@
+.gas-panel {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
+    &__title {
+        @extend .c-panel__title;
+    }
+}

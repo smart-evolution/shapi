@@ -1,4 +1,6 @@
 .temperature-chart {
+    height: 300px;
+
     &__line {
         fill: none;
         stroke: $color-roman;
