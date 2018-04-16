@@ -8,7 +8,7 @@ const GasPanel = (props) => {
 
   return (<div className="presence-panel">
     <div className="presence-panel__title">
-      Gas <div className={gas ? 'led-red' : 'led-green'}></div>
+      Gas <div className={gas ? 'c-led-red' : 'c-led-green'}></div>
     </div>
   </div>);
 }
