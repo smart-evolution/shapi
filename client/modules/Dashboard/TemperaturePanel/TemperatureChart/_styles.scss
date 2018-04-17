@@ -1,3 +1,5 @@
+$color-flash: #FEC9A5;
+
 .temperature-chart {
     height: 300px;
 
@@ -5,6 +7,10 @@
         fill: none;
         stroke: $color-roman;
         stroke-width: 1;
+    }
+
+    &__area {
+        fill: $color-flash;
     }
 
     &__dot {

@@ -31,14 +31,20 @@ class TemperatureChart extends React.PureComponent {
       .domain([earliestData.time, latestData.time])
       .range([0, width]);
 
+    const line = d3.line()
+      .x(d => xScale(d.time))
+      .y(d => yScale(Number(d.value)))
+      .curve(d3.curveMonotoneX);
+
     const yScale = d3.scaleLinear()
       .domain([minTemp, maxTemp])
       .range([height, 0]);
 
-    const line = d3.line()
+    const area = d3.area()
       .x(d => xScale(d.time))
-      .y(d => yScale(Number(d.value)))
-      .curve(d3.curveMonotoneX)
+      .y0(height)
+      .y1(d => yScale(Number(d.value)))
+      .curve(d3.curveMonotoneX);
 
     const svg = d3Chart.append('svg')
       .attr('width', width)
@@ -57,6 +63,11 @@ class TemperatureChart extends React.PureComponent {
     svg.append('g')
       .attr('class', 'temperature-chart__y-axis')
       .call(d3.axisLeft(yScale));
+
+    svg.append("path")
+      .datum(temperatures)
+      .attr("class", "temperature-chart__area")
+      .attr("d", area);
 
     svg.append('path')
       .datum(temperatures)
