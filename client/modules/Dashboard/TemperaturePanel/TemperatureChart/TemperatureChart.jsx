@@ -56,17 +56,17 @@ class TemperatureChart extends React.PureComponent {
     svg.append('g')
       .attr('class', 'temperature-chart__x-axis')
       .attr('transform', `translate(0, ${chartHeight})`)
-      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y-%m-%d [%I:%M]")))
-      .selectAll("text")
-      .attr("transform", "rotate(-20) translate(0, 15)")
+      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%Y-%m-%d [%I:%M]')))
+      .selectAll('text')
+      .attr('transform', 'rotate(-20) translate(0, 15)')
 
     svg.append('g')
       .attr('class', 'temperature-chart__y-axis')
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(yScale).ticks(6).tickFormat(d3.format('d')));
 
-    svg.append("path")
+    svg.append('path')
       .datum(temperatures)
-      .attr("class", "temperature-chart__area")
+      .attr('class', 'temperature-chart__area')
       .attr("d", area);
 
     svg.append('path')
