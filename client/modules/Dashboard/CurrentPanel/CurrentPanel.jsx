@@ -3,7 +3,7 @@ import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GasPanel = (props) => {
+const CurrentPanel = (props) => {
   const { isMotion, isGas } = props;
 
   return (<div className="current-panel">
@@ -33,12 +33,12 @@ const GasPanel = (props) => {
   </div>);
 }
 
-GasPanel.propTypes = {
+CurrentPanel.propTypes = {
   isGas: PropTypes.bool,
   isMotion: PropTypes.bool,
 };
 
-GasPanel.defaultProps = {
+CurrentPanel.defaultProps = {
   isGas: false,
   isMotion: false,
 };
