@@ -3,9 +3,6 @@ import Dashboard from './Dashboard';
 
 const mapStateToProps = state => ({
   isAlerts: state.isAlerts,
-  temperatures: state.temperatures,
-  motions: state.motions,
-  gas: state.gas,
   error: state.error,
 });
 

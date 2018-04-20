@@ -17,9 +17,12 @@ const TemperaturePanel = (props) => {
         {value} &#8451;
       </div>
       <div className="temperature-panel__chart">
-        <TemperatureChart
-          temperatures={temperatures}
-        />
+        { temperatures.length > 0
+          ? <TemperatureChart
+              temperatures={temperatures}
+            />
+          : 'No data available'
+        }
       </div>
     </div>);
 }

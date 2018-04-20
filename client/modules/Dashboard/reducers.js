@@ -3,6 +3,7 @@ import * as actionTypes from './actionTypes';
 
 const defaultState = {
   isAlerts: false,
+  times: [],
   temperatures: [],
   motions: {},
   gas: false,
@@ -15,23 +16,10 @@ export default function reducer(state = defaultState, action) {
       return Object.assign({}, state);
 
     case actionTypes.DATA_FETCH_SUCCESS:
-      const temperatures = _.map(action.temperatures, (temperature, index) => ({
-        time: new Date(action.times[index]),
-        value: temperature,
-      }));
-
-      const motions = _.chain(action.motions)
-        .filter(motion => motion > 0)
-        .mapValues((motion, index) => ({
-          time: new Date(action.times[index]),
-          value: motion,
-        }))
-        .mapKeys(motion => motion.value)
-        .value();
-
-      const gas = _.some(action.gas, a => a == '0');
+      const { times, temperatures, motions, gas } = action;
 
       return Object.assign({}, state, {
+        times,
         temperatures,
         motions,
         gas,
