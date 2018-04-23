@@ -50,11 +50,14 @@ func getGas(data string) string {
     return strings.Split(data, "|")[2]
 }
 
-func fetchPackage() {
-    if isConnected == false {
-        InitHomeService()
+func writePackage() {
+    _, err := port.Write([]byte("test"))
+    if err != nil {
+        log.Println(err)
     }
+}
 
+func fetchPackage() {
     buf := make([]byte, 128)
     bufLen, err := port.Read(buf)
 
@@ -125,7 +128,7 @@ func fetchPackage() {
 
 func InitHomeService() {
     isConnected = false;
-    config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600}
+    config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600, ReadTimeout: time.Second * 5}
     port, err = serial.OpenPort(config)
 
     if err != nil {
@@ -137,8 +140,17 @@ func InitHomeService() {
 }
 
 func RunHomeService() {
-    for range time.Tick(time.Second * 1){
+    for range time.Tick(time.Second * 3){
+        if isConnected == false {
+            InitHomeService()
+        }
+
         fetchPackage()
+
+        if utils.SendAlert {
+            writePackage()
+            utils.SendAlert = false
+        }
     }
 }
 

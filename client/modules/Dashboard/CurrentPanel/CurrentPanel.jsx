@@ -43,4 +43,4 @@ CurrentPanel.defaultProps = {
   isMotion: false,
 };
 
-export default GasPanel;
+export default CurrentPanel;

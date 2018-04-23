@@ -25,3 +25,7 @@ export const setAlerts = (isAlerts) => ({
   type: actionTypes.SET_ALERTS,
   isAlerts,
 });
+
+export const sendAlert = () => ({
+  type: actionTypes.SEND_ALERT,
+});

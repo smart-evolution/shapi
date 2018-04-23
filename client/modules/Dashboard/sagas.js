@@ -4,6 +4,16 @@ import { put, call, fork, takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as actionTypes from './actionTypes';
 
+function callSendAlert() {
+  return fetch('/api/sendalert', { method: 'POST' })
+    .then(response => response.json())
+    .catch(() => "Send alert failed");
+}
+
+function* sendAlert() {
+  yield call(callSendAlert);
+}
+
 function callToggleAlerts() {
   return fetch('/api/alerts', { method: 'POST' })
     .then(response => response.json())
@@ -58,7 +68,7 @@ function* fetchData() {
       yield put(actions.fetchDataFail(data));
     }
 
-    yield delay(1000);
+    yield delay(3000);
   }
 }
 
@@ -68,6 +78,7 @@ function* root() {
     fork(fetchAlerts),
     takeEvery(actionTypes.TOGGLE_ALERTS, toggleAlerts),
     takeEvery(actionTypes.FETCH_ALERTS, fetchAlerts),
+    takeEvery(actionTypes.SEND_ALERT, sendAlert),
   ];
 }
 
