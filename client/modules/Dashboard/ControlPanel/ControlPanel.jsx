@@ -17,8 +17,13 @@ const ControlPanel = (props) => {
           isOn={isAlerts}
           onToggle={onToggle}
         />
-
-        <button onClick={sendAlert}>Beep</button>
+      </div>
+      <div className="control-panel__control">
+        Send alert
+        <button
+          className="control-panel__send-alert"
+          onClick={sendAlert}
+        />
       </div>
     </div>
   </div>);

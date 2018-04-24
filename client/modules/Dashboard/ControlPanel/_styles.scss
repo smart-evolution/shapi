@@ -14,10 +14,17 @@
         color: $brand-text-color;
         font-size: 10px;
         text-transform: uppercase;
+        margin-right: 20px;
     }
 
     &__alerts {
         margin-left: 15px;
         vertical-align: middle;
+    }
+
+    &__send-alert {
+        @extend .c-btn;
+        @extend .c-btn--accept;
+        margin-left: 15px;
     }
 }

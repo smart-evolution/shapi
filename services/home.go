@@ -51,7 +51,7 @@ func getGas(data string) string {
 }
 
 func writePackage() {
-    _, err := port.Write([]byte("test"))
+    _, err := port.Write([]byte("CMD001"))
     if err != nil {
         log.Println(err)
     }
