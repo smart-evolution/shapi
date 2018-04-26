@@ -40,6 +40,7 @@ func main() {
     server.Router.AddRoute("/", controllers.CtrDashboard)
     server.Router.AddRoute("/api/home", api.CtrHome)
     server.Router.AddRoute("/api/alerts", api.CtrAlerts)
+    server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 
     server.Run()
 }

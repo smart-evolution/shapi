@@ -10,6 +10,9 @@ const mapDispatchToProps = (dispatch) => ({
   onToggle: () => {
     dispatch(actions.toggleAlerts());
   },
+  sendAlert: () => {
+    dispatch(actions.sendAlert());
+  }
 });
 
 export default connect(
