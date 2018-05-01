@@ -61,9 +61,9 @@ function* fetchData() {
     const data = yield call(getData);
 
     if(_.isObject(data)) {
-      const { time, temperature, presence, gas } = data;
+      const { time, temperature, presence, gas, sound } = data;
 
-      yield put(actions.fetchDataSuccess(time, temperature, presence, gas));
+      yield put(actions.fetchDataSuccess(time, temperature, presence, gas, sound));
     } else {
       yield put(actions.fetchDataFail(data));
     }

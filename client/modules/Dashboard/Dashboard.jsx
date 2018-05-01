@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ControlPanel from './ControlPanel'
 import TemperaturePanel from './TemperaturePanel';
+import SoundPanel from './SoundPanel';
 import PresencePanel from './PresencePanel';
 import CurrentPanel from './CurrentPanel';
 
@@ -24,6 +25,9 @@ const Dashboard = (props) => {
       </div>
       <div className="dashboard__cell dashboard__cell--full">
         <TemperaturePanel/>
+      </div>
+      <div className="dashboard__cell dashboard__cell--full">
+        <SoundPanel/>
       </div>
     </div>
   );
