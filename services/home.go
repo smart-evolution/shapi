@@ -14,7 +14,7 @@ import (
 )
 
 const (
-    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]>"
+    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]\\|[0-9]+\\.[0-9]+\\>"
 )
 
 var (
@@ -50,6 +50,10 @@ func getGas(data string) string {
     return strings.Split(data, "|")[2]
 }
 
+func getSound(data string) string {
+    return strings.Split(data, "|")[3]
+}
+
 func writePackage() {
     _, err := port.Write([]byte("CMD001"))
     if err != nil {
@@ -79,6 +83,7 @@ func fetchPackage() {
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
     gas := getGas(unwrappedData)
+    sound := getSound(unwrappedData)
 
     if utils.IsAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
@@ -118,6 +123,7 @@ func fetchPackage() {
             "temperature": temperature,
             "presence": motion,
             "gas": gas,
+            "sound": sound,
         },
         time.Now(),
     )
