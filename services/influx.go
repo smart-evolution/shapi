@@ -7,6 +7,7 @@ import (
 )
 
 var (
+    err             error
     InfluxClient    client.Client
     InfluxBp        client.BatchPoints
 )

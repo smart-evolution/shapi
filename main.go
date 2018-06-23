@@ -33,7 +33,6 @@ func main() {
     }
 
     services.InitInfluxService()
-    services.InitHomeService()
     go services.RunHomeService()
 
     server := gws.New(serverOptions, controllers.NotFound)

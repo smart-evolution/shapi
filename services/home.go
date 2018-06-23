@@ -17,11 +17,15 @@ const (
     pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]\\|[0-9]+\\.[0-9]+\\>"
 )
 
+type Agent struct {
+    Name        string
+    config      *serial.Config
+    port        *serial.Port
+    isConnected bool
+}
+
 var (
-    config              *serial.Config
-    port                *serial.Port
-    err                 error
-    isConnected         bool
+    Agents              []Agent
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
     gasNotifyTime       time.Time
@@ -54,20 +58,60 @@ func getSound(data string) string {
     return strings.Split(data, "|")[3]
 }
 
-func writePackage() {
+func writePackage(port *serial.Port) {
     _, err := port.Write([]byte("CMD001"))
     if err != nil {
-        log.Println(err)
+        log.Println("services: ", err)
     }
 }
 
-func fetchPackage() {
-    buf := make([]byte, 128)
-    bufLen, err := port.Read(buf)
+func addAgent(name string, device string) {
+    log.Println("services: adding home agent '" + name + "'")
+
+    config := &serial.Config{Name: os.Getenv(device), Baud: 9600, ReadTimeout: time.Second * 5}
+    port, err := serial.OpenPort(config)
+    isConnected := false
 
     if err != nil {
-        isConnected = false
-        log.Println("services: ", err)
+        log.Println("services: agent '" + name + "'", err)
+        return
+    } else {
+        isConnected = true
+    }
+
+    agent := Agent{
+        Name: name,
+        config: config,
+        port: port,
+        isConnected: isConnected,
+    }
+
+    Agents = append(Agents, agent)
+}
+
+func (a Agent) connect() {
+    log.Println("services: connecting to home agent '" + a.Name + "'")
+
+    var err error
+
+    a.isConnected = false
+    a.port, err = serial.OpenPort(a.config)
+
+    if err != nil {
+        log.Println("services:", err)
+        return
+    } else {
+        a.isConnected = true
+    }
+}
+
+func (a Agent) fetchPackage() {
+    buf := make([]byte, 128)
+    bufLen, err := a.port.Read(buf)
+
+    if err != nil {
+        a.isConnected = false
+        log.Println("services: agent '" + a.Name + "'", err)
         return
     }
 
@@ -76,7 +120,7 @@ func fetchPackage() {
     unwrappedData, err := getPackageData(dataStream)
 
     if err != nil {
-        log.Println("services: ", err)
+        log.Println("services:  agent '" + a.Name + "'", err)
         return
     }
 
@@ -106,7 +150,7 @@ func fetchPackage() {
             }
         }
 
-        if gas != "1" {
+        if gas != "0" {
             now := time.Now()
 
             if now.Sub(gasNotifyTime).Hours() >= 1 {
@@ -124,6 +168,7 @@ func fetchPackage() {
             "presence": motion,
             "gas": gas,
             "sound": sound,
+            "agent": a.Name,
         },
         time.Now(),
     )
@@ -132,30 +177,24 @@ func fetchPackage() {
     err = InfluxClient.Write(InfluxBp)
 }
 
-func InitHomeService() {
-    isConnected = false;
-    config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600, ReadTimeout: time.Second * 5}
-    port, err = serial.OpenPort(config)
-
-    if err != nil {
-        log.Println(err)
-        return
-    }
-
-    isConnected = true;
-}
-
 func RunHomeService() {
-    for range time.Tick(time.Second * 3){
-        if isConnected == false {
-            InitHomeService()
-        }
+    addAgent("livingroom", "AGENTDEV1")
+    addAgent("bedroom", "AGENTDEV2")
 
-        fetchPackage()
+    for range time.Tick(time.Second * 10){
+        for i := 0; i < len(Agents); i++ {
+            a := Agents[i]
 
-        if utils.SendAlert {
-            writePackage()
-            utils.SendAlert = false
+            if a.isConnected == false{
+                a.connect()
+            }
+
+            a.fetchPackage()
+
+            if utils.SendAlert {
+                // writePackage(a.port)
+                // utils.SendAlert = false
+            }
         }
     }
 }

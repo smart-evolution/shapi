@@ -1,6 +1,6 @@
 package utils
 
 var (
-    IsAlerts bool
-    SendAlert bool
+    IsAlerts    bool
+    SendAlert   bool
 )
