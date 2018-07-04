@@ -1,8 +1,9 @@
 package services
 
 import (
-    "os"
     "log"
+    "io/ioutil"
+    "net/http"
     "time"
     "regexp"
     "errors"
@@ -19,9 +20,7 @@ const (
 
 type Agent struct {
     Name        string
-    config      *serial.Config
-    port        *serial.Port
-    isConnected bool
+    Url         string
 }
 
 var (
@@ -65,64 +64,29 @@ func writePackage(port *serial.Port) {
     }
 }
 
-func addAgent(name string, device string) {
+func addAgent(name string, device string, url string) {
     log.Println("services: adding home agent '" + name + "'")
-
-    config := &serial.Config{Name: os.Getenv(device), Baud: 9600, ReadTimeout: time.Second * 5}
-    port, err := serial.OpenPort(config)
-    isConnected := false
-
-    if err != nil {
-        log.Println("services: agent '" + name + "'", err)
-        return
-    } else {
-        isConnected = true
-    }
 
     agent := Agent{
         Name: name,
-        config: config,
-        port: port,
-        isConnected: isConnected,
+        Url: url,
     }
 
     Agents = append(Agents, agent)
 }
 
-func (a Agent) connect() {
-    log.Println("services: connecting to home agent '" + a.Name + "'")
-
-    var err error
-
-    a.isConnected = false
-    a.port, err = serial.OpenPort(a.config)
-
-    if err != nil {
-        log.Println("services:", err)
-        return
-    } else {
-        a.isConnected = true
-    }
-}
-
 func (a Agent) fetchPackage() {
-    buf := make([]byte, 128)
-    bufLen, err := a.port.Read(buf)
+    response, err := http.Get(a.Url)
+    defer response.Body.Close()
 
-    if err != nil {
-        a.isConnected = false
-        log.Println("services: agent '" + a.Name + "'", err)
-        return
-    }
-
-    dataStream := string(buf[:bufLen])
-
-    unwrappedData, err := getPackageData(dataStream)
+    contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
         log.Println("services:  agent '" + a.Name + "'", err)
         return
     }
+
+    unwrappedData, err := getPackageData(string(contents))
 
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
@@ -178,23 +142,12 @@ func (a Agent) fetchPackage() {
 }
 
 func RunHomeService() {
-    addAgent("livingroom", "AGENTDEV1")
-    addAgent("bedroom", "AGENTDEV2")
+    addAgent("livingroom", "AGENTDEV1", "http://192.168.1.7/api")
 
     for range time.Tick(time.Second * 10){
         for i := 0; i < len(Agents); i++ {
             a := Agents[i]
-
-            if a.isConnected == false{
-                a.connect()
-            }
-
             a.fetchPackage()
-
-            if utils.SendAlert {
-                // writePackage(a.port)
-                // utils.SendAlert = false
-            }
         }
     }
 }

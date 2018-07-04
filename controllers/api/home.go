@@ -28,9 +28,9 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 
     var data []Agent
 
-    for _, a := range services.Agents {
+    for _, agent := range services.Agents {
         q := client.Query{
-            Command:    "SELECT time, temperature, presence, gas, sound, agent FROM home WHERE agent = '" + a.Name + "' ORDER BY time DESC LIMIT 30",
+            Command:    "SELECT time, temperature, presence, gas, sound, agent FROM home WHERE agent = '" + agent.Name + "' ORDER BY time DESC LIMIT 30",
             Database:   "smarthome",
         }
 
@@ -89,7 +89,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
             sounds = append(sounds, sound)
         }
 
-        jad := AgentData{
+        agentData := AgentData{
             times,
             temperatures,
             presences,
@@ -97,12 +97,12 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
             sounds,
         }
 
-        ja := Agent{
-            a.Name,
-            jad,
+        a := Agent{
+            agent.Name,
+            agentData,
         }
 
-        data = append(data, ja)
+        data = append(data, a)
     }
 
 	json.NewEncoder(w).Encode(data)
