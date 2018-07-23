@@ -19,6 +19,6 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm ISes
 
 	template := template.Must(template.ParseFiles(dir + "/views/" + name + ".html",
 		dir + "/views/navigation.html", dir + "/views/view.html"))
-	templateModel := Page{VERSION,name, true}
+	templateModel := Page{VERSION, name, true}
 	template.ExecuteTemplate(w, "base", templateModel)
 }

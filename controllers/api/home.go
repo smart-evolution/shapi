@@ -11,8 +11,8 @@ import (
 )
 
 type Agent struct {
-    name    string
-    data    AgentData
+    Name    string      `json:"name"`
+    Data    AgentData   `json:"data"`
 }
 
 type AgentData struct {
@@ -27,6 +27,11 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
     var data []Agent
+
+    if services.InfluxConnected != true {
+        log.Println("services: cannot feed data, Influx seems to be down")
+        return
+    }
 
     for _, agent := range services.Agents {
         q := client.Query{

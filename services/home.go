@@ -136,8 +136,8 @@ func (a Agent) fetchPackage() {
         },
         time.Now(),
     )
-    InfluxBp.AddPoint(pt)
 
+    InfluxBp.AddPoint(pt)
     err = InfluxClient.Write(InfluxBp)
 }
 
@@ -145,6 +145,12 @@ func RunHomeService() {
     addAgent("livingroom", "AGENTDEV1", "http://192.168.1.7/api")
 
     for range time.Tick(time.Second * 10){
+
+        if InfluxConnected == false {
+            log.Println("services: cannot fetch packages, Influx is down")
+            return
+        }
+
         for i := 0; i < len(Agents); i++ {
             a := Agents[i]
             a.fetchPackage()
