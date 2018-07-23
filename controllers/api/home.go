@@ -28,87 +28,87 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 
     var data []Agent
 
+    agentName := opt.Params["agent"]
+
     if services.InfluxConnected != true {
-        log.Println("services: cannot feed data, Influx seems to be down")
+        log.Println("services: cannot feed data , Influx seems to be down")
         return
     }
 
-    for _, agent := range services.Agents {
-        q := client.Query{
-            Command:    "SELECT time, temperature, presence, gas, sound, agent FROM home WHERE agent = '" + agent.Name + "' ORDER BY time DESC LIMIT 30",
-            Database:   "smarthome",
+    q := client.Query{
+        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM home WHERE agent = '" + agentName + "' ORDER BY time DESC LIMIT 30",
+        Database:   "smarthome",
+    }
+
+    resp, err := services.InfluxClient.Query(q)
+
+    if err != nil {
+        log.Println("services: ", err)
+    }
+
+    res := resp.Results[0].Series[0]
+
+    var (
+        times           []string
+        temperatures    []string
+        presences       []string
+        gases           []string
+        sounds          []string
+        time            string
+        temperature     string
+        presence        string
+        gas             string
+        sound           string
+    )
+
+    for _, serie := range res.Values {
+        if serie[0] != nil {
+            time = serie[0].(string)
+        } else {
+            time = ""
+        }
+        if serie[1] != nil {
+            temperature = serie[1].(string)
+        } else {
+            temperature = ""
+        }
+        if serie[2] != nil {
+            presence = serie[2].(string)
+        } else {
+            presence = ""
+        }
+        if serie[3] != nil {
+            gas = serie[3].(string)
+        } else {
+            gas = ""
+        }
+        if serie[4] != nil {
+            sound = serie[4].(string)
+        } else {
+            sound = ""
         }
 
-        resp, err := services.InfluxClient.Query(q)
+        times = append(times, time)
+        temperatures = append(temperatures, temperature)
+        presences = append(presences, presence)
+        gases = append(gases, gas)
+        sounds = append(sounds, sound)
+    }
 
-        if err != nil {
-            log.Println("services: ", err)
-        }
+    agentData := AgentData{
+        times,
+        temperatures,
+        presences,
+        gases,
+        sounds,
+    }
 
-        res := resp.Results[0].Series[0]
-
-        var (
-            times           []string
-            temperatures    []string
-            presences       []string
-            gases           []string
-            sounds          []string
-            time            string
-            temperature     string
-            presence        string
-            gas             string
-            sound           string
-        )
-
-        for _, serie := range res.Values {
-            if serie[0] != nil {
-                time = serie[0].(string)
-            } else {
-                time = ""
-            }
-            if serie[1] != nil {
-                temperature = serie[1].(string)
-            } else {
-                temperature = ""
-            }
-            if serie[2] != nil {
-                presence = serie[2].(string)
-            } else {
-                presence = ""
-            }
-            if serie[3] != nil {
-                gas = serie[3].(string)
-            } else {
-                gas = ""
-            }
-            if serie[4] != nil {
-                sound = serie[4].(string)
-            } else {
-                sound = ""
-            }
-
-            times = append(times, time)
-            temperatures = append(temperatures, temperature)
-            presences = append(presences, presence)
-            gases = append(gases, gas)
-            sounds = append(sounds, sound)
-        }
-
-        agentData := AgentData{
-            times,
-            temperatures,
-            presences,
-            gases,
-            sounds,
-        }
-
-        a := Agent{
-            agent.Name,
-            agentData,
-        }
+    a := Agent{
+        agentName,
+        agentData,
+    }
 
         data = append(data, a)
-    }
 
 	json.NewEncoder(w).Encode(data)
 }

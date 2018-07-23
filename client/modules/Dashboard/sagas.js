@@ -51,7 +51,7 @@ function* fetchAlerts() {
 }
 
 function getData() {
-  return fetch('/api/home')
+  return fetch('/api/home/livingroom') // @TODO: feed agent id from somewhere
     .then(response => response.json())
     .catch(() => "Fetching data failed");
 }
