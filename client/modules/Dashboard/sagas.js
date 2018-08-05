@@ -50,18 +50,26 @@ function* fetchAlerts() {
   }
 }
 
-function getData() {
-  return fetch('/api/home/livingroom') // @TODO: feed agent id from somewhere
+function getData(agentId) {
+  return fetch(`/api/home/${agentId}`)
     .then(response => response.json())
     .catch(() => "Fetching data failed");
 }
 
 function* fetchData() {
   while (true) {
-    const data = yield call(getData);
+    const path = window.location.pathname;
+    const hasAgentId = _.first(path.match(/\/[a-z0-9]*$/));
 
-    if(_.isObject(data)) {
-      const { time, temperature, presence, gas, sound } = data;
+    if (!hasAgentId) {
+      return put(actions.fetchDataFail('No agentId specified in agent API URL'));
+    }
+
+    const agentId = hasAgentId.replace('/', '');
+    const data = yield call(getData, agentId);
+
+    if(_.isArray(data)) {
+      const { time, temperature, presence, gas, sound } = _.first(data).data;
 
       yield put(actions.fetchDataSuccess(time, temperature, presence, gas, sound));
     } else {

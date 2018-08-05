@@ -141,11 +141,31 @@ func (a Agent) fetchPackage() {
     err = InfluxClient.Write(InfluxBp)
 }
 
-func RunHomeService() {
-    addAgent("livingroom", "AGENTDEV1", "http://192.168.1.7/api")
+func setupAgents() {
+    agentsCnf, err := ioutil.ReadFile("hardware/agents.config")
 
-    for range time.Tick(time.Second * 10){
+    if err != nil {
+        log.Print("services", err)
+    }
 
+    agentsConf := strings.Split(string(agentsCnf), "\n")
+
+    for _, c := range agentsConf {
+        agentConf := strings.Split(c, " ")
+
+        if (len(agentConf) == 3) {
+            id := agentConf[0]
+            device := agentConf[1]
+            ip := agentConf[2]
+            apiUrl := "http://" + ip + "/api"
+
+            addAgent(id, device, apiUrl)
+        }
+    }
+}
+
+func runCommunicationLoop() {
+    for range time.Tick(time.Second * 10) {
         if InfluxConnected == false {
             log.Println("services: cannot fetch packages, Influx is down")
             return
@@ -156,6 +176,11 @@ func RunHomeService() {
             a.fetchPackage()
         }
     }
+}
+
+func RunHomeService() {
+    setupAgents()
+    runCommunicationLoop()
 }
 
 

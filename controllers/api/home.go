@@ -108,8 +108,8 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         agentData,
     }
 
-        data = append(data, a)
+    data = append(data, a)
 
-	json.NewEncoder(w).Encode(data)
+    json.NewEncoder(w).Encode(data)
 }
 
