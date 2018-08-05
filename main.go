@@ -33,12 +33,12 @@ func main() {
     }
 
     services.InitInfluxService()
-    services.InitHomeService()
     go services.RunHomeService()
 
     server := gws.New(serverOptions, controllers.NotFound)
     server.Router.AddRoute("/", controllers.CtrDashboard)
-    server.Router.AddRoute("/api/home", api.CtrHome)
+    server.Router.AddRoute("/agent/{agent}", controllers.CtrAgent)
+    server.Router.AddRoute("/api/home/{agent}", api.CtrHome)
     server.Router.AddRoute("/api/alerts", api.CtrAlerts)
     server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 

@@ -1,8 +1,9 @@
 package services
 
 import (
-    "os"
     "log"
+    "io/ioutil"
+    "net/http"
     "time"
     "regexp"
     "errors"
@@ -14,14 +15,16 @@ import (
 )
 
 const (
-    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]>"
+    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]\\|[0-9]+\\.[0-9]+\\>"
 )
 
+type Agent struct {
+    Name        string
+    Url         string
+}
+
 var (
-    config              *serial.Config
-    port                *serial.Port
-    err                 error
-    isConnected         bool
+    Agents              []Agent
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
     gasNotifyTime       time.Time
@@ -50,35 +53,45 @@ func getGas(data string) string {
     return strings.Split(data, "|")[2]
 }
 
-func writePackage() {
+func getSound(data string) string {
+    return strings.Split(data, "|")[3]
+}
+
+func writePackage(port *serial.Port) {
     _, err := port.Write([]byte("CMD001"))
     if err != nil {
-        log.Println(err)
+        log.Println("services: ", err)
     }
 }
 
-func fetchPackage() {
-    buf := make([]byte, 128)
-    bufLen, err := port.Read(buf)
+func addAgent(name string, device string, url string) {
+    log.Println("services: adding home agent '" + name + "'")
+
+    agent := Agent{
+        Name: name,
+        Url: url,
+    }
+
+    Agents = append(Agents, agent)
+}
+
+func (a Agent) fetchPackage() {
+    response, err := http.Get(a.Url)
+    defer response.Body.Close()
+
+    contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        isConnected = false
-        log.Println("services: ", err)
+        log.Println("services:  agent '" + a.Name + "'", err)
         return
     }
 
-    dataStream := string(buf[:bufLen])
-
-    unwrappedData, err := getPackageData(dataStream)
-
-    if err != nil {
-        log.Println("services: ", err)
-        return
-    }
+    unwrappedData, err := getPackageData(string(contents))
 
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
     gas := getGas(unwrappedData)
+    sound := getSound(unwrappedData)
 
     if utils.IsAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
@@ -101,7 +114,7 @@ func fetchPackage() {
             }
         }
 
-        if gas != "1" {
+        if gas != "0" {
             now := time.Now()
 
             if now.Sub(gasNotifyTime).Hours() >= 1 {
@@ -118,40 +131,56 @@ func fetchPackage() {
             "temperature": temperature,
             "presence": motion,
             "gas": gas,
+            "sound": sound,
+            "agent": a.Name,
         },
         time.Now(),
     )
-    InfluxBp.AddPoint(pt)
 
+    InfluxBp.AddPoint(pt)
     err = InfluxClient.Write(InfluxBp)
 }
 
-func InitHomeService() {
-    isConnected = false;
-    config = &serial.Config{Name: os.Getenv("SERIAL_PORT"), Baud: 9600, ReadTimeout: time.Second * 5}
-    port, err = serial.OpenPort(config)
+func setupAgents() {
+    agentsCnf, err := ioutil.ReadFile("hardware/agents.config")
 
     if err != nil {
-        log.Println(err)
-        return
+        log.Print("services", err)
     }
 
-    isConnected = true;
+    agentsConf := strings.Split(string(agentsCnf), "\n")
+
+    for _, c := range agentsConf {
+        agentConf := strings.Split(c, " ")
+
+        if (len(agentConf) == 3) {
+            id := agentConf[0]
+            device := agentConf[1]
+            ip := agentConf[2]
+            apiUrl := "http://" + ip + "/api"
+
+            addAgent(id, device, apiUrl)
+        }
+    }
+}
+
+func runCommunicationLoop() {
+    for range time.Tick(time.Second * 10) {
+        if InfluxConnected == false {
+            log.Println("services: cannot fetch packages, Influx is down")
+            return
+        }
+
+        for i := 0; i < len(Agents); i++ {
+            a := Agents[i]
+            a.fetchPackage()
+        }
+    }
 }
 
 func RunHomeService() {
-    for range time.Tick(time.Second * 3){
-        if isConnected == false {
-            InitHomeService()
-        }
-
-        fetchPackage()
-
-        if utils.SendAlert {
-            writePackage()
-            utils.SendAlert = false
-        }
-    }
+    setupAgents()
+    runCommunicationLoop()
 }
 
 

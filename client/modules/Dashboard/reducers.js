@@ -7,6 +7,7 @@ const defaultState = {
   temperatures: [],
   motions: {},
   gas: false,
+  sounds: [],
   error: '',
 };
 
@@ -16,13 +17,14 @@ export default function reducer(state = defaultState, action) {
       return Object.assign({}, state);
 
     case actionTypes.DATA_FETCH_SUCCESS:
-      const { times, temperatures, motions, gas } = action;
+      const { times, temperatures, motions, gas, sounds } = action;
 
       return Object.assign({}, state, {
         times,
         temperatures,
         motions,
         gas,
+        sounds,
         error: '',
       });
 

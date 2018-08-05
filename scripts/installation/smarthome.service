@@ -7,7 +7,6 @@ StandardError=syslog
 User=root
 Group=root
 Environment=PORT=
-Environment=SERIAL_PORT=/dev/rfcomm0
 Environment=EMAILNAME=
 Environment=EMAILPASS=
 Environment=INFLUXADDR=

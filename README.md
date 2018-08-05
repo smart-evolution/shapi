@@ -2,12 +2,6 @@
 [[Documentation]]()
 [[Tasks board]](https://trello.com/b/QtZlwkhQ/project-smart-home)
 
-#### Features
-* Client sided dashboard with temperature and motion monitoring
-* Email alerting when unexpected anomalies occur 
-
-#### Roadmap
-
 ###### v0.2.x
 * HOME-22 - Move AtMega to the pin board
 * HOME-29 - Sometimes gathering data hangs
@@ -16,7 +10,7 @@
 * HOME-24 - Morse communication
 * HOME-27 - Re-implement UI to be more pleasant
 
-##### v0.0.x
+###### v0.0.x
 * HOME-16 - Make script cleaning up log files
 * HOME-20 - Implement gas detector 
 * HOME-19 - Implement basic responsiveness

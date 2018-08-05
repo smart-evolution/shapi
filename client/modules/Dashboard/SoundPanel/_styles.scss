@@ -1,0 +1,20 @@
+@import "SoundChart/styles";
+
+.sound-panel {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
+    &__title {
+        @extend .c-panel__title;
+    }
+
+    &__current {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &__chart {
+        text-align: center;
+    }
+}
