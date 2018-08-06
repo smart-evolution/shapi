@@ -3,6 +3,7 @@
 [[Tasks board]](https://trello.com/b/QtZlwkhQ/project-smart-home)
 
 ###### v0.2.x
+* HOME-38 - Implement multiple agents
 * HOME-22 - Move AtMega to the pin board
 * HOME-29 - Sometimes gathering data hangs
 
