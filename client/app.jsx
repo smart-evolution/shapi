@@ -17,14 +17,14 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 );
 
-sagaMiddleware.run(dashboardSagas);
-
 if (agentContainer) {
+  sagaMiddleware.run(dashboardSagas);
+
   render(
     <Provider store={store}>
       <Dashboard />
     </Provider>,
-    dashboardContainer
+    agentContainer
   );
 }
 
