@@ -1,5 +1,20 @@
 {{define "body"}}
 <div class="c-page">
-    <div>Dashboard</div>
+    <section>
+        <header>
+            Available agents
+        </header>
+        <article>
+            <ul class="c-list">
+                {{ range index .Params "menu"}}
+                <li class="c-list__item">
+                    <a href="/agent/{{.}}">
+                        {{.}}
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+        </article>
+    </section>
 </div>
 {{end}}

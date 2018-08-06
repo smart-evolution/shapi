@@ -10,13 +10,6 @@
                     Dashboard
                 </a>
             </li>
-            {{ range index .Params "menu"}}
-                    <li class="c-navigation__option">
-                        <a class="c-navigation__link" href="/agent/{{.}}">
-                            {{.}}
-                        </a>
-                    </li>
-            {{ end }}
         </ul>
     </nav>
 </header>
