@@ -8,7 +8,7 @@ import Dashboard from './modules/Dashboard';
 import dashboardReducer from './modules/Dashboard/reducers';
 import dashboardSagas from './modules/Dashboard/sagas';
 
-const dashboardContainer = document.querySelector('.js-dashboard');
+const agentContainer = document.querySelector('.js-agent');
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,7 +19,7 @@ const store = createStore(
 
 sagaMiddleware.run(dashboardSagas);
 
-if (dashboardContainer) {
+if (agentContainer) {
   render(
     <Provider store={store}>
       <Dashboard />
