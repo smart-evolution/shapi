@@ -52,8 +52,14 @@ function* fetchAlerts() {
 
 function getData(agentId) {
   return fetch(`/api/home/${agentId}`)
-    .then(response => response.json())
-    .catch(() => "Fetching data failed");
+    .then(response => {
+      if (!response.ok) {
+        throw response.statusText;
+      }
+
+      return response.json();
+    })
+    .catch((e) => e);
 }
 
 function* fetchData() {
@@ -76,7 +82,7 @@ function* fetchData() {
       yield put(actions.fetchDataFail(data));
     }
 
-    yield delay(3000);
+    yield delay(5000);
   }
 }
 
