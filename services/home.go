@@ -125,8 +125,8 @@ func (a Agent) fetchPackage() {
     }
 
     pt, _ := client.NewPoint(
-        "home",
-        map[string]string{ "home": "home" },
+        a.Name,
+        map[string]string{ "home": a.Name },
         map[string]interface{}{
             "temperature": temperature,
             "presence": motion,
