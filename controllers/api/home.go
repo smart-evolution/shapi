@@ -31,20 +31,26 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
     agentName := opt.Params["agent"]
 
     if services.InfluxConnected != true {
+        w.WriteHeader(http.StatusInternalServerError)
         log.Println("services: cannot feed data , Influx seems to be down")
         return
     }
 
     q := client.Query{
-        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM '" + agentName + "' ORDER BY time DESC LIMIT 30",
+        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM " + agentName + " ORDER BY time DESC LIMIT 30",
         Database:   "smarthome",
     }
 
     resp, err := services.InfluxClient.Query(q)
 
-    if err != nil || len(resp.Results) == 0 {
+    if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
         log.Println("services: ", err)
+        return
+    }
+
+    if len(resp.Results) == 0 {
+        w.WriteHeader(http.StatusNoContent)
         return
     }
 

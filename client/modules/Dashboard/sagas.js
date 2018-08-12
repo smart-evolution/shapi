@@ -54,7 +54,11 @@ function getData(agentId) {
   return fetch(`/api/home/${agentId}`)
     .then(response => {
       if (!response.ok) {
-        throw response.statusText;
+        throw `Fetching data error: ${response.statusText}`;
+      }
+
+      if (response.status == 204) {
+        throw 'No data available';
       }
 
       return response.json();
