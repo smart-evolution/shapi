@@ -19,6 +19,7 @@ const (
 )
 
 type Agent struct {
+    Id          string
     Name        string
     Url         string
 }
@@ -64,10 +65,11 @@ func writePackage(port *serial.Port) {
     }
 }
 
-func addAgent(name string, device string, url string) {
+func addAgent(id string, name string, url string) {
     log.Println("services: adding home agent '" + name + "'")
 
     agent := Agent{
+        Id: id,
         Name: name,
         Url: url,
     }
@@ -151,15 +153,15 @@ func setupAgents() {
     agentsConf := strings.Split(string(agentsCnf), "\n")
 
     for _, c := range agentsConf {
-        agentConf := strings.Split(c, " ")
+        agentConf := strings.Split(c, ":")
 
         if (len(agentConf) == 3) {
             id := agentConf[0]
-            device := agentConf[1]
+            name := agentConf[1]
             ip := agentConf[2]
             apiUrl := "http://" + ip + "/api"
 
-            addAgent(id, device, apiUrl)
+            addAgent(id, name, apiUrl)
         }
     }
 }

@@ -19,9 +19,9 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm ISes
 		log.Fatal(err)
 	}
 
-    menu := make([]string, 0)
+    menu := make([]services.Agent, 0)
     for _, a := range services.Agents {
-        menu = append(menu, a.Name)
+        menu = append(menu, a)
     }
 
     params := make(map[string]interface{})
