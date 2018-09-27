@@ -8,8 +8,8 @@
             <ul class="c-list">
                 {{ range index .Params "menu"}}
                 <li class="c-list__item">
-                    <a href="/agent/{{.}}">
-                        {{.}}
+                    <a href="/agent/{{.Id}}">
+                        {{.Name}}
                     </a>
                 </li>
                 {{ end }}
