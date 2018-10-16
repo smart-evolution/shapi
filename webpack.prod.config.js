@@ -1,6 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production'
 
@@ -30,14 +29,8 @@ module.exports = {
         devMode ? 'style-loader' : {
           loader: MiniCssExtractPlugin.loader,
         },
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            minimize: true
-          },
-        },
-        'sass-loader'
+        'css-loader',
+        'sass-loader',
       ]
     }, {
       test: /\.elm$/,
@@ -60,10 +53,6 @@ module.exports = {
         parallel: true,
         sourceMap: true
       }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: { discardComments: { removeAll: true } },
-        canPrint: true
-      })
     ]
   }
 };

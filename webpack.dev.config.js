@@ -28,14 +28,8 @@ module.exports = {
         devMode ? 'style-loader' : {
          loader: MiniCssExtractPlugin.loader,
         },
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            minimize: true
-          },
-        },
-        'sass-loader'
+        'css-loader',
+        'sass-loader',
       ]
     }, {
         test: /\.elm$/,
