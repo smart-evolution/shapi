@@ -6,7 +6,8 @@ GOTEST=$(GOCMD) test ./...
 
 NPM=npm
 NPMINSTALL=$(NPM) install
-NPMBUILD=$(NPM) run build
+NPMBUILDDEV=$(NPM) run build:dev
+NPMBUILDPROD=$(NPM) run build:prod
 
 ELMPKGINSTALL=npm run elm:package:install --yes
 
@@ -22,7 +23,13 @@ install:
 all:
 	$(GOGENERATE)
 	$(GOBUILD)
-	$(NPMBUILD)
+	$(NPMBUILDDEV)
+
+.PHONY: prod
+prod:
+	$(GOGENERATE)
+	$(GOBUILD)
+	$(NPMBUILDPROD)
 
 .PHONY: test
 test:
