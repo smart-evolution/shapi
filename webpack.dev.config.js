@@ -1,4 +1,6 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   context: `${__dirname}/client`,
@@ -8,24 +10,31 @@ module.exports = {
   },
   entry: {
     scripts: ['regenerator-runtime/runtime', './app.jsx'],
-    css: './app.scss'
+    css: './app.scss',
   },
   module: {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
       resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: ['.js', '.jsx'],
       },
       use: {
-        loader: "babel-loader"
-      }
+        loader: 'babel-loader',
+      },
     }, {
       test: /\.scss$/,
-      use: [          {
+      use: [
+        devMode ? 'style-loader' : {
          loader: MiniCssExtractPlugin.loader,
         },
-        'css-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            minimize: true
+          },
+        },
         'sass-loader'
       ]
     }, {
@@ -39,7 +48,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "styles.css"
+      filename: 'styles.css',
     }, { allChunks: true })
   ],
 };

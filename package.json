@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "elm:package:install": "elm package install --yes",
-    "build": "webpack --mode=development --config webpack.config.js",
-    "build:watch": "webpack --watch -d",
+    "build:dev": "webpack --mode=development --config webpack.dev.config.js",
+    "build:prod": "webpack --mode=production --config webpack.prod.config.js",
     "lint": "eslint --ext .js .",
     "lint:fix": "eslint --fix .",
     "test:cucumber": "cucumber-js -r ./features/stepdefinitions",
@@ -43,6 +43,7 @@
     "mini-css-extract-plugin": "^0.4.4",
     "moment": "^2.21.0",
     "node-sass": "^4.9.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -52,6 +53,7 @@
     "sass-loader": "^7.1.0",
     "selenium-webdriver": "^3.5.0",
     "style-loader": "^0.13.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.20.2"
   },
   "devDependencies": {
