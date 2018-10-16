@@ -6,7 +6,8 @@ GOTEST=$(GOCMD) test ./...
 
 NPM=npm
 NPMINSTALL=$(NPM) install
-NPMBUILD=$(NPM) run build
+NPMBUILDDEV=$(NPM) run build:dev
+NPMBUILDPROD=$(NPM) run build:prod
 
 ELMPKGINSTALL=npm run elm:package:install --yes
 
@@ -22,7 +23,13 @@ install:
 all:
 	$(GOGENERATE)
 	$(GOBUILD)
-	$(NPMBUILD)
+	$(NPMBUILDDEV)
+
+.PHONY: prod
+prod:
+	$(GOGENERATE)
+	$(GOBUILD)
+	$(NPMBUILDPROD)
 
 .PHONY: test
 test:
@@ -48,10 +55,13 @@ help:
 	@echo  ''
 	@echo  '* Build:'
 	@echo  '- all (default)   - Default phony task that builds (client and'
-	@echo  '                    and server - sided) binaries'
+	@echo  '                    and server - sided) binaries for development'
 	@echo  ''
+	@echo  '* Prod:'
+	@echo  '- prod            - Default phony task that builds (client and'
+	@echo  '                    and server - sided) binaries for production'
 	@echo  '* Tests:'
-	@echo  '- test (default)   - Phony task that runs all unit tests'
+	@echo  '- test            - Phony task that runs all unit tests'
 	@echo  ''
 	@echo  '* Release:'
 	@echo  '- version         - Phony task. Creates changelog from latest'
