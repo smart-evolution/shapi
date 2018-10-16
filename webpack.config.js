@@ -1,46 +1,45 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    context: `${__dirname}/client`,
-    entry: {
-        scripts: ['regenerator-runtime/runtime', './app.jsx'],
-        css: './app.scss',
-    },
-    output: {
-        path: `${__dirname}/public`,
-        filename: 'scripts.js',
-    },
-    externals: {
-    },
-    devtool: '#inline-source-map',
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules)/,
-                loader: 'babel-loader',
-            }, {
-                test: /\.scss/,
-                loader: ExtractTextPlugin.extract(
-                    'style-loader',
-                    'css-loader!postcss-loader!sass-loader'
-                ),
-            }, {
-                test: /\.elm$/,
-                exclude: [/elm-stuff/, /node_modules/],
-                loader: 'elm-webpack?verbose=true&warn=true',
-            },
-            {
-                test: /\.jpg|.png/,
-                loader: 'file-loader',
-            },
-        ],
-        noParse: /\.elm$/,
-    },
-    resolve: {
-        extensions: ['', '.js', '.jsx'],
-    },
-    plugins: [
-        new ExtractTextPlugin('styles.css', { allChunks: true }),
-    ],
+  context: `${__dirname}/client`,
+  output: {
+    path: `${__dirname}/public`,
+    filename: '[name].js',
+  },
+  entry: {
+    scripts: ['regenerator-runtime/runtime', './app.jsx'],
+    css: './app.scss'
+  },
+  module: {
+    rules: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      resolve: {
+        extensions: [".js", ".jsx"]
+      },
+      use: {
+        loader: "babel-loader"
+      }
+    }, {
+      test: /\.scss$/,
+      use: [          {
+         loader: MiniCssExtractPlugin.loader,
+        },
+        'css-loader',
+        'sass-loader'
+      ]
+    }, {
+        test: /\.elm$/,
+        exclude: [/elm-stuff/, /node_modules/],
+        loader: 'elm-webpack?verbose=true&warn=true',
+    }, {
+      test: /\.jpg|.png/,
+      loader: 'file-loader',
+    }]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "styles.css"
+    }, { allChunks: true })
+  ],
 };

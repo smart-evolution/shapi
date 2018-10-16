@@ -66,7 +66,7 @@ func writePackage(port *serial.Port) {
 }
 
 func addAgent(id string, name string, url string) {
-    log.Println("services: adding home agent '" + name + "'")
+    log.Println("services: adding home agent '" + name + "' with URL '" + url + "'")
 
     agent := Agent{
         Id: id,
@@ -127,7 +127,7 @@ func (a Agent) fetchPackage() {
     }
 
     pt, _ := client.NewPoint(
-        a.Name,
+        a.Id,
         map[string]string{ "home": a.Name },
         map[string]interface{}{
             "temperature": temperature,
