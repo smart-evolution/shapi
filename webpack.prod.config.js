@@ -67,6 +67,3 @@ module.exports = {
     ]
   }
 };
-/**
- * Created by oszura on 16.10.2018.
- */
