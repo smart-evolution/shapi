@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ControlPanel from './ControlPanel'
+import ControlPanel from './ControlPanel';
 import TemperaturePanel from './TemperaturePanel';
 import SoundPanel from './SoundPanel';
-import PresencePanel from './PresencePanel';
 import CurrentPanel from './CurrentPanel';
 
 const Dashboard = (props) => {
@@ -18,28 +17,23 @@ const Dashboard = (props) => {
       )}
 
       <div className="dashboard__cell dashboard__cell--full">
-        <ControlPanel/>
+        <ControlPanel />
       </div>
       <div className="dashboard__cell dashboard__cell--full">
-        <CurrentPanel/>
+        <CurrentPanel />
       </div>
       <div className="dashboard__cell dashboard__cell--full">
-        <TemperaturePanel/>
+        <TemperaturePanel />
       </div>
       <div className="dashboard__cell dashboard__cell--full">
-        <SoundPanel/>
+        <SoundPanel />
       </div>
     </div>
   );
-}
-
-Dashboard.propTypes = {
-  isAlerts: PropTypes.bool,
-  error: PropTypes.string,
 };
 
-Dashboard.defaultProps = {
-  isAlerts: [],
+Dashboard.propTypes = {
+  error: PropTypes.error,
 };
 
 export default Dashboard;

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
 const defaultState = {
@@ -12,13 +11,13 @@ const defaultState = {
 };
 
 export default function reducer(state = defaultState, action) {
+  const { times, temperatures, motions, gas, sounds } = action;
+
   switch (action.type) {
     case actionTypes.DATA_FETCH:
       return Object.assign({}, state);
 
     case actionTypes.DATA_FETCH_SUCCESS:
-      const { times, temperatures, motions, gas, sounds } = action;
-
       return Object.assign({}, state, {
         times,
         temperatures,

@@ -7,7 +7,7 @@
     "elm:package:install": "elm package install --yes",
     "build:dev": "webpack --mode=development --config webpack.dev.config.js",
     "build:prod": "webpack --mode=production --config webpack.prod.config.js",
-    "lint": "eslint --ext .js .",
+    "lint": "eslint --ext .js,.jsx .",
     "lint:fix": "eslint --fix .",
     "test:cucumber": "cucumber-js -r ./features/stepdefinitions",
     "test:cucumber:webdriver": "selenium-standalone start --config=./seleniumConfig.js"

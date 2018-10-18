@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,7 +12,7 @@ const CurrentPanel = (props) => {
       <div className="state">
         <div className="state__item">
           <div className="state__status">
-            <div className={ isMotion ? 'state__alert' : 'state__ok' }/>
+            <div className={isMotion ? 'state__alert' : 'state__ok'} />
           </div>
           <div className="state__name">
             Motion
@@ -22,7 +20,7 @@ const CurrentPanel = (props) => {
         </div>
         <div className="state__item">
           <div className="state__status">
-            <div className={ isGas ? 'state__alert' : 'state__ok' }/>
+            <div className={isGas ? 'state__alert' : 'state__ok'} />
           </div>
           <div className="state__name">
             Combustible gases
@@ -31,7 +29,7 @@ const CurrentPanel = (props) => {
       </div>
     </div>
   </div>);
-}
+};
 
 CurrentPanel.propTypes = {
   isGas: PropTypes.bool,

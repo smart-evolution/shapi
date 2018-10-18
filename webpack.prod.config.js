@@ -1,7 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const devMode = process.env.NODE_ENV !== 'production'
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   context: `${__dirname}/client`,
@@ -31,7 +31,7 @@ module.exports = {
         },
         'css-loader',
         'sass-loader',
-      ]
+      ],
     }, {
       test: /\.elm$/,
       exclude: [/elm-stuff/, /node_modules/],
@@ -39,20 +39,20 @@ module.exports = {
     }, {
       test: /\.jpg|.png/,
       loader: 'file-loader',
-    }]
+    }],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'styles.css',
-    }, { allChunks: true })
+    }, { allChunks: true }),
   ],
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true
+        sourceMap: true,
       }),
-    ]
-  }
+    ],
+  },
 };
