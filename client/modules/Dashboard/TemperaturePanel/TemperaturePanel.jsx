@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import TemperatureChart from './TemperatureChart/TemperatureChart';
@@ -9,26 +10,24 @@ const TemperaturePanel = (props) => {
   const nowTmp = _.head(temperatures);
   const value = _.isUndefined(nowTmp) ? NODATA_SIGN : nowTmp.value;
 
-   return (<div className="temperature-panel">
-      <div className="temperature-panel__title">
-       Temperature
-     </div>
-     <div className="temperature-panel__current">
-        {value} &#8451;
-      </div>
-      <div className="temperature-panel__chart">
-        { temperatures.length > 0
-          ? <TemperatureChart
-              temperatures={temperatures}
-            />
-          : 'No data available'
-        }
-      </div>
-    </div>);
-}
+  return (<div className="temperature-panel">
+    <div className="temperature-panel__title">
+     Temperature
+    </div>
+    <div className="temperature-panel__current">
+      {value} &#8451;
+    </div>
+    <div className="temperature-panel__chart">
+      { temperatures.length > 0
+        ? <TemperatureChart temperatures={temperatures} />
+        : 'No data available'
+      }
+    </div>
+  </div>);
+};
 
 TemperaturePanel.propTypes = {
-  temperatures: PropTypes.array,
+  temperatures: PropTypes.arrayOf(PropTypes.string),
 };
 
 TemperaturePanel.defaultProps = {

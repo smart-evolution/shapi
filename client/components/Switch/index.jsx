@@ -6,7 +6,8 @@ const Switch = (props) => {
   const { isOn, onToggle, className } = props;
 
   return (
-    <div
+    <button
+      role="button"
       className={`c-switch ${className}`}
       onClick={onToggle}
     >
@@ -17,10 +18,11 @@ const Switch = (props) => {
         onChange={_.noop}
       />
       <span className="c-switch__slider" />
-    </div>);
-}
+    </button>);
+};
 
 Switch.propTypes = {
+  className: PropTypes.string,
   isOn: PropTypes.bool,
   onToggle: PropTypes.func,
 };

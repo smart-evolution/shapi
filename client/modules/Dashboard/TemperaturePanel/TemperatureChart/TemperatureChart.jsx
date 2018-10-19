@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
@@ -16,7 +17,7 @@ class TemperatureChart extends React.PureComponent {
     d3Chart.select('svg').remove();
 
     const width = d3Chart.node().clientWidth - CHART_PADDING;
-    const containerHeight = width * (1.2/3);
+    const containerHeight = width * (1.2 / 3);
     const chartHeight = containerHeight - 50;
 
     const maxObj = _.maxBy(temperatures, 'value');
@@ -26,20 +27,20 @@ class TemperatureChart extends React.PureComponent {
     const minTemp = _.isUndefined(minObj) ? DEFAULT_MIN_TEMP : Number(minObj.value) - TEMP_MARGIN;
 
     const earliestData = temperatures[0];
-    const latestData = temperatures[temperatures.length -1]
+    const latestData = temperatures[temperatures.length - 1];
 
     const xScale = d3.scaleTime()
       .domain([earliestData.time, latestData.time])
       .range([0, width]);
 
+    const yScale = d3.scaleLinear()
+      .domain([minTemp, maxTemp])
+      .range([chartHeight, 0]);
+
     const line = d3.line()
       .x(d => xScale(d.time))
       .y(d => yScale(Number(d.value)))
       .curve(d3.curveMonotoneX);
-
-    const yScale = d3.scaleLinear()
-      .domain([minTemp, maxTemp])
-      .range([chartHeight, 0]);
 
     const area = d3.area()
       .x(d => xScale(d.time))
@@ -58,7 +59,7 @@ class TemperatureChart extends React.PureComponent {
       .attr('transform', `translate(0, ${chartHeight})`)
       .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%Y-%m-%d [%I:%M]')))
       .selectAll('text')
-      .attr('transform', 'rotate(-20) translate(0, 15)')
+      .attr('transform', 'rotate(-20) translate(0, 15)');
 
     svg.append('g')
       .attr('class', 'temperature-chart__y-axis')
@@ -67,7 +68,7 @@ class TemperatureChart extends React.PureComponent {
     svg.append('path')
       .datum(temperatures)
       .attr('class', 'temperature-chart__area')
-      .attr("d", area);
+      .attr('d', area);
 
     svg.append('path')
       .datum(temperatures)
@@ -78,8 +79,8 @@ class TemperatureChart extends React.PureComponent {
       .data(temperatures)
       .enter().append('circle')
       .attr('class', 'temperature-chart__dot')
-      .attr('cx', (d, i) =>  xScale(i))
-      .attr('cy', (d) => yScale(d.value))
+      .attr('cx', (d, i) => xScale(i))
+      .attr('cy', d => yScale(d.value))
       .attr('r', 5);
   }
 
@@ -92,7 +93,7 @@ class TemperatureChart extends React.PureComponent {
 }
 
 TemperatureChart.propTypes = {
-  temperatures: PropTypes.array,
+  temperatures: PropTypes.arrayOf(PropTypes.string),
 };
 
 TemperatureChart.defaultProps = {

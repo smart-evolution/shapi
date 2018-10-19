@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { delay } from 'redux-saga'
+import { delay } from 'redux-saga';
 import { put, call, fork, takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as actionTypes from './actionTypes';
@@ -7,7 +7,7 @@ import * as actionTypes from './actionTypes';
 function callSendAlert() {
   return fetch('/api/sendalert', { method: 'POST' })
     .then(response => response.json())
-    .catch(() => "Send alert failed");
+    .catch(() => 'Send alert failed');
 }
 
 function* sendAlert() {
@@ -17,32 +17,30 @@ function* sendAlert() {
 function callToggleAlerts() {
   return fetch('/api/alerts', { method: 'POST' })
     .then(response => response.json())
-    .catch(() => "Toggling alerts failed");
+    .catch(() => 'Toggling alerts failed');
 }
 
 function* toggleAlerts() {
   const data = yield call(callToggleAlerts);
 
-  if(_.isObject(data)) {
-    const isAlerts = data.isAlerts == "true" ? true : false;
+  if (_.isObject(data)) {
+    const isAlerts = data.isAlerts === 'true';
 
     yield put(actions.setAlerts(isAlerts));
-  } else {
-
   }
 }
 
 function callAlerts() {
   return fetch('/api/alerts')
     .then(response => response.json())
-    .catch(() => "Toggling alerts failed");
+    .catch(() => 'Toggling alerts failed');
 }
 
 function* fetchAlerts() {
   const data = yield call(callAlerts);
 
-  if(_.isObject(data)) {
-    const isAlerts = data.isAlerts == "true" ? true : false;
+  if (_.isObject(data)) {
+    const isAlerts = data.isAlerts === 'true';
 
     yield put(actions.setAlerts(isAlerts));
   } else {
@@ -52,18 +50,18 @@ function* fetchAlerts() {
 
 function getData(agentId) {
   return fetch(`/api/home/${agentId}`)
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        throw `Fetching data error: ${response.statusText}`;
+        throw new Error(`Fetching data error: ${response.statusText}`);
       }
 
-      if (response.status == 204) {
-        throw 'No data available';
+      if (response.status === 204) {
+        throw new Error('No data available');
       }
 
       return response.json();
     })
-    .catch((e) => e);
+    .catch(e => e);
 }
 
 function* fetchData() {
@@ -78,7 +76,7 @@ function* fetchData() {
     const agentId = hasAgentId.replace('/', '');
     const data = yield call(getData, agentId);
 
-    if(_.isArray(data)) {
+    if (_.isArray(data)) {
       const { time, temperature, presence, gas, sound } = _.first(data).data;
 
       yield put(actions.fetchDataSuccess(time, temperature, presence, gas, sound));

@@ -9,7 +9,7 @@ export const fetchDataSuccess = (times, temperatures, motions, gas, sounds) => (
   sounds,
 });
 
-export const fetchDataFail = (error) => ({
+export const fetchDataFail = error => ({
   type: actionTypes.DATA_FETCH_ERROR,
   error,
 });
@@ -22,7 +22,7 @@ export const fetchAlerts = () => ({
   type: actionTypes.FETCH_ALERTS,
 });
 
-export const setAlerts = (isAlerts) => ({
+export const setAlerts = isAlerts => ({
   type: actionTypes.SET_ALERTS,
   isAlerts,
 });

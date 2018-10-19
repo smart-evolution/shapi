@@ -27,7 +27,7 @@ const ControlPanel = (props) => {
       </div>
     </div>
   </div>);
-}
+};
 
 ControlPanel.propTypes = {
   isAlerts: PropTypes.bool,
