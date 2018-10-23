@@ -3,36 +3,36 @@
 @import "SoundPanel/styles";
 @import "CurrentPanel/styles";
 
-$color-pippin: #FFE2E0;
-$color-watusi: #FFD4CC;
-$color-persimmon: #FF7157;
+$color-pippin: #ffe2e0;
+$color-watusi: #ffd4cc;
+$color-persimmon: #ff7157;
 
 .dashboard {
-    min-height: 400px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    align-content: flex-start;
+  min-height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
 
-    &__error {
-        margin-bottom: 10px;
-        color: $color-persimmon;
-        background: $color-pippin;
-        border: 1px solid $color-watusi;
-        padding: 10px;
+  &__error {
+    margin-bottom: 10px;
+    color: $color-persimmon;
+    background: $color-pippin;
+    border: 1px solid $color-watusi;
+    padding: 10px;
+  }
+
+  &__cell {
+    flex-basis: 50%;
+
+    @include phone {
+      flex-basis: 100%;
     }
 
-    &__cell {
-        flex-basis: 50%;
-
-        @include phone {
-            flex-basis: 100%;
-        }
-
-        &--full {
-            flex-basis: 100%;
-        }
+    &--full {
+      flex-basis: 100%;
     }
+  }
 }

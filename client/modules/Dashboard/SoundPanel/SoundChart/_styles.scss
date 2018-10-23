@@ -1,41 +1,41 @@
-$color-flash: #FEC9A5;
+$color-flash: #fec9a5;
 
 .sound-chart {
-    &__x-axis {
-        line{
-            stroke: $color-boulder;
-        }
-
-        path{
-            stroke: $color-boulder;
-        }
-
-        text{
-            fill: $color-boulder;
-        }
+  &__x-axis {
+    line {
+      stroke: $color-boulder;
     }
 
-    &__y-axis {
-        line{
-            stroke: $color-boulder;
-        }
-
-        path{
-            stroke: $color-boulder;
-        }
-
-        text{
-            fill: $color-boulder;
-        }
+    path {
+      stroke: $color-boulder;
     }
 
-    &__line {
-        fill: none;
-        stroke: #fb8532;
-        stroke-width: 1;
+    text {
+      fill: $color-boulder;
+    }
+  }
+
+  &__y-axis {
+    line {
+      stroke: $color-boulder;
     }
 
-    &__area {
-        fill: #fb994e;
+    path {
+      stroke: $color-boulder;
     }
+
+    text {
+      fill: $color-boulder;
+    }
+  }
+
+  &__line {
+    fill: none;
+    stroke: #fb8532;
+    stroke-width: 1;
+  }
+
+  &__area {
+    fill: #fb994e;
+  }
 }
