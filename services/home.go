@@ -141,6 +141,10 @@ func (a Agent) fetchPackage() {
 
     InfluxBp.AddPoint(pt)
     err = InfluxClient.Write(InfluxBp)
+
+    if err != nil {
+        log.Println("services", err)
+    }
 }
 
 func setupAgents() {
@@ -175,6 +179,7 @@ func runCommunicationLoop() {
 
         for i := 0; i < len(Agents); i++ {
             a := Agents[i]
+            log.Println("services: fetching from=", a.Name)
             a.fetchPackage()
         }
     }
