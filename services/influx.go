@@ -7,11 +7,15 @@ import (
 
 var (
     err             error
+    // InfluxClient - influx client
     InfluxClient    client.Client
+    // InfluxBp - influx batch points
     InfluxBp        client.BatchPoints
+    // InfluxConnected - is smarthome connected with Influx
     InfluxConnected bool
 )
 
+// InitInfluxService - initialize connection with Influx
 func InitInfluxService() {
     InfluxConnected = false
 

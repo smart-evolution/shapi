@@ -13,15 +13,16 @@ func composeMessage(from string, to string, body string) string {
     body
 }
 
+// SendEmail - send email to subscriber
 func SendEmail(body string) {
     sender := os.Getenv("EMAILNAME")
     pass := os.Getenv("EMAILPASS")
     recipient := os.Getenv("EMAILNAME")
     smtpPort := os.Getenv("SMTPPORT")
-    smtpAuthUrl := os.Getenv("SMTPAUTHURL")
+    smtpAuthURL := os.Getenv("SMTPAUTHURL")
 
     msg := composeMessage(sender, recipient, body)
-    smtpAuth := smtp.PlainAuth("", sender, pass, smtpAuthUrl)
+    smtpAuth := smtp.PlainAuth("", sender, pass, smtpAuthURL)
 
     err := smtp.SendMail(smtpPort, smtpAuth, sender, []string{recipient}, []byte(msg))
 

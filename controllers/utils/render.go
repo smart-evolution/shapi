@@ -8,11 +8,12 @@ import (
 	"html/template"
     "github.com/oskarszura/smarthome/utils"
     "github.com/oskarszura/smarthome/services"
-	. "github.com/oskarszura/smarthome/models"
-	. "github.com/oskarszura/gowebserver/session"
+	"github.com/oskarszura/smarthome/models"
+	"github.com/oskarszura/gowebserver/session"
 )
 
-func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm ISessionManager) {
+// RenderTemplate - helper for page rendering
+func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
 	if err != nil {
@@ -27,7 +28,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm ISes
     params := make(map[string]interface{})
     params["menu"] = menu
 
-    templateModel := Page{utils.VERSION, name, true, params}
+    templateModel := models.Page{utils.VERSION, name, true, params}
 
 	template := template.Must(
         template.ParseFiles(
