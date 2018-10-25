@@ -3,6 +3,7 @@ GOGET=$(GOCMD) get
 GOGENERATE=$(GOCMD) generate
 GOBUILD=$(GOCMD) build -o smarthome
 GOTEST=$(GOCMD) test ./...
+GOLINT=golint ./...
 
 NPM=npm
 NPMINSTALL=$(NPM) install
@@ -34,6 +35,10 @@ prod:
 .PHONY: test
 test:
 	$(GOTEST)
+
+.PHONY: golint
+golint:
+	$(GOLINT)
 
 .PHONY: version
 version:

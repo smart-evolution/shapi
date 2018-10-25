@@ -18,13 +18,15 @@ const (
     pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]\\|[0-9]+\\.[0-9]+\\>"
 )
 
+// Agent - hardware entity
 type Agent struct {
-    Id          string
+    ID          string
     Name        string
-    Url         string
+    URL         string
 }
 
 var (
+    // Agents - hardware agents list
     Agents              []Agent
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
@@ -69,16 +71,16 @@ func addAgent(id string, name string, url string) {
     log.Println("services: adding home agent '" + name + "' with URL '" + url + "'")
 
     agent := Agent{
-        Id: id,
+        ID: id,
         Name: name,
-        Url: url,
+        URL: url,
     }
 
     Agents = append(Agents, agent)
 }
 
 func (a Agent) fetchPackage() {
-    response, err := http.Get(a.Url)
+    response, err := http.Get(a.URL)
     defer response.Body.Close()
 
     contents, err := ioutil.ReadAll(response.Body)
@@ -127,7 +129,7 @@ func (a Agent) fetchPackage() {
     }
 
     pt, _ := client.NewPoint(
-        a.Id,
+        a.ID,
         map[string]string{ "home": a.Name },
         map[string]interface{}{
             "temperature": temperature,
@@ -141,6 +143,10 @@ func (a Agent) fetchPackage() {
 
     InfluxBp.AddPoint(pt)
     err = InfluxClient.Write(InfluxBp)
+
+    if err != nil {
+        log.Println("services", err)
+    }
 }
 
 func setupAgents() {
@@ -159,9 +165,9 @@ func setupAgents() {
             id := agentConf[0]
             name := agentConf[1]
             ip := agentConf[2]
-            apiUrl := "http://" + ip + "/api"
+            apiURL := "http://" + ip + "/api"
 
-            addAgent(id, name, apiUrl)
+            addAgent(id, name, apiURL)
         }
     }
 }
@@ -175,11 +181,13 @@ func runCommunicationLoop() {
 
         for i := 0; i < len(Agents); i++ {
             a := Agents[i]
+            log.Println("services: fetching from=", a.Name)
             a.fetchPackage()
         }
     }
 }
 
+// RunHomeService - setup and run everything
 func RunHomeService() {
     setupAgents()
     runCommunicationLoop()

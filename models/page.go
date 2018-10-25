@@ -1,5 +1,6 @@
 package models
 
+// Page - entity representing page
 type Page struct {
     Version     string
     Title       string

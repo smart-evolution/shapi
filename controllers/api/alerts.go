@@ -9,6 +9,7 @@ import (
     "github.com/oskarszura/smarthome/utils"
 )
 
+// CtrAlerts - api controller for sending alerts to agents
 func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
