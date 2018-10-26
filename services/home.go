@@ -81,6 +81,12 @@ func addAgent(id string, name string, url string) {
 
 func (a Agent) fetchPackage() {
     response, err := http.Get(a.URL)
+
+    if err != nil {
+        log.Println("services:  agent '" + a.Name + "'", err)
+        return
+    }
+
     defer response.Body.Close()
 
     contents, err := ioutil.ReadAll(response.Body)
