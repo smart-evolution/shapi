@@ -1,44 +1,31 @@
 GOCMD=go
-GOGET=$(GOCMD) get
-GOGENERATE=$(GOCMD) generate
-GOBUILD=$(GOCMD) build -o smarthome
-GOTEST=$(GOCMD) test ./...
-GOLINT=golint ./...
-
+GOLINT=golint
+MAKE=make
 NPM=npm
-NPMINSTALL=$(NPM) install
-NPMBUILDDEV=$(NPM) run build:dev
-NPMBUILDPROD=$(NPM) run build:prod
-
-ELMPKGINSTALL=npm run elm:package:install --yes
 
 .DEFAULT_GOAL := all
 
 .PHONY: install
 install:
-	$(NPMINSTALL)
-	$(ELMPKGINSTALL)
-	$(GOGET) github.com/oskarszura/gowebserver
+	$(NPM) install
+	$(NPM) run elm:package:install --yes
+	$(GOCMD) get github.com/oskarszura/gowebserver
 
 .PHONY: all
 all:
-	$(GOGENERATE)
-	$(GOBUILD)
-	$(NPMBUILDDEV)
-
-.PHONY: prod
-prod:
-	$(GOGENERATE)
-	$(GOBUILD)
-	$(NPMBUILDPROD)
+	$(GOCMD) generate
+	$(GOCMD) build -o smarthome
+	$(NPM) run build:$(mode)
 
 .PHONY: test
 test:
-	$(GOTEST)
+	$(GOCMD) test ./...
 
-.PHONY: golint
-golint:
-	$(GOLINT)
+.PHONY: lint
+lint:
+	$(NPM) run lint
+	$(NPM) run csslint
+	$(GOLINT) ./...
 
 .PHONY: version
 version:
@@ -53,22 +40,22 @@ version:
 
 .PHONY: help
 help:
+	@echo  '=================================='
 	@echo  'Available tasks:'
+	@echo  '=================================='
 	@echo  '* Installation:'
 	@echo  '- install         - Phony task that installs all required (client'
 	@echo  '                    and server - sided) dependencies'
 	@echo  ''
-	@echo  '* Build:'
-	@echo  '- all (default)   - Default phony task that builds (client and'
-	@echo  '                    and server - sided) binaries for development'
-	@echo  ''
-	@echo  '* Prod:'
-	@echo  '- prod            - Default phony task that builds (client and'
-	@echo  '                    and server - sided) binaries for production'
-	@echo  '* Tests:'
+	@echo  '* Quality:'
+	@echo  '- lint            - Phony task that runs all linting tasks'
 	@echo  '- test            - Phony task that runs all unit tests'
 	@echo  ''
 	@echo  '* Release:'
+	@echo  '- all (default)   - Default phony task that builds (client and'
+	@echo  '                    and server - sided) binaries for development.'
+	@echo  '                    Takes an obligatory param `mode` with values'
+	@echo  '                    `dev` or `production`.'
 	@echo  '- version         - Phony task. Creates changelog from latest'
 	@echo  '                    git tag till the latest commit. Creates commit'
 	@echo  '                    with given version (as argument) and tags'

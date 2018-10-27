@@ -15,7 +15,17 @@ import (
 )
 
 const (
-    pkgPattern = "<[0-9]+\\.[0-9]+\\|-?[0-9]+\\|[0-1]\\|[0-9]+\\.[0-9]+\\>"
+    separator = "\\|";
+    tmpPattern = "[0-9]+\\.[0-9]+"
+    motionPattern = "-?[0-9]+"
+    gasPattern = "[0-1]"
+    soundPattern = "([0-9]+\\.[0-9]+)|(inf)"
+    pkgPattern = "<" +
+        tmpPattern + separator +
+        motionPattern + separator +
+        gasPattern + separator +
+        soundPattern +
+    "\\>"
 )
 
 // Agent - hardware entity
@@ -97,6 +107,11 @@ func (a Agent) fetchPackage() {
     }
 
     unwrappedData, err := getPackageData(string(contents))
+
+    if err != nil {
+        log.Println("services:  agent '" + a.Name + "'", err)
+        return
+    }
 
     temperature := getTemperature(unwrappedData)
     motion := getMotion(unwrappedData)
