@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,7 +7,11 @@ const AgentsList = (props) => {
 
   return (
     <div className="agents-list">
-      {JSON.stringify(agents)}
+      {_.map(agents, (agent) => (
+        <div>
+          {agent.name} t={agent.temperature}
+        </div>
+      ))}
     </div>
   );
 };

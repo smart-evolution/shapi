@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
 const defaultState = {
@@ -12,7 +13,12 @@ export default function reducer(state = defaultState, action) {
       return Object.assign({}, state);
 
     case actionTypes.DATA_FETCH_SUCCESS:
-      return Object.assign({}, state, { agents });
+      const list = _.map(agents, (agent) => ({
+        name: agent.name,
+        temperature: _.first(agent.data.temperature),
+      }))
+
+      return Object.assign({}, state, { list });
 
     case actionTypes.DATA_FETCH_ERROR:
       return Object.assign({}, state, { error: action.error });

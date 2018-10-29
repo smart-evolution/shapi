@@ -42,20 +42,20 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
     series := resp.Results[0].Series
 
-    var (
-        times           []string
-        temperatures    []string
-        presences       []string
-        gases           []string
-        sounds          []string
-        time            string
-        temperature     string
-        presence        string
-        gas             string
-        sound           string
-    )
-
     for _, agent := range series {
+        var (
+            times           []string
+            temperatures    []string
+            presences       []string
+            gases           []string
+            sounds          []string
+            time            string
+            temperature     string
+            presence        string
+            gas             string
+            sound           string
+        )
+
         agentName := agent.Name
 
         for _, serie := range agent.Values {
