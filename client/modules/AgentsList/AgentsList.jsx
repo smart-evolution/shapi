@@ -6,13 +6,16 @@ const AgentsList = (props) => {
   const { agents } = props;
 
   return (
-    <div className="agents-list">
+    <ul className="c-list">
       {_.map(agents, (agent) => (
-        <div>
-          {agent.name} t={agent.temperature}
-        </div>
+        <li class="c-list__item">
+          <a href={`/agent/${agent.id}`}>
+            {agent.name}
+          </a>
+          t={agent.temperature}
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

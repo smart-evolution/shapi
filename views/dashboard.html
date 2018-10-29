@@ -4,20 +4,8 @@
         <header>
             Available agents
         </header>
-        <article>
-            <ul class="c-list">
-                {{ range index .Params "menu"}}
-                <li class="c-list__item">
-                    <a href="/agent/{{.ID}}">
-                        {{.Name}}
-                    </a>
-                </li>
-                {{ end }}
-            </ul>
+        <article class="js-agents-list">
         </article>
-    </section>
-    <section class="js-agents-list">
-
     </section>
 </div>
 {{end}}

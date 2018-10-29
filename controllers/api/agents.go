@@ -54,9 +54,10 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             presence        string
             gas             string
             sound           string
+            agentName       string
         )
 
-        agentName := agent.Name
+        agentID := agent.Name
 
         for _, serie := range agent.Values {
             if serie[0] != nil {
@@ -90,6 +91,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             presences = append(presences, presence)
             gases = append(gases, gas)
             sounds = append(sounds, sound)
+            agentName = serie[5].(string)
         }
 
         agentData := AgentData{
@@ -101,6 +103,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         }
 
         a := Agent{
+            agentID,
             agentName,
             agentData,
         }

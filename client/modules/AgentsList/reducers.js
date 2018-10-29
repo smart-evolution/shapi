@@ -14,6 +14,7 @@ export default function reducer(state = defaultState, action) {
 
     case actionTypes.DATA_FETCH_SUCCESS:
       const list = _.map(agents, (agent) => ({
+        id: agent.id,
         name: agent.name,
         temperature: _.first(agent.data.temperature),
       }))
