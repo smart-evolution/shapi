@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as actionTypes from './actionTypes';
 
 const defaultState = {

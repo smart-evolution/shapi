@@ -6,7 +6,7 @@ const AgentsList = (props) => {
   const { agents, error } = props;
 
   return (
-    <div class="agents-list">
+    <div className="agents-list">
       { error && (
         <div className="agents-list__error">
           {error}
@@ -16,7 +16,7 @@ const AgentsList = (props) => {
         {_.map(agents, (agent) => {
           const { id, name, temperature, isMotion } = agent;
           return (
-            <li class="c-list__item">
+            <li className="c-list__item">
               <a href={`/agent/${id}`}>{name}</a> t[{temperature}] m[{isMotion}]
             </li>
           );
@@ -27,7 +27,12 @@ const AgentsList = (props) => {
 };
 
 AgentsList.propTypes = {
-  agents: PropTypes.array,
+  agents: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    temperature: PropTypes.string,
+    isMotion: PropTypes.number,
+  })),
   error: PropTypes.error,
 };
 
