@@ -49,7 +49,7 @@ function* fetchAlerts() {
 }
 
 function getData(agentId) {
-  return fetch(`/api/home/${agentId}`)
+  return fetch(`/api/agents/${agentId}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);

@@ -93,7 +93,7 @@ func (a Agent) fetchPackage() {
     response, err := http.Get(a.URL)
 
     if err != nil {
-        log.Println("services:  agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.Name + "'", err)
         return
     }
 
@@ -102,14 +102,14 @@ func (a Agent) fetchPackage() {
     contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        log.Println("services:  agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.Name + "'", err)
         return
     }
 
     unwrappedData, err := getPackageData(string(contents))
 
     if err != nil {
-        log.Println("services:  agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.Name + "'", err)
         return
     }
 

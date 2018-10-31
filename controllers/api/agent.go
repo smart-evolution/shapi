@@ -12,6 +12,7 @@ import (
 
 // Agent - entity representing agent state
 type Agent struct {
+    ID      string      `json:"id"`
     Name    string      `json:"name"`
     Data    AgentData   `json:"data"`
 }
@@ -31,7 +32,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
 
     var data []Agent
 
-    agentName := opt.Params["agent"]
+    agentID := opt.Params["agent"]
 
     if services.InfluxConnected != true {
         w.WriteHeader(http.StatusInternalServerError)
@@ -40,7 +41,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
     }
 
     q := client.Query{
-        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM " + agentName + " ORDER BY time DESC LIMIT 30",
+        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM " + agentID + " ORDER BY time DESC LIMIT 30",
         Database:   "smarthome",
     }
 
@@ -70,6 +71,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         presence        string
         gas             string
         sound           string
+        agentName       string
     )
 
     for _, serie := range res.Values {
@@ -104,6 +106,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         presences = append(presences, presence)
         gases = append(gases, gas)
         sounds = append(sounds, sound)
+        agentName = serie[5].(string)
     }
 
     agentData := AgentData{
@@ -115,6 +118,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
     }
 
     a := Agent{
+        agentID,
         agentName,
         agentData,
     }
