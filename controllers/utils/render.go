@@ -14,8 +14,8 @@ import (
 
 // RenderTemplate - helper for page rendering
 func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
-    sessionId := utils.GetSessionId(r)
-    isLogged := sm.IsExist(sessionId)
+    sessionID := utils.GetSessionID(r)
+    isLogged := sm.IsExist(sessionID)
 
     if !isLogged && r.URL.Path != "/login" && r.URL.Path != "/login/register" {
         http.Redirect(w, r, "/login", http.StatusSeeOther)

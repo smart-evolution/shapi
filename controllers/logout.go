@@ -7,6 +7,7 @@ import (
     "github.com/oskarszura/gowebserver/session"
 )
 
+// AuthenticateLogout - logout user
 func AuthenticateLogout(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     cookie := http.Cookie {
         Path: "/",

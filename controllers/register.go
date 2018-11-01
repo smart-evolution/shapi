@@ -11,6 +11,7 @@ import (
     "github.com/oskarszura/gowebserver/session"
 )
 
+// Register - handle register page and register user process
 func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     switch r.Method {
     case "GET":
@@ -22,7 +23,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
         c := ds.C("users")
 
         newUser = &models.User{
-            Id: bson.NewObjectId(),
+            ID: bson.NewObjectId(),
             Username: r.PostFormValue("username"),
             Password: r.PostFormValue("password"),
         }

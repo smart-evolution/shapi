@@ -24,7 +24,7 @@ func getServerAddress() (string, error) {
 //go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
 
 func main() {
-    dbUri := os.Getenv("MONGOLAB_URI")
+    dbURI := os.Getenv("MONGOLAB_URI")
     addr, _ := getServerAddress()
 
     utils.VERSION = VERSION
@@ -35,8 +35,8 @@ func main() {
         "public",
     }
 
-    log.Println("Connecting to mgo with URI = " + dbUri)
-    dbSession, err := mgo.Dial(dbUri)
+    log.Println("Connecting to mgo with URI = " + dbURI)
+    dbSession, err := mgo.Dial(dbURI)
     if err != nil {
         panic(err)
     }

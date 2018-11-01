@@ -13,6 +13,7 @@ import (
     "github.com/oskarszura/gowebserver/router"
 )
 
+// Authenticate - handle login page and login process
 func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     defer r.Body.Close()
 

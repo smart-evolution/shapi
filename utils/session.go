@@ -4,7 +4,8 @@ import (
     "net/http"
 )
 
-func GetSessionId(r *http.Request) string {
+// GetSessionID - get user session ID
+func GetSessionID(r *http.Request) string {
     sessionCookie, err := r.Cookie("sid")
 
     if err != nil {
