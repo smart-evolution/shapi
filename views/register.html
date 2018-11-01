@@ -1,0 +1,37 @@
+{{define "body"}}
+<main class="c-page">
+    <div class="login-box">
+        <h2 class="login-box__title">
+            Register to Make UR Trip
+        </h2>
+
+        <form action="/login/register" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email"
+                       class="form-control"
+                       id="exampleInputEmail1"
+                       placeholder="Email"
+                       name="username">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="exampleInputPassword1"
+                       placeholder="Password"
+                       name="password">
+            </div>
+            <button type="submit" class="btn btn-default">
+                Register
+            </button>
+            or
+            <a class="btn btn-primary"
+               href="/login">
+                Login
+            </a>
+            (if you have an account yet)
+        </form>
+    </div>
+</main>
+{{end}}
