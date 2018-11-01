@@ -2,23 +2,29 @@
 <main class="c-page">
     <div class="login-box">
         <h2 class="login-box__title">
-            Register to Make UR Trip
+            Register new user
         </h2>
 
         <form action="/login/register" method="post">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
+            <div class="c-input">
+                <label class="c-input__label"
+                       for="email-field">
+                    Email address
+                </label>
                 <input type="email"
-                       class="form-control"
-                       id="exampleInputEmail1"
+                       class="c-input__field"
+                       id="email-field"
                        placeholder="Email"
                        name="username">
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
+            <div class="c-input">
+                <label class="c-input__label"
+                       for="password-field">
+                    Password
+                </label>
                 <input type="password"
-                       class="form-control"
-                       id="exampleInputPassword1"
+                       class="c-input__field"
+                       id="password-field"
                        placeholder="Password"
                        name="password">
             </div>
