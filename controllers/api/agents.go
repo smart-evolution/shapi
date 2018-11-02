@@ -10,7 +10,7 @@ import (
     "github.com/influxdata/influxdb/client/v2"
 )
 
-// CtrHome - controller for retrieving agents list data
+// CtrAgents - controller for retrieving agents list data
 func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
