@@ -5,12 +5,12 @@ import (
 )
 
 // GetSessionID - get user session ID
-func GetSessionID(r *http.Request) string {
+func GetSessionID(r *http.Request) (string, error) {
     sessionCookie, err := r.Cookie("sid")
 
     if err != nil {
-        return ""
+        return nil, err
     }
 
-    return sessionCookie.Value
+    return sessionCookie.Value, nil
 }
