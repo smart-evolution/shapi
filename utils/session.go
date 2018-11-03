@@ -1,6 +1,7 @@
 package utils
 
 import (
+    "time"
     "net/http"
 )
 
@@ -13,4 +14,15 @@ func GetSessionID(r *http.Request) (string, error) {
     }
 
     return sessionCookie.Value, nil
+}
+
+// ClearSession - remove session cookie
+func ClearSession(w http.ResponseWriter) {
+    cookie := http.Cookie {
+        Path: "/",
+        Name: "sid",
+        Expires: time.Now().Add(-100 * time.Hour),
+        MaxAge: -1 }
+
+    http.SetCookie(w, &cookie)
 }
