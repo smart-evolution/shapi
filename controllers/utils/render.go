@@ -14,11 +14,15 @@ import (
 
 // RenderTemplate - helper for page rendering
 func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
-    sessionID := utils.GetSessionID(r)
+    sessionID, _ := utils.GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
 
-    if !isLogged && r.URL.Path != "/login" && r.URL.Path != "/login/register" {
-        http.Redirect(w, r, "/login", http.StatusSeeOther)
+    if !isLogged {
+        utils.ClearSession(w)
+
+        if r.URL.Path != "/login" && r.URL.Path != "/login/register" {
+            http.Redirect(w, r, "/login", http.StatusSeeOther)
+        }
     }
 
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))

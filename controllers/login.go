@@ -22,9 +22,10 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
         ctrutl.RenderTemplate(w, r, "login", sm)
 
     case "POST":
-        _, err := r.Cookie("sid")
+        sessionID, _ := utils.GetSessionID(r)
+        isLogged := sm.IsExist(sessionID)
 
-        if err != nil {
+        if !isLogged {
             user := r.PostFormValue("username")
             password := r.PostFormValue("password")
             expiration := time.Now().Add(365 * 24 * time.Hour)

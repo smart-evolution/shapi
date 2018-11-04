@@ -2,20 +2,13 @@ package controllers
 
 import (
     "net/http"
-    "time"
+    "github.com/oskarszura/smarthome/utils"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
 )
 
 // AuthenticateLogout - logout user
 func AuthenticateLogout(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
-    cookie := http.Cookie {
-        Path: "/",
-        Name: "sid",
-        Expires: time.Now().Add(-100 * time.Hour),
-        MaxAge: -1 }
-
-    http.SetCookie(w, &cookie)
-
+    utils.ClearSession(w)
     http.Redirect(w, r, "/", http.StatusSeeOther)
 }
