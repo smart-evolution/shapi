@@ -12,10 +12,12 @@ import (
 	"github.com/oskarszura/gowebserver/session"
 )
 
+
 // RenderTemplate - helper for page rendering
 func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
     sessionID, _ := utils.GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
+    isPrivate := IsRequestFromIntranet(r)
 
     if !isLogged {
         utils.ClearSession(w)
@@ -25,11 +27,15 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
         }
     }
 
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+    if !isPrivate && r.URL.Path == "/login/register" {
+        http.Redirect(w, r, "/login", http.StatusSeeOther)
+    }
 
-	if err != nil {
-		log.Fatal(err)
-	}
+    dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+
+    if err != nil {
+        log.Fatal(err)
+    }
 
     menu := make([]services.Agent, 0)
     for _, a := range services.Agents {
