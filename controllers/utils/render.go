@@ -45,7 +45,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
     params := make(map[string]interface{})
     params["menu"] = menu
 
-    templateModel := models.Page{utils.VERSION, name, true, params}
+    templateModel := models.Page{utils.VERSION, name, isLogged, params}
 
 	template := template.Must(
         template.ParseFiles(

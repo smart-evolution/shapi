@@ -10,6 +10,22 @@
                     Dashboard
                 </a>
             </li>
+            {{if not .IsLogged}}
+            <li class="c-navigation__option"
+                role="presentation">
+                <a class="c-navigation__link" href="/login">
+                    Login
+                </a>
+            </li>
+            {{end}}
+            {{if .IsLogged}}
+            <li class="c-navigation__option"
+                role="presentation">
+                <a class="c-navigation__link" href="/login/logout">
+                    Logout
+                </a>
+            </li>
+            {{end}}
         </ul>
     </nav>
 </header>
