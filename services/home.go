@@ -9,7 +9,6 @@ import (
     "errors"
     "strings"
     "strconv"
-    "github.com/tarm/serial"
     "github.com/influxdata/influxdb/client/v2"
     "github.com/oskarszura/smarthome/utils"
 )
@@ -68,13 +67,6 @@ func getGas(data string) string {
 
 func getSound(data string) string {
     return strings.Split(data, "|")[3]
-}
-
-func writePackage(port *serial.Port) {
-    _, err := port.Write([]byte("CMD001"))
-    if err != nil {
-        log.Println("services: ", err)
-    }
 }
 
 func addAgent(id string, name string, url string) {
