@@ -7,13 +7,14 @@ const mapStateToProps = (state) => {
 
   const agentsList = _.map(agents, (agent) => {
     const { id, name, data } = agent;
-    const { temperature, presence } = data;
+    const { temperature, presence, gas } = data;
 
     return {
       id,
       name,
       temperature: _.first(temperature),
       isMotion: _.reduce(presence, (acc, val) => acc || Number(val), 0),
+      isGas: _.reduce(gas, (acc, val) => acc || Number(val), 0),
     };
   });
 

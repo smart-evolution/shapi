@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '../../components/Icon';
 
 const AgentsList = (props) => {
   const { agents, error } = props;
@@ -14,10 +15,34 @@ const AgentsList = (props) => {
       )}
       <ul className="c-list">
         {_.map(agents, (agent) => {
-          const { id, name, temperature, isMotion } = agent;
+          const { id, name, temperature, isMotion, isGas } = agent;
+
+          const motionColor = isMotion ?
+            'c-icon--red' :
+            '';
+
+          const gasColor = isGas ?
+            'c-icon--red' :
+            '';
+
           return (
             <li className="c-list__item">
-              <a href={`/agent/${id}`}>{name}</a> t[{temperature}] m[{isMotion}]
+              <a
+                className="agents-list__link"
+                href={`/agent/${id}`}
+              >
+                {name}
+              </a> - <span>
+                {temperature} <Icon type="thermometer" />
+                <Icon
+                  className={motionColor}
+                  type="motion"
+                />
+                <Icon
+                  className={gasColor}
+                  type="fire"
+                />
+              </span>
             </li>
           );
         })}
@@ -32,6 +57,7 @@ AgentsList.propTypes = {
     name: PropTypes.string,
     temperature: PropTypes.string,
     isMotion: PropTypes.number,
+    isGas: PropTypes.number,
   })),
   error: PropTypes.error,
 };
