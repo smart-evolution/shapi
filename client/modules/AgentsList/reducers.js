@@ -18,6 +18,9 @@ export default function reducer(state = defaultState, action) {
     case actionTypes.DATA_FETCH_ERROR:
       return Object.assign({}, state, { error });
 
+    case actionTypes.SET_ALERTS:
+      return Object.assign({}, state, { isAlerts: action.isAlerts });
+
     default:
       return state;
   }
