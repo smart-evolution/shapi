@@ -4,6 +4,9 @@ import (
     "os"
     "log"
     "net/smtp"
+    "github.com/oskarszura/smarthome/utils"
+    "github.com/oskarszura/smarthome/models"
+    "gopkg.in/mgo.v2/bson"
 )
 
 func composeMessage(from string, to string, body string) string {
@@ -14,10 +17,9 @@ func composeMessage(from string, to string, body string) string {
 }
 
 // SendEmail - send email to subscriber
-func SendEmail(body string) {
+func SendEmail(body string, recipient string) {
     sender := os.Getenv("EMAILNAME")
     pass := os.Getenv("EMAILPASS")
-    recipient := os.Getenv("EMAILNAME")
     smtpPort := os.Getenv("SMTPPORT")
     smtpAuthURL := os.Getenv("SMTPAUTHURL")
 
@@ -32,4 +34,22 @@ func SendEmail(body string) {
     }
 
     log.Println("services: alert sent")
+}
+
+// BulkEmail - sends alerts to all home users
+func BulkEmail(body string) {
+    ds := utils.GetDataSource()
+    c := ds.C("users")
+
+    var users []models.User
+
+    err := c.Find(bson.M{}).All(&users)
+
+    if err != nil {
+        log.Println("services: Alert recipients not found err=", err)
+    }
+
+    for _, u := range users {
+        SendEmail(body, u.Username)
+    }
 }
