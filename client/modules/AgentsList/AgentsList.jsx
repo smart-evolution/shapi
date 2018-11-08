@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../components/Icon';
+import ControlPanel from './ControlPanel';
 
 const AgentsList = (props) => {
   const { agents, error } = props;
@@ -13,6 +14,10 @@ const AgentsList = (props) => {
           {error}
         </div>
       )}
+      <ControlPanel />
+      <div className="c-panel__title">
+        Available agents
+      </div>
       <ul className="c-list">
         {_.map(agents, (agent) => {
           const { id, name, temperature, isMotion, isGas } = agent;
