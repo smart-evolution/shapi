@@ -2,6 +2,7 @@ GOCMD=go
 GOLINT=golint
 MAKE=make
 NPM=npm
+mode=prod
 
 .DEFAULT_GOAL := all
 
