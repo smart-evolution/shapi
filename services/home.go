@@ -112,12 +112,12 @@ func (a Agent) fetchPackage() {
 
     if utils.IsAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
-            if t > 30 {
+            if t > 40 {
                 now := time.Now()
 
                 if now.Sub(tmpNotifyTime).Hours() >= 1 {
                     tmpNotifyTime = now
-                    SendEmail("[" + now.UTC().String() + "] temperature = " + temperature)
+                    BulkEmail("[" + now.UTC().String() + "][" + a.Name + "] temperature = " + temperature)
                 }
             }
         }
@@ -127,7 +127,7 @@ func (a Agent) fetchPackage() {
 
             if now.Sub(motionNotifyTime).Hours() >= 1 {
                 motionNotifyTime = now
-                SendEmail("[" + now.UTC().String() + "] motion detected")
+                BulkEmail("[" + now.UTC().String() + "][" + a.Name + "] motion detected")
             }
         }
 
@@ -136,7 +136,7 @@ func (a Agent) fetchPackage() {
 
             if now.Sub(gasNotifyTime).Hours() >= 1 {
                 gasNotifyTime = now
-                SendEmail("[" + now.UTC().String() + "] gas alert")
+                BulkEmail("[" + now.UTC().String() + "][" + a.Name + "] gas detected")
             }
         }
     }
