@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.x
+
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install
+  - make install
