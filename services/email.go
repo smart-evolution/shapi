@@ -29,11 +29,11 @@ func SendEmail(body string, recipient string) {
     err := smtp.SendMail(smtpPort, smtpAuth, sender, []string{recipient}, []byte(msg))
 
     if err != nil {
-        log.Println("services: ", err)
+        log.Println("services: error sending email to " + recipient, err)
         return
     }
 
-    log.Println("services: alert sent")
+    log.Println("services: alert sent to " + recipient)
 }
 
 // BulkEmail - sends alerts to all home users
@@ -46,7 +46,7 @@ func BulkEmail(body string) {
     err := c.Find(bson.M{}).All(&users)
 
     if err != nil {
-        log.Println("services: Alert recipients not found err=", err)
+        log.Println("services: Alert recipients not found", err)
     }
 
     for _, u := range users {
