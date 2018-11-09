@@ -10,7 +10,7 @@ import (
     "strings"
     "strconv"
     "github.com/influxdata/influxdb/client/v2"
-    "github.com/oskarszura/smarthome/utils"
+    "github.com/smart-evolution/smarthome/utils"
 )
 
 const (

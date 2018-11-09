@@ -4,8 +4,8 @@ import (
     "os"
     "log"
     "net/smtp"
-    "github.com/oskarszura/smarthome/utils"
-    "github.com/oskarszura/smarthome/models"
+    "github.com/smart-evolution/smarthome/utils"
+    "github.com/smart-evolution/smarthome/models"
     "gopkg.in/mgo.v2/bson"
 )
 

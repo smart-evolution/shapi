@@ -4,7 +4,7 @@ import (
     "log"
     "net/http"
     "encoding/json"
-    "github.com/oskarszura/smarthome/services"
+    "github.com/smart-evolution/smarthome/services"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
     "github.com/influxdata/influxdb/client/v2"
