@@ -37,8 +37,14 @@ module.exports = {
       exclude: [/elm-stuff/, /node_modules/],
       loader: 'elm-webpack?verbose=true&warn=true',
     }, {
-      test: /\.jpg|.png/,
-      loader: 'file-loader',
+      test: /\.jpg|.png|.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      use: [{
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'fonts/'
+        }
+      }]
     }],
   },
   plugins: [
