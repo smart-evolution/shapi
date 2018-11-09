@@ -6,7 +6,7 @@ import (
     "encoding/json"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
-    "github.com/oskarszura/smarthome/utils"
+    "github.com/smart-evolution/smarthome/utils"
 )
 
 // CtrAlerts - api controller for sending alerts to agents

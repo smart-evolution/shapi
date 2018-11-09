@@ -5,10 +5,10 @@ import (
 	"fmt"
     "log"
     "gopkg.in/mgo.v2"
-    "github.com/oskarszura/smarthome/utils"
-    "github.com/oskarszura/smarthome/services"
-	"github.com/oskarszura/smarthome/controllers"
-	"github.com/oskarszura/smarthome/controllers/api"
+    "github.com/smart-evolution/smarthome/utils"
+    "github.com/smart-evolution/smarthome/services"
+	"github.com/smart-evolution/smarthome/controllers"
+	"github.com/smart-evolution/smarthome/controllers/api"
 	gws "github.com/oskarszura/gowebserver"
 )
 

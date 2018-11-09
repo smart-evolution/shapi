@@ -2,6 +2,7 @@ GOCMD=go
 GOLINT=golint
 MAKE=make
 NPM=npm
+mode=prod
 
 .DEFAULT_GOAL := all
 
@@ -10,6 +11,8 @@ install:
 	$(NPM) install
 	$(NPM) run elm:package:install --yes
 	$(GOCMD) get github.com/oskarszura/gowebserver
+	$(GOCMD) get github.com/influxdata/influxdb/client/v2
+	$(GOCMD) get gopkg.in/mgo.v2
 
 .PHONY: all
 all:

@@ -3,9 +3,9 @@ package controllers
 import (
     "net/http"
     "log"
-    "github.com/oskarszura/smarthome/utils"
-    ctrutl "github.com/oskarszura/smarthome/controllers/utils"
-    "github.com/oskarszura/smarthome/models"
+    "github.com/smart-evolution/smarthome/utils"
+    ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
+    "github.com/smart-evolution/smarthome/models"
     "gopkg.in/mgo.v2/bson"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"

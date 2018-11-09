@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"path/filepath"
 	"html/template"
-    "github.com/oskarszura/smarthome/utils"
-    "github.com/oskarszura/smarthome/services"
-	"github.com/oskarszura/smarthome/models"
+    "github.com/smart-evolution/smarthome/utils"
+    "github.com/smart-evolution/smarthome/services"
+	"github.com/smart-evolution/smarthome/models"
 	"github.com/oskarszura/gowebserver/session"
 )
 
