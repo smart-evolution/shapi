@@ -13,6 +13,7 @@ install:
 	$(GOCMD) get github.com/oskarszura/gowebserver
 	$(GOCMD) get github.com/influxdata/influxdb/client/v2
 	$(GOCMD) get gopkg.in/mgo.v2
+	$(GOCMD) get github.com/golang/lint/golint
 
 .PHONY: all
 all:

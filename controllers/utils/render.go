@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"html/template"
     "github.com/smart-evolution/smarthome/utils"
-    "github.com/smart-evolution/smarthome/services"
 	"github.com/smart-evolution/smarthome/models"
 	"github.com/oskarszura/gowebserver/session"
 )
@@ -37,8 +36,8 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
         log.Fatal(err)
     }
 
-    menu := make([]services.Agent, 0)
-    for _, a := range services.Agents {
+    menu := make([]models.Agent, 0)
+    for _, a := range models.Agents {
         menu = append(menu, a)
     }
 

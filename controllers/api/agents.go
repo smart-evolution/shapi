@@ -8,6 +8,7 @@ import (
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
     "github.com/influxdata/influxdb/client/v2"
+    "github.com/smart-evolution/smarthome/models"
 )
 
 // CtrAgents - controller for retrieving agents list data
@@ -102,10 +103,17 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             sounds,
         }
 
+        agentInRegistry, err := models.FindAgentByID(agentID)
+
+        if err != nil {
+            log.Println("services: ", err)
+        }
+
         a := Agent{
             agentID,
             agentName,
             agentData,
+            agentInRegistry.AgentType,
         }
 
         data = append(data, a)

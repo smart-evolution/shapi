@@ -1,0 +1,25 @@
+$color-pippin: #ffe2e0;
+$color-watusi: #ffd4cc;
+$color-persimmon: #ff7157;
+
+.agents-status {
+  @extend .c-panel;
+  @extend .c-panel--separator;
+
+  &__error {
+    margin-bottom: 10px;
+    color: $color-persimmon;
+    background: $color-pippin;
+    border: 1px solid $color-watusi;
+    padding: 10px;
+  }
+}
+
+%agents-status {
+  &__title {
+    @extend .c-panel__title;
+  }
+}
+
+@import "./List/styles";
+@import "./ControlPanel/styles";

@@ -1,0 +1,15 @@
+.agents-list {
+  @extend .c-list;
+}
+
+%agents-list {
+  &__link {
+    color: $brand-text-color;
+  }
+
+  &__item {
+    @extend .c-list__item;
+  }
+}
+
+@import "./Agents/Type1/styles";

@@ -5,6 +5,7 @@ import (
     "net/http"
     "encoding/json"
     "github.com/smart-evolution/smarthome/services"
+    "github.com/smart-evolution/smarthome/models"
     "github.com/oskarszura/gowebserver/router"
     "github.com/oskarszura/gowebserver/session"
     "github.com/influxdata/influxdb/client/v2"
@@ -12,9 +13,10 @@ import (
 
 // Agent - entity representing agent state
 type Agent struct {
-    ID      string      `json:"id"`
-    Name    string      `json:"name"`
-    Data    AgentData   `json:"data"`
+    ID          string      `json:"id"`
+    Name        string      `json:"name"`
+    Data        AgentData   `json:"data"`
+    AgentType   string      `json:"type"`
 }
 
 // AgentData - entity representing agent data
@@ -117,10 +119,17 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         sounds,
     }
 
+    agentInRegistry, err := models.FindAgentByID(agentID)
+
+    if err != nil {
+        log.Println("services: ", err)
+    }
+
     a := Agent{
         agentID,
         agentName,
         agentData,
+        agentInRegistry.AgentType,
     }
 
     data = append(data, a)
