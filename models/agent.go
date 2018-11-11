@@ -141,7 +141,8 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
     persistData(a, data)
 }
 
-func FindAgentById(id string) (*Agent, error) {
+// FindAgentByID - find corresponding agent by ID
+func FindAgentByID(id string) (*Agent, error) {
     agent := &Agent{}
 
     for _, a := range Agents {

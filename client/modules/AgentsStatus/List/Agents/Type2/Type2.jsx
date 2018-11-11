@@ -2,27 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Type2 = (props) => {
-  const { agent } = props;
+  const { id, name } = props;
 
   return (
     <li className="agent-type2">
       <a
         className="agent-type2__link"
-        href={`/agent/${agent.id}`}
+        href={`/agent/${id}`}
       >
-        {agent.name}
+        {name}
       </a>
     </li>
   );
 };
 
 Type2.propTypes = {
-  agent: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    data: PropTypes.object,
-    type: PropTypes.string,
-  }),
+  id: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default Type2;

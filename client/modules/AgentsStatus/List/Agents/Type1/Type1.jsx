@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../../../../components/Icon';
-import * as queries from './queries';
+
 
 const Type1 = (props) => {
-  const { agent } = props;
-  const { id, name } = agent;
+  const { id, name, temperature, isGas, isMotion } = props;
 
-  const motionColor = queries.isMotion(agent) ?
+  const motionColor = isMotion ?
     'agent-type1__icon--alert' :
     null;
 
-  const gasColor = queries.isGas(agent) ?
+  const gasColor = isGas ?
     'agent-type1__icon--alert' :
     null;
 
@@ -23,7 +22,7 @@ const Type1 = (props) => {
       >
         {name}
       </a> - <span>
-        {queries.getTemperature(agent)} <Icon type="thermometer" />
+        {temperature} <Icon type="thermometer" />
         <Icon
           className={motionColor}
           type="motion"
@@ -38,12 +37,11 @@ const Type1 = (props) => {
 };
 
 Type1.propTypes = {
-  agent: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    data: PropTypes.object,
-    type: PropTypes.string,
-  }),
+  id: PropTypes.string,
+  name: PropTypes.string,
+  temperature: PropTypes.number,
+  isMotion: PropTypes.number,
+  isGas: PropTypes.number,
 };
 
 export default Type1;

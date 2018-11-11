@@ -119,7 +119,7 @@ func CtrHome(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm s
         sounds,
     }
 
-    agentInRegistry, err := models.FindAgentById(agentID)
+    agentInRegistry, err := models.FindAgentByID(agentID)
 
     if err != nil {
         log.Println("services: ", err)

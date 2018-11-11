@@ -6,7 +6,7 @@ import (
     "reflect"
 )
 
-func TestFindAgentById(t *testing.T) {
+func TestFindAgentByID(t *testing.T) {
     var agent1 = Agent{
         "livingroom",
         "Living room",
@@ -24,7 +24,7 @@ func TestFindAgentById(t *testing.T) {
 
     t.Run("Should find agent by matching ID", func(t *testing.T) {
         expectedResult := agent1
-        result, _ := FindAgentById("livingroom")
+        result, _ := FindAgentByID("livingroom")
 
         if reflect.DeepEqual(expectedResult, result) {
             t.Errorf("Non agents id match by ID")
@@ -33,7 +33,7 @@ func TestFindAgentById(t *testing.T) {
 
     t.Run("Should return error when no agent match by ID", func(t *testing.T) {
         expectedResult := errors.New("No matching agent")
-        _, err := FindAgentById("kidsroom")
+        _, err := FindAgentByID("kidsroom")
 
         if err.Error() != expectedResult.Error() {
             t.Errorf("Non agents id match by ID")
