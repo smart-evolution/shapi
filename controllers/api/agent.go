@@ -16,7 +16,7 @@ type Agent struct {
     ID          string      `json:"id"`
     Name        string      `json:"name"`
     Data        AgentData   `json:"data"`
-    AgentType   string      `json:"data"`
+    AgentType   string      `json:"type"`
 }
 
 // AgentData - entity representing agent data
