@@ -2,27 +2,29 @@
 [[Documentation]]()
 [[Tasks board]](https://trello.com/b/QtZlwkhQ/project-smart-home)
 
-###### v0.2.x
-* HOME-43 - UI requests towards agent API fails occasionally
-* HOME-38 - Implement multiple agents
-* HOME-22 - Move AtMega to the pin board
-* HOME-29 - Sometimes gathering data hangs
+### Code architecture overview:
 
-###### v0.1.x
-* HOME-24 - Morse communication
-* HOME-27 - Re-implement UI to be more pleasant
+#### Generic
+- `client` - place for all the code related with client-side (css / js / elm etc)
+- `docs` - place for all kind of documentation changelogs
+- `hardware` - list of all available agents that webserver will connect to
+- `scripts` - shell scripts required for build process 
+- `views` - place for all server-side rendering templates
 
-###### v0.0.x
-* HOME-16 - Make script cleaning up log files
-* HOME-20 - Implement gas detector 
-* HOME-19 - Implement basic responsiveness
-* HOME-18 - Add switch button for alerts
-* HOME-14 - Email alerts 
-* HOME-11 - Record alert data in logs and notify
-* HOME-8 - Mount motion detector
-* HOME-5 - Embed application version into footer 
-* HOME-9 - Implement Temperature Chart module
-* HOME-3 - Fix feeding from serial port
+#### CSS
+- `components` - can be extended in any place as they are generic
+- `modules` - place for all business logic related modules
+-- modules classes should be extended only from one level above in sub-modules
+-- if some classes are not used directly in parent component but child component extends them - they should be virtual
+-- all sub-modules imports which are more details should be placed in the bottom of the file
 
-#### uC module
-* compatible with [uC smart home v0.0.2](https://github.com/oskarszura/smart-home-uc/releases/tag/v0.0.2)
+#### Go
+- `controllers` - handles side-effects related with web rendering
+- `services` - place to handle all side effects like database persistence, sending emails etc.
+- `models` - represents entities from the business layer
+-- models should not contain or handle any side effects, they should perform any side-effect with DI 
+- `utils` - place for helpers
+
+#### JavaScript
+- `components` - keeps generic components, they should be business-logic agnostic
+- `modules` - place for all business logic related modules
