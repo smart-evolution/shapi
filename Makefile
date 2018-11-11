@@ -28,7 +28,7 @@ test:
 lint:
 	$(NPM) run lint
 	$(NPM) run csslint
-	$(GOLINT) ./...
+	$(GOLINT) ./... | grep -v version.go && exit 1 || exit 0
 
 .PHONY: version
 version:

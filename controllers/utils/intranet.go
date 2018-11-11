@@ -6,6 +6,7 @@ import (
     "strings"
 )
 
+// IsRequestFromIntranet - checks whether incomming request is from intranet or not
 func IsRequestFromIntranet(r *http.Request) bool {
     isPrivate := false
     decomposedAddr := strings.Split(r.RemoteAddr, ":")

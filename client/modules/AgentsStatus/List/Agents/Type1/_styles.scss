@@ -1,14 +1,13 @@
 .agent-type1 {
-    @extend %agents-list__item;
+  @extend %agents-list__item;
 
-    &__link {
-        @extend %agents-list__link;
-    }
+  &__link {
+    @extend %agents-list__link;
+  }
 
-    &__icon {
-        &--alert {
-            @extend .c-icon--red;
-        }
+  &__icon {
+    &--alert {
+      @extend .c-icon--red;
     }
+  }
 }
-
