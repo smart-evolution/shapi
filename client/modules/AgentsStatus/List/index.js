@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import AgentsList from './AgentsList';
+import List from './List';
 
 const mapStateToProps = (state) => {
-  const { agents, error } = state;
+  const { agents } = state;
 
   const agentsList = _.map(agents, (agent) => {
     const { id, name, data } = agent;
@@ -20,7 +20,6 @@ const mapStateToProps = (state) => {
 
   return {
     agents: agentsList,
-    error,
   };
 };
 

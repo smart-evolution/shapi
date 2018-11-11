@@ -4,32 +4,32 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
-import AgentsList from './modules/AgentsList';
-import agentsListReducer from './modules/AgentsList/reducers';
-import agentsListSagas from './modules/AgentsList/sagas';
+import AgentsStatus from './modules/AgentsStatus';
+import agentsStatusReducer from './modules/AgentsStatus/reducers';
+import agentsStatusSagas from './modules/AgentsStatus/sagas';
 
 import Dashboard from './modules/Dashboard';
 import dashboardReducer from './modules/Dashboard/reducers';
 import dashboardSagas from './modules/Dashboard/sagas';
 
-const agentsListContainer = document.querySelector('.js-agents-list');
+const agentsStatusContainer = document.querySelector('.js-agents-status');
 const agentContainer = document.querySelector('.js-agent');
 
 const sagaMiddleware = createSagaMiddleware();
 
-if (agentsListContainer) {
+if (agentsStatusContainer) {
   const store = createStore(
-    agentsListReducer,
+    agentsStatusReducer,
     applyMiddleware(sagaMiddleware)
   );
 
-  sagaMiddleware.run(agentsListSagas);
+  sagaMiddleware.run(agentsStatusSagas);
 
   render(
     <Provider store={store}>
-      <AgentsList />
+      <AgentsStatus />
     </Provider>,
-    agentsListContainer
+    agentsStatusContainer
   );
 }
 

@@ -7,3 +7,7 @@ install:
   - . $HOME/.nvm/nvm.sh
   - nvm install
   - make install
+
+before_script:
+  - make lint
+  - make test

@@ -1,10 +1,11 @@
-@import "./ControlPanel/styles";
-
 $color-pippin: #ffe2e0;
 $color-watusi: #ffd4cc;
 $color-persimmon: #ff7157;
 
-.agents-list {
+.agents-status {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
     &__error {
         margin-bottom: 10px;
         color: $color-persimmon;
@@ -12,8 +13,13 @@ $color-persimmon: #ff7157;
         border: 1px solid $color-watusi;
         padding: 10px;
     }
+}
 
-    &__link {
-        color: $brand-text-color;
+%agents-status {
+    &__title {
+        @extend .c-panel__title;
     }
 }
+
+@import "./List/styles";
+@import "./ControlPanel/styles";
