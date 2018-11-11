@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../../../../components/Icon';
@@ -22,21 +21,26 @@ const Type1 = (props) => {
       >
         {name}
       </a> - <span>
-                {temperature} <Icon type="thermometer" />
-                <Icon
-                  className={motionColor}
-                  type="motion"
-                />
-                <Icon
-                  className={gasColor}
-                  type="fire"
-                />
-              </span>
+        {temperature} <Icon type="thermometer" />
+        <Icon
+          className={motionColor}
+          type="motion"
+        />
+        <Icon
+          className={gasColor}
+          type="fire"
+        />
+      </span>
     </li>
   );
 };
 
 Type1.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  temperature: PropTypes.string,
+  isMotion: PropTypes.number,
+  isGas: PropTypes.number,
 };
 
 export default Type1;

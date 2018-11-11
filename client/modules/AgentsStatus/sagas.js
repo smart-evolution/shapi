@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { delay } from 'redux-saga';
-import {  put, call, fork, takeEvery } from 'redux-saga/effects';
+import { put, call, fork, takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as actionTypes from './actionTypes';
 

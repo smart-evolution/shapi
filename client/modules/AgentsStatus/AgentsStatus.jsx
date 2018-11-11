@@ -1,7 +1,5 @@
-import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../components/Icon';
 import ControlPanel from './ControlPanel';
 import List from './List';
 

@@ -29,13 +29,7 @@ const List = (props) => {
 };
 
 List.propTypes = {
-  agents: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    temperature: PropTypes.string,
-    isMotion: PropTypes.number,
-    isGas: PropTypes.number,
-  })),
+  agents: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default List;
