@@ -1,7 +1,6 @@
 package models
 
 import (
-    "log"
     "errors"
     "testing"
     "reflect"
@@ -27,7 +26,7 @@ func TestFindAgentByID(t *testing.T) {
         expectedResult := agent1
         result, _ := FindAgentByID("livingroom")
 
-        if reflect.DeepEqual(expectedResult, result) == false {
+        if reflect.DeepEqual(expectedResult, result) {
             t.Errorf("Non agents id match by ID")
         }
     })
