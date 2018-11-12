@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import Type1 from './Type1';
 import * as queries from './queries';
 
-const mapStateToProps = (state) => {
-  const { agent } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { agent } = ownProps;
   const { id, name } = agent;
 
   const temperature = queries.getTemperature(agent);

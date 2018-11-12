@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import AgentType1 from './Agents/Type1';
-import AgentType2 from './Agents/Type2';
+import Type1 from './Agents/Type1';
+import Type2 from './Agents/Type2';
 
 const List = (props) => {
   const { agents } = props;
@@ -16,10 +16,10 @@ const List = (props) => {
         {_.map(agents, (agent) => {
           switch (agent.type) {
             case 'type1':
-              return (<AgentType1 agent={agent} />);
+              return (<Type1 agent={agent} />);
 
             case 'type2':
-              return (<AgentType2 agent={agent} />);
+              return (<Type2 agent={agent} />);
 
             default:
               return null;

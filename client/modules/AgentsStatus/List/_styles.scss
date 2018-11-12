@@ -1,5 +1,7 @@
 .agents-list {
-  @extend .c-list;
+  &__list {
+    @extend .c-list;
+  }
 }
 
 %agents-list {
@@ -13,3 +15,4 @@
 }
 
 @import "./Agents/Type1/styles";
+@import "./Agents/Type2/styles";
