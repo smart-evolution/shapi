@@ -30,6 +30,7 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	$(GOLINT) ./...
+	$(GOCMD) vet ./...
 
 .PHONY: version
 version:
