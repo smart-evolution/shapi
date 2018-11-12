@@ -11,11 +11,30 @@ import (
     "github.com/smart-evolution/smarthome/models"
 )
 
+// AgentJSON - entity representing agent state
+type AgentJSON struct {
+    ID          string          `json:"id"`
+    Name        string          `json:"name"`
+    Data        AgentDataJSON   `json:"data"`
+    AgentType   string          `json:"type"`
+}
+
+// AgentDataJSON - entity representing agent data
+type AgentDataJSON struct {
+    Time        []string  `json:"time"`
+    Temperature []string  `json:"temperature"`
+    Presence    []string  `json:"presence"`
+    Gas         []string  `json:"gas"`
+    Sound       []string  `json:"sound"`
+}
+
 // CtrAgents - controller for retrieving agents list data
 func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
-    var data []Agent
+    var data []AgentJSON
+
+    agentID := opt.Params["agent"]
 
     if services.InfluxConnected != true {
         w.WriteHeader(http.StatusInternalServerError)
@@ -23,9 +42,15 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         return
     }
 
+    measurements := "/.*/"
+
+    if agentID != "" {
+        measurements = agentID
+    }
+
     q := client.Query{
-        Command:    "SELECT time, temperature, presence, gas, sound, agent FROM /.*/ ORDER BY time DESC LIMIT 30",
-        Database:   "smarthome",
+        Command: "SELECT time, temperature, presence, gas, sound, agent FROM " + measurements + " ORDER BY time DESC LIMIT 30",
+        Database: "smarthome",
     }
 
     resp, err := services.InfluxClient.Query(q)
@@ -95,7 +120,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             agentName = serie[5].(string)
         }
 
-        agentData := AgentData{
+        agentData := AgentDataJSON{
             times,
             temperatures,
             presences,
@@ -109,7 +134,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             log.Println("services: ", err)
         }
 
-        a := Agent{
+        a := AgentJSON{
             agentID,
             agentName,
             agentData,
