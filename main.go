@@ -9,7 +9,7 @@ import (
     "github.com/smart-evolution/smarthome/services"
 	"github.com/smart-evolution/smarthome/controllers"
 	"github.com/smart-evolution/smarthome/controllers/api"
-	gws "github.com/oskarszura/gowebserver"
+	"github.com/oskarszura/gowebserver"
 )
 
 func getServerAddress() (string, error) {
@@ -29,10 +29,10 @@ func main() {
 
     utils.VERSION = VERSION
 
-    serverOptions := gws.WebServerOptions{
-        addr,
-        "/static/",
-        "public",
+    serverOptions := gowebserver.WebServerOptions{
+        Port: addr,
+        StaticFilesUrl: "/static/",
+        StaticFilesDir: "public",
     }
 
     log.Println("Connecting to mgo with URI = " + dbURI)
@@ -47,7 +47,7 @@ func main() {
     services.InitInfluxService()
     go services.RunHomeService()
 
-    server := gws.New(serverOptions, controllers.NotFound)
+    server := gowebserver.New(serverOptions, controllers.NotFound)
     server.Router.AddRoute("/login/register", controllers.Register)
     server.Router.AddRoute("/login/logout", controllers.AuthenticateLogout)
     server.Router.AddRoute("/login", controllers.Authenticate)
