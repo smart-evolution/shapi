@@ -42,7 +42,7 @@ if (appContainer) {
     <Provider store={store}>
       <Router history={createBrowserHistory({})}>
         <div>
-          <Route path="/" component={AgentsStatus} />
+          <Route exact path="/" component={AgentsStatus} />
           <Route path="/agent/:agent" component={Dashboard} />
         </div>
       </Router>
