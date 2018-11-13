@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import AgentsStatus from './modules/AgentsStatus';
 import agentsStatusReducer from './modules/AgentsStatus/reducers';
@@ -42,13 +42,11 @@ if (appContainer) {
     <Provider store={store}>
       <Router history={createBrowserHistory({})}>
         <div>
-          <Route path='/' component={AgentsStatus} />
-          <Route path='/agent/:agent' component={Dashboard} />
+          <Route path="/" component={AgentsStatus} />
+          <Route path="/agent/:agent" component={Dashboard} />
         </div>
       </Router>
     </Provider>,
     appContainer
   );
 }
-
-
