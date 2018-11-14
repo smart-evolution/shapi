@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Type2 = (props) => {
-  const { id, name } = props;
+  const { id, name, toggle } = props;
 
   return (
     <li className="agent-type2">
@@ -12,6 +12,9 @@ const Type2 = (props) => {
       >
         {name}
       </a>
+      <button onClick={toggle(id)}>
+        Toggle
+      </button>
     </li>
   );
 };

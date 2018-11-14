@@ -48,13 +48,13 @@ func setupAgents() {
     agentsConf := strings.Split(string(agentsCnf), "\n")
 
     for _, c := range agentsConf {
-        agentConf := strings.Split(c, ":")
+        cnfRow := strings.Split(c, ":")
 
-        if (len(agentConf) == 3) {
-            id := agentConf[0]
-            name := agentConf[1]
-            ip := agentConf[2]
-            agentType := agentConf[3]
+        if (len(cnfRow) == 4) {
+            id := cnfRow[0]
+            name := cnfRow[1]
+            ip := cnfRow[2]
+            agentType := cnfRow[3]
             apiURL := "http://" + ip + "/api"
 
             addAgent(id, name, apiURL, agentType)
@@ -72,7 +72,11 @@ func runCommunicationLoop() {
         for i := 0; i < len(models.Agents); i++ {
             a := models.Agents[i]
             log.Println("services: fetching from=", a.Name)
-            a.FetchPackage(BulkEmail, persistData)
+
+            log.Println("---- agent: ", a. AgentType)
+            if a.AgentType == "type1" {
+                a.FetchPackage(BulkEmail, persistData)
+            }
         }
     }
 }
