@@ -78,6 +78,22 @@ function* fetchAlerts() {
   }
 }
 
+function callToggleType2(agentID) {
+  return fetch(`/api/agents/${agentID}`, { method: 'POST' })
+    .then(response => response.json())
+    .catch(() => 'Toggling Type2 failed');
+}
+
+function* toggleType2({ agentID }) {
+  const data = yield call(callToggleType2, agentID);
+
+  if (_.isObject(data)) {
+    const isAlerts = data.isAlerts === 'true';
+
+    yield put(actions.setAlerts(isAlerts));
+  }
+}
+
 function* root() {
   yield [
     fork(fetchData),
@@ -85,6 +101,7 @@ function* root() {
     takeEvery(actionTypes.TOGGLE_ALERTS, toggleAlerts),
     takeEvery(actionTypes.FETCH_ALERTS, fetchAlerts),
     takeEvery(actionTypes.SEND_ALERT, sendAlert),
+    takeEvery(actionTypes.TOGGLE_TYPE2, toggleType2),
   ];
 }
 
