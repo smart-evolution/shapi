@@ -1,8 +1,13 @@
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const devMode = process.env.NODE_ENV !== 'production';
-
 module.exports = {
+  resolve: {
+    modules: [
+      path.resolve(__dirname, './node_modules'),
+      path.resolve(__dirname, './client'),
+    ],
+  },
   context: `${__dirname}/client`,
   output: {
     path: `${__dirname}/public`,
@@ -25,7 +30,7 @@ module.exports = {
     }, {
       test: /\.scss$/,
       use: [
-        devMode ? 'style-loader' : {
+        {
           loader: MiniCssExtractPlugin.loader,
         },
         'css-loader',
@@ -36,7 +41,7 @@ module.exports = {
       exclude: [/elm-stuff/, /node_modules/],
       loader: 'elm-webpack?verbose=true&warn=true',
     }, {
-      test: /\.jpg|.png/,
+      test: /\.jpg|.png|.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'file-loader',
     }],
   },
