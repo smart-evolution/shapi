@@ -1,6 +1,13 @@
+export const getAgents = (state) => state.agents.agents;
+
 export const getTemperatures = (agent) => {
   const { data } = agent;
   return data.temperature;
+};
+
+export const getMotion = (agent) => {
+  const { data } = agent;
+  return data.presence;
 };
 
 export const getGas = (agent) => {
@@ -8,7 +15,7 @@ export const getGas = (agent) => {
   return data.gas;
 };
 
-export const getMotion = (agent) => {
+export const getTimes = (agent) => {
   const { data } = agent;
-  return data.presence;
+  return data.time;
 };

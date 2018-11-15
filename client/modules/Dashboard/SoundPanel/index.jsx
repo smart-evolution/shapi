@@ -1,12 +1,10 @@
 import { connect } from 'react-redux';
 import SoundPanel from './SoundPanel';
-import { getTicks } from '../queries';
-
-const mapStateToProps = (state) => {
-  const sounds = getTicks(state.times, state.sounds);
+const mapStateToProps = (state, ownProps) => {
+  const { agent } = ownProps;
 
   return {
-    sounds,
+    sounds: [],
   };
 };
 

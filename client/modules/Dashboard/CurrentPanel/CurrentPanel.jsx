@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const CurrentPanel = (props) => {
-  const { isMotion, isGas } = props;
+  const {
+    isMotion,
+    isGas,
+  } = props;
 
   return (<div className="current-panel">
     <div className="current-panel__title">

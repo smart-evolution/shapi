@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import List from './List';
 
 const mapStateToProps = (state) => {
-  const { agents } = state;
+  const { agents: { agents } } = state;
 
   return {
     agents,
