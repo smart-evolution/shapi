@@ -27,7 +27,7 @@ export const setAlerts = isAlerts => ({
   isAlerts,
 });
 
-export const toggleType2 = (agentID) => ({
+export const toggleType2 = agentID => ({
   type: actionTypes.TOGGLE_TYPE2,
   agentID,
 });

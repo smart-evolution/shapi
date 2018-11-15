@@ -22,6 +22,7 @@ const Type2 = (props) => {
 Type2.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
+  toggle: PropTypes.func,
 };
 
 export default Type2;
