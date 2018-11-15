@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import CurrentPanel from './CurrentPanel';
 import * as queries from '../../../models/agents/queries';
