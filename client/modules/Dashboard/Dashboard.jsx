@@ -46,6 +46,7 @@ const Dashboard = (props) => {
 
 Dashboard.propTypes = {
   error: PropTypes.error,
+  agent: PropTypes.shape(),
 };
 
 export default withRouter(Dashboard);

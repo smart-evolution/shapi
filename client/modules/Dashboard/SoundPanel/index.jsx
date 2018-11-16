@@ -1,12 +1,9 @@
 import { connect } from 'react-redux';
 import SoundPanel from './SoundPanel';
-const mapStateToProps = (state, ownProps) => {
-  const { agent } = ownProps;
 
-  return {
-    sounds: [],
-  };
-};
+const mapStateToProps = () => ({
+  sounds: [],
+});
 
 const mapDispatchToProps = () => ({});
 
