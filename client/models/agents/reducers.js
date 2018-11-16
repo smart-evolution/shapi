@@ -5,7 +5,7 @@ const defaultState = {
   agents: [],
 };
 
-export default function reducer(state = defaultState, action) {
+export default function reducers(state = defaultState, action) {
   const { agents, error } = action;
 
   switch (action.type) {

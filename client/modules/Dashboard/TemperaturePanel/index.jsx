@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
+import * as queries from 'models/agents/queries';
 import TemperaturePanel from './TemperaturePanel';
-import { getTicks } from '../queries';
 
-const mapStateToProps = (state) => {
-  const temperatures = getTicks(state.times, state.temperatures);
+const mapStateToProps = (state, ownProps) => {
+  const { agent } = ownProps;
+  const tmpArr = queries.getTemperatures(agent);
+  const timeArr = queries.getTimes(agent);
+  const temperatures = queries.getTicks(timeArr, tmpArr);
 
   return {
     temperatures,

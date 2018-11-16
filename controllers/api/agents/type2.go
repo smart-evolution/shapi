@@ -8,6 +8,7 @@ import (
 type Type2DataJSON struct {
 }
 
+// FetchType2 - fetches data for type2 agent
 func FetchType2 (agentID string) ([]AgentJSON, error) {
     var agents []AgentJSON
 

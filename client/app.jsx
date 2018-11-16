@@ -6,36 +6,19 @@ import { Router, Route } from 'react-router';
 import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import AgentsStatus from './modules/AgentsStatus';
-import agentsStatusReducer from './modules/AgentsStatus/reducers';
-import agentsStatusSagas from './modules/AgentsStatus/sagas';
 import Dashboard from './modules/Dashboard';
-import dashboardReducer from './modules/Dashboard/reducers';
-import dashboardSagas from './modules/Dashboard/sagas';
+import sagas from './sagas';
+import reducers from './reducers';
 
 const appContainer = document.querySelector('.js-app');
-const agentsStatusContainer = document.querySelector('.js-agents-status');
-const agentContainer = document.querySelector('.js-agent');
 const sagaMiddleware = createSagaMiddleware();
 
-let store;
+const store = createStore(
+  reducers,
+  applyMiddleware(sagaMiddleware)
+);
 
-if (agentsStatusContainer) {
-  store = createStore(
-    agentsStatusReducer,
-    applyMiddleware(sagaMiddleware)
-  );
-
-  sagaMiddleware.run(agentsStatusSagas);
-}
-
-if (agentContainer) {
-  store = createStore(
-    dashboardReducer,
-    applyMiddleware(sagaMiddleware)
-  );
-
-  sagaMiddleware.run(dashboardSagas);
-}
+sagaMiddleware.run(sagas);
 
 if (appContainer) {
   render(

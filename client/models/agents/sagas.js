@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { delay } from 'redux-saga';
-import { put, call, fork, takeEvery } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as actionTypes from './actionTypes';
 
 function getData() {
   return fetch('/api/agents')
@@ -26,7 +25,7 @@ function callSendAlert() {
     .catch(() => 'Send alert failed');
 }
 
-function* fetchData() {
+export function* fetchData() {
   while (true) {
     const agents = yield call(getData);
 
@@ -40,7 +39,7 @@ function* fetchData() {
   }
 }
 
-function* sendAlert() {
+export function* sendAlert() {
   yield call(callSendAlert);
 }
 
@@ -50,7 +49,7 @@ function callToggleAlerts() {
     .catch(() => 'Toggling alerts failed');
 }
 
-function* toggleAlerts() {
+export function* toggleAlerts() {
   const data = yield call(callToggleAlerts);
 
   if (_.isObject(data)) {
@@ -66,7 +65,7 @@ function callAlerts() {
     .catch(() => 'Toggling alerts failed');
 }
 
-function* fetchAlerts() {
+export function* fetchAlerts() {
   const data = yield call(callAlerts);
 
   if (_.isObject(data)) {
@@ -84,7 +83,7 @@ function callToggleType2(agentID) {
     .catch(() => 'Toggling Type2 failed');
 }
 
-function* toggleType2({ agentID }) {
+export function* toggleType2({ agentID }) {
   const data = yield call(callToggleType2, agentID);
 
   if (_.isObject(data)) {
@@ -93,16 +92,3 @@ function* toggleType2({ agentID }) {
     yield put(actions.setAlerts(isAlerts));
   }
 }
-
-function* root() {
-  yield [
-    fork(fetchData),
-    fork(fetchAlerts),
-    takeEvery(actionTypes.TOGGLE_ALERTS, toggleAlerts),
-    takeEvery(actionTypes.FETCH_ALERTS, fetchAlerts),
-    takeEvery(actionTypes.SEND_ALERT, sendAlert),
-    takeEvery(actionTypes.TOGGLE_TYPE2, toggleType2),
-  ];
-}
-
-export default root;
