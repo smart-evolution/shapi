@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Dashboard from './Dashboard';
 import * as queries from 'models/agents/queries';
+import Dashboard from './Dashboard';
 
 const mapStateToProps = (state, ownProps) => {
   const {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import CurrentPanel from './CurrentPanel';
 import * as queries from 'models/agents/queries';
+import CurrentPanel from './CurrentPanel';
 
 const mapStateToProps = (state, ownProps) => {
   const { agent } = ownProps;

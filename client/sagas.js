@@ -1,4 +1,4 @@
-import { put, call, fork, takeEvery } from 'redux-saga/effects';
+import { fork, takeEvery } from 'redux-saga/effects';
 import * as agentsSagas from './models/agents/sagas';
 import * as agentsActionTypes from './models/agents/actionTypes';
 

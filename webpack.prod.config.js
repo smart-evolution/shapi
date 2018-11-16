@@ -5,6 +5,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
+  resolve: {
+    modules: [
+      path.resolve(__dirname, './node_modules'),
+      path.resolve(__dirname, './client'),
+    ],
+  },
   context: `${__dirname}/client`,
   output: {
     path: `${__dirname}/public`,
