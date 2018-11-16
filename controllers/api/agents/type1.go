@@ -16,6 +16,7 @@ type Type1DataJSON struct {
     Sound       []string  `json:"sound"`
 }
 
+// FetchType1 - fetches data for type1 agent
 func FetchType1 (agentID string) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
