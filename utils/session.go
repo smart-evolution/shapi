@@ -8,9 +8,8 @@ import (
 )
 
 // CreateSessionID - creates a new session ID
-func CreateSessionID() string {
-    t := time.Now()
-    val := []byte(t.Format(time.RFC850))
+func CreateSessionID(user string, pass string, time string) string {
+    val := []byte(user + pass + time)
     h := sha1.New()
     h.Write(val)
 
@@ -34,7 +33,6 @@ func ClearSession(w http.ResponseWriter) {
         Path: "/",
         Name: "sid",
         Expires: time.Now().Add(-100 * time.Hour),
-        MaxAge: -1 }
-
+        MaxAg
     http.SetCookie(w, &cookie)
 }
