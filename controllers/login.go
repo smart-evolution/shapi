@@ -33,7 +33,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
             authenticatedUser, authErr := authenticateUser(user, password)
 
             if authErr == nil {
-                cookieValue := user + password
+                cookieValue := utils.CreateSessionID()
 
                 cookie := http.Cookie {
                     Name: "sid",
