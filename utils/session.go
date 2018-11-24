@@ -33,6 +33,6 @@ func ClearSession(w http.ResponseWriter) {
         Path: "/",
         Name: "sid",
         Expires: time.Now().Add(-100 * time.Hour),
-        MaxAg
+        MaxAge: -1 }
     http.SetCookie(w, &cookie)
 }
