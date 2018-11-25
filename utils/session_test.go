@@ -20,7 +20,7 @@ func TestCreateSessionID(t *testing.T) {
         match, err := regexp.MatchString("^[a-fA-F0-9]+$", hash)
 
         if !match || err != nil {
-            t.Errorf("Hash should be the same for the same inputs")
+            t.Errorf("Hash doesn't contain only hex characters")
         }
     })
 
