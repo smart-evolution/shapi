@@ -4,8 +4,8 @@ import (
     "strconv"
     "net/http"
     "encoding/json"
-    "github.com/oskarszura/gowebserver/router"
-    "github.com/oskarszura/gowebserver/session"
+    "github.com/coda-it/gowebserver/router"
+    "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/utils"
 )
 

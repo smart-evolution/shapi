@@ -17,17 +17,17 @@ func TestCreateSessionID(t *testing.T) {
 
     t.Run("Hash should contain only hex characters", func(t *testing.T) {
         hash := CreateSessionID("user", "pass", "time")
-        match, err := regexp.MatchString("^[a-fA-F0-9]+$", hash)
+        matched, err := regexp.MatchString("^[a-f0-9]+$", hash)
 
-        if !match || err != nil {
+        if !matched || err != nil {
             t.Errorf("Hash doesn't contain only hex characters")
         }
     })
 
-    t.Run("Hash should be 20 characters length", func(t *testing.T) {
+    t.Run("Hash should be of proper characters length", func(t *testing.T) {
         hash := CreateSessionID("user", "pass", "time")
 
-        if len([]rune(hash)) != 40 {
+        if len(hash) != 40 {
             t.Errorf("Hash is not 40 characters long")
         }
     })

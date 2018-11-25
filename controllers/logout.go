@@ -3,8 +3,8 @@ package controllers
 import (
     "net/http"
     "github.com/smart-evolution/smarthome/utils"
-    "github.com/oskarszura/gowebserver/router"
-    "github.com/oskarszura/gowebserver/session"
+    "github.com/coda-it/gowebserver/router"
+    "github.com/coda-it/gowebserver/session"
 )
 
 // AuthenticateLogout - logout user

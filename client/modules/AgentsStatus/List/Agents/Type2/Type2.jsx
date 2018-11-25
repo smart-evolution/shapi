@@ -12,7 +12,10 @@ const Type2 = (props) => {
       >
         {name}
       </a>
-      <button onClick={toggle(id)}>
+      <button
+        className="agent-type2__toggle"
+        onClick={toggle(id)}
+      >
         Toggle
       </button>
     </li>

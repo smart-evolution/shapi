@@ -2,6 +2,10 @@
   &__list {
     @extend .c-list;
   }
+
+  &__title {
+    @extend .c-panel__title;
+  }
 }
 
 %agents-list {

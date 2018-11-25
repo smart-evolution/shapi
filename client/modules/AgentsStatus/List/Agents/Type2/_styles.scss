@@ -5,6 +5,13 @@
     @extend %agents-list__link;
   }
 
+  &__toggle {
+    @extend .c-btn;
+    @extend .c-btn--accept;
+    @extend .c-btn--small;
+    margin-left: 10px;
+  }
+
   &__icon {
     &--alert {
       @extend .c-icon--red;

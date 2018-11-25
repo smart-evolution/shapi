@@ -8,7 +8,7 @@ import (
 	"html/template"
     "github.com/smart-evolution/smarthome/utils"
 	"github.com/smart-evolution/smarthome/models"
-	"github.com/oskarszura/gowebserver/session"
+	"github.com/coda-it/gowebserver/session"
 )
 
 

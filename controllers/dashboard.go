@@ -3,8 +3,8 @@ package controllers
 import (
 	"net/http"
     "github.com/smart-evolution/smarthome/controllers/utils"
-	"github.com/oskarszura/gowebserver/router"
-	"github.com/oskarszura/gowebserver/session"
+	"github.com/coda-it/gowebserver/router"
+	"github.com/coda-it/gowebserver/session"
 )
 
 // CtrDashboard - controller for agents list
