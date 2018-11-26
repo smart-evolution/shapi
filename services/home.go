@@ -73,7 +73,6 @@ func runCommunicationLoop() {
             a := models.Agents[i]
             log.Println("services: fetching from=", a.Name)
 
-            log.Println("---- agent: ", a. AgentType)
             if a.AgentType == "type1" {
                 a.FetchPackage(BulkEmail, persistData)
             }

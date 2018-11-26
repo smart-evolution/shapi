@@ -41,7 +41,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^7.11.1",
     "file-loader": "^2.0.0",
-    "graphen": "git://github.com/oskarszura/graphen#v0.1.0",
+    "graphen": "git://github.com/coda-it/graphen#v0.1.0",
     "history": "^4.7.2",
     "lodash": "^4.17.5",
     "mini-css-extract-plugin": "^0.4.4",

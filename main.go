@@ -9,7 +9,7 @@ import (
     "github.com/smart-evolution/smarthome/services"
 	"github.com/smart-evolution/smarthome/controllers"
 	"github.com/smart-evolution/smarthome/controllers/api"
-	"github.com/oskarszura/gowebserver"
+	"github.com/coda-it/gowebserver"
 )
 
 func getServerAddress() (string, error) {
