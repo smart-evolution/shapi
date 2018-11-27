@@ -4,7 +4,6 @@ import (
     "log"
     "errors"
     "time"
-    "fmt"
     "net/http"
     "gopkg.in/mgo.v2/bson"
     "github.com/smart-evolution/smarthome/models"

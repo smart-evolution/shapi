@@ -5,7 +5,7 @@ import (
     "crypto/sha1"
 )
 
-// Hash - transform string into hash
+// HashString - transform string into hash
 func HashString(input string) string {
     val := []byte(input)
     h := sha1.New()
