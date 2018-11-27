@@ -4,6 +4,7 @@ import (
     "log"
     "errors"
     "time"
+    "fmt"
     "net/http"
     "gopkg.in/mgo.v2/bson"
     "github.com/smart-evolution/smarthome/models"
@@ -27,7 +28,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
         if !isLogged {
             user := r.PostFormValue("username")
-            password := r.PostFormValue("password")
+            password := utils.HashString(r.PostFormValue("password"))
             expiration := time.Now().Add(365 * 24 * time.Hour)
 
             authenticatedUser, authErr := authenticateUser(user, password)
@@ -69,7 +70,7 @@ func authenticateUser(user string, password string) (models.User, error) {
 
     if err != nil {
         log.Println("User not found err=", err)
-        return models.User{}, errors.New("foobar")
+        return models.User{}, errors.New("User not found")
     }
 
     log.Println("Logged in as user", loggedUser)
