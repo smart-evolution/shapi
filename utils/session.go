@@ -1,19 +1,13 @@
 package utils
 
 import (
-    "fmt"
     "time"
     "net/http"
-    "crypto/sha1"
 )
 
 // CreateSessionID - creates a new session ID
 func CreateSessionID(user string, pass string, time string) string {
-    val := []byte(user + pass + time)
-    h := sha1.New()
-    h.Write(val)
-
-    return fmt.Sprintf("%x", h.Sum(nil))
+    return HashString(user + pass + time)
 }
 
 // GetSessionID - get user session ID

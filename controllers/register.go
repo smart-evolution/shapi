@@ -25,7 +25,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
         newUser = &models.User{
             ID: bson.NewObjectId(),
             Username: r.PostFormValue("username"),
-            Password: r.PostFormValue("password"),
+            Password: utils.HashString(r.PostFormValue("password")),
         }
 
         err := c.Insert(newUser)
