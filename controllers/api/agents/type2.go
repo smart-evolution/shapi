@@ -1,7 +1,7 @@
 package agents
 
 import (
-    "github.com/smart-evolution/smarthome/models"
+    "github.com/smart-evolution/smarthome/models/agent"
 )
 
 // Type2DataJSON - entity representing agent data
@@ -12,7 +12,7 @@ type Type2DataJSON struct {
 func FetchType2 (agentID string) ([]AgentJSON, error) {
     var agents []AgentJSON
 
-    for _, a := range models.Agents {
+    for _, a := range agent.Agents {
         if a.AgentType == "type2" {
             agent := AgentJSON{
                 ID: a.ID,

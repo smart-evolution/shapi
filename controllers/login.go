@@ -6,7 +6,7 @@ import (
     "time"
     "net/http"
     "gopkg.in/mgo.v2/bson"
-    "github.com/smart-evolution/smarthome/models"
+    "github.com/smart-evolution/smarthome/models/user"
     "github.com/smart-evolution/smarthome/utils"
     ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
     "github.com/coda-it/gowebserver/session"
@@ -56,23 +56,23 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
 }
 
-func authenticateUser(user string, password string) (models.User, error) {
-    var loggedUser models.User
+func authenticateUser(username string, password string) (user.User, error) {
+    var user user.User
 
-    ds := utils.GetDataSource()
+    ds := utils.Persistance.GetDatabase()
     c := ds.C("users")
 
     err := c.Find(bson.M{
-        "username": user,
+        "username": username,
         "password": password,
-    }).One(&loggedUser)
+    }).One(&user)
 
     if err != nil {
         log.Println("User not found err=", err)
-        return models.User{}, errors.New("User not found")
+        return user, errors.New("User not found")
     }
 
-    log.Println("Logged in as user", loggedUser)
+    log.Println("Logged in as user", user)
 
-    return loggedUser, nil
+    return user, nil
 }

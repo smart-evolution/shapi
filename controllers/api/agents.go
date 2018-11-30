@@ -7,7 +7,7 @@ import (
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/controllers/api/agents"
-    "github.com/smart-evolution/smarthome/models"
+    "github.com/smart-evolution/smarthome/models/agent"
 )
 
 // CtrAgents - controller for retrieving agents list data
@@ -46,7 +46,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         json.NewEncoder(w).Encode(agentsList)
 
     case "POST":
-        agent, err := models.FindAgentByID(agentID)
+        agent, err := agent.FindAgentByID(agentID)
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)

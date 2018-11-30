@@ -3,7 +3,7 @@ package agents
 import (
     "log"
     "errors"
-    "github.com/smart-evolution/smarthome/services"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/influxdata/influxdb/client/v2"
 )
 
@@ -20,7 +20,7 @@ type Type1DataJSON struct {
 func FetchType1 (agentID string) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
-    if services.InfluxConnected != true {
+    if utils.DataFlux.IsConnected != true {
         return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
     }
 
@@ -35,11 +35,11 @@ func FetchType1 (agentID string) ([]AgentJSON, error) {
         Database: "smarthome",
     }
 
-    if services.InfluxConnected != true {
+    if utils.DataFlux.IsConnected != true {
         return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
     }
 
-    resp, err := services.InfluxClient.Query(q)
+    resp, err := utils.DataFlux.Client.Query(q)
 
     if err != nil {
         return []AgentJSON{}, err

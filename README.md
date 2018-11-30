@@ -22,9 +22,9 @@
 
 #### Go
 - `controllers` - handles side-effects related with web rendering
-- `services` - place to handle all side effects like database persistence, sending emails etc.
+- `services` - place to handle all side effects and communication with the outer world like database persistence, sending emails etc.
 - `models` - represents entities from the business layer
--- models should not contain or handle any side effects, they should perform any side-effect with DI 
+-- models should not contain or handle any side effects, they should perform every side-effect with DI 
 - `utils` - place for helpers
 
 #### JavaScript

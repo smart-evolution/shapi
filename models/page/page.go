@@ -1,4 +1,4 @@
-package models
+package page
 
 // Page - entity representing page
 type Page struct {

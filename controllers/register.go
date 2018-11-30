@@ -5,7 +5,7 @@ import (
     "log"
     "github.com/smart-evolution/smarthome/utils"
     ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
-    "github.com/smart-evolution/smarthome/models"
+    "github.com/smart-evolution/smarthome/models/user"
     "gopkg.in/mgo.v2/bson"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
@@ -17,12 +17,12 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
     case "GET":
         ctrutl.RenderTemplate(w, r, "register", sm)
     case "POST":
-        var newUser *models.User
+        var newUser *user.User
 
-        ds := utils.GetDataSource()
+        ds := utils.Persistance.GetDatabase()
         c := ds.C("users")
 
-        newUser = &models.User{
+        newUser = &user.User{
             ID: bson.NewObjectId(),
             Username: r.PostFormValue("username"),
             Password: utils.HashString(r.PostFormValue("password")),
