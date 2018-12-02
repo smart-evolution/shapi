@@ -22,7 +22,7 @@ func New(sender string, password string, SMTPPort string, SMTPAuthURL string) Ma
     }
 }
 
-func (m *Mailer) AddRecipient(email string) {
+func (m Mailer) AddRecipient(email string) {
     m.recipients = append(m.recipients, email)
 }
 
@@ -34,7 +34,7 @@ func composeMessage(from string, to string, body string) string {
 }
 
 // SendEmail - send email to subscriber
-func (m *Mailer) SendEmail(body string, recipient string) {
+func (m Mailer) SendEmail(body string, recipient string) {
     msg := composeMessage(m.Sender, recipient, body)
     smtpAuth := smtp.PlainAuth("", m.Sender, m.Password, m.SMTPAuthURL)
 
@@ -49,7 +49,7 @@ func (m *Mailer) SendEmail(body string, recipient string) {
 }
 
 // BulkEmail - sends alerts to all home users
-func (m *Mailer) BulkEmail(body string) {
+func (m Mailer) BulkEmail(body string) {
     for _, r := range m.recipients {
         m.SendEmail(body, r)
     }

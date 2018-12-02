@@ -13,10 +13,10 @@ func FetchType2 (agentID string) ([]AgentJSON, error) {
     var agents []AgentJSON
 
     for _, a := range agent.Agents {
-        if a.AgentType == "type2" {
+        if a.AgentType() == "type2" {
             agent := AgentJSON{
-                ID: a.ID,
-                Name: a.Name,
+                ID: a.ID(),
+                Name: a.Name(),
                 Data: struct{}{},
                 AgentType: "type2",
             }

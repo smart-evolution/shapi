@@ -25,7 +25,11 @@ func New(dbURI string, dbName string) Persistance {
     }
 }
 
-func (p *Persistance) GetDatabase() *mgo.Database {
+func (p Persistance) getDatabase() *mgo.Database {
     return p.session.DB(p.dbName)
 }
 
+func (p Persistance) GetCollection(name string) *mgo.Collection {
+    ds := p.getDatabase()
+    return ds.C(name)
+}

@@ -3,24 +3,24 @@ package controllers
 import (
     "net/http"
     "log"
-    "github.com/smart-evolution/smarthome/utils"
-    ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
+    "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
+    "github.com/smart-evolution/smarthome/state"
     "github.com/smart-evolution/smarthome/models/user"
     "gopkg.in/mgo.v2/bson"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
+    "github.com/coda-it/gowebserver/store"
 )
 
 // Register - handle register page and register user process
-func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
+func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     switch r.Method {
     case "GET":
-        ctrutl.RenderTemplate(w, r, "register", sm)
+        utils.RenderTemplate(w, r, "register", sm)
     case "POST":
         var newUser *user.User
 
-        ds := utils.Persistance.GetDatabase()
-        c := ds.C("users")
+        c := state.Persistance.GetCollection("users")
 
         newUser = &user.User{
             ID: bson.NewObjectId(),

@@ -6,12 +6,13 @@ import (
     "encoding/json"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
-    "github.com/smart-evolution/smarthome/controllers/api/agents"
-    "github.com/smart-evolution/smarthome/models/agent"
+    "github.com/smart-evolution/smarthome/services/webserver/controllers/api/agents"
+    "github.com/smart-evolution/smarthome/state"
+    "github.com/coda-it/gowebserver/store"
 )
 
 // CtrAgents - controller for retrieving agents list data
-func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
+func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
     agentID := opt.Params["agent"]
 
@@ -46,7 +47,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         json.NewEncoder(w).Encode(agentsList)
 
     case "POST":
-        agent, err := agent.FindAgentByID(agentID)
+        agent, err := state.HomeBot.FindAgentByID(agentID)
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
@@ -54,7 +55,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             return
         }
 
-        _, err = http.Get(agent.URL)
+        _, err = http.Get(agent.URL())
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)

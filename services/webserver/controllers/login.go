@@ -7,19 +7,20 @@ import (
     "net/http"
     "gopkg.in/mgo.v2/bson"
     "github.com/smart-evolution/smarthome/models/user"
-    "github.com/smart-evolution/smarthome/utils"
-    ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
+    "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
+    "github.com/smart-evolution/smarthome/state"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/router"
+    "github.com/coda-it/gowebserver/store"
 )
 
 // Authenticate - handle login page and login process
-func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
+func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     defer r.Body.Close()
 
     switch r.Method {
     case "GET":
-        ctrutl.RenderTemplate(w, r, "login", sm)
+        utils.RenderTemplate(w, r, "login", sm)
 
     case "POST":
         sessionID, _ := utils.GetSessionID(r)
@@ -30,9 +31,9 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
             password := utils.HashString(r.PostFormValue("password"))
             expiration := time.Now().Add(365 * 24 * time.Hour)
 
-            authenticatedUser, authErr := authenticateUser(user, password)
+            authenticatedUser, err := authenticateUser(user, password)
 
-            if authErr == nil {
+            if err == nil {
                 t := time.Now()
                 timeStr := t.Format(time.RFC850)
                 cookieValue := utils.CreateSessionID(user, password, timeStr)
@@ -59,8 +60,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 func authenticateUser(username string, password string) (user.User, error) {
     var user user.User
 
-    ds := utils.Persistance.GetDatabase()
-    c := ds.C("users")
+    c := state.Persistance.GetCollection("users")
 
     err := c.Find(bson.M{
         "username": username,

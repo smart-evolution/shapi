@@ -15,12 +15,12 @@ import (
 
 // RenderTemplate - helper for page rendering
 func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
-    sessionID, _ := utils.GetSessionID(r)
+    sessionID, _ := GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
     isPrivate := IsRequestFromIntranet(r)
 
     if !isLogged {
-        utils.ClearSession(w)
+        ClearSession(w)
 
         if r.URL.Path != "/login" && r.URL.Path != "/login/register" {
             http.Redirect(w, r, "/login", http.StatusSeeOther)

@@ -9,7 +9,6 @@ import (
     "errors"
     "strings"
     "strconv"
-    "github.com/smart-evolution/smarthome/utils"
 )
 
 const (
@@ -28,10 +27,51 @@ const (
 
 // Agent - hardware entity
 type Agent struct {
-    ID          string
-    Name        string
-    URL         string
-    AgentType   string
+    iD          string
+    name        string
+    uRL         string
+    agentType   string
+}
+
+func New(id string, name string, url string, agentType string) Agent {
+    return Agent{
+        iD: id,
+        name: name,
+        uRL: url,
+        agentType: agentType,
+    }
+}
+
+func (a *Agent) ID() string {
+    return a.iD
+}
+
+func (a *Agent) SetID(id string) {
+    a.iD = id
+}
+
+func (a *Agent) Name() string {
+    return a.name
+}
+
+func (a *Agent) SetName(name string) {
+    a.name = name
+}
+
+func (a *Agent) URL() string {
+    return a.uRL
+}
+
+func (a *Agent) SetURL(URL string) {
+    a.uRL = URL
+}
+
+func (a *Agent) AgentType() string {
+    return a.agentType
+}
+
+func (a *Agent) SetAgentType(agentType string) {
+    a.agentType = agentType
 }
 
 var (
@@ -70,11 +110,11 @@ func getSound(data string) string {
 }
 
 // FetchPackage - fetches data packages
-func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, map[string]interface{})) {
-    response, err := http.Get(a.URL)
+func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, map[string]interface{}), isAlerts bool) {
+    response, err := http.Get(a.uRL)
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.name + "'", err)
         return
     }
 
@@ -83,14 +123,14 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
     contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.name + "'", err)
         return
     }
 
     unwrappedData, err := getPackageData(string(contents))
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("services: agent '" + a.name + "'", err)
         return
     }
 
@@ -99,14 +139,14 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
     gas := getGas(unwrappedData)
     sound := getSound(unwrappedData)
 
-    if utils.IsAlerts == true {
+    if isAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
             if t > 40 {
                 now := time.Now()
 
                 if now.Sub(tmpNotifyTime).Hours() >= 1 {
                     tmpNotifyTime = now
-                    alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] temperature = " + temperature)
+                    alertNotifier("[" + now.UTC().String() + "][" + a.name + "] temperature = " + temperature)
                 }
             }
         }
@@ -116,7 +156,7 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
 
             if now.Sub(motionNotifyTime).Hours() >= 1 {
                 motionNotifyTime = now
-                alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] motion detected")
+                alertNotifier("[" + now.UTC().String() + "][" + a.name + "] motion detected")
             }
         }
 
@@ -125,7 +165,7 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
 
             if now.Sub(gasNotifyTime).Hours() >= 1 {
                 gasNotifyTime = now
-                alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] gas detected")
+                alertNotifier("[" + now.UTC().String() + "][" + a.name + "] gas detected")
             }
         }
     }
@@ -135,19 +175,9 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
         "presence": motion,
         "gas": gas,
         "sound": sound,
-        "agent": a.Name,
+        "agent": a.name,
     }
 
     persistData(a, data)
 }
 
-// FindAgentByID - find corresponding agent by ID
-func FindAgentByID(id string) (Agent, error) {
-    for _, a := range Agents {
-        if a.ID == id {
-            return a, nil
-        }
-    }
-
-    return  Agent{}, errors.New("No matching agent")
-}
