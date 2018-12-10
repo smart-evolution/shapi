@@ -5,16 +5,11 @@ import (
     "github.com/coda-it/gowebserver"
     "github.com/smart-evolution/smarthome/services/webserver/controllers"
     "github.com/smart-evolution/smarthome/services/webserver/controllers/api"
-    "github.com/smart-evolution/smarthome/state"
+    "github.com/smart-evolution/smarthome/interfaces"
 )
 
 type WebServer struct {
     server *gowebserver.WebServer
-    store state.IDataFlux
-}
-
-func (ws WebServer) Store() state.IDataFlux {
-    return ws.store
 }
 
 func getServerAddress(port string) (string, error) {
@@ -24,7 +19,7 @@ func getServerAddress(port string) (string, error) {
     return ":" + port, nil
 }
 
-func New(port string, store state.IDataFlux, persistence state.IPersistance, s state.IState) WebServer {
+func New(port string, store interfaces.IDataFlux, persistence interfaces.IPersistance, s interfaces.IState) WebServer {
     addr, _ := getServerAddress(port)
     serverOptions := gowebserver.WebServerOptions{
         Port: addr,
@@ -49,7 +44,6 @@ func New(port string, store state.IDataFlux, persistence state.IPersistance, s s
 
     return WebServer{
         server: server,
-        store: store,
     }
 }
 

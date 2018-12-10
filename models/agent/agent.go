@@ -33,6 +33,7 @@ type Agent struct {
     agentType   string
 }
 
+// New - creates new entity of Agent
 func New(id string, name string, url string, agentType string) Agent {
     return Agent{
         iD: id,
@@ -42,34 +43,42 @@ func New(id string, name string, url string, agentType string) Agent {
     }
 }
 
+// ID - iD getter
 func (a *Agent) ID() string {
     return a.iD
 }
 
+// SetID - iD setter
 func (a *Agent) SetID(id string) {
     a.iD = id
 }
 
+// Name - name getter
 func (a *Agent) Name() string {
     return a.name
 }
 
+// SetName - name setter
 func (a *Agent) SetName(name string) {
     a.name = name
 }
 
+// URL - uRL getter
 func (a *Agent) URL() string {
     return a.uRL
 }
 
+// URL - uRL setter
 func (a *Agent) SetURL(URL string) {
     a.uRL = URL
 }
 
+// AgentType - agentType getter
 func (a *Agent) AgentType() string {
     return a.agentType
 }
 
+// AgentType - agentType setter
 func (a *Agent) SetAgentType(agentType string) {
     a.agentType = agentType
 }

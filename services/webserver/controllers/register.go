@@ -4,7 +4,7 @@ import (
     "net/http"
     "log"
     "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
-    "github.com/smart-evolution/smarthome/state"
+    "github.com/smart-evolution/smarthome/interfaces"
     "github.com/smart-evolution/smarthome/models/user"
     "gopkg.in/mgo.v2/bson"
     "github.com/coda-it/gowebserver/router"
@@ -22,7 +22,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
         dfc := s.GetDataSource("persistence")
 
-        p, ok := dfc.(state.IPersistance);
+        p, ok := dfc.(interfaces.IPersistance);
         if !ok {
             log.Println("controllers: Invalid store ")
             return

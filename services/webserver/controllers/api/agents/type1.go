@@ -3,7 +3,7 @@ package agents
 import (
     "log"
     "errors"
-    "github.com/smart-evolution/smarthome/state"
+    "github.com/smart-evolution/smarthome/interfaces"
     "github.com/influxdata/influxdb/client/v2"
 )
 
@@ -17,7 +17,7 @@ type Type1DataJSON struct {
 }
 
 // FetchType1 - fetches data for type1 agent
-func FetchType1 (agentID string, df state.IDataFlux) ([]AgentJSON, error) {
+func FetchType1 (agentID string, df interfaces.IDataFlux) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
     if df.IsConnected() != true {

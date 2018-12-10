@@ -7,7 +7,7 @@ import (
     "encoding/json"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
-    "github.com/smart-evolution/smarthome/state"
+    "github.com/smart-evolution/smarthome/interfaces"
     "github.com/coda-it/gowebserver/store"
 )
 
@@ -15,9 +15,9 @@ import (
 func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
-    dfc := s.GetDataSource("state")
+    st := s.GetDataSource("state")
 
-    st, ok := dfc.(state.IState);
+    state, ok := st.(interfaces.IState);
     if !ok {
         log.Println("controllers: Invalid store ")
         return
@@ -25,13 +25,13 @@ func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
 
     if r.Method == "POST" {
-        st.SetSendAlert(true)
+        state.SetSendAlert(true)
     }
 
     data := struct {
         SendAlert    string  `json:"isAlerts"`
     } {
-        strconv.FormatBool(st.SendAlert()),
+        strconv.FormatBool(state.SendAlert()),
     }
 
     json.NewEncoder(w).Encode(data)

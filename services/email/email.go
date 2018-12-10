@@ -5,6 +5,7 @@ import (
     "net/smtp"
 )
 
+// Mailer - email notifier
 type Mailer struct {
     Sender      string
     Password    string
@@ -13,6 +14,7 @@ type Mailer struct {
     recipients   []string
 }
 
+// New - creates new instance of Mailer
 func New(sender string, password string, SMTPPort string, SMTPAuthURL string) Mailer {
     return Mailer{
         Sender: sender,
@@ -22,6 +24,7 @@ func New(sender string, password string, SMTPPort string, SMTPAuthURL string) Ma
     }
 }
 
+// AddRecipient - adds new recipient of mailer
 func (m Mailer) AddRecipient(email string) {
     m.recipients = append(m.recipients, email)
 }

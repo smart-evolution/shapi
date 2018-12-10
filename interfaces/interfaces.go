@@ -1,4 +1,4 @@
-package state
+package interfaces
 
 import (
     "github.com/smart-evolution/smarthome/models/agent"
