@@ -17,10 +17,10 @@ type Type1DataJSON struct {
 }
 
 // FetchType1 - fetches data for type1 agent
-func FetchType1 (agentID string) ([]AgentJSON, error) {
+func FetchType1 (agentID string, df state.IDataFlux) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
-    if state.DataFlux.IsConnected() != true {
+    if df.IsConnected() != true {
         return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
     }
 
@@ -35,11 +35,11 @@ func FetchType1 (agentID string) ([]AgentJSON, error) {
         Database: "smarthome",
     }
 
-    if state.DataFlux.IsConnected() != true {
+    if df.IsConnected() != true {
         return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
     }
 
-    resp, err := state.DataFlux.GetData(q)
+    resp, err := df.GetData(q)
 
     if err != nil {
         return []AgentJSON{}, err

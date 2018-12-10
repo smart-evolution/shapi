@@ -1,11 +1,19 @@
 package state
 
 import (
-    "sync"
     "github.com/smart-evolution/smarthome/models/agent"
     "github.com/influxdata/influxdb/client/v2"
     "gopkg.in/mgo.v2"
 )
+
+type IState interface {
+    SetIsAlerts(bool)
+    IsAlerts() bool
+    SetSendAlert(bool)
+    SendAlert() bool
+    Agents() []agent.Agent
+    FindAgentByID(string) (agent.Agent, error)
+}
 
 type IDataFlux interface {
     IsConnected() bool
@@ -29,20 +37,6 @@ type IAgent interface {
 
 type IHomeBot interface {
     FindAgentByID(string) (agent.Agent, error)
-    RunService(sync.WaitGroup)
+    RunService()
 }
 
-var (
-    // IsAlerts - are alerts turned on
-    IsAlerts    bool
-    // SendAlert - should alerts be emailed
-    SendAlert   bool
-    // DataFlux - gathered data entity
-    DataFlux    IDataFlux
-    // Persistance - data persistance entity
-    Persistance IPersistance
-    // Mailer - mailer entity
-    Mailer      IMailer
-    // HomeBot - homebot administrator entity
-    HomeBot     IHomeBot
-)

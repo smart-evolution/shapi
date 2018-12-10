@@ -20,7 +20,15 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
     case "POST":
         var newUser *user.User
 
-        c := state.Persistance.GetCollection("users")
+        dfc := s.GetDataSource("persistence")
+
+        p, ok := dfc.(state.IPersistance);
+        if !ok {
+            log.Println("controllers: Invalid store ")
+            return
+        }
+
+        c := p.GetCollection("users")
 
         newUser = &user.User{
             ID: bson.NewObjectId(),

@@ -1,6 +1,7 @@
 package api
 
 import (
+    "log"
     "strconv"
     "net/http"
     "encoding/json"
@@ -14,14 +15,22 @@ import (
 func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
+    dfc := s.GetDataSource("state")
+
+    st, ok := dfc.(state.IState);
+    if !ok {
+        log.Println("controllers: Invalid store ")
+        return
+    }
+
     if r.Method == "POST" {
-        state.IsAlerts = !state.IsAlerts
+        st.SetIsAlerts(!st.IsAlerts())
     }
 
     data := struct {
         IsAlerts    string  `json:"isAlerts"`
     } {
-        strconv.FormatBool(state.IsAlerts),
+        strconv.FormatBool(st.IsAlerts()),
     }
 
     json.NewEncoder(w).Encode(data)

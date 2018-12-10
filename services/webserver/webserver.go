@@ -2,7 +2,6 @@ package webserver
 
 import (
     "fmt"
-    "sync"
     "github.com/coda-it/gowebserver"
     "github.com/smart-evolution/smarthome/services/webserver/controllers"
     "github.com/smart-evolution/smarthome/services/webserver/controllers/api"
@@ -20,12 +19,12 @@ func (ws WebServer) Store() state.IDataFlux {
 
 func getServerAddress(port string) (string, error) {
     if port == "" {
-        return "", fmt.Errorf("$PORT not set")
+        return "", fmt.Errorf("Port not set")
     }
     return ":" + port, nil
 }
 
-func New(port string, store state.IDataFlux) WebServer {
+func New(port string, store state.IDataFlux, persistence state.IPersistance, s state.IState) WebServer {
     addr, _ := getServerAddress(port)
     serverOptions := gowebserver.WebServerOptions{
         Port: addr,
@@ -44,7 +43,9 @@ func New(port string, store state.IDataFlux) WebServer {
     server.Router.AddRoute("/api/alerts", api.CtrAlerts)
     server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 
-    server.AddDataSource("datainflux", store)
+    server.AddDataSource("dataflux", store)
+    server.AddDataSource("persistence", persistence)
+    server.AddDataSource("state", s)
 
     return WebServer{
         server: server,
@@ -52,7 +53,6 @@ func New(port string, store state.IDataFlux) WebServer {
     }
 }
 
-func (ws WebServer) RunService(wg sync.WaitGroup) {
-    defer wg.Done()
+func (ws WebServer) RunService() {
     ws.server.Run()
 }

@@ -19,8 +19,15 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
     switch r.Method {
     case "GET":
         var agentsList []agents.AgentJSON
+        dfc := s.GetDataSource("dataflux")
 
-        agentsType1, err := agents.FetchType1(agentID)
+        df, ok := dfc.(state.IDataFlux);
+        if !ok {
+            log.Println("controllers: Invalid store ")
+            return
+        }
+
+        agentsType1, err := agents.FetchType1(agentID, df)
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
@@ -47,7 +54,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         json.NewEncoder(w).Encode(agentsList)
 
     case "POST":
-        agent, err := state.HomeBot.FindAgentByID(agentID)
+        dfc := s.GetDataSource("state")
+        st, ok := dfc.(state.IState);
+        if !ok {
+            log.Println("controllers: Invalid store ")
+            return
+        }
+
+        agent, err := st.FindAgentByID(agentID)
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)

@@ -31,7 +31,15 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
             password := utils.HashString(r.PostFormValue("password"))
             expiration := time.Now().Add(365 * 24 * time.Hour)
 
-            authenticatedUser, err := authenticateUser(user, password)
+            dfc := s.GetDataSource("persistence")
+
+            p, ok := dfc.(state.IPersistance);
+            if !ok {
+                log.Println("controllers: Invalid store ")
+                return
+            }
+
+            authenticatedUser, err := authenticateUser(user, password, p)
 
             if err == nil {
                 t := time.Now()
@@ -57,10 +65,10 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
 }
 
-func authenticateUser(username string, password string) (user.User, error) {
+func authenticateUser(username string, password string, persistance state.IPersistance) (user.User, error) {
     var user user.User
 
-    c := state.Persistance.GetCollection("users")
+    c := persistance.GetCollection("users")
 
     err := c.Find(bson.M{
         "username": username,
