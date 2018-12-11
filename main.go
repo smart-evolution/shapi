@@ -7,9 +7,9 @@ import (
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/state"
-    "github.com/smart-evolution/smarthome/services/homebot"
+    "github.com/smart-evolution/smarthome/processes/homebot"
     "github.com/smart-evolution/smarthome/services/email"
-    "github.com/smart-evolution/smarthome/services/webserver"
+    "github.com/smart-evolution/smarthome/processes/webserver"
     "github.com/smart-evolution/smarthome/models/user"
     "gopkg.in/mgo.v2/bson"
 )
