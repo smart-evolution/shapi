@@ -8,12 +8,14 @@ import (
     "github.com/smart-evolution/smarthome/interfaces"
 )
 
+// HomeBot - struct for homebot administrator
 type HomeBot struct {
     store  interfaces.IDataFlux
     state  interfaces.IState
     mailer interfaces.IMailer
 }
 
+// New - creates new instances of HomeBot
 func New(store interfaces.IDataFlux, mailer interfaces.IMailer, st interfaces.IState) HomeBot {
     return HomeBot {
         store: store,

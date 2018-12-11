@@ -68,7 +68,7 @@ func (a *Agent) URL() string {
     return a.uRL
 }
 
-// URL - uRL setter
+// SetURL - uRL setter
 func (a *Agent) SetURL(URL string) {
     a.uRL = URL
 }
@@ -78,7 +78,7 @@ func (a *Agent) AgentType() string {
     return a.agentType
 }
 
-// AgentType - agentType setter
+// SetAgentType - agentType setter
 func (a *Agent) SetAgentType(agentType string) {
     a.agentType = agentType
 }
