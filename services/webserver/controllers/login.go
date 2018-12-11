@@ -20,7 +20,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     switch r.Method {
     case "GET":
-        utils.RenderTemplate(w, r, "login", sm)
+        utils.RenderTemplate(w, r, "login", sm, s)
 
     case "POST":
         sessionID, _ := utils.GetSessionID(r)

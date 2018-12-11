@@ -26,6 +26,13 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             log.Println("controllers: Invalid store ")
             return
         }
+        st := s.GetDataSource("state")
+
+        state, ok := st.(interfaces.IState);
+        if !ok {
+            log.Println("controllers: Invalid store ")
+            return
+        }
 
         agentsType1, err := agents.FetchType1(agentID, df)
 
@@ -37,7 +44,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         agentsList = append(agentsList, agentsType1...)
 
-        agentsType2, err := agents.FetchType2(agentID)
+        agentsType2, err := agents.FetchType2(agentID, state.Agents())
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
             log.Println("controllers: ", err)

@@ -7,14 +7,16 @@ import (
 	"path/filepath"
 	"html/template"
     "github.com/smart-evolution/smarthome/utils"
+    "github.com/smart-evolution/smarthome/interfaces"
 	"github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/models/page"
 	"github.com/coda-it/gowebserver/session"
+    "github.com/coda-it/gowebserver/store"
 )
 
 
 // RenderTemplate - helper for page rendering
-func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager, s store.IStore) {
     sessionID, _ := GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
     isPrivate := IsRequestFromIntranet(r)
@@ -37,8 +39,16 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
         log.Fatal(err)
     }
 
-    menu := make([]agent.Agent, 0)
-    for _, a := range agent.Agents {
+    st := s.GetDataSource("state")
+
+    state, ok := st.(interfaces.IState);
+    if !ok {
+        log.Println("controllers: Invalid store ")
+        return
+    }
+
+    menu := make([]*agent.Agent, 0)
+    for _, a := range state.Agents() {
         menu = append(menu, a)
     }
 

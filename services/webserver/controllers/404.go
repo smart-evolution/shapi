@@ -10,5 +10,5 @@ import (
 
 // NotFound - controller for 404 requests
 func NotFound(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-    utils.RenderTemplate(w, r, "404", sm)
+    utils.RenderTemplate(w, r, "404", sm, s)
 }

@@ -12,7 +12,7 @@ type Persistance struct {
 }
 
 // New - creates new instance of Persistance
-func New(dbURI string, dbName string) Persistance {
+func New(dbURI string, dbName string) *Persistance {
     log.Println("Connecting to mgo with URI = " + dbURI)
     session, err := mgo.Dial(dbURI)
     session.SetMode(mgo.Monotonic, true)
@@ -21,18 +21,18 @@ func New(dbURI string, dbName string) Persistance {
         panic(err)
     }
 
-    return Persistance{
+    return &Persistance{
         session,
         dbName,
     }
 }
 
-func (p Persistance) getDatabase() *mgo.Database {
+func (p *Persistance) getDatabase() *mgo.Database {
     return p.session.DB(p.dbName)
 }
 
 // GetCollection - gets collection from Persistance instance
-func (p Persistance) GetCollection(name string) *mgo.Collection {
+func (p *Persistance) GetCollection(name string) *mgo.Collection {
     ds := p.getDatabase()
     return ds.C(name)
 }

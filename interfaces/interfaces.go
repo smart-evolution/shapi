@@ -12,8 +12,8 @@ type IState interface {
     IsAlerts() bool
     SetSendAlert(bool)
     SendAlert() bool
-    Agents() []agent.Agent
-    FindAgentByID(string) (agent.Agent, error)
+    Agents() []*agent.Agent
+    FindAgentByID(string) (*agent.Agent, error)
 }
 
 // IDataFlux -  interface for datasource to keep IOT data

@@ -8,6 +8,7 @@ import (
     "github.com/smart-evolution/smarthome/interfaces"
 )
 
+// WebServer - adapter for gowebserver instance
 type WebServer struct {
     server *gowebserver.WebServer
 }
@@ -19,7 +20,8 @@ func getServerAddress(port string) (string, error) {
     return ":" + port, nil
 }
 
-func New(port string, store interfaces.IDataFlux, persistence interfaces.IPersistance, s interfaces.IState) WebServer {
+// New - creates new WebServer instance
+func New(port string, store interfaces.IDataFlux, persistence interfaces.IPersistance, s interfaces.IState) *WebServer {
     addr, _ := getServerAddress(port)
     serverOptions := gowebserver.WebServerOptions{
         Port: addr,
@@ -42,11 +44,12 @@ func New(port string, store interfaces.IDataFlux, persistence interfaces.IPersis
     server.AddDataSource("persistence", persistence)
     server.AddDataSource("state", s)
 
-    return WebServer{
+    return &WebServer{
         server: server,
     }
 }
 
-func (ws WebServer) RunService() {
+// RunService - runs WebServer process
+func (ws *WebServer) RunService() {
     ws.server.Run()
 }

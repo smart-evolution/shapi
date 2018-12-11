@@ -31,11 +31,14 @@ type Agent struct {
     name        string
     uRL         string
     agentType   string
+    tmpNotifyTime       time.Time
+    motionNotifyTime    time.Time
+    gasNotifyTime       time.Time
 }
 
 // New - creates new entity of Agent
-func New(id string, name string, url string, agentType string) Agent {
-    return Agent{
+func New(id string, name string, url string, agentType string) *Agent {
+    return &Agent{
         iD: id,
         name: name,
         uRL: url,
@@ -83,14 +86,6 @@ func (a *Agent) SetAgentType(agentType string) {
     a.agentType = agentType
 }
 
-var (
-    // Agents - hardware agents list
-    Agents              []Agent
-    tmpNotifyTime       time.Time
-    motionNotifyTime    time.Time
-    gasNotifyTime       time.Time
-)
-
 func getPackageData(stream string) (string, error) {
     pkgRegExp, _ := regexp.Compile(pkgPattern)
     dataPackage := pkgRegExp.FindString(stream)
@@ -119,7 +114,7 @@ func getSound(data string) string {
 }
 
 // FetchPackage - fetches data packages
-func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, map[string]interface{}), isAlerts bool) {
+func (a *Agent) FetchPackage(alertNotifier func(string), persistData func(*Agent, map[string]interface{}), isAlerts bool) {
     response, err := http.Get(a.uRL)
 
     if err != nil {
@@ -153,8 +148,8 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
             if t > 40 {
                 now := time.Now()
 
-                if now.Sub(tmpNotifyTime).Hours() >= 1 {
-                    tmpNotifyTime = now
+                if now.Sub(a.tmpNotifyTime).Hours() >= 1 {
+                    a.tmpNotifyTime = now
                     alertNotifier("[" + now.UTC().String() + "][" + a.name + "] temperature = " + temperature)
                 }
             }
@@ -163,8 +158,8 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
         if motion != "0" {
             now := time.Now()
 
-            if now.Sub(motionNotifyTime).Hours() >= 1 {
-                motionNotifyTime = now
+            if now.Sub(a.motionNotifyTime).Hours() >= 1 {
+                a.motionNotifyTime = now
                 alertNotifier("[" + now.UTC().String() + "][" + a.name + "] motion detected")
             }
         }
@@ -172,8 +167,8 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
         if gas != "0" {
             now := time.Now()
 
-            if now.Sub(gasNotifyTime).Hours() >= 1 {
-                gasNotifyTime = now
+            if now.Sub(a.gasNotifyTime).Hours() >= 1 {
+                a.gasNotifyTime = now
                 alertNotifier("[" + now.UTC().String() + "][" + a.name + "] gas detected")
             }
         }

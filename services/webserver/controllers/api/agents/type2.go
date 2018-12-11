@@ -9,10 +9,10 @@ type Type2DataJSON struct {
 }
 
 // FetchType2 - fetches data for type2 agent
-func FetchType2 (agentID string) ([]AgentJSON, error) {
-    var agents []AgentJSON
+func FetchType2 (agentID string, agents []*agent.Agent) ([]AgentJSON, error) {
+    var agentsJSON []AgentJSON
 
-    for _, a := range agent.Agents {
+    for _, a := range agents {
         if a.AgentType() == "type2" {
             agent := AgentJSON{
                 ID: a.ID(),
@@ -21,9 +21,9 @@ func FetchType2 (agentID string) ([]AgentJSON, error) {
                 AgentType: "type2",
             }
 
-            agents = append(agents, agent)
+            agentsJSON = append(agentsJSON, agent)
         }
     }
 
-    return agents, nil
+    return agentsJSON, nil
 }

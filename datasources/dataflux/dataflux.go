@@ -13,7 +13,7 @@ type DataFlux struct {
 }
 
 // New - creates new entity of DataFlux
-func New(dbURI string) DataFlux {
+func New(dbURI string) *DataFlux {
     isConnected := false
 
     Client, err := client.NewHTTPClient(client.HTTPConfig{
@@ -24,7 +24,7 @@ func New(dbURI string) DataFlux {
 
     if err != nil {
         log.Println("services: ", err)
-        return DataFlux{}
+        return &DataFlux{}
     }
 
     BatchPoints, err := client.NewBatchPoints(client.BatchPointsConfig{
@@ -34,12 +34,12 @@ func New(dbURI string) DataFlux {
 
     if err != nil {
         log.Println("services ", err)
-        return DataFlux{}
+        return &DataFlux{}
     }
 
     isConnected = true
 
-    return DataFlux{
+    return &DataFlux{
         Client,
         BatchPoints,
         isConnected,
@@ -47,18 +47,18 @@ func New(dbURI string) DataFlux {
 }
 
 // IsConnected - checks is DataFlux instance connected
-func (df DataFlux) IsConnected() bool {
+func (df *DataFlux) IsConnected() bool {
     return df.isConnected
 }
 
 // GetData - gets data from DataFlux instance based on passed query
-func (df DataFlux) GetData(q client.Query) (*client.Response, error) {
+func (df *DataFlux) GetData(q client.Query) (*client.Response, error) {
     res, err := df.Client.Query(q)
     return res, err
 }
 
 // AddData - adds data to instance of DataFlux
-func (df DataFlux) AddData(pt *client.Point) error {
+func (df *DataFlux) AddData(pt *client.Point) error {
     df.BatchPoints.AddPoint(pt)
     err := df.Client.Write(df.BatchPoints)
     return err

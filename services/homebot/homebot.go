@@ -16,16 +16,16 @@ type HomeBot struct {
 }
 
 // New - creates new instances of HomeBot
-func New(store interfaces.IDataFlux, mailer interfaces.IMailer, st interfaces.IState) HomeBot {
-    return HomeBot {
+func New(store interfaces.IDataFlux, mailer interfaces.IMailer, st interfaces.IState) *HomeBot {
+    return &HomeBot {
         store: store,
         state: st,
         mailer: mailer,
     }
 }
 
-func persistData(store interfaces.IDataFlux) func(agent.Agent, map[string]interface{}) {
-    return func (agent agent.Agent, data map[string]interface{}) {
+func persistData(store interfaces.IDataFlux) func(*agent.Agent, map[string]interface{}) {
+    return func (agent *agent.Agent, data map[string]interface{}) {
         pt, _ := client.NewPoint(
         agent.ID(),
         map[string]string{ "home": agent.Name() },
@@ -41,7 +41,7 @@ func persistData(store interfaces.IDataFlux) func(agent.Agent, map[string]interf
     }
 }
 
-func (hb HomeBot) runCommunicationLoop() {
+func (hb *HomeBot) runCommunicationLoop() {
     for range time.Tick(time.Second * 10) {
         if hb.store.IsConnected() == false {
             log.Println("services: cannot fetch packages, Influx is down")
@@ -62,7 +62,7 @@ func (hb HomeBot) runCommunicationLoop() {
 }
 
 // RunService - setup and run everything
-func (hb HomeBot) RunService() {
+func (hb *HomeBot) RunService() {
     hb.runCommunicationLoop()
 }
 

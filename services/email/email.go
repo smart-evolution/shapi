@@ -15,8 +15,8 @@ type Mailer struct {
 }
 
 // New - creates new instance of Mailer
-func New(sender string, password string, SMTPPort string, SMTPAuthURL string) Mailer {
-    return Mailer{
+func New(sender string, password string, SMTPPort string, SMTPAuthURL string) *Mailer {
+    return &Mailer{
         Sender: sender,
         Password: password,
         SMTPPort: SMTPPort,
@@ -25,7 +25,7 @@ func New(sender string, password string, SMTPPort string, SMTPAuthURL string) Ma
 }
 
 // AddRecipient - adds new recipient of mailer
-func (m Mailer) AddRecipient(email string) {
+func (m *Mailer) AddRecipient(email string) {
     m.recipients = append(m.recipients, email)
 }
 
@@ -37,7 +37,7 @@ func composeMessage(from string, to string, body string) string {
 }
 
 // SendEmail - send email to subscriber
-func (m Mailer) SendEmail(body string, recipient string) {
+func (m *Mailer) SendEmail(body string, recipient string) {
     msg := composeMessage(m.Sender, recipient, body)
     smtpAuth := smtp.PlainAuth("", m.Sender, m.Password, m.SMTPAuthURL)
 
@@ -52,7 +52,7 @@ func (m Mailer) SendEmail(body string, recipient string) {
 }
 
 // BulkEmail - sends alerts to all home users
-func (m Mailer) BulkEmail(body string) {
+func (m *Mailer) BulkEmail(body string) {
     for _, r := range m.recipients {
         m.SendEmail(body, r)
     }
