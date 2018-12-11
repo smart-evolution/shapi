@@ -19,7 +19,7 @@ func TestFindAgentByID(t *testing.T) {
         result, _ := s.FindAgentByID("livingroom")
 
         if !reflect.DeepEqual(expectedResult, result) {
-            t.Errorf("Non agents id match by ID", len(s.Agents()))
+            t.Errorf("Non agents id match by ID")
         }
     })
 

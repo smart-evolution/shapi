@@ -52,7 +52,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 
         for i := 0; i < len(agents); i++ {
             a := agents[i]
-            log.Println("services: fetching from=", a.Name)
+            log.Println("services: fetching from=", a.Name())
 
             if a.AgentType() == "type1" {
                 a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts())
