@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"html/template"
     "github.com/smart-evolution/smarthome/utils"
-    "github.com/smart-evolution/smarthome/interfaces"
+    "github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/models/page"
 	"github.com/coda-it/gowebserver/session"
@@ -41,7 +41,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
 
     st := s.GetDataSource("state")
 
-    state, ok := st.(interfaces.IState);
+    state, ok := st.(state.IState);
     if !ok {
         log.Println("controllers: Invalid store ")
         return

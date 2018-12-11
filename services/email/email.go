@@ -5,6 +5,13 @@ import (
     "net/smtp"
 )
 
+// IMailer - interface for mailer
+type IMailer interface {
+    AddRecipient(string)
+    SendEmail(string, string)
+    BulkEmail(string)
+}
+
 // Mailer - email notifier
 type Mailer struct {
     Sender      string

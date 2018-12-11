@@ -5,6 +5,13 @@ import (
     "github.com/influxdata/influxdb/client/v2"
 )
 
+// IDataFlux -  interface for datasource to keep IOT data
+type IDataFlux interface {
+    IsConnected() bool
+    AddData(*client.Point) error
+    GetData(client.Query) (*client.Response, error)
+}
+
 // DataFlux - datasource keeping IOT data
 type DataFlux struct {
     Client          client.Client

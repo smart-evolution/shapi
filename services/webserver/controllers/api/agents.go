@@ -7,7 +7,8 @@ import (
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/services/webserver/controllers/api/agents"
-    "github.com/smart-evolution/smarthome/interfaces"
+    "github.com/smart-evolution/smarthome/datasources/dataflux"
+    "github.com/smart-evolution/smarthome/datasources/state"
     "github.com/coda-it/gowebserver/store"
 )
 
@@ -21,14 +22,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         var agentsList []agents.AgentJSON
         dfc := s.GetDataSource("dataflux")
 
-        df, ok := dfc.(interfaces.IDataFlux);
+        df, ok := dfc.(dataflux.IDataFlux);
         if !ok {
             log.Println("controllers: Invalid store ")
             return
         }
         st := s.GetDataSource("state")
 
-        state, ok := st.(interfaces.IState);
+        state, ok := st.(state.IState);
         if !ok {
             log.Println("controllers: Invalid store ")
             return
@@ -62,7 +63,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
     case "POST":
         dfc := s.GetDataSource("state")
-        st, ok := dfc.(interfaces.IState);
+        st, ok := dfc.(state.IState);
         if !ok {
             log.Println("controllers: Invalid store ")
             return

@@ -8,7 +8,7 @@ import (
     "gopkg.in/mgo.v2/bson"
     "github.com/smart-evolution/smarthome/models/user"
     "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
-    "github.com/smart-evolution/smarthome/interfaces"
+    "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/store"
@@ -33,7 +33,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
             dfc := s.GetDataSource("persistence")
 
-            p, ok := dfc.(interfaces.IPersistance);
+            p, ok := dfc.(persistence.IPersistance);
             if !ok {
                 log.Println("controllers: Invalid store ")
                 return
@@ -65,7 +65,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
 }
 
-func authenticateUser(username string, password string, persistance interfaces.IPersistance) (user.User, error) {
+func authenticateUser(username string, password string, persistance persistence.IPersistance) (user.User, error) {
     var user user.User
 
     c := persistance.GetCollection("users")

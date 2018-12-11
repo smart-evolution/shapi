@@ -5,18 +5,20 @@ import (
     "time"
     "github.com/influxdata/influxdb/client/v2"
     "github.com/smart-evolution/smarthome/models/agent"
-    "github.com/smart-evolution/smarthome/interfaces"
+    "github.com/smart-evolution/smarthome/datasources/dataflux"
+    "github.com/smart-evolution/smarthome/datasources/state"
+    "github.com/smart-evolution/smarthome/services/email"
 )
 
 // HomeBot - struct for homebot administrator
 type HomeBot struct {
-    store  interfaces.IDataFlux
-    state  interfaces.IState
-    mailer interfaces.IMailer
+    store  dataflux.IDataFlux
+    state  state.IState
+    mailer email.IMailer
 }
 
 // New - creates new instances of HomeBot
-func New(store interfaces.IDataFlux, mailer interfaces.IMailer, st interfaces.IState) *HomeBot {
+func New(store dataflux.IDataFlux, mailer email.IMailer, st state.IState) *HomeBot {
     return &HomeBot {
         store: store,
         state: st,
@@ -24,7 +26,7 @@ func New(store interfaces.IDataFlux, mailer interfaces.IMailer, st interfaces.IS
     }
 }
 
-func persistData(store interfaces.IDataFlux) func(*agent.Agent, map[string]interface{}) {
+func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interface{}) {
     return func (agent *agent.Agent, data map[string]interface{}) {
         pt, _ := client.NewPoint(
         agent.ID(),

@@ -8,6 +8,16 @@ import (
     "github.com/smart-evolution/smarthome/models/agent"
 )
 
+// IState - interface for datasource kept in the memory
+type IState interface {
+    SetIsAlerts(bool)
+    IsAlerts() bool
+    SetSendAlert(bool)
+    SendAlert() bool
+    Agents() []*agent.Agent
+    FindAgentByID(string) (*agent.Agent, error)
+}
+
 // State - data source which keeps short data in memory
 type State struct {
     isAlerts    bool
