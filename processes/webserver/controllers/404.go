@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-	"github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/store"

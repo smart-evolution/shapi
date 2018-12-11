@@ -3,8 +3,8 @@ package webserver
 import (
     "fmt"
     "github.com/coda-it/gowebserver"
-    "github.com/smart-evolution/smarthome/services/webserver/controllers"
-    "github.com/smart-evolution/smarthome/services/webserver/controllers/api"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers/api"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/datasources/state"

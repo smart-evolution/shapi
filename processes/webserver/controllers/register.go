@@ -3,7 +3,7 @@ package controllers
 import (
     "net/http"
     "log"
-    "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/models/user"
     "gopkg.in/mgo.v2/bson"

@@ -7,7 +7,7 @@ import (
     "net/http"
     "gopkg.in/mgo.v2/bson"
     "github.com/smart-evolution/smarthome/models/user"
-    "github.com/smart-evolution/smarthome/services/webserver/controllers/utils"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/router"

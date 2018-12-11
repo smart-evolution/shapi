@@ -6,7 +6,7 @@ import (
     "encoding/json"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
-    "github.com/smart-evolution/smarthome/services/webserver/controllers/api/agents"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agents"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/state"
     "github.com/coda-it/gowebserver/store"
