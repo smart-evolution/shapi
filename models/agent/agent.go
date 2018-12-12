@@ -1,4 +1,4 @@
-package models
+package agent
 
 import (
     "log"
@@ -9,7 +9,6 @@ import (
     "errors"
     "strings"
     "strconv"
-    "github.com/smart-evolution/smarthome/utils"
 )
 
 const (
@@ -28,26 +27,71 @@ const (
 
 // Agent - hardware entity
 type Agent struct {
-    ID          string
-    Name        string
-    URL         string
-    AgentType   string
-}
-
-var (
-    // Agents - hardware agents list
-    Agents              []Agent
+    iD                  string
+    name                string
+    uRL                 string
+    agentType           string
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
     gasNotifyTime       time.Time
-)
+}
+
+// New - creates new entity of Agent
+func New(id string, name string, url string, agentType string) *Agent {
+    return &Agent{
+        iD: id,
+        name: name,
+        uRL: url,
+        agentType: agentType,
+    }
+}
+
+// ID - iD getter
+func (a *Agent) ID() string {
+    return a.iD
+}
+
+// SetID - iD setter
+func (a *Agent) SetID(id string) {
+    a.iD = id
+}
+
+// Name - name getter
+func (a *Agent) Name() string {
+    return a.name
+}
+
+// SetName - name setter
+func (a *Agent) SetName(name string) {
+    a.name = name
+}
+
+// URL - uRL getter
+func (a *Agent) URL() string {
+    return a.uRL
+}
+
+// SetURL - uRL setter
+func (a *Agent) SetURL(URL string) {
+    a.uRL = URL
+}
+
+// AgentType - agentType getter
+func (a *Agent) AgentType() string {
+    return a.agentType
+}
+
+// SetAgentType - agentType setter
+func (a *Agent) SetAgentType(agentType string) {
+    a.agentType = agentType
+}
 
 func getPackageData(stream string) (string, error) {
     pkgRegExp, _ := regexp.Compile(pkgPattern)
     dataPackage := pkgRegExp.FindString(stream)
 
     if dataPackage == "" {
-        return "", errors.New("Data stream doesn't contain valid package (" + stream + ")")
+        return "", errors.New("agent/getPackageData: Data stream doesn't contain valid package (" + stream + ")")
     }
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0], nil
@@ -70,11 +114,11 @@ func getSound(data string) string {
 }
 
 // FetchPackage - fetches data packages
-func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, map[string]interface{})) {
-    response, err := http.Get(a.URL)
+func (a *Agent) FetchPackage(alertNotifier func(string), persistData func(*Agent, map[string]interface{}), isAlerts bool) {
+    response, err := http.Get(a.uRL)
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 
@@ -83,14 +127,14 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
     contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 
     unwrappedData, err := getPackageData(string(contents))
 
     if err != nil {
-        log.Println("services: agent '" + a.Name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 
@@ -99,14 +143,14 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
     gas := getGas(unwrappedData)
     sound := getSound(unwrappedData)
 
-    if utils.IsAlerts == true {
+    if isAlerts == true {
         if t, err := strconv.ParseFloat(temperature, 32); err == nil {
             if t > 40 {
                 now := time.Now()
 
-                if now.Sub(tmpNotifyTime).Hours() >= 1 {
-                    tmpNotifyTime = now
-                    alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] temperature = " + temperature)
+                if now.Sub(a.tmpNotifyTime).Hours() >= 1 {
+                    a.tmpNotifyTime = now
+                    alertNotifier("[" + now.UTC().String() + "][" + a.name + "] temperature = " + temperature)
                 }
             }
         }
@@ -114,18 +158,18 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
         if motion != "0" {
             now := time.Now()
 
-            if now.Sub(motionNotifyTime).Hours() >= 1 {
-                motionNotifyTime = now
-                alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] motion detected")
+            if now.Sub(a.motionNotifyTime).Hours() >= 1 {
+                a.motionNotifyTime = now
+                alertNotifier("[" + now.UTC().String() + "][" + a.name + "] motion detected")
             }
         }
 
         if gas != "0" {
             now := time.Now()
 
-            if now.Sub(gasNotifyTime).Hours() >= 1 {
-                gasNotifyTime = now
-                alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] gas detected")
+            if now.Sub(a.gasNotifyTime).Hours() >= 1 {
+                a.gasNotifyTime = now
+                alertNotifier("[" + now.UTC().String() + "][" + a.name + "] gas detected")
             }
         }
     }
@@ -135,19 +179,9 @@ func (a Agent) FetchPackage(alertNotifier func(string), persistData func(Agent, 
         "presence": motion,
         "gas": gas,
         "sound": sound,
-        "agent": a.Name,
+        "agent": a.name,
     }
 
     persistData(a, data)
 }
 
-// FindAgentByID - find corresponding agent by ID
-func FindAgentByID(id string) (Agent, error) {
-    for _, a := range Agents {
-        if a.ID == id {
-            return a, nil
-        }
-    }
-
-    return  Agent{}, errors.New("No matching agent")
-}

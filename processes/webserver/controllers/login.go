@@ -6,20 +6,21 @@ import (
     "time"
     "net/http"
     "gopkg.in/mgo.v2/bson"
-    "github.com/smart-evolution/smarthome/models"
-    "github.com/smart-evolution/smarthome/utils"
-    ctrutl "github.com/smart-evolution/smarthome/controllers/utils"
+    "github.com/smart-evolution/smarthome/models/user"
+    "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
+    "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/router"
+    "github.com/coda-it/gowebserver/store"
 )
 
 // Authenticate - handle login page and login process
-func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager) {
+func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     defer r.Body.Close()
 
     switch r.Method {
     case "GET":
-        ctrutl.RenderTemplate(w, r, "login", sm)
+        utils.RenderTemplate(w, r, "login", sm, s)
 
     case "POST":
         sessionID, _ := utils.GetSessionID(r)
@@ -30,9 +31,17 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
             password := utils.HashString(r.PostFormValue("password"))
             expiration := time.Now().Add(365 * 24 * time.Hour)
 
-            authenticatedUser, authErr := authenticateUser(user, password)
+            dfc := s.GetDataSource("persistence")
 
-            if authErr == nil {
+            p, ok := dfc.(persistence.IPersistance);
+            if !ok {
+                log.Println("webserver/Authenticate: Invalid store ")
+                return
+            }
+
+            authenticatedUser, err := authenticateUser(user, password, p)
+
+            if err == nil {
                 t := time.Now()
                 timeStr := t.Format(time.RFC850)
                 cookieValue := utils.CreateSessionID(user, password, timeStr)
@@ -56,23 +65,22 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
 }
 
-func authenticateUser(user string, password string) (models.User, error) {
-    var loggedUser models.User
+func authenticateUser(username string, password string, persistance persistence.IPersistance) (user.User, error) {
+    var user user.User
 
-    ds := utils.GetDataSource()
-    c := ds.C("users")
+    c := persistance.GetCollection("users")
 
     err := c.Find(bson.M{
-        "username": user,
+        "username": username,
         "password": password,
-    }).One(&loggedUser)
+    }).One(&user)
 
     if err != nil {
         log.Println("User not found err=", err)
-        return models.User{}, errors.New("User not found")
+        return user, errors.New("User not found")
     }
 
-    log.Println("Logged in as user", loggedUser)
+    log.Println("webserver/authenticateUser: Logged in as user", user)
 
-    return loggedUser, nil
+    return user, nil
 }

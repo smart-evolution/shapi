@@ -7,19 +7,22 @@ import (
 	"path/filepath"
 	"html/template"
     "github.com/smart-evolution/smarthome/utils"
-	"github.com/smart-evolution/smarthome/models"
+    "github.com/smart-evolution/smarthome/datasources/state"
+	"github.com/smart-evolution/smarthome/models/agent"
+    "github.com/smart-evolution/smarthome/models/page"
 	"github.com/coda-it/gowebserver/session"
+    "github.com/coda-it/gowebserver/store"
 )
 
 
 // RenderTemplate - helper for page rendering
-func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager) {
-    sessionID, _ := utils.GetSessionID(r)
+func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager, s store.IStore) {
+    sessionID, _ := GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
     isPrivate := IsRequestFromIntranet(r)
 
     if !isLogged {
-        utils.ClearSession(w)
+        ClearSession(w)
 
         if r.URL.Path != "/login" && r.URL.Path != "/login/register" {
             http.Redirect(w, r, "/login", http.StatusSeeOther)
@@ -36,15 +39,23 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
         log.Fatal(err)
     }
 
-    menu := make([]models.Agent, 0)
-    for _, a := range models.Agents {
+    st := s.GetDataSource("state")
+
+    state, ok := st.(state.IState);
+    if !ok {
+        log.Println("webserver/RenderTemplate: Invalid store ")
+        return
+    }
+
+    menu := make([]*agent.Agent, 0)
+    for _, a := range state.Agents() {
         menu = append(menu, a)
     }
 
     params := make(map[string]interface{})
     params["menu"] = menu
 
-    templateModel := models.Page{
+    templateModel := page.Page{
         Version: utils.VERSION,
         Title: name,
         IsLogged: isLogged,

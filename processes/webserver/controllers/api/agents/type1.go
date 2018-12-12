@@ -3,7 +3,7 @@ package agents
 import (
     "log"
     "errors"
-    "github.com/smart-evolution/smarthome/services"
+    "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/influxdata/influxdb/client/v2"
 )
 
@@ -17,11 +17,11 @@ type Type1DataJSON struct {
 }
 
 // FetchType1 - fetches data for type1 agent
-func FetchType1 (agentID string) ([]AgentJSON, error) {
+func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
-    if services.InfluxConnected != true {
-        return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
+    if df.IsConnected() != true {
+        return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
     }
 
     measurements := "/.*/"
@@ -35,11 +35,11 @@ func FetchType1 (agentID string) ([]AgentJSON, error) {
         Database: "smarthome",
     }
 
-    if services.InfluxConnected != true {
-        return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
+    if df.IsConnected() != true {
+        return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
     }
 
-    resp, err := services.InfluxClient.Query(q)
+    resp, err := df.GetData(q)
 
     if err != nil {
         return []AgentJSON{}, err
@@ -108,7 +108,7 @@ func FetchType1 (agentID string) ([]AgentJSON, error) {
         }
 
         if err != nil {
-            log.Println("services: ", err)
+            log.Println("webserver/FetchType1: ", err)
         }
 
         a := AgentJSON{
