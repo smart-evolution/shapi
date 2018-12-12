@@ -24,7 +24,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
         p, ok := dfc.(persistence.IPersistance);
         if !ok {
-            log.Println("controllers: Invalid store ")
+            log.Println("webserver/Register: Invalid store ")
             return
         }
 
@@ -41,7 +41,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
             log.Fatalln(err)
         }
 
-        log.Println("Registered user", newUser)
+        log.Println("webserver/Register: Registered user", newUser)
 
         http.Redirect(w, r, "/", http.StatusSeeOther)
     default:

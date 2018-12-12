@@ -3,8 +3,6 @@ package state
 import (
     "log"
     "errors"
-    "io/ioutil"
-    "strings"
     "github.com/smart-evolution/smarthome/models/agent"
 )
 
@@ -15,7 +13,7 @@ type IState interface {
     SetSendAlert(bool)
     SendAlert() bool
     Agents() []*agent.Agent
-    FindAgentByID(string) (*agent.Agent, error)
+    AgentByID(string) (*agent.Agent, error)
 }
 
 // State - data source which keeps short data in memory
@@ -26,17 +24,12 @@ type State struct {
 }
 
 // New - creates new instance of State
-func New() *State {
+func New(agents []*agent.Agent) *State {
     return &State{
         isAlerts: false,
         sendAlert: false,
-        agents: []*agent.Agent{},
+        agents: agents,
     }
-}
-
-// Agents - returns list of available agents
-func (s *State) Agents() []*agent.Agent {
-    return s.agents
 }
 
 // SetIsAlerts - setted for `isAlerts`
@@ -61,38 +54,18 @@ func (s *State) SendAlert() bool {
 
 // AddAgent - adds agent to the memory state
 func (s *State) AddAgent(id string, name string, url string, agentType string) {
-    log.Println("services: adding home agent '" + name + "' with URL '" + url + "'")
+    log.Println("state/AddAgent: adding home agent '" + name + "' with URL '" + url + "'")
     agent := agent.New(id, name, url, agentType)
     s.agents = append(s.agents, agent)
 }
 
-// SetupAgents - setups agents based on hardware config file
-func (s *State) SetupAgents(hardwareFile string) {
-    agentsCnf, err := ioutil.ReadFile(hardwareFile)
-
-    if err != nil {
-        log.Print("services", err)
-    }
-
-    agentsConf := strings.Split(string(agentsCnf), "\n")
-
-    for _, c := range agentsConf {
-        cnfRow := strings.Split(c, ":")
-
-        if (len(cnfRow) == 4) {
-            id := cnfRow[0]
-            name := cnfRow[1]
-            ip := cnfRow[2]
-            agentType := cnfRow[3]
-            apiURL := "http://" + ip + "/api"
-
-            s.AddAgent(id, name, apiURL, agentType)
-        }
-    }
+// Agents - returns list of available agents
+func (s *State) Agents() []*agent.Agent {
+    return s.agents
 }
 
-// FindAgentByID - find corresponding agent by ID
-func (s *State) FindAgentByID(id string) (*agent.Agent, error) {
+// AgentByID - find corresponding agent by ID
+func (s *State) AgentByID(id string) (*agent.Agent, error) {
     for _, a := range s.agents {
         if a.ID() == id {
             return a, nil

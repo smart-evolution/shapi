@@ -29,16 +29,16 @@ func New(store dataflux.IDataFlux, mailer email.IMailer, st state.IState) *HomeB
 func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interface{}) {
     return func (agent *agent.Agent, data map[string]interface{}) {
         pt, _ := client.NewPoint(
-        agent.ID(),
-        map[string]string{ "home": agent.Name() },
-        data,
-        time.Now(),
+            agent.ID(),
+            map[string]string{ "home": agent.Name() },
+            data,
+            time.Now(),
         )
 
         err := store.AddData(pt)
 
         if err != nil {
-        log.Println("services", err)
+            log.Println("homebot/persistData: ", err)
         }
     }
 }
@@ -46,7 +46,7 @@ func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interfa
 func (hb *HomeBot) runCommunicationLoop() {
     for range time.Tick(time.Second * 10) {
         if hb.store.IsConnected() == false {
-            log.Println("services: cannot fetch packages, Influx is down")
+            log.Println("homebot/runCommunicationLoop: cannot fetch packages, Influx is down")
             return
         }
 
@@ -54,7 +54,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 
         for i := 0; i < len(agents); i++ {
             a := agents[i]
-            log.Println("services: fetching from=", a.Name())
+            log.Println("homebot/runCommunicationLoop: fetching from=", a.Name())
 
             if a.AgentType() == "type1" {
                 a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts())

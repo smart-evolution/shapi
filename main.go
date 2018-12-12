@@ -3,6 +3,8 @@ package main
 import (
 	"os"
     "log"
+    "io/ioutil"
+    "strings"
     "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
@@ -11,37 +13,88 @@ import (
     "github.com/smart-evolution/smarthome/services/email"
     "github.com/smart-evolution/smarthome/processes/webserver"
     "github.com/smart-evolution/smarthome/models/user"
+    "github.com/smart-evolution/smarthome/models/agent"
     "gopkg.in/mgo.v2/bson"
 )
 
 //go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
 
-func main() {
-    utils.VERSION = VERSION
+func getAgents(hardwareFile string) []*agent.Agent {
+    var agents []*agent.Agent
+    agentsCnf, err := ioutil.ReadFile(hardwareFile)
 
-    s := state.New()
-    s.SetupAgents("hardware/agents.config")
+    if err != nil {
+        log.Print("main/getAgents: ", err)
+    }
 
-    p := persistence.New(os.Getenv("MONGOLAB_URI"), os.Getenv("DB_NAME"))
-    df := dataflux.New("http://localhost:8086")
-    m := email.New(os.Getenv("EMAILNAME"), os.Getenv("EMAILPASS"), os.Getenv("SMTPPORT"), os.Getenv("SMTPAUTHURL"))
+    agentsConf := strings.Split(string(agentsCnf), "\n")
+
+    for _, c := range agentsConf {
+        cnfRow := strings.Split(c, ":")
+
+        if (len(cnfRow) == 4) {
+            id := cnfRow[0]
+            name := cnfRow[1]
+            ip := cnfRow[2]
+            agentType := cnfRow[3]
+            apiURL := "http://" + ip + "/api"
+
+            agents = append(agents, agent.New(id, name, apiURL, agentType))
+        }
+    }
+
+    return agents
+}
+
+func getRecipients(p *persistence.Persistance) []string {
+    var users []user.User
+    var recipients []string
 
     c := p.GetCollection("users")
-    var users []user.User
     err := c.Find(bson.M{}).All(&users)
 
     if err != nil {
-        log.Println("services: Alert recipients not found", err)
+        log.Println("main/getRecipients: Alert recipients not found", err)
     }
 
     for _, u := range users {
-        m.AddRecipient(u.Username)
+        recipients = append(recipients, u.Username)
     }
+
+    return recipients
+}
+
+func main() {
+    utils.VERSION = VERSION
+
+    agents := getAgents("hardware/agents.config")
+    s := state.New(agents)
+
+    p := persistence.New(
+        os.Getenv("MONGOLAB_URI"),
+        os.Getenv("DB_NAME"),
+    )
+
+    df := dataflux.New("http://localhost:8086")
+
+    recipients := getRecipients(p)
+    m := email.New(
+        recipients,
+        os.Getenv("EMAILNAME"),
+        os.Getenv("EMAILPASS"),
+        os.Getenv("SMTPPORT"),
+        os.Getenv("SMTPAUTHURL"),
+    )
 
     hb := homebot.New(df, m, s)
     go hb.RunService()
 
-    ws := webserver.New(os.Getenv("PORT"), df, p, s)
+    ws := webserver.New(
+        os.Getenv("PORT"),
+        df,
+        p,
+        s,
+    )
     ws.RunService()
 }
 

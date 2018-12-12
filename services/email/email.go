@@ -22,12 +22,13 @@ type Mailer struct {
 }
 
 // New - creates new instance of Mailer
-func New(sender string, password string, SMTPPort string, SMTPAuthURL string) *Mailer {
+func New(recipients []string, sender string, password string, SMTPPort string, SMTPAuthURL string) *Mailer {
     return &Mailer{
         Sender: sender,
         Password: password,
         SMTPPort: SMTPPort,
         SMTPAuthURL: SMTPAuthURL,
+        recipients: recipients,
     }
 }
 

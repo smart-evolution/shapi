@@ -35,7 +35,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
             p, ok := dfc.(persistence.IPersistance);
             if !ok {
-                log.Println("controllers: Invalid store ")
+                log.Println("webserver/Authenticate: Invalid store ")
                 return
             }
 
@@ -80,7 +80,7 @@ func authenticateUser(username string, password string, persistance persistence.
         return user, errors.New("User not found")
     }
 
-    log.Println("Logged in as user", user)
+    log.Println("webserver/authenticateUser: Logged in as user", user)
 
     return user, nil
 }

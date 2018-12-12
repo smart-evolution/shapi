@@ -19,7 +19,7 @@ func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     state, ok := st.(state.IState);
     if !ok {
-        log.Println("controllers: Invalid store ")
+        log.Println("webserver/CtrSendAlert: Invalid store ")
         return
     }
 

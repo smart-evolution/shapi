@@ -27,10 +27,10 @@ const (
 
 // Agent - hardware entity
 type Agent struct {
-    iD          string
-    name        string
-    uRL         string
-    agentType   string
+    iD                  string
+    name                string
+    uRL                 string
+    agentType           string
     tmpNotifyTime       time.Time
     motionNotifyTime    time.Time
     gasNotifyTime       time.Time
@@ -91,7 +91,7 @@ func getPackageData(stream string) (string, error) {
     dataPackage := pkgRegExp.FindString(stream)
 
     if dataPackage == "" {
-        return "", errors.New("Data stream doesn't contain valid package (" + stream + ")")
+        return "", errors.New("agent/getPackageData: Data stream doesn't contain valid package (" + stream + ")")
     }
 
     return strings.Split(strings.Replace(dataPackage, "<", "", -1), ">")[0], nil
@@ -118,7 +118,7 @@ func (a *Agent) FetchPackage(alertNotifier func(string), persistData func(*Agent
     response, err := http.Get(a.uRL)
 
     if err != nil {
-        log.Println("services: agent '" + a.name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 
@@ -127,14 +127,14 @@ func (a *Agent) FetchPackage(alertNotifier func(string), persistData func(*Agent
     contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        log.Println("services: agent '" + a.name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 
     unwrappedData, err := getPackageData(string(contents))
 
     if err != nil {
-        log.Println("services: agent '" + a.name + "'", err)
+        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
 

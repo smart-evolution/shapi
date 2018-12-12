@@ -24,14 +24,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         df, ok := dfc.(dataflux.IDataFlux);
         if !ok {
-            log.Println("controllers: Invalid store ")
+            log.Println("webserver/CtrAgents: Invalid store ")
             return
         }
         st := s.GetDataSource("state")
 
         state, ok := st.(state.IState);
         if !ok {
-            log.Println("controllers: Invalid store ")
+            log.Println("webserver/CtrAgents: Invalid store ")
             return
         }
 
@@ -39,7 +39,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("controllers: ", err)
+            log.Println("webserver/CtrAgents: ", err)
             return
         }
 
@@ -48,7 +48,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         agentsType2, err := agents.FetchType2(agentID, state.Agents())
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("controllers: ", err)
+            log.Println("webserver/CtrAgents: ", err)
             return
         }
 
@@ -65,15 +65,15 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         dfc := s.GetDataSource("state")
         st, ok := dfc.(state.IState);
         if !ok {
-            log.Println("controllers: Invalid store ")
+            log.Println("webserver/CtrAgents: Invalid store ")
             return
         }
 
-        agent, err := st.FindAgentByID(agentID)
+        agent, err := st.AgentByID(agentID)
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("controllers: ", err)
+            log.Println("webserver/CtrAgents: ", err)
             return
         }
 
@@ -81,7 +81,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("controllers: ", err)
+            log.Println("webserver/CtrAgents: ", err)
             return
         }
 

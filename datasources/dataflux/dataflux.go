@@ -30,7 +30,7 @@ func New(dbURI string) *DataFlux {
     })
 
     if err != nil {
-        log.Println("services: ", err)
+        log.Println("dataflux/New: ", err)
         return &DataFlux{}
     }
 
@@ -40,7 +40,7 @@ func New(dbURI string) *DataFlux {
     })
 
     if err != nil {
-        log.Println("services ", err)
+        log.Println("dataflux/New: ", err)
         return &DataFlux{}
     }
 

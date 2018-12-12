@@ -43,7 +43,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
 
     state, ok := st.(state.IState);
     if !ok {
-        log.Println("controllers: Invalid store ")
+        log.Println("webserver/RenderTemplate: Invalid store ")
         return
     }
 

@@ -21,7 +21,7 @@ func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
     var type1Agents []AgentJSON
 
     if df.IsConnected() != true {
-        return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
+        return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
     }
 
     measurements := "/.*/"
@@ -36,7 +36,7 @@ func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
     }
 
     if df.IsConnected() != true {
-        return []AgentJSON{}, errors.New("cannot feed data , Influx seems to be down")
+        return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
     }
 
     resp, err := df.GetData(q)
@@ -108,7 +108,7 @@ func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
         }
 
         if err != nil {
-            log.Println("services: ", err)
+            log.Println("webserver/FetchType1: ", err)
         }
 
         a := AgentJSON{

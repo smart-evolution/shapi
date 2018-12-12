@@ -19,7 +19,7 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
     st, ok := dfc.(state.IState);
     if !ok {
-        log.Println("controllers: Invalid store ")
+        log.Println("webserver/CtrAlerts: Invalid store ")
         return
     }
 
