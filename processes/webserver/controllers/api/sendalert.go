@@ -9,6 +9,7 @@ import (
     "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/datasources/state"
     "github.com/coda-it/gowebserver/store"
+    "github.com/coda-it/gowebserver/helpers"
 )
 
 // CtrSendAlert - api controller for sending alerts to agents
@@ -34,6 +35,14 @@ func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
         strconv.FormatBool(state.SendAlert()),
     }
 
-    json.NewEncoder(w).Encode(data)
+    links := map[string]map[string]string{
+        "self": map[string]string {
+            "href": "/api/sendalert",
+        },
+    }
+
+    embedded := map[string]string{}
+
+    json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
 }
 
