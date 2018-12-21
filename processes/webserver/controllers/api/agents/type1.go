@@ -90,13 +90,17 @@ func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
             } else {
                 sound = ""
             }
+            if serie[5] != nil {
+                agentName = serie[5].(string)
+            } else {
+                agentName = ""
+            }
 
             times = append(times, time)
             temperatures = append(temperatures, temperature)
             presences = append(presences, presence)
             gases = append(gases, gas)
             sounds = append(sounds, sound)
-            agentName = serie[5].(string)
         }
 
         agentData := Type1DataJSON{

@@ -3,6 +3,7 @@ package api
 import (
     "log"
     "net/http"
+    "strconv"
     "encoding/json"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
@@ -10,6 +11,7 @@ import (
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/state"
     "github.com/coda-it/gowebserver/store"
+    "github.com/coda-it/gowebserver/helpers"
 )
 
 // CtrAgents - controller for retrieving agents list data
@@ -24,14 +26,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         df, ok := dfc.(dataflux.IDataFlux);
         if !ok {
-            log.Println("webserver/CtrAgents: Invalid store ")
+            log.Println("webserver/CtrAgents: Store should implement IDataFlux")
             return
         }
         st := s.GetDataSource("state")
 
         state, ok := st.(state.IState);
         if !ok {
-            log.Println("webserver/CtrAgents: Invalid store ")
+            log.Println("webserver/CtrAgents: Store should implement IState")
             return
         }
 
@@ -59,13 +61,27 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
             return
         }
 
-        json.NewEncoder(w).Encode(agentsList)
+        data := map[string]string{
+            "count": strconv.Itoa(len(agentsList)),
+        }
+
+        links := map[string]map[string]string{
+            "self": map[string]string {
+                "href": "/api/agents/" + agentID,
+            },
+        }
+
+        embedded := map[string]interface{}{
+            "agents": agentsList,
+        }
+
+        json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
 
     case "POST":
         dfc := s.GetDataSource("state")
         st, ok := dfc.(state.IState);
         if !ok {
-            log.Println("webserver/CtrAgents: Invalid store ")
+            log.Println("webserver/CtrAgents: Store should implement IState")
             return
         }
 
