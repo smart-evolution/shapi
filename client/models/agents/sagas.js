@@ -28,7 +28,7 @@ function callSendAlert() {
 export function* fetchData() {
   while (true) {
     const data = yield call(getData);
-    const agents = data['_embedded'].agents;
+    const agents = data._embedded.agents;
 
     if (_.isArray(agents)) {
       yield put(actions.fetchDataSuccess(agents));
