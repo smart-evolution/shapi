@@ -52,6 +52,7 @@ func (hb *HomeBot) runCommunicationLoop() {
         }
 
         agents := hb.state.Agents()
+        done := make(chan bool)
         var wg sync.WaitGroup
         wg.Add(len(agents))
 
@@ -64,7 +65,17 @@ func (hb *HomeBot) runCommunicationLoop() {
             }
         }
 
-        wg.Wait()
+        go func() {
+            wg.Wait()
+            close(done)
+        }()
+
+        switch {
+        case <- done:
+            continue
+        case <-time.After(3 * time.Second):
+            continue
+        }
     }
 }
 
