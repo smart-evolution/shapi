@@ -70,7 +70,7 @@ func (hb *HomeBot) runCommunicationLoop() {
             close(done)
         }()
 
-        switch {
+        select {
         case <-done:
             continue
         case <-time.After(3 * time.Second):
