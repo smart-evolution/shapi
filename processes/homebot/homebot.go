@@ -3,6 +3,7 @@ package homebot
 import (
     "log"
     "time"
+    "sync"
     "github.com/influxdata/influxdb/client/v2"
     "github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
@@ -51,15 +52,19 @@ func (hb *HomeBot) runCommunicationLoop() {
         }
 
         agents := hb.state.Agents()
+        var wg sync.WaitGroup
+        wg.Add(len(agents))
 
         for i := 0; i < len(agents); i++ {
             a := agents[i]
             log.Println("homebot/runCommunicationLoop: fetching from=", a.Name())
 
             if a.AgentType() == "type1" {
-                a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts())
+                go a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts(), &wg)
             }
         }
+
+        wg.Wait()
     }
 }
 

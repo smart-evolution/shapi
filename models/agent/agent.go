@@ -1,6 +1,7 @@
 package agent
 
 import (
+    "sync"
     "log"
     "io/ioutil"
     "net/http"
@@ -114,14 +115,19 @@ func getSound(data string) string {
 }
 
 // FetchPackage - fetches data packages
-func (a *Agent) FetchPackage(alertNotifier func(string), persistData func(*Agent, map[string]interface{}), isAlerts bool) {
+func (a *Agent) FetchPackage(
+    alertNotifier func(string),
+    persistData func(*Agent, map[string]interface{}),
+    isAlerts bool,
+    wg *sync.WaitGroup,
+){
+    defer wg.Done()
     response, err := http.Get(a.uRL)
 
     if err != nil {
         log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
         return
     }
-
     defer response.Body.Close()
 
     contents, err := ioutil.ReadAll(response.Body)
