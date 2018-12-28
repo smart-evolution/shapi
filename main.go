@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-    "log"
     "io/ioutil"
     "strings"
     "github.com/smart-evolution/smarthome/utils"
@@ -24,7 +23,7 @@ func getAgents(hardwareFile string) []*agent.Agent {
     agentsCnf, err := ioutil.ReadFile(hardwareFile)
 
     if err != nil {
-        log.Print("main/getAgents: ", err)
+        utils.Log("main/getAgents: ", err)
     }
 
     agentsConf := strings.Split(string(agentsCnf), "\n")
@@ -54,7 +53,7 @@ func getRecipients(p *persistence.Persistance) []string {
     err := c.Find(bson.M{}).All(&users)
 
     if err != nil {
-        log.Println("main/getRecipients: Alert recipients not found", err)
+        utils.Log("main/getRecipients: Alert recipients not found", err)
     }
 
     for _, u := range users {
