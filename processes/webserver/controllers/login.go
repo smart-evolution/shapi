@@ -1,11 +1,11 @@
 package controllers
 
 import (
-    "log"
     "errors"
     "time"
     "net/http"
     "gopkg.in/mgo.v2/bson"
+    utl "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/models/user"
     "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
     "github.com/smart-evolution/smarthome/datasources/persistence"
@@ -35,7 +35,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
             p, ok := dfc.(persistence.IPersistance);
             if !ok {
-                log.Println("webserver/Authenticate: Invalid store ")
+                utl.Log("Invalid store ")
                 return
             }
 
@@ -76,11 +76,11 @@ func authenticateUser(username string, password string, persistance persistence.
     }).One(&user)
 
     if err != nil {
-        log.Println("User not found err=", err)
+        utl.Log("User not found err=", err)
         return user, errors.New("User not found")
     }
 
-    log.Println("webserver/authenticateUser: Logged in as user", user)
+    utl.Log("webserver/authenticateUser: Logged in as user", user)
 
     return user, nil
 }

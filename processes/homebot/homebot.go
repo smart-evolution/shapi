@@ -1,10 +1,10 @@
 package homebot
 
 import (
-    "log"
     "time"
     "sync"
     "github.com/influxdata/influxdb/client/v2"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/state"
@@ -39,7 +39,7 @@ func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interfa
         err := store.AddData(pt)
 
         if err != nil {
-            log.Println("homebot/persistData: ", err)
+            utils.Log(err)
         }
     }
 }
@@ -47,7 +47,7 @@ func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interfa
 func (hb *HomeBot) runCommunicationLoop() {
     for range time.Tick(time.Second * 10) {
         if hb.store.IsConnected() == false {
-            log.Println("homebot/runCommunicationLoop: cannot fetch packages, Influx is down")
+            utils.Log("cannot fetch packages, Influx is down")
             return
         }
 
@@ -58,7 +58,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 
         for i := 0; i < len(agents); i++ {
             a := agents[i]
-            log.Println("homebot/runCommunicationLoop: fetching from=", a.Name())
+            utils.Log("fetching from=", a.Name())
 
             if a.AgentType() == "type1" {
                 go a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts(), &wg)

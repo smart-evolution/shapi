@@ -5,7 +5,7 @@ import (
     "runtime"
 )
 
-func Log(msg string, args ...interface{}) {
+func Log(msg interface{}, args ...interface{}) {
     pc, file, line, ok := runtime.Caller(1)
     if ok {
         log.Println(

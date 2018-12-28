@@ -1,8 +1,8 @@
 package email
 
 import (
-    "log"
     "net/smtp"
+    "github.com/smart-evolution/smarthome/utils"
 )
 
 // IMailer - interface for mailer
@@ -52,11 +52,11 @@ func (m *Mailer) SendEmail(body string, recipient string) {
     err := smtp.SendMail(m.SMTPPort, smtpAuth, m.Sender, []string{recipient}, []byte(msg))
 
     if err != nil {
-        log.Println("services: error sending email to " + recipient, err)
+        utils.Log("error sending email to " + recipient, err)
         return
     }
 
-    log.Println("services: alert sent to " + recipient)
+    utils.Log("alert sent to " + recipient)
 }
 
 // BulkEmail - sends alerts to all home users

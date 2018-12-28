@@ -2,7 +2,7 @@ package controllers
 
 import (
     "net/http"
-    "log"
+    utl "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/models/user"
@@ -24,7 +24,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
         p, ok := dfc.(persistence.IPersistance);
         if !ok {
-            log.Println("webserver/Register: Invalid store ")
+            utl.Log("Invalid store")
             return
         }
 
@@ -38,10 +38,10 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
         err := c.Insert(newUser)
         if err != nil {
-            log.Fatalln(err)
+            utl.Log(err)
         }
 
-        log.Println("webserver/Register: Registered user", newUser)
+        utl.Log("Registered user", newUser)
 
         http.Redirect(w, r, "/", http.StatusSeeOther)
     default:

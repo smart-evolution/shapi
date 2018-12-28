@@ -1,8 +1,8 @@
 package state
 
 import (
-    "log"
     "errors"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/models/agent"
 )
 
@@ -54,7 +54,7 @@ func (s *State) SendAlert() bool {
 
 // AddAgent - adds agent to the memory state
 func (s *State) AddAgent(id string, name string, url string, agentType string) {
-    log.Println("state/AddAgent: adding home agent '" + name + "' with URL '" + url + "'")
+    utils.Log("adding home agent '" + name + "' with URL '" + url + "'")
     agent := agent.New(id, name, url, agentType)
     s.agents = append(s.agents, agent)
 }

@@ -2,10 +2,10 @@ package utils
 
 import (
 	"os"
-	"log"
 	"net/http"
 	"path/filepath"
 	"html/template"
+    utl "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent"
@@ -36,14 +36,14 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
     dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 
     if err != nil {
-        log.Fatal(err)
+        utl.Log(err)
     }
 
     st := s.GetDataSource("state")
 
     state, ok := st.(state.IState);
     if !ok {
-        log.Println("webserver/RenderTemplate: Invalid store ")
+        utl.Log("Invalid store")
         return
     }
 

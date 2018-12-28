@@ -1,8 +1,8 @@
 package agents
 
 import (
-    "log"
     "errors"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/influxdata/influxdb/client/v2"
 )
@@ -112,7 +112,7 @@ func FetchType1 (agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
         }
 
         if err != nil {
-            log.Println("webserver/FetchType1: ", err)
+            utils.Log(err)
         }
 
         a := AgentJSON{

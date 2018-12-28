@@ -23,7 +23,7 @@ func getAgents(hardwareFile string) []*agent.Agent {
     agentsCnf, err := ioutil.ReadFile(hardwareFile)
 
     if err != nil {
-        utils.Log("main/getAgents: ", err)
+        utils.Log(err)
     }
 
     agentsConf := strings.Split(string(agentsCnf), "\n")
@@ -53,7 +53,7 @@ func getRecipients(p *persistence.Persistance) []string {
     err := c.Find(bson.M{}).All(&users)
 
     if err != nil {
-        utils.Log("main/getRecipients: Alert recipients not found", err)
+        utils.Log("Alert recipients not found", err)
     }
 
     for _, u := range users {
