@@ -1,8 +1,8 @@
 #!/bin/bash
 
 REPOSITORY=http://github.com/oskarszura/smarthome
-NEWER_TAG=$(git tag | tail -r | sed -n 1p)
-OLDER_TAG=$(git tag | tail -r | sed -n 2p)
+NEWER_TAG=$(git tag --sort version:refname | tail -r | sed -n 1p)
+OLDER_TAG=$(git tag --sort version:refname | tail -r | sed -n 2p)
 HEADER="# Changelog from $NEWER_TAG"
 DIR=./docs/changelogs
 
