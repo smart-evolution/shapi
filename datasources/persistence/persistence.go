@@ -1,7 +1,7 @@
 package persistence
 
 import (
-    "log"
+    "github.com/smart-evolution/smarthome/utils"
     "gopkg.in/mgo.v2"
 )
 
@@ -18,7 +18,7 @@ type Persistance struct {
 
 // New - creates new instance of Persistance
 func New(dbURI string, dbName string) *Persistance {
-    log.Println("persistence/New: Connecting to mgo with URI = " + dbURI)
+    utils.Log("Connecting to mgo with URI = " + dbURI)
     session, err := mgo.Dial(dbURI)
     session.SetMode(mgo.Monotonic, true)
 

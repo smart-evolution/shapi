@@ -1,7 +1,7 @@
 package dataflux
 
 import (
-    "log"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/influxdata/influxdb/client/v2"
 )
 
@@ -30,7 +30,7 @@ func New(dbURI string) *DataFlux {
     })
 
     if err != nil {
-        log.Println("dataflux/New: ", err)
+        utils.Log(err)
         return &DataFlux{}
     }
 
@@ -40,7 +40,7 @@ func New(dbURI string) *DataFlux {
     })
 
     if err != nil {
-        log.Println("dataflux/New: ", err)
+        utils.Log(err)
         return &DataFlux{}
     }
 

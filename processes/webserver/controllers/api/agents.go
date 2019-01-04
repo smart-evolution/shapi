@@ -1,10 +1,10 @@
 package api
 
 import (
-    "log"
     "net/http"
     "strconv"
     "encoding/json"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agents"
@@ -26,14 +26,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         df, ok := dfc.(dataflux.IDataFlux);
         if !ok {
-            log.Println("webserver/CtrAgents: Store should implement IDataFlux")
+            utils.Log("Store should implement IDataFlux")
             return
         }
         st := s.GetDataSource("state")
 
         state, ok := st.(state.IState);
         if !ok {
-            log.Println("webserver/CtrAgents: Store should implement IState")
+            utils.Log("Store should implement IState")
             return
         }
 
@@ -41,7 +41,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("webserver/CtrAgents: ", err)
+            utils.Log(err)
             return
         }
 
@@ -50,7 +50,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         agentsType2, err := agents.FetchType2(agentID, state.Agents())
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("webserver/CtrAgents: ", err)
+            utils.Log(err)
             return
         }
 
@@ -81,7 +81,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
         dfc := s.GetDataSource("state")
         st, ok := dfc.(state.IState);
         if !ok {
-            log.Println("webserver/CtrAgents: Store should implement IState")
+            utils.Log("Store should implement IState")
             return
         }
 
@@ -89,7 +89,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("webserver/CtrAgents: ", err)
+            utils.Log(err)
             return
         }
 
@@ -97,7 +97,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
         if err != nil {
             w.WriteHeader(http.StatusInternalServerError)
-            log.Println("webserver/CtrAgents: ", err)
+            utils.Log(err)
             return
         }
 

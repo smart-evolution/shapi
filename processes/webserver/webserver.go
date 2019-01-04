@@ -8,7 +8,7 @@ import (
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/datasources/state"
-    "log"
+    "github.com/smart-evolution/smarthome/utils"
 )
 
 // WebServer - adapter for gowebserver instance
@@ -28,7 +28,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
     addr, err := getServerAddress(port)
 
     if err != nil {
-        log.Println("webserver/getServerAddress: ", err)
+        utils.Log(err)
     }
 
     serverOptions := gowebserver.WebServerOptions{

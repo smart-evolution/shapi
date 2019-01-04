@@ -2,7 +2,6 @@ package agent
 
 import (
     "sync"
-    "log"
     "io/ioutil"
     "net/http"
     "time"
@@ -10,6 +9,7 @@ import (
     "errors"
     "strings"
     "strconv"
+    "github.com/smart-evolution/smarthome/utils"
 )
 
 const (
@@ -125,7 +125,7 @@ func (a *Agent) FetchPackage(
     response, err := http.Get(a.uRL)
 
     if err != nil {
-        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
+        utils.Log("agent '" + a.name + "'", err)
         return
     }
     defer response.Body.Close()
@@ -133,14 +133,14 @@ func (a *Agent) FetchPackage(
     contents, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
-        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
+        utils.Log("agent '" + a.name + "'", err)
         return
     }
 
     unwrappedData, err := getPackageData(string(contents))
 
     if err != nil {
-        log.Println("agent/FetchPackage: agent '" + a.name + "'", err)
+        utils.Log("agent '" + a.name + "'", err)
         return
     }
 

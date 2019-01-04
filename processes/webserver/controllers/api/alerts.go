@@ -1,10 +1,10 @@
 package api
 
 import (
-    "log"
     "strconv"
     "net/http"
     "encoding/json"
+    "github.com/smart-evolution/smarthome/utils"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/smart-evolution/smarthome/datasources/state"
@@ -20,7 +20,7 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
     st, ok := dfc.(state.IState);
     if !ok {
-        log.Println("webserver/CtrAlerts: Invalid store ")
+        utils.Log("Invalid store")
         return
     }
 
