@@ -40,6 +40,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
     server := gowebserver.New(serverOptions, controllers.NotFound)
 
     server.Router.AddRoute("/agent/{agent}", controllers.CtrDashboard)
+    server.Router.AddRoute("/agent/{agent}/edit", controllers.CtrDashboard)
     server.Router.AddRoute("/login/register", controllers.Register)
     server.Router.AddRoute("/login/logout", controllers.AuthenticateLogout)
     server.Router.AddRoute("/login", controllers.Authenticate)

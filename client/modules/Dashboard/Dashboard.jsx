@@ -10,6 +10,7 @@ const Dashboard = (props) => {
   const {
     error,
     agent,
+    pathname,
   } = props;
 
   return (
@@ -19,6 +20,14 @@ const Dashboard = (props) => {
           {error}
         </div>
       )}
+      <div className="dashboard__cell dashboard__cell--full">
+        <a
+          class="c-btn c-btn--edit"
+          href={pathname + '/edit'}
+        >
+          Edit
+        </a>
+      </div>
       {!_.isEmpty(agent) &&
         (<div className="dashboard__cell dashboard__cell--full">
           <CurrentPanel
