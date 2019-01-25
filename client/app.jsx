@@ -21,6 +21,10 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
+const routeChange = () => {
+  console.log('XLXLXLXLXL')
+}
+
 if (appContainer) {
   render(
     <Provider store={store}>
@@ -28,7 +32,11 @@ if (appContainer) {
         <div>
           <Route exact path="/" component={AgentsStatus} />
           <Route exact path="/agent/:agent" component={Dashboard} />
-          <Route path="/agent/:agent/edit" component={AgentEdit} />
+          <Route
+            path="/agent/:agent/edit"
+            component={AgentEdit}
+            onEnter={routeChange}
+          />
         </div>
       </Router>
     </Provider>,
