@@ -22,7 +22,6 @@ type AgentConfig struct {
 func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     utils.RenderTemplate(w, r, "agentedit", sm, s)
     agentID := opt.Params["agent"]
-    fmt.Println("------------------->", agentID)
 
     dfc := s.GetDataSource("persistence")
 
@@ -31,18 +30,26 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
         utl.Log("Invalid store ")
         return
     }
+    c := p.GetCollection("agentConfigs")
 
     var agentConfig AgentConfig
 
-    c := p.GetCollection("agentConfigs")
-    err := c.Find(bson.M{
-        "agentID": agentID,
-    }).One(&agentConfig)
+    switch r.Method {
+    case "POST":
+        fmt.Println("------------------->", r.Body)
 
-    if err != nil {
-        utl.Log("AgentConfig not found err=", err)
-        return
+    case "GET":
+        err := c.Find(bson.M{
+            "agentID": agentID,
+        }).One(&agentConfig)
+
+        if err != nil {
+            utl.Log("AgentConfig not found err=", err)
+            return
+        }
+
+        utl.Log("webserver/authenticateUser: Logged in as user", agentConfig)
+
+    default:
     }
-
-    utl.Log("webserver/authenticateUser: Logged in as user", agentConfig)
 }

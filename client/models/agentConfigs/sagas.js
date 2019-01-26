@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 
-function getData() {
-  return fetch('/api/agentsConfig')
+function getData(agentID) {
+  return fetch(`/api/agentsConfig/${agentID}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
@@ -18,15 +18,19 @@ function getData() {
     .catch(e => e);
 }
 
-export function* fetchData() {
-    const data = yield call(getData);
-    const agents = data._embedded.agents;
+export function* fetchData({ agentID }) {
+    yield call(getData, agentID);
+}
 
-    if (_.isArray(agents)) {
-      yield put(actions.fetchDataSuccess(agents));
-    } else {
-      yield put(actions.fetchDataFail(agents));
-    }
+function callUpdateData(agentID, data) {
+  return fetch(`/api/agentsConfig/${agentID}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .catch(() => 'Send alert failed');
+}
 
-    yield delay(5000);
+export function* updateData({ agentID, data }) {
+  yield call(callUpdateData, agentID, data);
 }

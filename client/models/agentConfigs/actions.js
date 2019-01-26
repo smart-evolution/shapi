@@ -12,3 +12,14 @@ export const fetchDataSuccess = () => ({
 export const fetchDataFail = () => ({
   type: actionTypes.FETCH_AGENT_CONFIG_FAILURE,
 });
+
+export const updateDate = (agentID, data) => ({
+  type: actionTypes.POST_AGENT_CONFIG,
+  agentID,
+  data,
+});
+
+export const updateTemperature = (agentID, temperature) => ({
+  type: actionTypes.UPDATE_TEMPERATURE,
+  temperature,
+})

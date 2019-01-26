@@ -9,6 +9,7 @@ function* root() {
     fork(agentsSagas.fetchData),
     fork(agentsSagas.fetchAlerts),
     takeEvery(agentConfigsActionTypes.FETCH_DATA, agentConfigsSagas.fetchData),
+    takeEvery(agentConfigsActionTypes.POST_AGENT_CONFIG, agentConfigsSagas.updateData),
     takeEvery(agentsActionTypes.TOGGLE_ALERTS, agentsSagas.toggleAlerts),
     takeEvery(agentsActionTypes.FETCH_ALERTS, agentsSagas.fetchAlerts),
     takeEvery(agentsActionTypes.SEND_ALERT, agentsSagas.sendAlert),
