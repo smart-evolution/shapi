@@ -12,7 +12,7 @@ export default function reducers(state = defaultState, action) {
       const { agentID, temperature } = action;
 
       return _.merge({}, state, {
-        agentConfig: {
+        agentConfigs: {
           [agentID]: { temperature },
         },
       });

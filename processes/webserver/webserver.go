@@ -47,6 +47,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
     server.Router.AddRoute("/", controllers.CtrDashboard)
     server.Router.AddRoute("/api/agents", api.CtrAgents)
     server.Router.AddRoute("/api/agents/{agent}", api.CtrAgents)
+    server.Router.AddRoute("/api/agents/{agent}/edit", api.CtrAgentEdit)
     server.Router.AddRoute("/api/alerts", api.CtrAlerts)
     server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 

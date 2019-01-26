@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchConfig: (agentID) => {
     dispatch(actions.fetchData(agentID));
   },
+  updateTemperature: (agentID, temperature) => {
+    dispatch(actions.updateTemperature(agentID, temperature));
+  },
   updateConfig: (agentID, config) => {
     dispatch(actions.updateDate(agentID, config));
   },

@@ -21,5 +21,6 @@ export const updateDate = (agentID, data) => ({
 
 export const updateTemperature = (agentID, temperature) => ({
   type: actionTypes.UPDATE_TEMPERATURE,
+  agentID,
   temperature,
 })

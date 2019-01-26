@@ -23,7 +23,7 @@ export function* fetchData({ agentID }) {
 }
 
 function callUpdateData(agentID, data) {
-  return fetch(`/api/agentsConfig/${agentID}`, {
+  return fetch(`/api/agents/${agentID}/edit`, {
     method: 'POST',
     body: JSON.stringify(data),
   })
