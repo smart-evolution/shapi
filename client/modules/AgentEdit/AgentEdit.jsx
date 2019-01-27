@@ -46,12 +46,12 @@ class AgentEdit extends React.Component {
 
     return (<div>
       <div className="c-input">
-        [{temperature}]
         <label className="c-input__label">
           Temperature modifier
         </label>
         <input
           className="c-input__field"
+          value={temperature}
           onChange={this.updateTemperature}
         />
       </div>

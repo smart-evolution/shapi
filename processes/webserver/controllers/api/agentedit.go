@@ -6,6 +6,7 @@ import (
     utl "github.com/smart-evolution/smarthome/utils"
     "gopkg.in/mgo.v2/bson"
     "encoding/json"
+    "github.com/coda-it/gowebserver/helpers"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/store"
@@ -33,6 +34,13 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     var agentConfig AgentConfig
 
+    links := map[string]map[string]string{
+        "self": map[string]string {
+            "href": "api/agentsConfig/" + agentID,
+        },
+    }
+    embedded := map[string]string{}
+
     switch r.Method {
     case "POST":
         decoder := json.NewDecoder(r.Body)
@@ -45,10 +53,11 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
         if err != nil {
             utl.Log(err)
         }
+        json.NewEncoder(w).Encode(helpers.ServeHal(agentConfig, embedded, links))
 
     case "GET":
         err := c.Find(bson.M{
-            "agentID": agentID,
+            "agentId": agentID,
         }).One(&agentConfig)
 
         if err != nil {
@@ -56,7 +65,12 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
             return
         }
 
-        utl.Log("webserver/authenticateUser: Logged in as user", agentConfig)
+        links := map[string]map[string]string{
+            "self": map[string]string {
+                "href": "api/agentsConfig/" + agentID,
+            },
+        }
+        json.NewEncoder(w).Encode(helpers.ServeHal(agentConfig, embedded, links))
 
     default:
     }

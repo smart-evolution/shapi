@@ -3,7 +3,7 @@ import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 
 function getData(agentID) {
-  return fetch(`/api/agentsConfig/${agentID}`)
+  return fetch(`/api/agents/${agentID}/edit`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
@@ -19,7 +19,9 @@ function getData(agentID) {
 }
 
 export function* fetchData({ agentID }) {
-    yield call(getData, agentID);
+  const data = yield call(getData, agentID);
+  const { temperature } = data;
+  yield put(actions.updateTemperature(agentID, temperature));
 }
 
 function callUpdateData(agentID, data) {
