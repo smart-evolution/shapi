@@ -5,22 +5,21 @@ import (
     "github.com/smart-evolution/smarthome/datasources/persistence"
     utl "github.com/smart-evolution/smarthome/utils"
     "gopkg.in/mgo.v2/bson"
-    "github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
+    "encoding/json"
     "github.com/coda-it/gowebserver/router"
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/store"
-    "fmt"
 )
 
 type AgentConfig struct {
     ID          bson.ObjectId 	`json:"id" bson:"_id,omitempty"`
-    AgentID     bson.ObjectId 	`json:"agentId" bson:"agentId,omitempty"`
-    TmpAdjust   string          `bson:"tmpAdjustment"`
+    AgentID     string 	        `json:"agentId" bson:"agentId,omitempty"`
+    TmpAdjust   string          `json:"temperature" bson:"tmpAdjustment"`
 }
 
 // CtrAgentEdit - controller for agents list
 func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-    utils.RenderTemplate(w, r, "agentedit", sm, s)
+    defer r.Body.Close()
     agentID := opt.Params["agent"]
 
     dfc := s.GetDataSource("persistence")
@@ -36,7 +35,16 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     switch r.Method {
     case "POST":
-        fmt.Println("------------------->", r.Body)
+        decoder := json.NewDecoder(r.Body)
+        decoder.Decode(&agentConfig)
+        agentConfig.AgentID = agentID
+        _, err := c.Upsert(
+            bson.M{"agentId": agentID},
+            agentConfig,
+        )
+        if err != nil {
+            utl.Log(err)
+        }
 
     case "GET":
         err := c.Find(bson.M{
