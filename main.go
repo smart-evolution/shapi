@@ -85,7 +85,7 @@ func main() {
         os.Getenv("SMTPAUTHURL"),
     )
 
-    hb := homebot.New(df, m, s)
+    hb := homebot.New(df, p, m, s)
     go hb.RunService()
 
     ws := webserver.New(

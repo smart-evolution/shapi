@@ -3,6 +3,7 @@ package api
 import (
     "net/http"
     "github.com/smart-evolution/smarthome/datasources/persistence"
+    "github.com/smart-evolution/smarthome/models/agent"
     utl "github.com/smart-evolution/smarthome/utils"
     "gopkg.in/mgo.v2/bson"
     "encoding/json"
@@ -11,12 +12,6 @@ import (
     "github.com/coda-it/gowebserver/session"
     "github.com/coda-it/gowebserver/store"
 )
-
-type AgentConfig struct {
-    ID          bson.ObjectId 	`json:"id" bson:"_id,omitempty"`
-    AgentID     string 	        `json:"agentId" bson:"agentId,omitempty"`
-    TmpAdjust   string          `json:"temperature" bson:"tmpAdjustment"`
-}
 
 // CtrAgentEdit - controller for agents list
 func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
@@ -32,7 +27,7 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
     c := p.GetCollection("agentConfigs")
 
-    var agentConfig AgentConfig
+    var agentConfig agent.AgentConfig
 
     links := map[string]map[string]string{
         "self": map[string]string {
