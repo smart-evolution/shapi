@@ -7,7 +7,7 @@ export const getAgentConfig = (state, agentID) => {
   if (_.isEmpty(config)) {
     return {
       temperature: 0,
-    }
+    };
   }
 
   return config;

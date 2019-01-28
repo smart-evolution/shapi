@@ -7,10 +7,10 @@ const defaultState = {
 };
 
 export default function reducers(state = defaultState, action) {
+  const { agentID, temperature } = action;
+
   switch (action.type) {
     case actionTypes.UPDATE_TEMPERATURE:
-      const { agentID, temperature } = action;
-
       return _.merge({}, state, {
         agentConfigs: {
           [agentID]: { temperature },

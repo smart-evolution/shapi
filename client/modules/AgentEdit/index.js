@@ -17,10 +17,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     agentID,
     config,
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   fetchConfig: (agentID) => {
     dispatch(actions.fetchData(agentID));
   },

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
 class AgentEdit extends React.Component {
@@ -8,14 +9,13 @@ class AgentEdit extends React.Component {
     this.updateConfig = this.updateConfig.bind(this);
   }
 
-  updateTemperature(e) {
-    const temperature = e.target.value;
+  componentDidMount() {
     const {
       agentID,
-      updateTemperature,
+      fetchConfig,
     } = this.props;
 
-    updateTemperature(agentID, temperature);
+    fetchConfig(agentID);
   }
 
   updateConfig() {
@@ -28,13 +28,14 @@ class AgentEdit extends React.Component {
     updateConfig(agentID, config);
   }
 
-  componentDidMount() {
+  updateTemperature(e) {
+    const temperature = e.target.value;
     const {
       agentID,
-      fetchConfig,
+      updateTemperature,
     } = this.props;
 
-    fetchConfig(agentID);
+    updateTemperature(agentID, temperature);
   }
 
   render() {
@@ -46,9 +47,9 @@ class AgentEdit extends React.Component {
 
     return (<div>
       <div className="c-input">
-        <label className="c-input__label">
+        <div className="c-input__label">
           Temperature modifier
-        </label>
+        </div>
         <input
           className="c-input__field"
           value={temperature}
@@ -64,5 +65,13 @@ class AgentEdit extends React.Component {
     </div>);
   }
 }
+
+AgentEdit.propTypes = {
+  config: PropTypes.shape(),
+  agentID: PropTypes.string,
+  updateTemperature: PropTypes.func,
+  fetchConfig: PropTypes.func,
+  updateConfig: PropTypes.func,
+};
 
 export default withRouter(AgentEdit);

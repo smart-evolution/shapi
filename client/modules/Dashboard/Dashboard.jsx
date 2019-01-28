@@ -22,8 +22,8 @@ const Dashboard = (props) => {
       )}
       <div className="dashboard__cell dashboard__cell--full">
         <a
-          class="c-btn c-btn--edit"
-          href={pathname + '/edit'}
+          className="c-btn c-btn--edit"
+          href={`${pathname}/edit`}
         >
           Edit
         </a>
@@ -54,6 +54,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  pathname: PropTypes.string,
   error: PropTypes.error,
   agent: PropTypes.shape(),
 };

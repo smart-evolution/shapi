@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-export const fetchData = (agentID) => ({
+export const fetchData = agentID => ({
   type: actionTypes.FETCH_DATA,
   agentID,
 });
@@ -32,4 +32,4 @@ export const updateTemperature = (agentID, temperature) => ({
   type: actionTypes.UPDATE_TEMPERATURE,
   agentID,
   temperature,
-})
+});

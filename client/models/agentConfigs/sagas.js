@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 
@@ -29,8 +28,8 @@ function callUpdateData(agentID, data) {
     method: 'POST',
     body: JSON.stringify(data),
   })
-  .then(response => response.json())
-  .catch(() => 'Updating agent config failed');
+    .then(response => response.json())
+    .catch(() => 'Updating agent config failed');
 }
 
 export function* updateData({ agentID, data }) {
