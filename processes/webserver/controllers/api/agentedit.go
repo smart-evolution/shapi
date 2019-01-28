@@ -22,7 +22,7 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     p, ok := dfc.(persistence.IPersistance);
     if !ok {
-        utl.Log("Invalid store ")
+        utl.Log("Invalid store - should implement `IPersistance`")
         return
     }
     c := p.GetCollection("agentConfigs")

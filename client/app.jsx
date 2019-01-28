@@ -21,10 +21,6 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
-const routeChange = () => {
-  console.log('XLXLXLXLXL')
-}
-
 if (appContainer) {
   render(
     <Provider store={store}>
