@@ -30,7 +30,7 @@ function callUpdateData(agentID, data) {
     body: JSON.stringify(data),
   })
   .then(response => response.json())
-  .catch(() => 'Send alert failed');
+  .catch(() => 'Updating agent config failed');
 }
 
 export function* updateData({ agentID, data }) {

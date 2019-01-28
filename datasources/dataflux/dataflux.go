@@ -2,7 +2,7 @@ package dataflux
 
 import (
     "github.com/smart-evolution/smarthome/utils"
-    "github.com/influxdata/influxdb/client/v2"
+    "github.com/influxdata/influxdb1-client/v2"
 )
 
 // IDataFlux -  interface for datasource to keep IOT data

@@ -19,6 +19,15 @@ export const updateDate = (agentID, data) => ({
   data,
 });
 
+export const updateDataSuccess = () => ({
+  type: actionTypes.POST_AGENT_CONFIG_SUCCESS,
+});
+
+export const updateDataFail = () => ({
+  type: actionTypes.POST_AGENT_CONFIG_FAILURE,
+});
+
+
 export const updateTemperature = (agentID, temperature) => ({
   type: actionTypes.UPDATE_TEMPERATURE,
   agentID,

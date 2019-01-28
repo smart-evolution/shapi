@@ -4,7 +4,7 @@ import (
     "time"
     "sync"
     "strconv"
-    "github.com/influxdata/influxdb/client/v2"
+    "github.com/influxdata/influxdb1-client/v2"
     "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
