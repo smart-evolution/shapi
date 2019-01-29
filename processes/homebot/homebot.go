@@ -3,36 +3,73 @@ package homebot
 import (
     "time"
     "sync"
-    "github.com/influxdata/influxdb/client/v2"
+    "strconv"
+    "github.com/influxdata/influxdb1-client/v2"
     "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/models/agent"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
     "github.com/smart-evolution/smarthome/datasources/state"
+    "github.com/smart-evolution/smarthome/datasources/persistence"
     "github.com/smart-evolution/smarthome/services/email"
+    "gopkg.in/mgo.v2/bson"
+    "fmt"
 )
 
 // HomeBot - struct for homebot administrator
 type HomeBot struct {
-    store  dataflux.IDataFlux
-    state  state.IState
-    mailer email.IMailer
+    store        dataflux.IDataFlux
+    state        state.IState
+    persistence  persistence.IPersistance
+    mailer       email.IMailer
 }
 
 // New - creates new instances of HomeBot
-func New(store dataflux.IDataFlux, mailer email.IMailer, st state.IState) *HomeBot {
+func New(
+    store dataflux.IDataFlux,
+    p persistence.IPersistance,
+    mailer email.IMailer,
+    st state.IState,
+) *HomeBot {
     return &HomeBot {
         store: store,
+        persistence: p,
         state: st,
         mailer: mailer,
     }
 }
 
-func persistData(store dataflux.IDataFlux) func(*agent.Agent, map[string]interface{}) {
+func adjustValues(
+    data map[string]interface{},
+    agentConfig agent.AgentConfig,
+) map[string]interface{} {
+    tmpObj := data["temperature"]
+
+    tmpStr, _ := tmpObj.(string)
+    tmpNumber, _ := strconv.ParseFloat(tmpStr, 32)
+
+    tmpAdjustNumber, _ := strconv.ParseFloat(agentConfig.TmpAdjust, 32)
+    tmpAdjustedNumber := tmpNumber + tmpAdjustNumber
+
+    tmpAdjustedStr := fmt.Sprintf("%.2f", tmpAdjustedNumber)
+    data["temperature"] = tmpAdjustedStr
+
+    utils.Log("Temperature adjustment [" + tmpStr + " + " + agentConfig.TmpAdjust + " = " + tmpAdjustedStr + "]")
+    return data
+}
+
+func persistDataFactory(
+    store dataflux.IDataFlux,
+    agentConfig agent.AgentConfig,
+) func(*agent.Agent, map[string]interface{}) {
     return func (agent *agent.Agent, data map[string]interface{}) {
+        utils.Log("Persisting data for agent [" + agent.Name() + "]")
+
+        adjustedData := adjustValues(data, agentConfig)
+
         pt, _ := client.NewPoint(
             agent.ID(),
             map[string]string{ "home": agent.Name() },
-            data,
+            adjustedData,
             time.Now(),
         )
 
@@ -51,6 +88,9 @@ func (hb *HomeBot) runCommunicationLoop() {
             return
         }
 
+        var agentConfig agent.AgentConfig
+
+        c := hb.persistence.GetCollection("agentConfigs")
         agents := hb.state.Agents()
         done := make(chan struct{})
         var wg sync.WaitGroup
@@ -58,10 +98,19 @@ func (hb *HomeBot) runCommunicationLoop() {
 
         for i := 0; i < len(agents); i++ {
             a := agents[i]
-            utils.Log("fetching from=", a.Name())
+
+            err := c.Find(bson.M{
+                "agentId": a.ID(),
+            }).One(&agentConfig)
+
+            if err != nil {
+                utils.Log("AgentConfig not found for agent [" + a.Name() + "]")
+            }
+
+            persistData := persistDataFactory(hb.store, agentConfig)
 
             if a.AgentType() == "type1" {
-                go a.FetchPackage(hb.mailer.BulkEmail, persistData(hb.store), hb.state.IsAlerts(), &wg)
+                go a.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
             }
         }
 

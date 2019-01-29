@@ -4,7 +4,7 @@ import (
     "errors"
     "github.com/smart-evolution/smarthome/utils"
     "github.com/smart-evolution/smarthome/datasources/dataflux"
-    "github.com/influxdata/influxdb/client/v2"
+    "github.com/influxdata/influxdb1-client/v2"
 )
 
 // Type1DataJSON - entity representing agent data

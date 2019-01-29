@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 import AgentsStatus from './modules/AgentsStatus';
 import Dashboard from './modules/Dashboard';
+import AgentEdit from './modules/AgentEdit';
 import sagas from './sagas';
 import reducers from './reducers';
 
@@ -25,8 +26,20 @@ if (appContainer) {
     <Provider store={store}>
       <Router history={createBrowserHistory({})}>
         <div>
-          <Route exact path="/" component={AgentsStatus} />
-          <Route path="/agent/:agent" component={Dashboard} />
+          <Route
+            exact
+            path="/"
+            component={AgentsStatus}
+          />
+          <Route
+            exact
+            path="/agent/:agent"
+            component={Dashboard}
+          />
+          <Route
+            path="/agent/:agent/edit"
+            component={AgentEdit}
+          />
         </div>
       </Router>
     </Provider>,

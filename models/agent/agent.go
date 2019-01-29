@@ -122,10 +122,11 @@ func (a *Agent) FetchPackage(
     wg *sync.WaitGroup,
 ){
     defer wg.Done()
+    utils.Log("fetching data from agent [" + a.Name() + "]")
     response, err := http.Get(a.uRL)
 
     if err != nil {
-        utils.Log("agent '" + a.name + "'", err)
+        utils.Log("data fetching request to agent [" + a.Name() + "] failed")
         return
     }
     defer response.Body.Close()
