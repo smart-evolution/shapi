@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 
@@ -19,8 +20,14 @@ function getData(agentID) {
 
 export function* fetchData({ agentID }) {
   const data = yield call(getData, agentID);
-  const { temperature } = data;
-  yield put(actions.updateTemperature(agentID, temperature));
+
+  if (!_.isEmpty(data)) {
+    const { temperature } = data;
+    yield put(actions.updateTemperature(agentID, temperature));
+  }
+  else {
+    // @TODO: Figure out how to handle failed actions on the UI side
+  }
 }
 
 function callUpdateData(agentID, data) {
@@ -33,5 +40,12 @@ function callUpdateData(agentID, data) {
 }
 
 export function* updateData({ agentID, data }) {
-  yield call(callUpdateData, agentID, data);
+  const resp = yield call(callUpdateData, agentID, data);
+
+  if (!_.isEmpty(resp)) {
+    // @TODO: Figure out how should state be updated again or not
+  }
+  else {
+    // @TODO: Figure out how to handle failed actions on the UI side
+  }
 }
