@@ -24,8 +24,7 @@ export function* fetchData({ agentID }) {
   if (!_.isEmpty(data)) {
     const { temperature } = data;
     yield put(actions.updateTemperature(agentID, temperature));
-  }
-  else {
+  } else {
     // @TODO: Figure out how to handle failed actions on the UI side
   }
 }
@@ -44,8 +43,7 @@ export function* updateData({ agentID, data }) {
 
   if (!_.isEmpty(resp)) {
     // @TODO: Figure out how should state be updated again or not
-  }
-  else {
+  } else {
     // @TODO: Figure out how to handle failed actions on the UI side
   }
 }
