@@ -15,12 +15,12 @@ class TemperatureChart extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { temperatures } = this.props;;
+    const { temperatures } = this.props;
     this.drawChart(temperatures);
   }
 
   componentWillReceiveProps() {
-    const { temperatures } = this.props;;
+    const { temperatures } = this.props;
     this.drawChart(temperatures);
   }
 

@@ -8,7 +8,7 @@ const List = (props) => {
   const { agents } = props;
 
   const loader = (
-    <div class="c-loader"></div>
+    <div className="c-loader" />
   );
   const list = (
     <ul className="agents-list__list">
