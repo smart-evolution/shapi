@@ -9,9 +9,22 @@ const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 2;
 
 class TemperatureChart extends React.PureComponent {
-  componentWillReceiveProps(props) {
-    const { temperatures } = props;
+  constructor(props) {
+    super(props);
+    this.drawChart = this.drawChart.bind(this);
+  }
 
+  componentDidMount() {
+    const { temperatures } = this.props;
+    this.drawChart(temperatures);
+  }
+
+  componentWillReceiveProps() {
+    const { temperatures } = this.props;
+    this.drawChart(temperatures);
+  }
+
+  drawChart(temperatures) {
     const d3Chart = d3.select(this.chart);
 
     d3Chart.select('svg').remove();
