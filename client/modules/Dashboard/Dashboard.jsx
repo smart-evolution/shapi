@@ -53,9 +53,13 @@ const Dashboard = (props) => {
   );
 };
 
+Dashboard.defaultProps = {
+  error: '',
+};
+
 Dashboard.propTypes = {
   pathname: PropTypes.string,
-  error: PropTypes.error,
+  error: PropTypes.string,
   agent: PropTypes.shape(),
 };
 

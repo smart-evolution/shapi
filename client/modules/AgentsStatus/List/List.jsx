@@ -15,10 +15,16 @@ const List = (props) => {
       {_.map(agents, (agent) => {
         switch (agent.type) {
           case 'type1':
-            return (<Type1 agent={agent} />);
+            return (<Type1
+              key={agent.id}
+              agent={agent}
+            />);
 
           case 'type2':
-            return (<Type2 agent={agent} />);
+            return (<Type2
+              key={agent.id}
+              agent={agent}
+            />);
 
           default:
             return null;

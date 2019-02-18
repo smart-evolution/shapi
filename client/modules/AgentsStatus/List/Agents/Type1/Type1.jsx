@@ -39,7 +39,7 @@ const Type1 = (props) => {
 Type1.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  temperature: PropTypes.number,
+  temperature: PropTypes.string,
   isMotion: PropTypes.number,
   isGas: PropTypes.number,
 };
