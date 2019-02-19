@@ -20,7 +20,14 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
     switch r.Method {
     case "GET":
-        utils.RenderTemplate(w, r, "login", sm, s)
+        _, ok := r.URL.Query()["err"]
+        params := make(map[string]interface{})
+
+        if ok {
+            params["IsError"] = true
+        }
+
+        utils.RenderTemplate(w, r, "login", sm, s, params)
 
     case "POST":
         sessionID, _ := utils.GetSessionID(r)
@@ -35,7 +42,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
             p, ok := dfc.(persistence.IPersistance);
             if !ok {
-                utl.Log("Invalid store ")
+                utl.Log("Invalid store")
                 return
             }
 
@@ -56,6 +63,8 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
                 http.SetCookie(w, &cookie)
                 http.Redirect(w, r, "/", http.StatusSeeOther)
+            } else {
+                http.Redirect(w, r, "/login?err", http.StatusSeeOther)
             }
         }
 

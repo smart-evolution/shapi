@@ -10,5 +10,6 @@ import (
 
 // CtrDashboard - controller for agents list
 func CtrDashboard(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-    utils.RenderTemplate(w, r, "dashboard", sm, s)
+    params := make(map[string]interface{})
+    utils.RenderTemplate(w, r, "dashboard", sm, s, params)
 }

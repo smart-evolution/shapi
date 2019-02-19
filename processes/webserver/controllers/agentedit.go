@@ -10,5 +10,6 @@ import (
 
 // CtrAgentEdit - controller for agents list
 func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-    utils.RenderTemplate(w, r, "agentedit", sm, s)
+    params := make(map[string]interface{})
+    utils.RenderTemplate(w, r, "agentedit", sm, s, params)
 }
