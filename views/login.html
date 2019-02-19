@@ -5,6 +5,12 @@
             Login to HOME
         </h2>
 
+        {{if .Params.IsError}}
+        <div class="login-box__alert">
+            Invalid login credentials
+        </div>
+        {{end}}
+
         <form action="/login" method="post">
             <div class="c-input">
                 <label class="c-input__label"

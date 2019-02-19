@@ -16,7 +16,14 @@ import (
 
 
 // RenderTemplate - helper for page rendering
-func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm session.ISessionManager, s store.IStore) {
+func RenderTemplate(
+    w http.ResponseWriter,
+    r *http.Request,
+    name string,
+    sm session.ISessionManager,
+    s store.IStore,
+    customParams map[string]interface{},
+){
     sessionID, _ := GetSessionID(r)
     isLogged := sm.IsExist(sessionID)
     isPrivate := IsRequestFromIntranet(r)
@@ -54,6 +61,10 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, name string, sm sess
 
     params := make(map[string]interface{})
     params["menu"] = menu
+
+    for k, v := range customParams {
+        params[k] = v
+    }
 
     templateModel := page.Page{
         Version: utils.VERSION,

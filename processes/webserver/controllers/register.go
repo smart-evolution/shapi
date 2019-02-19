@@ -16,7 +16,9 @@ import (
 func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
     switch r.Method {
     case "GET":
-        utils.RenderTemplate(w, r, "register", sm, s)
+        params := make(map[string]interface{})
+        utils.RenderTemplate(w, r, "register", sm, s, params)
+
     case "POST":
         var newUser *user.User
 
