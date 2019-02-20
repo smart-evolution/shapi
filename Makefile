@@ -23,6 +23,7 @@ all:
 
 .PHONY: test
 test:
+	$(NPM) run test:unit
 	$(GOCMD) test ./...
 
 .PHONY: lint
