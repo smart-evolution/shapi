@@ -9,6 +9,7 @@
     "build:prod": "webpack --mode=production --config webpack.prod.config.js",
     "lint": "eslint --ext .js,.jsx .",
     "lint:fix": "eslint --fix .",
+    "test": "jest",
     "test:cucumber": "cucumber-js -r ./features/stepdefinitions",
     "test:cucumber:webdriver": "selenium-standalone start --config=./seleniumConfig.js",
     "csslint": "stylelint ./client/**/*.scss",
@@ -62,6 +63,10 @@
     "webpack": "^4.20.2"
   },
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^24.1.0",
     "stylelint": "^9.6.0",
     "stylelint-config-standard": "^18.2.0",
     "webpack-cli": "^3.1.2"

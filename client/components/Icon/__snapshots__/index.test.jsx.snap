@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon should render correctly 1`] = `
+<Icon>
+  <span
+    className="c-icon c-icon--undefined undefined"
+  />
+</Icon>
+`;
