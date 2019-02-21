@@ -12,7 +12,7 @@
   "rules": {
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
-    "import/no-extraneous-dependencies": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "settings": {
     "import/resolver": {
