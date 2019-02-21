@@ -6,6 +6,9 @@
     "document": true,
     "fetch": true
   },
+  "env": {
+    "jest": true
+  },
   "rules": {
     "no-underscore-dangle": "off",
     "no-param-reassign": "off",
