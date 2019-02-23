@@ -5,6 +5,7 @@
 
   &__alert {
     @extend .c-alert;
+
     width: 350px;
     margin-bottom: $spacing-small;
     opacity: 1;
@@ -13,7 +14,7 @@
     &.show {
       opacity: 0;
     }
-    
+
     &.hide {
       display: none;
     }
