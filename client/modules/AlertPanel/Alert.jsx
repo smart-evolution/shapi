@@ -11,7 +11,7 @@ class Alert extends React.Component {
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.showTimeout = setTimeout(() => {
       this.setState({ show: true });
     }, 2000);
@@ -21,7 +21,7 @@ class Alert extends React.Component {
     }, 4000);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.showTimeout) {
       clearTimeout(this.showTimeout);
     }
@@ -58,7 +58,7 @@ Alert.propTypes = {
   type: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node
+    PropTypes.node,
   ]).isRequired,
 };
 

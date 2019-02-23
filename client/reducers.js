@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import agents from './models/agents/reducers';
-import agentConfigs from './models/agentConfigs/reducers';
+import agents from 'models/agents/reducers';
+import agentConfigs from 'models/agentConfigs/reducers';
 import alerts from 'models/alerts/reducers';
 
 export default combineReducers({

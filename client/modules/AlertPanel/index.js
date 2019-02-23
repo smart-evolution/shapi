@@ -3,7 +3,7 @@ import * as selectors from 'models/alerts/selectors';
 import AlertPanel from './AlertPanel';
 
 const mapStateToProps = (state) => {
-  const alerts = selectors.getAlerts(state);
+  const alerts = selectors.getLimitedAlerts(state);
 
   return {
     alerts,

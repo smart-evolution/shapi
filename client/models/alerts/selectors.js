@@ -1,3 +1,7 @@
-/* eslint-disable import/prefer-default-export */
+import _ from 'lodash';
+import * as constants from './constants';
+
 export const getAlerts = state => state.alerts.alerts;
-/* eslint-enable import/prefer-default-export */
+
+export const getLimitedAlerts = state => _.takeRight(getAlerts(state), constants.ALERT_LIMIT);
+

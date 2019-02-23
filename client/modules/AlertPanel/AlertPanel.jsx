@@ -26,7 +26,7 @@ const AlertPanel = (props) => {
       })}
     </div>
   );
-}
+};
 
 AlertPanel.propTypes = {
   alerts: PropTypes.arrayOf(PropTypes.object),
