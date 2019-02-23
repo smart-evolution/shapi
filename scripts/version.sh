@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 
-VERSION=$(git tag | tail -n 1)
+VERSION=$(git tag --sort version:refname | tail -n 1)
 
 echo "Generating version="$VERSION
 
