@@ -7,19 +7,18 @@ const defaultState = {
 
 export default function reducers(state = defaultState, action) {
   const { alerts } = state;
+  const alert = {
+    message: action.message,
+    type: action.alertType,
+    timestamp: new Date(),
+    isOld: false,
+  };
 
   switch (action.type) {
     case actionTypes.ADD:
-      const alert = {
-        message: action.message,
-        type: action.alertType,
-        timestamp: new Date(),
-        isOld: false,
-      };
       return Object.assign({}, {
         alerts: _.concat(alerts, [alert]),
       });
-      break;
     default:
       return state;
   }

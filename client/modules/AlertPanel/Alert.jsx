@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 class Alert extends React.Component {
   constructor() {
@@ -13,13 +12,13 @@ class Alert extends React.Component {
   }
 
   componentDidMount () {
-    this.showTimeout = setTimeout(function () {
+    this.showTimeout = setTimeout(() => {
       this.setState({ show: true });
-    }.bind(this), 2000);
+    }, 2000);
 
-    this.hideTimeout = setTimeout(function () {
+    this.hideTimeout = setTimeout(() => {
       this.setState({ hide: true });
-    }.bind(this), 4000);
+    }, 4000);
   }
 
   componentWillUnmount () {
@@ -54,5 +53,14 @@ class Alert extends React.Component {
     );
   }
 }
+
+Alert.propTypes = {
+  type: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+};
+
 
 export default Alert;
