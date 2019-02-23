@@ -16,7 +16,7 @@ describe('AlertPanel/AlertPanel', () => {
     }];
 
     const component = mount(
-      <AlertPanel alerts={alerts}/>
+      <AlertPanel alerts={alerts} />
     );
 
     expect(component).toMatchSnapshot();
