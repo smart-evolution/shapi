@@ -38,6 +38,8 @@ version:
 	git tag $(V)
 	./scripts/changelog.sh
 	go generate
+	$(NPM) version $(V) --no-git-tag-version
+	git add package.json
 	git add ./version.go || true
 	git add ./docs/changelogs/CHANGELOG_$(V).md
 	git commit --allow-empty -m "Build $(V)"
