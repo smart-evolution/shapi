@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertPanel/Alert should render correctly 1`] = `
+<Alert
+  type="type-class"
+>
+  <div
+    className="alert-panel__alert alert-panel__alert--type-class  "
+  >
+    Message
+  </div>
+</Alert>
+`;

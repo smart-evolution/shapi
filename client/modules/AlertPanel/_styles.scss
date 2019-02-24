@@ -1,0 +1,30 @@
+.alert-panel {
+  position: fixed;
+  right: $spacing-large;
+  bottom: $spacing-large;
+
+  &__alert {
+    @extend .c-alert;
+
+    width: 350px;
+    margin-bottom: $spacing-small;
+    opacity: 1;
+    transition: opacity 2s;
+
+    &.show {
+      opacity: 0;
+    }
+
+    &.hide {
+      display: none;
+    }
+
+    &--info {
+      @extend .c-alert--success;
+    }
+
+    &--error {
+      @extend .c-alert--danger;
+    }
+  }
+}
