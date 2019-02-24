@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
+import Application from './modules/Application';
 import AgentsStatus from './modules/AgentsStatus';
 import Dashboard from './modules/Dashboard';
 import AgentEdit from './modules/AgentEdit';
@@ -25,7 +26,7 @@ if (appContainer) {
   render(
     <Provider store={store}>
       <Router history={createBrowserHistory({})}>
-        <div>
+        <Application>
           <Route
             exact
             path="/"
@@ -40,7 +41,7 @@ if (appContainer) {
             path="/agent/:agent/edit"
             component={AgentEdit}
           />
-        </div>
+        </Application>
       </Router>
     </Provider>,
     appContainer

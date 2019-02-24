@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application should render correctly 1`] = `
+<div
+  className="application"
+>
+  Content
+  <Connect(AlertPanel) />
+</div>
+`;

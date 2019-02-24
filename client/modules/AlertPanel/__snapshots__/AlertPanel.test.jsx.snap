@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertPanel/AlertPanel should render correctly 1`] = `
+<AlertPanel
+  alerts={
+    Array [
+      Object {
+        "message": "Message 1",
+        "type": "type-class",
+      },
+      Object {
+        "message": "Message 2",
+        "type": "type-class",
+      },
+      Object {
+        "message": "Message 3",
+        "type": "type-class",
+      },
+    ]
+  }
+>
+  <div
+    className="alert-panel"
+  >
+    <Alert
+      key="alert-0"
+      type="type-class"
+    >
+      <div
+        className="alert-panel__alert alert-panel__alert--type-class  "
+      >
+        Message 1
+      </div>
+    </Alert>
+    <Alert
+      key="alert-1"
+      type="type-class"
+    >
+      <div
+        className="alert-panel__alert alert-panel__alert--type-class  "
+      >
+        Message 2
+      </div>
+    </Alert>
+    <Alert
+      key="alert-2"
+      type="type-class"
+    >
+      <div
+        className="alert-panel__alert alert-panel__alert--type-class  "
+      >
+        Message 3
+      </div>
+    </Alert>
+  </div>
+</AlertPanel>
+`;
