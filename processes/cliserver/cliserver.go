@@ -31,6 +31,7 @@ func handleRequest(conn net.Conn) {
     conn.Close()
 }
 
+// RunService - start CLIserver service
 func RunService(port string) {
     l, err := net.Listen("tcp", ":" + port)
 
