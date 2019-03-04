@@ -1,23 +1,41 @@
 package cliserver
 
 import (
-    "os"
     "net"
+    "encoding/json"
     "github.com/smart-evolution/smarthome/utils"
 )
 
-const (
-    CONN_PORT = "3333"
-    CONN_TYPE = "tcp"
-)
+func handleRequest(conn net.Conn) {
+    utils.Log("received cli message")
 
-func RunService() {
-    utils.Log("RunService")
-
-    l, err := net.Listen(CONN_TYPE, ":" + CONN_PORT)
+    buff := make([]byte, 512)
+    n, err := conn.Read(buff)
 
     if err != nil {
-        os.Exit(1)
+        utils.Log("error reading cli message")
+        return
+    }
+
+    msg := make(map[string]interface{})
+    json.Unmarshal(buff[:n], &msg)
+
+    cmd := msg["cmd"]
+
+    if cmd == "status" {
+        conn.Write([]byte("application up and running"))
+    } else {
+        utils.Log("invalid cli command")
+    }
+
+    conn.Close()
+}
+
+func RunService(port string) {
+    l, err := net.Listen("tcp", ":" + port)
+
+    if err != nil {
+        utils.Log("failed to setup cli tcp server")
     }
 
     defer l.Close()
@@ -26,22 +44,10 @@ func RunService() {
         conn, err := l.Accept()
 
         if err != nil {
-            os.Exit(1)
+            utils.Log("failed to accept cli tcp connection")
         }
 
         go handleRequest(conn)
     }
 }
 
-func handleRequest(conn net.Conn) {
-    utils.Log("Connection received!!!")
-
-    data := make([]byte, 512)
-    n, err := conn.Read(data)
-    if err != nil { panic(err)  }
-    s := string(data[:n])
-
-    utils.Log(s)
-
-    conn.Close()
-}

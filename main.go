@@ -88,7 +88,8 @@ func main() {
 
     hb := homebot.New(df, p, m, s)
     go hb.RunService()
-    go cliserver.RunService()
+
+    go cliserver.RunService("3333")
 
     ws := webserver.New(
         os.Getenv("PORT"),
