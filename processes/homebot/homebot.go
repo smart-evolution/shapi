@@ -40,7 +40,7 @@ func New(
 
 func adjustValues(
     data map[string]interface{},
-    agentConfig agent.AgentConfig,
+    agentConfig agent.Config,
 ) map[string]interface{} {
     tmpObj := data["temperature"]
 
@@ -59,7 +59,7 @@ func adjustValues(
 
 func persistDataFactory(
     store dataflux.IDataFlux,
-    agentConfig agent.AgentConfig,
+    agentConfig agent.Config,
 ) func(*agent.Agent, map[string]interface{}) {
     return func (agent *agent.Agent, data map[string]interface{}) {
         utils.Log("Persisting data for agent [" + agent.Name() + "]")
@@ -88,7 +88,7 @@ func (hb *HomeBot) runCommunicationLoop() {
             return
         }
 
-        var agentConfig agent.AgentConfig
+        var agentConfig agent.Config
 
         c := hb.persistence.GetCollection("agentConfigs")
         agents := hb.state.Agents()

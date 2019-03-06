@@ -11,6 +11,7 @@ import (
     "github.com/smart-evolution/smarthome/processes/homebot"
     "github.com/smart-evolution/smarthome/services/email"
     "github.com/smart-evolution/smarthome/processes/webserver"
+    "github.com/smart-evolution/smarthome/processes/cliserver"
     "github.com/smart-evolution/smarthome/models/user"
     "github.com/smart-evolution/smarthome/models/agent"
     "gopkg.in/mgo.v2/bson"
@@ -87,6 +88,8 @@ func main() {
 
     hb := homebot.New(df, p, m, s)
     go hb.RunService()
+
+    go cliserver.RunService("3333")
 
     ws := webserver.New(
         os.Getenv("PORT"),

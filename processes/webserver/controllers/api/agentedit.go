@@ -27,7 +27,7 @@ func CtrAgentEdit(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
     }
     c := p.GetCollection("agentConfigs")
 
-    var agentConfig agent.AgentConfig
+    var agentConfig agent.Config
 
     links := map[string]map[string]string{
         "self": map[string]string {

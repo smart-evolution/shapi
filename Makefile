@@ -13,7 +13,7 @@ install:
 	$(GOCMD) get github.com/coda-it/gowebserver
 	$(GOCMD) get github.com/influxdata/influxdb1-client/v2
 	$(GOCMD) get gopkg.in/mgo.v2
-	$(GOCMD) get github.com/golang/lint/golint
+	$(GOCMD) get golang.org/x/lint/golint
 
 .PHONY: all
 all:
