@@ -30,6 +30,7 @@ test:
 lint:
 	$(NPM) run lint
 	$(NPM) run csslint
+	test -z "$(gofmt -l .)"
 	$(GOLINT) ./...
 	$(GOCMD) vet ./...
 
