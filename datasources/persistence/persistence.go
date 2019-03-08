@@ -1,43 +1,43 @@
 package persistence
 
 import (
-    "github.com/smart-evolution/smarthome/utils"
-    "gopkg.in/mgo.v2"
+	"github.com/smart-evolution/smarthome/utils"
+	"gopkg.in/mgo.v2"
 )
 
 // IPersistance - interface for user settings and general purpose storage
 type IPersistance interface {
-    GetCollection(string) *mgo.Collection
+	GetCollection(string) *mgo.Collection
 }
 
 // Persistance - data source keeping system state and user data
 type Persistance struct {
-    session *mgo.Session
-    dbName  string
+	session *mgo.Session
+	dbName  string
 }
 
 // New - creates new instance of Persistance
 func New(dbURI string, dbName string) *Persistance {
-    utils.Log("Connecting to mgo with URI = " + dbURI)
-    session, err := mgo.Dial(dbURI)
-    session.SetMode(mgo.Monotonic, true)
+	utils.Log("Connecting to mgo with URI = " + dbURI)
+	session, err := mgo.Dial(dbURI)
+	session.SetMode(mgo.Monotonic, true)
 
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
-    return &Persistance{
-        session,
-        dbName,
-    }
+	return &Persistance{
+		session,
+		dbName,
+	}
 }
 
 func (p *Persistance) getDatabase() *mgo.Database {
-    return p.session.DB(p.dbName)
+	return p.session.DB(p.dbName)
 }
 
 // GetCollection - gets collection from Persistance instance
 func (p *Persistance) GetCollection(name string) *mgo.Collection {
-    ds := p.getDatabase()
-    return ds.C(name)
+	ds := p.getDatabase()
+	return ds.C(name)
 }

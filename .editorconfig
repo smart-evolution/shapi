@@ -10,8 +10,7 @@ insert_final_newline = true
 
 # Indentation override for all go
 [*.go]
-indent_style = space
-indent_size = 4
+indent_style = tab
 
 # Indentation override for all JS
 [*.js,*.jsx]

@@ -1,5 +1,6 @@
 GOCMD=go
 GOLINT=golint
+GOFMT=gofmt
 MAKE=make
 NPM=npm
 mode=prod
@@ -30,8 +31,15 @@ test:
 lint:
 	$(NPM) run lint
 	$(NPM) run csslint
+	./scripts/gofmt_test.sh
 	$(GOLINT) ./...
 	$(GOCMD) vet ./...
+
+.PHONY: fix
+fix:
+	$(NPM) run lint:fix
+	$(NPM) run csslint:fix
+	$(GOFMT) -w .
 
 .PHONY: version
 version:
@@ -58,6 +66,7 @@ help:
 	@echo  '* Quality:'
 	@echo  '- lint            - Phony task that runs all linting tasks'
 	@echo  '- test            - Phony task that runs all unit tests'
+	@echo  '- fix             - Fixes some linting errors
 	@echo  ''
 	@echo  '* Release:'
 	@echo  '- all (default)   - Default phony task that builds (client and'
