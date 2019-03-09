@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React from 'react';
 
 type Props = {
@@ -8,8 +9,11 @@ type Props = {
 
 const Icon = (props: Props) => {
   const { type, className } = props;
+  const typeClass = _.isEmpty(type)
+    ? ''
+    : `c-icon--${type}`;
 
-  const classes = `c-icon c-icon--${type} ${className}`;
+  const classes = `c-icon ${typeClass} ${className}`;
 
   return (<span className={classes} />);
 };
