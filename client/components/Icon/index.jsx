@@ -1,17 +1,25 @@
+// @flow
+import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Icon = (props) => {
+type Props = {
+  type: string,
+  className: string,
+};
+
+const Icon = (props: Props) => {
   const { type, className } = props;
+  const typeClass = _.isEmpty(type)
+    ? ''
+    : `c-icon--${type}`;
 
-  const classes = `c-icon c-icon--${type} ${className}`;
+  const classes = `c-icon ${typeClass} ${className}`;
 
   return (<span className={classes} />);
 };
 
-Icon.propTypes = {
-  className: PropTypes.string,
-  type: PropTypes.string,
+Icon.defaultProps = {
+  className: '',
 };
 
 export default Icon;

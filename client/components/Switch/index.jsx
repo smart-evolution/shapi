@@ -1,8 +1,14 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Switch = (props) => {
+type Props = {
+  isOn: boolean,
+  onToggle: () => void,
+  className: string,
+};
+
+const Switch = (props: Props) => {
   const { isOn, onToggle, className } = props;
 
   return (
@@ -19,12 +25,6 @@ const Switch = (props) => {
       />
       <span className="c-switch__slider" />
     </button>);
-};
-
-Switch.propTypes = {
-  className: PropTypes.string,
-  isOn: PropTypes.bool,
-  onToggle: PropTypes.func,
 };
 
 Switch.defaultProps = {
