@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import AgentsStatus from './AgentsStatus';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { error } = state;
 
   return {

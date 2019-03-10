@@ -24,7 +24,8 @@ const Switch = (props: Props) => {
         onChange={_.noop}
       />
       <span className="c-switch__slider" />
-    </button>);
+    </button>
+  );
 };
 
 Switch.defaultProps = {
@@ -33,4 +34,3 @@ Switch.defaultProps = {
 };
 
 export default Switch;
-

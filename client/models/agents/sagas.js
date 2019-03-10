@@ -5,7 +5,7 @@ import * as actions from './actions';
 
 function getData() {
   return fetch('/api/agents')
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
       }

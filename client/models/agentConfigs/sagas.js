@@ -5,7 +5,7 @@ import * as actions from './actions';
 
 function getData(agentID) {
   return fetch(`/api/agents/${agentID}/edit`)
-    .then((response) => {
+    .then(response => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
       }
@@ -43,7 +43,9 @@ export function* updateData({ agentID, data }) {
   const resp = yield call(callUpdateData, agentID, data);
 
   if (!_.isEmpty(resp)) {
-    yield put(alertsActions.addAlert('Updated agent config successfuly', 'info'));
+    yield put(
+      alertsActions.addAlert('Updated agent config successfuly', 'info')
+    );
   } else {
     yield put(alertsActions.addAlert('Updating agent config failed', 'error'));
   }

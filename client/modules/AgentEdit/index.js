@@ -6,9 +6,7 @@ import AgentEdit from './AgentEdit';
 const mapStateToProps = (state, ownProps) => {
   const {
     match: {
-      params: {
-        agent,
-      },
+      params: { agent },
     },
   } = ownProps;
   const agentID = agent;
@@ -21,7 +19,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchConfig: (agentID) => {
+  fetchConfig: agentID => {
     dispatch(actions.fetchData(agentID));
   },
   updateTemperature: (agentID, temperature) => {

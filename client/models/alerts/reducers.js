@@ -16,9 +16,12 @@ export default function reducers(state = defaultState, action) {
 
   switch (action.type) {
     case actionTypes.ADD:
-      return Object.assign({}, {
-        alerts: _.concat(alerts, [alert]),
-      });
+      return Object.assign(
+        {},
+        {
+          alerts: _.concat(alerts, [alert]),
+        }
+      );
     default:
       return state;
   }

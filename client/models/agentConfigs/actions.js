@@ -27,7 +27,6 @@ export const updateDataFail = () => ({
   type: actionTypes.POST_AGENT_CONFIG_FAILURE,
 });
 
-
 export const updateTemperature = (agentID, temperature) => ({
   type: actionTypes.UPDATE_TEMPERATURE,
   agentID,

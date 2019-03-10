@@ -2,35 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'components/Icon';
 
-
-const Type1 = (props) => {
+const Type1 = props => {
   const { id, name, temperature, isGas, isMotion } = props;
 
-  const motionColor = isMotion ?
-    'agent-type1__icon--alert' :
-    null;
+  const motionColor = isMotion ? 'agent-type1__icon--alert' : null;
 
-  const gasColor = isGas ?
-    'agent-type1__icon--alert' :
-    null;
+  const gasColor = isGas ? 'agent-type1__icon--alert' : null;
 
   return (
     <li className="agent-type1">
-      <a
-        className="agent-type1__link"
-        href={`/agent/${id}`}
-      >
+      <a className="agent-type1__link" href={`/agent/${id}`}>
         {name}
-      </a> - <span>
+      </a>{' '}
+      -{' '}
+      <span>
         {temperature} <Icon type="thermometer" />
-        <Icon
-          className={motionColor}
-          type="motion"
-        />
-        <Icon
-          className={gasColor}
-          type="fire"
-        />
+        <Icon className={motionColor} type="motion" />
+        <Icon className={gasColor} type="fire" />
       </span>
     </li>
   );

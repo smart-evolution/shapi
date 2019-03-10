@@ -38,6 +38,7 @@ lint:
 
 .PHONY: fix
 fix:
+	$(NPM) run prettify
 	$(NPM) run lint:fix
 	$(NPM) run csslint:fix
 	$(GOFMT) -w .

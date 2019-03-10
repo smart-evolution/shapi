@@ -13,7 +13,8 @@
     "test:update": "jest --config ./config/jest.config.js --no-watchman --updateSnapshot",
     "csslint": "stylelint ./client/**/*.scss",
     "csslint:fix": "stylelint ./client/**/*.scss --fix",
-    "flow": "flow"
+    "flow": "flow",
+    "prettify": "prettier --write \"./client/**/*.{js,jsx}\""
   },
   "repository": {
     "type": "git",
@@ -57,9 +58,11 @@
     "enzyme-to-json": "^3.3.5",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^12.0.0",
+    "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.11.1",
     "file-loader": "^2.0.0",
     "flow-bin": "^0.94.0",
@@ -67,6 +70,7 @@
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.9.4",
     "postcss-loader": "^3.0.0",
+    "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
     "selenium-webdriver": "^3.5.0",
     "style-loader": "^0.13.1",
