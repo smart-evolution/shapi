@@ -9,13 +9,11 @@ type Props = {
 
 const Icon = (props: Props) => {
   const { type, className } = props;
-  const typeClass = _.isEmpty(type)
-    ? ''
-    : `c-icon--${type}`;
+  const typeClass = _.isEmpty(type) ? '' : `c-icon--${type}`;
 
   const classes = `c-icon ${typeClass} ${className}`;
 
-  return (<span className={classes} />);
+  return <span className={classes} />;
 };
 
 Icon.defaultProps = {
@@ -23,4 +21,3 @@ Icon.defaultProps = {
 };
 
 export default Icon;
-

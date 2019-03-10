@@ -7,9 +7,7 @@ const mapStateToProps = (state, ownProps) => {
     match: {
       params: { agent },
     },
-    location: {
-      pathname,
-    },
+    location: { pathname },
   } = ownProps;
   const agentId = agent;
 

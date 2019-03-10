@@ -15,10 +15,7 @@ import reducers from './reducers';
 const appContainer = document.querySelector('.js-app');
 const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(
-  reducers,
-  applyMiddleware(sagaMiddleware)
-);
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(sagas);
 
@@ -27,20 +24,9 @@ if (appContainer) {
     <Provider store={store}>
       <Router history={createBrowserHistory({})}>
         <Application>
-          <Route
-            exact
-            path="/"
-            component={AgentsStatus}
-          />
-          <Route
-            exact
-            path="/agent/:agent"
-            component={Dashboard}
-          />
-          <Route
-            path="/agent/:agent/edit"
-            component={AgentEdit}
-          />
+          <Route exact path="/" component={AgentsStatus} />
+          <Route exact path="/agent/:agent" component={Dashboard} />
+          <Route path="/agent/:agent/edit" component={AgentEdit} />
         </Application>
       </Router>
     </Provider>,

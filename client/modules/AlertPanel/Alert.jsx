@@ -31,26 +31,14 @@ class Alert extends React.Component {
   }
 
   render() {
-    const {
-      type,
-      children,
-    } = this.props;
-    const {
-      show,
-      hide,
-    } = this.state;
+    const { type, children } = this.props;
+    const { show, hide } = this.state;
 
     const showClass = show ? 'show' : '';
     const hideClass = hide ? 'hide' : '';
     const classes = `alert-panel__alert alert-panel__alert--${type} ${showClass} ${hideClass}`;
 
-    return (
-      <div
-        className={classes}
-      >
-        {children}
-      </div>
-    );
+    return <div className={classes}>{children}</div>;
   }
 }
 
@@ -61,6 +49,5 @@ Alert.propTypes = {
     PropTypes.node,
   ]).isRequired,
 };
-
 
 export default Alert;

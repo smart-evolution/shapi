@@ -9,4 +9,3 @@ export const FETCH_ALERTS = 'dashboard/fetch-alerts';
 export const SEND_ALERT = 'dashboard/send-alert';
 
 export const TOGGLE_TYPE2 = 'dashboard/toggle-type2';
-

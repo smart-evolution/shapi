@@ -4,13 +4,7 @@ import Alert from './Alert';
 
 describe('AlertPanel/Alert', () => {
   it('should render correctly', () => {
-    const component = mount(
-      <Alert
-        type="type-class"
-      >
-        Message
-      </Alert>
-    );
+    const component = mount(<Alert type="type-class">Message</Alert>);
 
     expect(component).toMatchSnapshot();
   });

@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import ControlPanel from './ControlPanel';
 import List from './List';
 
-const AgentsStatus = (props) => {
+const AgentsStatus = props => {
   const { error } = props;
 
   return (
     <div className="agents-status">
-      { error && (
-        <div className="agents-status__error">
-          {error}
-        </div>
-      )}
+      {error && <div className="agents-status__error">{error}</div>}
       <ControlPanel />
       <List />
     </div>
