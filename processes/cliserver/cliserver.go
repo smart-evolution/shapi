@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/smart-evolution/smarthome/utils"
 	"net"
-	"os"
 )
 
 func handleRequest(conn net.Conn) {
@@ -34,8 +33,8 @@ func handleRequest(conn net.Conn) {
 		devConn, err := net.Dial("tcp", devAddr)
 
 		if err != nil {
-			fmt.Println("error connecting to device" + devAddr)
-			os.Exit(1)
+			fmt.Println("error connecting to device " + devAddr)
+			return
 		}
 		_, err = devConn.Write([]byte("CMDWHO"))
 
@@ -45,7 +44,7 @@ func handleRequest(conn net.Conn) {
 
 		if err != nil {
 			fmt.Println("error retrieving device type")
-			os.Exit(1)
+			return
 		}
 
 		_, err = conn.Write(devResBuff[:n])
