@@ -62,6 +62,8 @@ func handleRequest(conn net.Conn) {
 				}
 
 				conn.Write(devResBuff[:n])
+			} else if string(resBuff[:n]) == "CMDDIS" {
+				conn.Close()
 			}
 		}
 	} else {
