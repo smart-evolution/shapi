@@ -10,7 +10,6 @@ mode=prod
 .PHONY: install
 install:
 	$(NPM) install
-	$(NPM) run elm:package:install --yes
 	$(GOCMD) get github.com/coda-it/gowebserver
 	$(GOCMD) get github.com/influxdata/influxdb1-client/v2
 	$(GOCMD) get gopkg.in/mgo.v2

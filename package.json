@@ -4,7 +4,6 @@
   "description": "Smarthome",
   "main": "index.js",
   "scripts": {
-    "elm:package:install": "elm package install --yes",
     "build:dev": "webpack --mode=development --config webpack.dev.config.js",
     "build:prod": "webpack --mode=production --config webpack.prod.config.js",
     "lint": "eslint --ext .js,.jsx .",
@@ -51,8 +50,6 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "css-loader": "^0.25.0",
-    "elm": "^0.18.0",
-    "elm-webpack-loader": "^4.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.3.5",
