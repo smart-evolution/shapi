@@ -2,8 +2,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const devMode = process.env.NODE_ENV !== 'production';
-
 module.exports = {
   resolve: {
     modules: [
@@ -33,7 +31,7 @@ module.exports = {
     }, {
       test: /\.scss$/,
       use: [
-        devMode ? 'style-loader' : {
+        {
           loader: MiniCssExtractPlugin.loader,
         },
         'css-loader',
