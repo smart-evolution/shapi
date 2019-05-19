@@ -11,7 +11,11 @@ function getData() {
       }
 
       if (response.status === 204) {
-        throw new Error('No data available');
+        return {
+          _embedded: {
+            agents: [],
+          },
+        };
       }
 
       return response.json();

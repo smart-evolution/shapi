@@ -3,11 +3,12 @@ import List from './List';
 
 const mapStateToProps = state => {
   const {
-    agents: { agents },
+    agents: { agents, isLoading },
   } = state;
 
   return {
     agents,
+    isLoading,
   };
 };
 
