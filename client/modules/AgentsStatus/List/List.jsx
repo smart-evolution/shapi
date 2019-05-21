@@ -14,7 +14,7 @@ const List = (props: Props) => {
   const { agents, isLoading } = props;
 
   const loader = <div className="c-loader" />;
-  const content = _.isEmpty(agents) ? (
+  const content = !_.isEmpty(agents) ? (
     <ul className="agents-list__list">
       {_.map(agents, agent => {
         switch (agent.type) {
@@ -30,7 +30,7 @@ const List = (props: Props) => {
       })}
     </ul>
   ) : (
-    'No agents available'
+      (<p>No agents available</p>)
   );
 
   return (
