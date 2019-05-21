@@ -28,13 +28,13 @@ export const getTimes = (agent: types.Agent) => {
   return data.time;
 };
 
-export const getTicks = (times, values) =>
+export const getTicks = (times: Array<number>, values: number) =>
   _.map(values, (value, index) => ({
     time: new Date(times[index]),
     value,
   }));
 
-export const getAgentById = (state, id) => {
+export const getAgentById = (state: Object, id: string) => {
   const agents = selectors.getAgents(state);
   return _.find(agents, { id });
 };
