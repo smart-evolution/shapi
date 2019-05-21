@@ -1,11 +1,13 @@
+// @flow
 import * as actionTypes from './actionTypes';
+import * as types from './types';
 
-export const fetchDataSuccess = agents => ({
+export const fetchDataSuccess = (agents: $ReadOnlyArray<types.Agent>) => ({
   type: actionTypes.DATA_FETCH_SUCCESS,
   agents,
 });
 
-export const fetchDataFail = error => ({
+export const fetchDataFail = (error: string) => ({
   type: actionTypes.DATA_FETCH_ERROR,
   error,
 });
@@ -22,12 +24,12 @@ export const sendAlert = () => ({
   type: actionTypes.SEND_ALERT,
 });
 
-export const setAlerts = isAlerts => ({
+export const setAlerts = (isAlerts: boolean) => ({
   type: actionTypes.SET_ALERTS,
   isAlerts,
 });
 
-export const toggleType2 = agentID => ({
+export const toggleType2 = (agentID: string) => ({
   type: actionTypes.TOGGLE_TYPE2,
   agentID,
 });

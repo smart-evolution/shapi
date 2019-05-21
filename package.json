@@ -56,6 +56,7 @@
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-flowtype": "^3.9.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
