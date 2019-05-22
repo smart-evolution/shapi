@@ -9,6 +9,12 @@ import Jeep from './Jeep/';
 const Dashboard = props => {
   const { error, agent, pathname } = props;
 
+  if (_.isEmpty(agent)) {
+    return <div>
+      no agent passed
+    </div>
+  }
+
   let content;
 
   switch (agent.type) {
