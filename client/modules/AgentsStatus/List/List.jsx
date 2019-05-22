@@ -2,12 +2,14 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import agentsTypes from 'models/agents/types';
+import Jeep from './Agents/Jeep';
 import Type1 from './Agents/Type1';
 import Type2 from './Agents/Type2';
 
 type Props = {
   isLoading: boolean,
-  agents: string,
+  agents: $ReadOnlyArray<agentsTypes.Agent>,
 };
 
 const List = (props: Props) => {
@@ -24,13 +26,16 @@ const List = (props: Props) => {
           case 'type2':
             return <Type2 key={agent.id} agent={agent} />;
 
+          case 'jeep':
+            return <Jeep key={agent.id} agent={agent} />;
+
           default:
             return null;
         }
       })}
     </ul>
   ) : (
-      (<p>No agents available</p>)
+    <p>No agents available</p>
   );
 
   return (
