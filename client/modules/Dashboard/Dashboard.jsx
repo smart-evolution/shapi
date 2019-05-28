@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import Type1 from './Type1';
 import Type2 from './Type2';
-import Jeep from './Jeep/';
+import Jeep from './Jeep';
 
 const Dashboard = props => {
   const { error, agent, pathname } = props;

@@ -13,8 +13,8 @@ insert_final_newline = true
 indent_style = tab
 
 # Indentation override for all JS
-[*.js,*.jsx]
-indent_style = space
+[*.{js,jsx}]
+}indent_style = space
 indent_size = 2
 
 # Indentation override for all Elm

@@ -13,7 +13,13 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     error: state.error,
-    agent: queries.getAgentById(state, agentId),
+    agent: {
+      id: 'jeep-jimmy',
+      name: 'jimmy',
+      data: {},
+      type: 'jeep',
+    },
+    //queries.getAgentById(state, agentId),
     pathname,
   };
 };
