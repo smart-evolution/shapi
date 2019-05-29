@@ -13,7 +13,7 @@ const defaultState: {
 };
 
 export default function reducers(
-  state: Object = defaultState,
+  state: State = defaultState,
   action: Function
 ) {
   const { agents, error } = action;

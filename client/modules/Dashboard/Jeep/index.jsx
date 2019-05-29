@@ -13,7 +13,7 @@ const Jeep = (props: Props) => {
   return (
     <div className="dashboard__cell dashboard__cell--full">
       <Joystick
-        onPositionChange={(left, top) => {console.log(left, top)}}
+        onPositionChange={(left, top) => {}}
       />
     </div>
   );
