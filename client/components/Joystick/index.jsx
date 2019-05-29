@@ -27,7 +27,7 @@ class Joystick extends React.PureComponent<Props, State> {
     };
   }
 
-  onMove(event) {
+  onMove(event: Event) {
     event.preventDefault();
     const { clientX, clientY } = event;
     /* eslint-disable react/no-find-dom-node */
@@ -51,7 +51,7 @@ class Joystick extends React.PureComponent<Props, State> {
     });
   }
 
-  onDrop(event) {
+  onDrop(event: Event) {
     event.preventDefault();
     const { clientX, clientY } = event;
     /* eslint-disable react/no-find-dom-node */
