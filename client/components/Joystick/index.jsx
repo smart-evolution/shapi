@@ -31,16 +31,21 @@ class Joystick extends React.PureComponent<Props, State> {
     event.preventDefault();
     const { clientX, clientY } = event;
     /* eslint-disable react/no-find-dom-node */
-    const rect = ReactDOM.findDOMNode(this)
-      .getBoundingClientRect();
+    const rect = ReactDOM.findDOMNode(this).getBoundingClientRect();
     /* eslint-enable react/no-find-dom-node */
-    const left = _.min([_.max([clientX - rect.left - JOYSTICK_RADIUS * 0.5, 0]), JOYSTICK_RADIUS]);
-    const top = _.min([_.max([clientY - rect.top - JOYSTICK_RADIUS * 0.5, 0]), JOYSTICK_RADIUS]);
+    const left = _.min([
+      _.max([clientX - rect.left - JOYSTICK_RADIUS * 0.5, 0]),
+      JOYSTICK_RADIUS,
+    ]);
+    const top = _.min([
+      _.max([clientY - rect.top - JOYSTICK_RADIUS * 0.5, 0]),
+      JOYSTICK_RADIUS,
+    ]);
 
     const { onPositionChange } = this.props;
 
     onPositionChange(left, top);
-    this.setState( {
+    this.setState({
       left,
       top,
     });
@@ -50,16 +55,21 @@ class Joystick extends React.PureComponent<Props, State> {
     event.preventDefault();
     const { clientX, clientY } = event;
     /* eslint-disable react/no-find-dom-node */
-    const rect = ReactDOM.findDOMNode(this)
-      .getBoundingClientRect();
+    const rect = ReactDOM.findDOMNode(this).getBoundingClientRect();
     /* eslint-enable react/no-find-dom-node */
-    const left = _.min([_.max([clientX - rect.left - JOYSTICK_RADIUS * 0.5, 0]), JOYSTICK_RADIUS]);
-    const top = _.min([_.max([clientY - rect.top - JOYSTICK_RADIUS * 0.5, 0]), JOYSTICK_RADIUS]);
+    const left = _.min([
+      _.max([clientX - rect.left - JOYSTICK_RADIUS * 0.5, 0]),
+      JOYSTICK_RADIUS,
+    ]);
+    const top = _.min([
+      _.max([clientY - rect.top - JOYSTICK_RADIUS * 0.5, 0]),
+      JOYSTICK_RADIUS,
+    ]);
 
     const { onPositionChange } = this.props;
 
     onPositionChange(left, top);
-    this.setState( {
+    this.setState({
       left,
       top,
     });
@@ -71,7 +81,7 @@ class Joystick extends React.PureComponent<Props, State> {
     return (
       <div
         className="c-joystick"
-        onDragOver={(event => Joystick.onDragOver(event))}
+        onDragOver={event => Joystick.onDragOver(event)}
       >
         <div
           className="c-joystick__knob"
@@ -83,8 +93,12 @@ class Joystick extends React.PureComponent<Props, State> {
         <div
           className="c-joystick__drag"
           draggable="true"
-          onDrag={(event) => {this.onMove(event)}}
-          onDrop={(event) => {this.onDrop(event)}}
+          onDrag={event => {
+            this.onMove(event);
+          }}
+          onDrop={event => {
+            this.onDrop(event);
+          }}
           style={{
             left,
             top,
@@ -93,7 +107,6 @@ class Joystick extends React.PureComponent<Props, State> {
       </div>
     );
   }
-};
-
+}
 
 export default Joystick;
