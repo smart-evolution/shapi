@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joystick should render correctly 1`] = `
+<Joystick
+  onPositionChange={[Function]}
+>
+  <div
+    className="c-joystick"
+    onDragOver={[Function]}
+  >
+    <div
+      className="c-joystick__knob"
+      style={
+        Object {
+          "left": 0,
+          "top": 0,
+        }
+      }
+    />
+    <div
+      className="c-joystick__drag"
+      draggable="true"
+      onDrag={[Function]}
+      onDrop={[Function]}
+      style={
+        Object {
+          "left": 0,
+          "top": 0,
+        }
+      }
+    />
+  </div>
+</Joystick>
+`;
