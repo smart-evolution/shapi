@@ -12,7 +12,8 @@
   "globals": {
     "window": true,
     "document": true,
-    "fetch": true
+    "fetch": true,
+    "WebSocket": true
   },
   "env": {
     "jest": true
