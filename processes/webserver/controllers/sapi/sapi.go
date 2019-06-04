@@ -16,8 +16,8 @@ type message struct {
 }
 
 var (
-	conn net.Conn
-	err error
+	conn    net.Conn
+	err     error
 	devType string
 )
 
