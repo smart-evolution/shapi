@@ -12,14 +12,16 @@ type message struct {
 	ID   string `json:"id"`
 	Left int    `json:"left"`
 	Top  int    `json:"top"`
+	URL  string `json:"url"`
 }
 
-var conn net.Conn
-var err error
-var devType string
-var device = "192.168.2.166:81"
+var (
+	conn net.Conn
+	err error
+	devType string
+)
 
-func connect() {
+func connect(device string) {
 	if conn == nil {
 		conn, err = net.Dial("tcp", device)
 
@@ -89,11 +91,15 @@ func move(m message) {
 
 // AgentStreaming - handle agent streaming websocket connection
 func AgentStreaming(ws *websocket.Conn) {
-	go connect()
+	var m message
+
+	if err := websocket.JSON.Receive(ws, &m); err != nil {
+		log.Println(err)
+		return
+	}
+	go connect(m.URL)
 
 	for {
-		var m message
-
 		if err := websocket.JSON.Receive(ws, &m); err != nil {
 			log.Println(err)
 			break
