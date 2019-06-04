@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import List from './List';
 
 const mapStateToProps = state => {
@@ -8,14 +7,7 @@ const mapStateToProps = state => {
   } = state;
 
   return {
-    agents: _.concat(agents, [
-      {
-        id: 'jeepjimmy',
-        name: 'Jimmy',
-        data: {},
-        type: 'jeep',
-      },
-    ]),
+    agents,
     isLoading,
   };
 };
