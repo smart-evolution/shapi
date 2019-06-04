@@ -19,7 +19,7 @@ var err error
 var devType string
 var device = "192.168.2.166:81"
 
-func Connect() {
+func connect() {
 	if conn == nil {
 		conn, err = net.Dial("tcp", device)
 
@@ -87,7 +87,10 @@ func move(m message) {
 	}
 }
 
+// AgentStreaming - handle agent streaming websocket connection
 func AgentStreaming(ws *websocket.Conn) {
+	go connect()
+
 	for {
 		var m message
 

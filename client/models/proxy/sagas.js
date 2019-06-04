@@ -5,19 +5,9 @@ import * as selectors from './selectors';
 import * as actions from './actions';
 
 export function* createWebSockerClient(agent: agentTypes.Agent) {
-  const client: WebSocket = new WebSocket("ws://localhost:3222/sapi");
+  const { host } = window.location;
 
-  client.onopen = function() {};
-
-  client.onmessage = function(event) {
-    const m = JSON.parse(event.data);
-    console.debug("Received message", m.message);
-  };
-
-  client.onerror = function(event) {
-    console.debug(event)
-  };
-
+  const client: WebSocket = new WebSocket(`ws://${host}/sapi`);
   yield put(actions.addWebSocketClient(agent, client));
 }
 
