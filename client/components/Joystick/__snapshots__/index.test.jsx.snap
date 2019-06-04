@@ -12,8 +12,8 @@ exports[`Joystick should render correctly 1`] = `
       className="c-joystick__knob"
       style={
         Object {
-          "left": 0,
-          "top": 0,
+          "left": 25,
+          "top": 25,
         }
       }
     />
@@ -21,11 +21,11 @@ exports[`Joystick should render correctly 1`] = `
       className="c-joystick__drag"
       draggable="true"
       onDrag={[Function]}
-      onDrop={[Function]}
+      onDragEnd={[Function]}
       style={
         Object {
-          "left": 0,
-          "top": 0,
+          "left": 25,
+          "top": 25,
         }
       }
     />

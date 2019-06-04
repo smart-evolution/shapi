@@ -7,7 +7,7 @@ import Joystick from 'components/Joystick';
 type Props = {
   agent: agentsTypes.Agent,
   onPositionChange: (agentsTypes.Agent, string) => void,
-  setup: (agentsTypes.Agent) => void,
+  setup: agentsTypes.Agent => void,
 };
 
 class Jeep extends React.PureComponent<Props> {

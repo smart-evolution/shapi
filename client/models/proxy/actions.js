@@ -6,7 +6,10 @@ export const createWebSocketClient = () => ({
   type: actionTypes.PROXY_CREATE_WS_CLIENT,
 });
 
-export const addWebSocketClient = (agent: agentTypes.Agent, client: WebSocket) => ({
+export const addWebSocketClient = (
+  agent: agentTypes.Agent,
+  client: WebSocket
+) => ({
   type: actionTypes.PROXY_ADD_WS_CLIENT,
   agent,
   client,

@@ -12,10 +12,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   onPositionChange: (agent: agentsTypes.Agent, msg: string) => {
     dispatch(proxyActions.sendMessage(agent, msg));
-  }
+  },
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Jeep);

@@ -1,6 +1,6 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
 const CHART_PADDING = 20;
@@ -8,7 +8,11 @@ const DEFAULT_MAX_TEMP = 30;
 const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 2;
 
-class TemperatureChart extends React.PureComponent {
+type Props = {
+  temperatures: $ReadOnlyArray<string>,
+};
+
+class TemperatureChart extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
     this.drawChart = this.drawChart.bind(this);
@@ -24,6 +28,7 @@ class TemperatureChart extends React.PureComponent {
     this.drawChart(temperatures);
   }
 
+  drawChart: ($ReadOnlyArray<string>) => void;
   drawChart(temperatures) {
     const d3Chart = d3.select(this.chart);
 
@@ -128,10 +133,6 @@ class TemperatureChart extends React.PureComponent {
     );
   }
 }
-
-TemperatureChart.propTypes = {
-  temperatures: PropTypes.arrayOf(PropTypes.string),
-};
 
 TemperatureChart.defaultProps = {
   temperatures: [],

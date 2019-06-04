@@ -10,9 +10,7 @@ const Dashboard = props => {
   const { error, agent, pathname } = props;
 
   if (_.isEmpty(agent)) {
-    return <div>
-      no agent passed
-    </div>
+    return <div>no agent passed</div>;
   }
 
   let content;

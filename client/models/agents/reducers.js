@@ -2,18 +2,14 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-const defaultState: {
-  isLoading: boolean,
-  error: string,
-  agents: $ReadOnlyArray<types.Agent>,
-} = {
+const defaultState: types.State = {
   isLoading: false,
   error: '',
   agents: [],
 };
 
 export default function reducers(
-  state: State = defaultState,
+  state: types.State = defaultState,
   action: Function
 ) {
   const { agents, error } = action;

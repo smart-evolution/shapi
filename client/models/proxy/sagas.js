@@ -14,9 +14,11 @@ export function* createWebSockerClient(agent: agentTypes.Agent) {
 export function* sendMessage({ agent, message }) {
   const client: WebSocket = yield select(selectors.getWsClient);
   const { left, top } = message;
-  yield client.send(JSON.stringify({
-    id: agent.id,
-    left,
-    top,
-  }));
+  yield client.send(
+    JSON.stringify({
+      id: agent.id,
+      left,
+      top,
+    })
+  );
 }

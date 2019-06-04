@@ -50,14 +50,8 @@ class Joystick extends React.PureComponent<Props, State> {
   }
 
   move(x: number, y: number) {
-    const left = _.min([
-      _.max([x, 0]),
-      JOYSTICK_RADIUS,
-    ]);
-    const top = _.min([
-      _.max([y, 0]),
-      JOYSTICK_RADIUS,
-    ]);
+    const left = _.min([_.max([x, 0]), JOYSTICK_RADIUS]);
+    const top = _.min([_.max([y, 0]), JOYSTICK_RADIUS]);
 
     const { onPositionChange } = this.props;
 

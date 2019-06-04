@@ -19,7 +19,10 @@ function* root() {
     takeEvery(agentsActionTypes.FETCH_ALERTS, agentsSagas.fetchAlerts),
     takeEvery(agentsActionTypes.SEND_ALERT, agentsSagas.sendAlert),
     takeEvery(agentsActionTypes.TOGGLE_TYPE2, agentsSagas.toggleType2),
-    takeEvery(proxyActionTypes.PROXY_CREATE_WS_CLIENT, proxySagas.createWebSockerClient),
+    takeEvery(
+      proxyActionTypes.PROXY_CREATE_WS_CLIENT,
+      proxySagas.createWebSockerClient
+    ),
     takeEvery(proxyActionTypes.PROXY_SEND_MESSAGE, proxySagas.sendMessage),
   ];
 }

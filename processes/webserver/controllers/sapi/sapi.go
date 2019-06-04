@@ -2,16 +2,16 @@ package sapi
 
 import (
 	"fmt"
+	aca "github.com/smart-evolution/agents-cmd-api"
 	"golang.org/x/net/websocket"
 	"log"
 	"net"
-	aca "github.com/smart-evolution/agents-cmd-api"
 )
 
 type message struct {
-	Id		string	`json:"id"`
-	Left	int 	`json:"left"`
-	Top		int 	`json:"top"`
+	ID   string `json:"id"`
+	Left int    `json:"left"`
+	Top  int    `json:"top"`
 }
 
 var conn net.Conn

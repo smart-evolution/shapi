@@ -1,8 +1,12 @@
 [ignore]
+client/fonts
 
 [include]
 
 [libs]
+client/components
+client/models
+client/modules
 
 [lints]
 
