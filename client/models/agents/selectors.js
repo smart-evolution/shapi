@@ -1,8 +1,6 @@
 // @flow
-import * as modelsTypes from 'models/types';
-import * as types from './types';
+import { type Agent } from './types';
 /* eslint-disable import/prefer-default-export */
-export const getAgents = (
-  state: modelsTypes.State
-): $ReadOnlyArray<types.Agent> => state.agents.agents;
+export const getAgents = (state: Object): $ReadOnlyArray<Agent> =>
+  state.agents.agents;
 /* eslint-enable import/prefer-default-export */

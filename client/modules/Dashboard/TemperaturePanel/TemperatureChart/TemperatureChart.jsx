@@ -8,12 +8,21 @@ const DEFAULT_MAX_TEMP = 30;
 const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 2;
 
+type Temperature = {
+  time: Date,
+  value: number,
+};
+
 type Props = {
-  temperatures: $ReadOnlyArray<string>,
+  temperatures: $ReadOnlyArray<Temperature>,
 };
 
 class TemperatureChart extends React.PureComponent<Props> {
-  constructor(props) {
+  static defaultProps = {
+    temperatures: [],
+  };
+
+  constructor(props: Props) {
     super(props);
     this.drawChart = this.drawChart.bind(this);
   }
@@ -28,8 +37,10 @@ class TemperatureChart extends React.PureComponent<Props> {
     this.drawChart(temperatures);
   }
 
-  drawChart: ($ReadOnlyArray<string>) => void;
-  drawChart(temperatures) {
+  chart: HTMLDivElement | null;
+
+  drawChart: ($ReadOnlyArray<Temperature>) => void;
+  drawChart(temperatures: $ReadOnlyArray<Temperature>) {
     const d3Chart = d3.select(this.chart);
 
     d3Chart.select('svg').remove();
@@ -133,9 +144,5 @@ class TemperatureChart extends React.PureComponent<Props> {
     );
   }
 }
-
-TemperatureChart.defaultProps = {
-  temperatures: [],
-};
 
 export default TemperatureChart;

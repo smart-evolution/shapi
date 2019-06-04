@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from 'components/Icon';
+import Icon from 'client/components/Icon';
 
 const Type1 = props => {
   const { id, name, temperature, isGas, isMotion } = props;

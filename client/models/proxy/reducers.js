@@ -1,13 +1,15 @@
 // @flow
 import * as actionTypes from './actionTypes';
 
-const defaultState: {
+type State = {
   wsClient: WebSocket | null,
-} = {
+};
+
+const defaultState = {
   wsClient: null,
 };
 
-export default function reducers(state: State = defaultState, action: Action) {
+export default function reducers(state: State = defaultState, action: Object) {
   switch (action.type) {
     case actionTypes.PROXY_ADD_WS_CLIENT:
       return Object.assign({}, state, {

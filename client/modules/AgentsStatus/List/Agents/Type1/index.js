@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as queries from 'models/agents/queries';
+import * as queries from 'client/models/agents/queries';
 import Type1 from './Type1';
 
 const mapStateToProps = (state, ownProps) => {

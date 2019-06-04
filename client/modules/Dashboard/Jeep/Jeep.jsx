@@ -1,12 +1,12 @@
 // @flow
 import React from 'react';
 import { withRouter } from 'react-router';
-import agentsTypes from 'models/agents/types';
-import Joystick from 'components/Joystick';
+import * as agentsTypes from 'client/models/agents/types';
+import Joystick from 'client/components/Joystick';
 
 type Props = {
   agent: agentsTypes.Agent,
-  onPositionChange: (agentsTypes.Agent, string) => void,
+  onPositionChange: (agentsTypes.Agent, { left: number, top: number }) => void,
   setup: agentsTypes.Agent => void,
 };
 

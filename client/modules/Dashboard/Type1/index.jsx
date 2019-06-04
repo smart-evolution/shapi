@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import agentsTypes from 'models/agents/types';
+import * as agentsTypes from 'client/models/agents/types';
 import TemperaturePanel from '../TemperaturePanel';
 import SoundPanel from '../SoundPanel';
 import CurrentPanel from '../CurrentPanel';

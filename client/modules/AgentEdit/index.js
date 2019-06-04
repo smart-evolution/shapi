@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import * as actions from 'models/agentConfigs/actions';
-import * as selectors from 'models/agentConfigs/selectors';
+import * as actions from 'client/models/agentConfigs/actions';
+import * as selectors from 'client/models/agentConfigs/selectors';
 import AgentEdit from './AgentEdit';
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import agentsTypes from 'models/agents/types';
+import * as agentsTypes from 'client/models/agents/types';
 
 type Props = {
   agent: agentsTypes.Agent,

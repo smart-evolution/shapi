@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'components/Switch';
+import Switch from 'client/components/Switch';
 
 const ControlPanel = props => {
   const { isAlerts, onToggle, sendAlert } = props;

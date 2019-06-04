@@ -3,7 +3,8 @@ export type Agent = {
   id: string,
   name: string,
   data: any,
-  agentType: string,
+  type: string,
+  url: string,
 };
 
 export type State = {

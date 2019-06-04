@@ -1,9 +1,10 @@
 // @flow
-import * as agentTypes from 'models/agents/types';
+import * as agentTypes from 'client/models/agents/types';
 import * as actionTypes from './actionTypes';
 
-export const createWebSocketClient = () => ({
+export const createWebSocketClient = (agent: agentTypes.Agent) => ({
   type: actionTypes.PROXY_CREATE_WS_CLIENT,
+  agent,
 });
 
 export const addWebSocketClient = (
@@ -15,7 +16,10 @@ export const addWebSocketClient = (
   client,
 });
 
-export const sendMessage = (agent: agentTypes.Agent, message: string) => ({
+export const sendMessage = (
+  agent: agentTypes.Agent,
+  message: { left: number, top: number }
+) => ({
   type: actionTypes.PROXY_SEND_MESSAGE,
   agent,
   message,

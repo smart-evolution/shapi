@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { put, call } from 'redux-saga/effects';
-import * as alertsActions from 'models/alerts/actions';
+import * as alertsActions from 'client/models/alerts/actions';
 import * as actions from './actions';
 
 function getData(agentID) {

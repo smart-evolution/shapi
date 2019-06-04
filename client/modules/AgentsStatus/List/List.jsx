@@ -1,8 +1,7 @@
 // @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
-import agentsTypes from 'models/agents/types';
+import * as agentsTypes from 'client/models/agents/types';
 import Jeep from './Agents/Jeep';
 import Type1 from './Agents/Type1';
 import Type2 from './Agents/Type2';
@@ -44,11 +43,6 @@ const List = (props: Props) => {
       {isLoading ? loader : content}
     </div>
   );
-};
-
-List.propTypes = {
-  isLoading: PropTypes.bool,
-  agents: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default List;

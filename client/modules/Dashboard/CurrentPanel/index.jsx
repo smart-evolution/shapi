@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as queries from 'models/agents/queries';
+import * as queries from 'client/models/agents/queries';
 import CurrentPanel from './CurrentPanel';
 
 const mapStateToProps = (state, ownProps) => {

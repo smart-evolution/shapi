@@ -1,8 +1,8 @@
 // @flow
 import * as actionTypes from './actionTypes';
-import * as types from './types';
+import { type Agent } from './types';
 
-export const fetchDataSuccess = (agents: $ReadOnlyArray<types.Agent>) => ({
+export const fetchDataSuccess = (agents: $ReadOnlyArray<Agent>) => ({
   type: actionTypes.DATA_FETCH_SUCCESS,
   agents,
 });

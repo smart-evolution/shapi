@@ -1,12 +1,19 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+import * as agentTypes from 'client/models/agents/types';
 import Type1 from './Type1';
 import Type2 from './Type2';
 import Jeep from './Jeep';
 
-const Dashboard = props => {
+type Props = {
+  pathname: string,
+  error: string,
+  agent: agentTypes.Agent,
+};
+
+const Dashboard = (props: Props) => {
   const { error, agent, pathname } = props;
 
   if (_.isEmpty(agent)) {
@@ -40,12 +47,6 @@ const Dashboard = props => {
 
 Dashboard.defaultProps = {
   error: '',
-};
-
-Dashboard.propTypes = {
-  pathname: PropTypes.string,
-  error: PropTypes.string,
-  agent: PropTypes.shape(),
 };
 
 export default withRouter(Dashboard);
