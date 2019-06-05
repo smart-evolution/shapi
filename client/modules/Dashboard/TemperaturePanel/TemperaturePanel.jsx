@@ -1,11 +1,16 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import TemperatureChart from './TemperatureChart/TemperatureChart';
+import * as types from './types';
+
+type Props = {
+  temperatures: $ReadOnlyArray<types.Temperature>,
+};
 
 const NODATA_SIGN = '-';
 
-const TemperaturePanel = props => {
+const TemperaturePanel = (props: Props) => {
   const { temperatures } = props;
   const nowTmp = _.head(temperatures);
   const value = _.isUndefined(nowTmp) ? NODATA_SIGN : nowTmp.value;
@@ -23,10 +28,6 @@ const TemperaturePanel = props => {
       </div>
     </div>
   );
-};
-
-TemperaturePanel.propTypes = {
-  temperatures: PropTypes.arrayOf(PropTypes.string),
 };
 
 TemperaturePanel.defaultProps = {

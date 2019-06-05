@@ -1,11 +1,16 @@
 [ignore]
 
 [include]
+./client/
 
 [libs]
 
 [lints]
 
 [options]
+module.name_mapper='^client\(.*\)$' -> '<PROJECT_ROOT>/client\1'
 
 [strict]
+
+[untyped]
+.*/node_modules/**/.*

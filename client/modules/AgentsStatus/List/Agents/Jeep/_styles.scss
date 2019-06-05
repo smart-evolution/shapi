@@ -1,0 +1,7 @@
+.agent-jeep {
+  @extend %agents-list__item;
+
+  &__link {
+    @extend %agents-list__link;
+  }
+}

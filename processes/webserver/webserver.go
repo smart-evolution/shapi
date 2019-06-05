@@ -8,7 +8,10 @@ import (
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/sapi"
 	"github.com/smart-evolution/smarthome/utils"
+	"golang.org/x/net/websocket"
+	"net/http"
 )
 
 // WebServer - adapter for gowebserver instance
@@ -50,6 +53,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server.Router.AddRoute("/api/agents/{agent}/edit", api.CtrAgentEdit)
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)
 	server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
+	http.Handle("/sapi", websocket.Handler(sapi.AgentStreaming))
 
 	server.AddDataSource("dataflux", store)
 	server.AddDataSource("persistence", persistence)

@@ -1,8 +1,16 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
-class AgentEdit extends React.Component {
+type Props = {
+  config: Object,
+  agentID: string,
+  fetchConfig: string => void,
+  updateConfig: (string, Object) => void,
+  updateTemperature: (string, string) => void,
+};
+
+class AgentEdit extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.updateTemperature = this.updateTemperature.bind(this);
@@ -15,12 +23,14 @@ class AgentEdit extends React.Component {
     fetchConfig(agentID);
   }
 
+  updateConfig: () => void;
   updateConfig() {
     const { agentID, config, updateConfig } = this.props;
 
     updateConfig(agentID, config);
   }
 
+  updateTemperature: Event => void;
   updateTemperature(e) {
     const temperature = e.target.value;
     const { agentID, updateTemperature } = this.props;
@@ -50,13 +60,5 @@ class AgentEdit extends React.Component {
     );
   }
 }
-
-AgentEdit.propTypes = {
-  config: PropTypes.shape(),
-  agentID: PropTypes.string,
-  updateTemperature: PropTypes.func,
-  fetchConfig: PropTypes.func,
-  updateConfig: PropTypes.func,
-};
 
 export default withRouter(AgentEdit);

@@ -5,9 +5,7 @@ import Joystick from './index';
 
 describe('Joystick', () => {
   it('should render correctly', () => {
-    const component = mount(<Joystick
-      onPositionChange={_.noop}
-    />);
+    const component = mount(<Joystick onPositionChange={_.noop} />);
 
     expect(component).toMatchSnapshot();
   });

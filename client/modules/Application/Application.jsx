@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertPanel from 'modules/AlertPanel';
+import AlertPanel from 'client/modules/AlertPanel';
 
 const Application = props => (
   <div className="application">

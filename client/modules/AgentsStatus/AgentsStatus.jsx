@@ -1,9 +1,13 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import ControlPanel from './ControlPanel';
 import List from './List';
 
-const AgentsStatus = props => {
+type Props = {
+  error: string,
+};
+
+const AgentsStatus = (props: Props) => {
   const { error } = props;
 
   return (
@@ -17,10 +21,6 @@ const AgentsStatus = props => {
 
 AgentsStatus.defaultProps = {
   error: '',
-};
-
-AgentsStatus.propTypes = {
-  error: PropTypes.string,
 };
 
 export default AgentsStatus;

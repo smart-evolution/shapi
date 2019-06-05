@@ -5,7 +5,7 @@ module.exports = {
   resolve: {
     modules: [
       path.resolve(__dirname, './node_modules'),
-      path.resolve(__dirname, './client'),
+      path.resolve(__dirname, '.'),
     ],
   },
   context: `${__dirname}/client`,

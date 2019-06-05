@@ -1,49 +1,52 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import TemperaturePanel from './TemperaturePanel';
-import SoundPanel from './SoundPanel';
-import CurrentPanel from './CurrentPanel';
+import * as agentTypes from 'client/models/agents/types';
+import Type1 from './Type1';
+import Type2 from './Type2';
+import Jeep from './Jeep';
 
-const Dashboard = props => {
+type Props = {
+  pathname: string,
+  error: string,
+  agent: agentTypes.Agent,
+};
+
+const Dashboard = (props: Props) => {
   const { error, agent, pathname } = props;
+
+  if (_.isEmpty(agent)) {
+    return <div>no agent passed</div>;
+  }
+
+  let content;
+
+  switch (agent.type) {
+    case 'type1':
+      content = <Type1 agent={agent} pathname={pathname} />;
+      break;
+    case 'type2':
+      content = <Type2 agent={agent} />;
+      break;
+    case 'jeep':
+      content = <Jeep agent={agent} />;
+      break;
+    default:
+      content = <div>Unknown agent type</div>;
+      break;
+  }
 
   return (
     <div className="dashboard">
       {error && <div className="dashboard__error">{error}</div>}
-      <div className="dashboard__cell dashboard__cell--full">
-        <a className="c-btn c-btn--edit" href={`${pathname}/edit`}>
-          Edit
-        </a>
-      </div>
-      {!_.isEmpty(agent) && (
-        <div className="dashboard__cell dashboard__cell--full">
-          <CurrentPanel agent={agent} />
-        </div>
-      )}
-      {!_.isEmpty(agent) && (
-        <div className="dashboard__cell dashboard__cell--full">
-          <TemperaturePanel agent={agent} />
-        </div>
-      )}
-      {!_.isEmpty(agent) && (
-        <div className="dashboard__cell dashboard__cell--full">
-          <SoundPanel agent={agent} />
-        </div>
-      )}
+      {content}
     </div>
   );
 };
 
 Dashboard.defaultProps = {
   error: '',
-};
-
-Dashboard.propTypes = {
-  pathname: PropTypes.string,
-  error: PropTypes.string,
-  agent: PropTypes.shape(),
 };
 
 export default withRouter(Dashboard);

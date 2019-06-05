@@ -1,7 +1,13 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Type2 = props => {
+type Props = {
+  id: string,
+  name: string,
+  toggle: string => void,
+};
+
+const Type2 = (props: Props) => {
   const { id, name, toggle } = props;
 
   return (
@@ -14,12 +20,6 @@ const Type2 = props => {
       </button>
     </li>
   );
-};
-
-Type2.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  toggle: PropTypes.func,
 };
 
 export default Type2;
