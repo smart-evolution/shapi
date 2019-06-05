@@ -2,19 +2,15 @@
 import _ from 'lodash';
 import React from 'react';
 import * as d3 from 'd3';
+import * as types from '../types';
 
 const CHART_PADDING = 20;
 const DEFAULT_MAX_TEMP = 30;
 const DEFAULT_MIN_TEMP = 10;
 const TEMP_MARGIN = 2;
 
-type Temperature = {
-  time: Date,
-  value: number,
-};
-
 type Props = {
-  temperatures: $ReadOnlyArray<Temperature>,
+  temperatures: $ReadOnlyArray<types.Temperature>,
 };
 
 class TemperatureChart extends React.PureComponent<Props> {
@@ -39,8 +35,8 @@ class TemperatureChart extends React.PureComponent<Props> {
 
   chart: HTMLDivElement | null;
 
-  drawChart: ($ReadOnlyArray<Temperature>) => void;
-  drawChart(temperatures: $ReadOnlyArray<Temperature>) {
+  drawChart: ($ReadOnlyArray<types.Temperature>) => void;
+  drawChart(temperatures: $ReadOnlyArray<types.Temperature>) {
     const d3Chart = d3.select(this.chart);
 
     d3Chart.select('svg').remove();

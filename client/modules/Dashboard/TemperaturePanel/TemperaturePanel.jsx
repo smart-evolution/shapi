@@ -2,14 +2,10 @@
 import _ from 'lodash';
 import React from 'react';
 import TemperatureChart from './TemperatureChart/TemperatureChart';
-
-type Temperature = {
-  time: Date,
-  value: number,
-};
+import * as types from './types';
 
 type Props = {
-  temperatures: $ReadOnlyArray<Temperature>,
+  temperatures: $ReadOnlyArray<types.Temperature>,
 };
 
 const NODATA_SIGN = '-';
