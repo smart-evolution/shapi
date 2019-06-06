@@ -37,24 +37,40 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			return
 		}
 
-		agentsType1, err := agents.FetchType1(agentID, df)
+		cnfAgents := state.Agents()
+		for _, a := range cnfAgents {
+			var (
+				data interface{}
+				err  error
+			)
 
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			utils.Log(err)
-			return
+			if a.ID() == "type1" {
+				data, err = agents.FetchType1Data(a.ID(), df)
+
+				if err != nil {
+					utils.Log(err)
+				}
+			} else if a.ID() == "type2" {
+				data, err = agents.FetchType2(a.ID(), state.Agents())
+
+				if err != nil {
+					utils.Log(err)
+				}
+			} else if a.ID() == "jeep" {
+				data = nil
+			} else {
+				data = nil
+			}
+
+			agentJSON := agents.AgentJSON{
+				ID:        a.ID(),
+				Name:      a.Name(),
+				Data:      data,
+				AgentType: a.AgentType(),
+				IP:        a.IP(),
+			}
+			agentsList = append(agentsList, agentJSON)
 		}
-
-		agentsList = append(agentsList, agentsType1...)
-
-		agentsType2, err := agents.FetchType2(agentID, state.Agents())
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			utils.Log(err)
-			return
-		}
-
-		agentsList = append(agentsList, agentsType2...)
 
 		if len(agentsList) == 0 {
 			w.WriteHeader(http.StatusNoContent)
@@ -93,7 +109,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			return
 		}
 
-		_, err = http.Get(agent.URL())
+		_, err = http.Get(agent.IP())
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

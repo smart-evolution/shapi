@@ -53,9 +53,9 @@ func (s *State) SendAlert() bool {
 }
 
 // AddAgent - adds agent to the memory state
-func (s *State) AddAgent(id string, name string, url string, agentType string) {
-	utils.Log("adding home agent '" + name + "' with URL '" + url + "'")
-	agent := agent.New(id, name, url, agentType)
+func (s *State) AddAgent(id string, name string, ip string, agentType string) {
+	utils.Log("adding home agent '" + name + "' with URL '" + ip + "'")
+	agent := agent.New(id, name, ip, agentType)
 	s.agents = append(s.agents, agent)
 }
 

@@ -4,7 +4,7 @@ export type Agent = {
   name: string,
   data: any,
   type: string,
-  url: string,
+  ip: string,
 };
 
 export type State = {

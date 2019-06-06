@@ -25,7 +25,7 @@ export function* sendMessage({
     yield client.send(
       JSON.stringify({
         id: agent.id,
-        url: agent.url,
+        ip: agent.ip,
         left,
         top,
       })

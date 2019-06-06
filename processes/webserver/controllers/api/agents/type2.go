@@ -19,6 +19,7 @@ func FetchType2(agentID string, agents []*agent.Agent) ([]AgentJSON, error) {
 				Name:      a.Name(),
 				Data:      struct{}{},
 				AgentType: "type2",
+				IP:        "url",
 			}
 
 			agentsJSON = append(agentsJSON, agent)
