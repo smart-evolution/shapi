@@ -37,9 +37,8 @@ func getAgents(hardwareFile string) []*agent.Agent {
 			name := cnfRow[1]
 			ip := cnfRow[2]
 			agentType := cnfRow[3]
-			apiURL := "http://" + ip + "/api"
 
-			agents = append(agents, agent.New(id, name, apiURL, agentType))
+			agents = append(agents, agent.New(id, name, ip, agentType))
 		}
 	}
 

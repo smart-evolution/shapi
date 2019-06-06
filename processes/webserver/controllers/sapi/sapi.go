@@ -12,7 +12,7 @@ type message struct {
 	ID   string `json:"id"`
 	Left int    `json:"left"`
 	Top  int    `json:"top"`
-	URL  string `json:"url"`
+	IP  string  `json:"ip"`
 }
 
 var (
@@ -23,7 +23,7 @@ var (
 
 func connect(device string) {
 	if conn == nil {
-		conn, err = net.Dial("tcp", device)
+		conn, err = net.Dial("tcp", device + ":81")
 
 		if err != nil {
 			fmt.Println("error connecting device " + device)
@@ -97,7 +97,7 @@ func AgentStreaming(ws *websocket.Conn) {
 		log.Println(err)
 		return
 	}
-	go connect(m.URL)
+	go connect(m.IP)
 
 	for {
 		if err := websocket.JSON.Receive(ws, &m); err != nil {

@@ -6,4 +6,5 @@ type AgentJSON struct {
 	Name      string      `json:"name"`
 	Data      interface{} `json:"data"`
 	AgentType string      `json:"type"`
+	IP		  string	  `json:"ip"`
 }

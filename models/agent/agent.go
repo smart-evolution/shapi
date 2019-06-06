@@ -30,6 +30,7 @@ const (
 type Agent struct {
 	iD               string
 	name             string
+	iP				 string
 	uRL              string
 	agentType        string
 	tmpNotifyTime    time.Time
@@ -38,11 +39,11 @@ type Agent struct {
 }
 
 // New - creates new entity of Agent
-func New(id string, name string, url string, agentType string) *Agent {
+func New(id string, name string, ip string, agentType string) *Agent {
 	return &Agent{
 		iD:        id,
 		name:      name,
-		uRL:       url,
+		iP:		   ip,
 		agentType: agentType,
 	}
 }
@@ -67,14 +68,14 @@ func (a *Agent) SetName(name string) {
 	a.name = name
 }
 
-// URL - uRL getter
-func (a *Agent) URL() string {
-	return a.uRL
+// IP - iP getter
+func (a *Agent) IP() string {
+	return a.iP
 }
 
-// SetURL - uRL setter
-func (a *Agent) SetURL(URL string) {
-	a.uRL = URL
+// SetIP - iP setter
+func (a *Agent) SetIP(id string) {
+	a.iP = id
 }
 
 // AgentType - agentType getter
@@ -123,7 +124,8 @@ func (a *Agent) FetchPackage(
 ) {
 	defer wg.Done()
 	utils.Log("fetching data from agent [" + a.Name() + "]")
-	response, err := http.Get(a.uRL)
+	apiURL := "http://" + a.iP + "/api"
+	response, err := http.Get(apiURL)
 
 	if err != nil {
 		utils.Log("data fetching request to agent [" + a.Name() + "] failed")

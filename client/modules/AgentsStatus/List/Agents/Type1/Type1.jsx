@@ -1,12 +1,19 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Icon from 'client/components/Icon';
 
-const Type1 = props => {
+type Props = {
+  id: string,
+  name: string,
+  temperature: string,
+  isMotion: number,
+  isGas: number,
+};
+
+const Type1 = (props: Props) => {
   const { id, name, temperature, isGas, isMotion } = props;
 
   const motionColor = isMotion ? 'agent-type1__icon--alert' : null;
-
   const gasColor = isGas ? 'agent-type1__icon--alert' : null;
 
   return (
@@ -22,14 +29,6 @@ const Type1 = props => {
       </span>
     </li>
   );
-};
-
-Type1.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  temperature: PropTypes.string,
-  isMotion: PropTypes.number,
-  isGas: PropTypes.number,
 };
 
 export default Type1;

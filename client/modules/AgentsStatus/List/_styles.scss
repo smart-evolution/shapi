@@ -15,6 +15,11 @@
 
   &__item {
     @extend .c-list__item;
+
+    &--inactive {
+      border-color: #bebfc1;
+      color: #bebfc1;
+    }
   }
 }
 

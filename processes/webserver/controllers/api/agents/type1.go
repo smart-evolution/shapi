@@ -16,12 +16,10 @@ type Type1DataJSON struct {
 	Sound       []string `json:"sound"`
 }
 
-// FetchType1 - fetches data for type1 agent
-func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
-	var type1Agents []AgentJSON
-
+// FetchType1Data - fetches data for type1 agent
+func FetchType1Data(agentID string, df dataflux.IDataFlux) (Type1DataJSON, error) {
 	if df.IsConnected() != true {
-		return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
+		return Type1DataJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
 	}
 
 	measurements := "/.*/"
@@ -36,16 +34,18 @@ func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
 	}
 
 	if df.IsConnected() != true {
-		return []AgentJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
+		return Type1DataJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
 	}
 
 	resp, err := df.GetData(q)
 
 	if err != nil {
-		return []AgentJSON{}, err
+		return Type1DataJSON{}, err
 	}
 
 	series := resp.Results[0].Series
+
+	var agentData Type1DataJSON
 
 	for _, agent := range series {
 		var (
@@ -59,10 +59,7 @@ func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
 			presence     string
 			gas          string
 			sound        string
-			agentName    string
 		)
-
-		agentID := agent.Name
 
 		for _, serie := range agent.Values {
 			if serie[0] != nil {
@@ -90,11 +87,6 @@ func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
 			} else {
 				sound = ""
 			}
-			if serie[5] != nil {
-				agentName = serie[5].(string)
-			} else {
-				agentName = ""
-			}
 
 			times = append(times, time)
 			temperatures = append(temperatures, temperature)
@@ -103,7 +95,7 @@ func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
 			sounds = append(sounds, sound)
 		}
 
-		agentData := Type1DataJSON{
+		agentData = Type1DataJSON{
 			times,
 			temperatures,
 			presences,
@@ -114,16 +106,7 @@ func FetchType1(agentID string, df dataflux.IDataFlux) ([]AgentJSON, error) {
 		if err != nil {
 			utils.Log(err)
 		}
-
-		a := AgentJSON{
-			agentID,
-			agentName,
-			agentData,
-			"type1",
-		}
-
-		type1Agents = append(type1Agents, a)
 	}
 
-	return type1Agents, nil
+	return agentData, nil
 }

@@ -3,28 +3,44 @@ import _ from 'lodash';
 import * as selectors from './selectors';
 import * as types from './types';
 
-export const getTemperatures = (agent: types.Agent) => {
+export const getTemperatures = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
+
+  if (_.isEmpty(data) || !_.isArray(data.temperature)) {
+    return [];
+  }
   return data.temperature;
 };
 
-export const getTemperature = (agent: types.Agent) => {
+export const getTemperature = (agent: types.Agent): string => {
   const temperatures = getTemperatures(agent);
   return _.first(temperatures);
 };
 
-export const getMotion = (agent: types.Agent) => {
+export const getMotion = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
+
+  if (_.isEmpty(data) || !_.isArray(data.presence)) {
+    return [];
+  }
   return data.presence;
 };
 
-export const getGas = (agent: types.Agent) => {
+export const getGas = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
+
+  if (_.isEmpty(data) || !_.isArray(data.gas)) {
+    return [];
+  }
   return data.gas;
 };
 
-export const getTimes = (agent: types.Agent) => {
+export const getTimes = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
+
+  if (_.isEmpty(data) || !_.isArray(data.time)) {
+    return [];
+  }
   return data.time;
 };
 
