@@ -41,7 +41,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		for _, a := range cnfAgents {
 			var (
 				data interface{}
-				err error
+				err  error
 			)
 
 			if a.ID() == "type1" {
@@ -63,11 +63,11 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			}
 
 			agentJSON := agents.AgentJSON{
-				ID: a.ID(),
-				Name: a.Name(),
-				Data: data,
+				ID:        a.ID(),
+				Name:      a.Name(),
+				Data:      data,
 				AgentType: a.AgentType(),
-				IP: a.IP(),
+				IP:        a.IP(),
 			}
 			agentsList = append(agentsList, agentJSON)
 		}

@@ -13,8 +13,8 @@ type Props = {
 const Type1 = (props: Props) => {
   const { id, name, temperature, isGas, isMotion } = props;
 
-  const motionColor = isMotion ? 'agent-type1__icon--alert' : null;
-  const gasColor = isGas ? 'agent-type1__icon--alert' : null;
+  const motionColor = isMotion ? 'agent-type1__icon--alert' : '';
+  const gasColor = isGas ? 'agent-type1__icon--alert' : '';
 
   return (
     <li className="agent-type1">

@@ -30,7 +30,7 @@ const (
 type Agent struct {
 	iD               string
 	name             string
-	iP				 string
+	iP               string
 	uRL              string
 	agentType        string
 	tmpNotifyTime    time.Time
@@ -43,7 +43,7 @@ func New(id string, name string, ip string, agentType string) *Agent {
 	return &Agent{
 		iD:        id,
 		name:      name,
-		iP:		   ip,
+		iP:        ip,
 		agentType: agentType,
 	}
 }
