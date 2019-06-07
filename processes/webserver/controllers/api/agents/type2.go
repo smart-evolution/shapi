@@ -9,7 +9,7 @@ type Type2DataJSON struct {
 }
 
 // FetchType2 - fetches data for type2 agent
-func FetchType2(agentID string, agents []*agent.Agent) ([]AgentJSON, error) {
+func FetchType2(agentID string, agents []agent.IAgent) ([]AgentJSON, error) {
 	var agentsJSON []AgentJSON
 
 	for _, a := range agents {

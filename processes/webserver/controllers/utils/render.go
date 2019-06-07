@@ -53,7 +53,7 @@ func RenderTemplate(
 		return
 	}
 
-	menu := make([]*agent.Agent, 0)
+	menu := make([]agent.IAgent, 0)
 	for _, a := range state.Agents() {
 		menu = append(menu, a)
 	}

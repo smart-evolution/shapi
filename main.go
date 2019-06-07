@@ -5,6 +5,7 @@ import (
 	"github.com/smart-evolution/smarthome/datasources/persistence"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/models/type1"
 	"github.com/smart-evolution/smarthome/models/user"
 	"github.com/smart-evolution/smarthome/processes/cliserver"
 	"github.com/smart-evolution/smarthome/processes/homebot"
@@ -19,8 +20,8 @@ import (
 
 //go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
 
-func getAgents(hardwareFile string) []*agent.Agent {
-	var agents []*agent.Agent
+func getAgents(hardwareFile string) []agent.IAgent {
+	var agents []agent.IAgent
 	agentsCnf, err := ioutil.ReadFile(hardwareFile)
 
 	if err != nil {
@@ -38,7 +39,11 @@ func getAgents(hardwareFile string) []*agent.Agent {
 			ip := cnfRow[2]
 			agentType := cnfRow[3]
 
-			agents = append(agents, agent.New(id, name, ip, agentType))
+			if agentType == "type1" {
+				agents = append(agents, type1.New(id, name, ip, agentType))
+			} else {
+				agents = append(agents, agent.New(id, name, ip, agentType))
+			}
 		}
 	}
 

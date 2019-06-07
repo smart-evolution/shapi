@@ -12,19 +12,19 @@ type IState interface {
 	IsAlerts() bool
 	SetSendAlert(bool)
 	SendAlert() bool
-	Agents() []*agent.Agent
-	AgentByID(string) (*agent.Agent, error)
+	Agents() []agent.IAgent
+	AgentByID(string) (agent.IAgent, error)
 }
 
 // State - data source which keeps short data in memory
 type State struct {
 	isAlerts  bool
 	sendAlert bool
-	agents    []*agent.Agent
+	agents    []agent.IAgent
 }
 
 // New - creates new instance of State
-func New(agents []*agent.Agent) *State {
+func New(agents []agent.IAgent) *State {
 	return &State{
 		isAlerts:  false,
 		sendAlert: false,
@@ -60,12 +60,12 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 }
 
 // Agents - returns list of available agents
-func (s *State) Agents() []*agent.Agent {
+func (s *State) Agents() []agent.IAgent {
 	return s.agents
 }
 
 // AgentByID - find corresponding agent by ID
-func (s *State) AgentByID(id string) (*agent.Agent, error) {
+func (s *State) AgentByID(id string) (agent.IAgent, error) {
 	for _, a := range s.agents {
 		if a.ID() == id {
 			return a, nil
