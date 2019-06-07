@@ -2,8 +2,8 @@ package type1
 
 import (
 	"errors"
-	"github.com/smart-evolution/smarthome/utils"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/utils"
 	"io/ioutil"
 	"net/http"
 	"regexp"
@@ -49,7 +49,7 @@ func New(id string, name string, ip string, agentType string) *AgentType1 {
 	a := agent.New(id, name, ip, agentType)
 
 	return &AgentType1{
-		Agent:	   *a,
+		Agent: *a,
 	}
 }
 

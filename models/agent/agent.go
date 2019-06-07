@@ -5,13 +5,13 @@ import (
 )
 
 type IAgent interface {
-	ID()				string
+	ID() string
 	SetID(string)
-	Name()				string
+	Name() string
 	SetName(string)
-	IP()				string
+	IP() string
 	SetIP(string)
-	AgentType()			string
+	AgentType() string
 	SetAgentType(string)
 }
 
