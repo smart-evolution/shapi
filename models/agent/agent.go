@@ -1,9 +1,6 @@
 package agent
 
-import (
-	"time"
-)
-
+// IAgent - interface for Agent
 type IAgent interface {
 	ID() string
 	SetID(string)
@@ -17,13 +14,10 @@ type IAgent interface {
 
 // Agent - hardware entity
 type Agent struct {
-	iD               string
-	name             string
-	iP               string
-	agentType        string
-	tmpNotifyTime    time.Time
-	motionNotifyTime time.Time
-	gasNotifyTime    time.Time
+	iD        string
+	name      string
+	iP        string
+	agentType string
 }
 
 // New - creates new entity of Agent

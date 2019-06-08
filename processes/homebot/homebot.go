@@ -110,7 +110,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 
 			persistData := persistDataFactory(hb.store, agentConfig)
 
-			at1, ok := a.(type1.IAgentType1)
+			at1, ok := a.(type1.IType1)
 			if ok {
 				go at1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
 			}

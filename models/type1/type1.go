@@ -27,7 +27,8 @@ const (
 		"\\>"
 )
 
-type IAgentType1 interface {
+// IType1 - infetrace for Type1 hardware
+type IType1 interface {
 	FetchPackage(
 		alertNotifier func(string),
 		persistData func(agent.IAgent, map[string]interface{}),
@@ -36,8 +37,8 @@ type IAgentType1 interface {
 	)
 }
 
-// AgentType1 - hardware entity
-type AgentType1 struct {
+// Type1 - hardware entity
+type Type1 struct {
 	agent.Agent
 	tmpNotifyTime    time.Time
 	motionNotifyTime time.Time
@@ -45,10 +46,10 @@ type AgentType1 struct {
 }
 
 // New - creates new entity of Agent
-func New(id string, name string, ip string, agentType string) *AgentType1 {
+func New(id string, name string, ip string, agentType string) *Type1 {
 	a := agent.New(id, name, ip, agentType)
 
-	return &AgentType1{
+	return &Type1{
 		Agent: *a,
 	}
 }
@@ -81,7 +82,7 @@ func getSound(data string) string {
 }
 
 // FetchPackage - fetches data packages
-func (a *AgentType1) FetchPackage(
+func (a *Type1) FetchPackage(
 	alertNotifier func(string),
 	persistData func(agent.IAgent, map[string]interface{}),
 	isAlerts bool,
