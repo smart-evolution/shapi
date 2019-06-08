@@ -7,6 +7,7 @@ import (
 	"github.com/smart-evolution/smarthome/datasources/persistence"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/models/type1"
 	"github.com/smart-evolution/smarthome/services/email"
 	"github.com/smart-evolution/smarthome/utils"
 	"gopkg.in/mgo.v2/bson"
@@ -60,8 +61,8 @@ func adjustValues(
 func persistDataFactory(
 	store dataflux.IDataFlux,
 	agentConfig agent.Config,
-) func(*agent.Agent, map[string]interface{}) {
-	return func(agent *agent.Agent, data map[string]interface{}) {
+) func(agent.IAgent, map[string]interface{}) {
+	return func(agent agent.IAgent, data map[string]interface{}) {
 		utils.Log("Persisting data for agent [" + agent.Name() + "]")
 
 		adjustedData := adjustValues(data, agentConfig)
@@ -109,8 +110,9 @@ func (hb *HomeBot) runCommunicationLoop() {
 
 			persistData := persistDataFactory(hb.store, agentConfig)
 
-			if a.AgentType() == "type1" {
-				go a.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
+			at1, ok := a.(type1.IType1)
+			if ok {
+				go at1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
 			}
 		}
 
