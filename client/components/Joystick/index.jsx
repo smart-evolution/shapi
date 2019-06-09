@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 type Props = {
   onPositionChange: (left: number, top: number) => void,
+  isEnabled: boolean,
 };
 
 type State = {
@@ -18,6 +19,10 @@ class Joystick extends React.PureComponent<Props, State> {
   static onDragOver(event: SyntheticDragEvent<HTMLDivElement>) {
     event.preventDefault();
   }
+
+  static defaultProps = {
+    isEnabled: true,
+  };
 
   constructor() {
     super();
@@ -64,10 +69,13 @@ class Joystick extends React.PureComponent<Props, State> {
 
   render() {
     const { left, top } = this.state;
+    const { isEnabled } = this.props;
+
+    const classes = `c-joystick${isEnabled ? '' : ' c-joystick--inactive'}`;
 
     return (
       <div
-        className="c-joystick"
+        className={classes}
         onDragOver={event => Joystick.onDragOver(event)}
       >
         <div
@@ -79,7 +87,7 @@ class Joystick extends React.PureComponent<Props, State> {
         />
         <div
           className="c-joystick__drag"
-          draggable="true"
+          draggable={isEnabled}
           onDrag={(event: SyntheticDragEvent<HTMLDivElement>) => {
             this.onMove(event);
           }}

@@ -24,3 +24,8 @@ export const sendMessage = (
   agent,
   message,
 });
+
+export const setDevStatus = (status: boolean) => ({
+  type: actionTypes.PROXY_SET_DEV_STATUS,
+  status,
+});

@@ -1,6 +1,9 @@
 // @flow
-/* eslint-disable import/prefer-default-export */
 export const getWsClient = (state: Object): WebSocket => {
   return state.proxy.wsClient;
 };
-/* eslint-enable import/prefer-default-export */
+
+export const getIsDevConnected = (state: Object): boolean => {
+  return state.proxy.isDevConnected;
+};
+

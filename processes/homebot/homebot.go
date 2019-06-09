@@ -100,18 +100,18 @@ func (hb *HomeBot) runCommunicationLoop() {
 		for i := 0; i < len(agents); i++ {
 			a := agents[i]
 
-			err := c.Find(bson.M{
-				"agentId": a.ID(),
-			}).One(&agentConfig)
-
-			if err != nil {
-				utils.Log("AgentConfig not found for agent [" + a.Name() + "]")
-			}
-
-			persistData := persistDataFactory(hb.store, agentConfig)
-
 			at1, ok := a.(type1.IType1)
 			if ok {
+				err := c.Find(bson.M{
+					"agentId": a.ID(),
+				}).One(&agentConfig)
+
+				if err != nil {
+					utils.Log("AgentConfig not found for agent [" + a.Name() + "]")
+				}
+
+				persistData := persistDataFactory(hb.store, agentConfig)
+
 				go at1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
 			}
 		}
