@@ -24,11 +24,16 @@ function getData(agentID) {
 export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   const data = yield call(getData, agentID);
 
-  if (!_.isEmpty(data)) {
+  if (data !== undefined) {
     const { temperature } = data;
     yield put(actions.updateTemperature(agentID, temperature));
   } else {
-    yield put(alertsActions.addAlert('Fetching agent config failed', alertsConstants.ALERT_TYPE_ERROR));
+    yield put(
+      alertsActions.addAlert(
+        'Fetching agent config failed',
+        alertsConstants.ALERT_TYPE_ERROR
+      )
+    );
   }
 }
 
@@ -41,14 +46,28 @@ function callUpdateData(agentID, data) {
     .catch(() => 'Updating agent config failed');
 }
 
-export function* updateData({ agentID, data }: { agentID: string, data: Object }): Iterable<any> {
+export function* updateData({
+  agentID,
+  data,
+}: {
+  agentID: string,
+  data: Object,
+}): Iterable<any> {
   const resp = yield call(callUpdateData, agentID, data);
 
   if (!_.isEmpty(resp)) {
     yield put(
-      alertsActions.addAlert('Updated agent config successfuly', alertsConstants.ALERT_TYPE_INFO)
+      alertsActions.addAlert(
+        'Updated agent config successfuly',
+        alertsConstants.ALERT_TYPE_INFO
+      )
     );
   } else {
-    yield put(alertsActions.addAlert('Updating agent config failed', alertsConstants.ALERT_TYPE_ERROR));
+    yield put(
+      alertsActions.addAlert(
+        'Updating agent config failed',
+        alertsConstants.ALERT_TYPE_ERROR
+      )
+    );
   }
 }

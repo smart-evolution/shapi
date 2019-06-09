@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash';
 import { eventChannel } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import * as agentTypes from 'client/models/agents/types';
@@ -11,7 +10,7 @@ import * as actions from './actions';
 /* eslint-disable require-yield */
 function* createChannel(client: WebSocket) {
   return eventChannel(emit => {
-    client.onmessage = (message) => emit(message.data);
+    client.onmessage = message => emit(message.data);
     return () => {
       client.close();
     };
@@ -31,13 +30,19 @@ export function* createWebSocketClient(agent: agentTypes.Agent): Iterable<any> {
     const data = yield take(channel);
 
     if (data instanceof String) {
-      const { type, message } = JSON.parse(data.slice(1,-1).replace(/\\"/g, '"'));
+      const { type, message } = JSON.parse(
+        data.slice(1, -1).replace(/\\"/g, '"')
+      );
 
       if (type === 'connected') {
-        yield put(alertsActions.addAlert(message, alertsConstants.ALERT_TYPE_INFO));
+        yield put(
+          alertsActions.addAlert(message, alertsConstants.ALERT_TYPE_INFO)
+        );
         yield put(actions.setDevStatus(true));
       } else if (type === 'error') {
-        yield put(alertsActions.addAlert(message, alertsConstants.ALERT_TYPE_ERROR));
+        yield put(
+          alertsActions.addAlert(message, alertsConstants.ALERT_TYPE_ERROR)
+        );
         yield put(actions.setDevStatus(false));
       }
     }

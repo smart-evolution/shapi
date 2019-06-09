@@ -6,4 +6,3 @@ export const getWsClient = (state: Object): WebSocket => {
 export const getIsDevConnected = (state: Object): boolean => {
   return state.proxy.isDevConnected;
 };
-

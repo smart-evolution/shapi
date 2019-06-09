@@ -74,10 +74,7 @@ class Joystick extends React.PureComponent<Props, State> {
     const classes = `c-joystick${isEnabled ? '' : ' c-joystick--inactive'}`;
 
     return (
-      <div
-        className={classes}
-        onDragOver={event => Joystick.onDragOver(event)}
-      >
+      <div className={classes} onDragOver={event => Joystick.onDragOver(event)}>
         <div
           className="c-joystick__knob"
           style={{

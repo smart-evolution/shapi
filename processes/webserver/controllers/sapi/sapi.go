@@ -26,7 +26,7 @@ func connect(ws *websocket.Conn, device string) {
 
 		if err != nil {
 			utils.Log("error connecting device " + device)
-			websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device ` +  device + `"}`)
+			websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device `+device+`"}`)
 			return
 		}
 
@@ -51,13 +51,13 @@ func connect(ws *websocket.Conn, device string) {
 
 		if _, ok := aca.ApiMap[devType]; !ok {
 			utils.Log("unknown device type '" + devType + "'")
-			websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '` + devType + `'"}`)
+			websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
 			return
 		}
 
 		utils.Log("connected to device type '" + devType + "'")
 
-		websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '` + device + `'"}`)
+		websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '`+device+`'"}`)
 	}
 }
 

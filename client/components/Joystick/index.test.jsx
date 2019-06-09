@@ -11,7 +11,9 @@ describe('Joystick', () => {
   });
 
   it('should render correctly in disabled state', () => {
-    const component = mount(<Joystick onPositionChange={_.noop} isEnabled={false} />);
+    const component = mount(
+      <Joystick onPositionChange={_.noop} isEnabled={false} />
+    );
 
     expect(component).toMatchSnapshot();
   });

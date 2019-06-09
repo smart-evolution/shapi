@@ -5,7 +5,7 @@ import * as proxySelectors from 'client/models/proxy/selectors';
 import * as agentsTypes from 'client/models/agents/types';
 import Jeep from './Jeep';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isDevConnected: proxySelectors.getIsDevConnected(state),
 });
 
@@ -14,10 +14,12 @@ const mapDispatchToProps = (dispatch: Function, ownProps) => ({
     dispatch(proxyActions.createWebSocketClient(agent));
   },
   onToggle: () => {
-    dispatch(proxyActions.sendMessage(ownProps.agent, {
-      left: 25,
-      top: 25,
-    }));
+    dispatch(
+      proxyActions.sendMessage(ownProps.agent, {
+        left: 25,
+        top: 25,
+      })
+    );
   },
   onPositionChange: (
     agent: agentsTypes.Agent,

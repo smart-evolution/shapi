@@ -2,11 +2,11 @@
 
 exports[`Joystick should render correctly 1`] = `
 <Joystick
-  isEnabled={false}
+  isEnabled={true}
   onPositionChange={[Function]}
 >
   <div
-    className="c-joystick c-joystick--inactive"
+    className="c-joystick"
     onDragOver={[Function]}
   >
     <div
@@ -20,7 +20,7 @@ exports[`Joystick should render correctly 1`] = `
     />
     <div
       className="c-joystick__drag"
-      draggable={false}
+      draggable={true}
       onDrag={[Function]}
       onDragEnd={[Function]}
       style={

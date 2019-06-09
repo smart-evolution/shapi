@@ -28,11 +28,7 @@ class Jeep extends React.PureComponent<Props> {
         <div className="c-control">
           Device connection
           <div className="c-control__content">
-            <Switch
-              className=""
-              isOn={isDevConnected}
-              onToggle={onToggle}
-            />
+            <Switch className="" isOn={isDevConnected} onToggle={onToggle} />
           </div>
         </div>
         <Joystick
