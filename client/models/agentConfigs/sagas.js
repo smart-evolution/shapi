@@ -21,7 +21,7 @@ function getData(agentID) {
     .catch(e => e);
 }
 
-export function* fetchData({ agentID }) {
+export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   const data = yield call(getData, agentID);
 
   if (!_.isEmpty(data)) {
@@ -41,7 +41,7 @@ function callUpdateData(agentID, data) {
     .catch(() => 'Updating agent config failed');
 }
 
-export function* updateData({ agentID, data }) {
+export function* updateData({ agentID, data }: { agentID: string, data: Object }): Iterable<any> {
   const resp = yield call(callUpdateData, agentID, data);
 
   if (!_.isEmpty(resp)) {

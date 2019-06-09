@@ -25,10 +25,16 @@ class Jeep extends React.PureComponent<Props> {
 
     return (
       <div className="dashboard__cell dashboard__cell--full">
-        <Switch
-          isOn={isDevConnected}
-          onToggle={onToggle}
-        />
+        <div className="c-control">
+          Device connection
+          <div className="c-control__content">
+            <Switch
+              className=""
+              isOn={isDevConnected}
+              onToggle={onToggle}
+            />
+          </div>
+        </div>
         <Joystick
           isEnabled={isDevConnected}
           onPositionChange={(left: number, top: number) => {

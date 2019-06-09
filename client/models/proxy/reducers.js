@@ -18,9 +18,9 @@ export default function reducers(state: State = defaultState, action: Object) {
         wsClient: action.client,
       });
 
-    case actionTypes.PROXY_SEND_MESSAGE:
+    case actionTypes.PROXY_SET_DEV_STATUS:
       return Object.assign({}, state, {
-        isDevConnected: action.isDevConnected,
+        isDevConnected: action.status,
       });
 
     default:

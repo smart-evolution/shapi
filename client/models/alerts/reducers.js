@@ -7,7 +7,7 @@ const defaultState: types.State = {
   alerts: [],
 };
 
-export default function reducers(state = defaultState, action) {
+export default function reducers(state: types.State = defaultState, action: Function) {
   const { alerts } = state;
   const alert: types.Alert = {
     message: action.message,
