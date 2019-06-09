@@ -24,19 +24,23 @@ class Jeep extends React.PureComponent<Props> {
     const { agent, onPositionChange, onToggle, isDevConnected } = this.props;
 
     return (
-      <div className="dashboard__cell dashboard__cell--full">
-        <div className="c-control">
-          Device connection
-          <div className="c-control__content">
-            <Switch className="" isOn={isDevConnected} onToggle={onToggle} />
+      <div className="jeep-panel">
+        <div className="jeep-panel__section">
+          <div className="c-control">
+            Device connection
+            <div className="c-control__content">
+              <Switch className="" isOn={isDevConnected} onToggle={onToggle} />
+            </div>
           </div>
         </div>
-        <Joystick
-          isEnabled={isDevConnected}
-          onPositionChange={(left: number, top: number) => {
-            onPositionChange(agent, { left, top });
-          }}
-        />
+        <div className="jeep-panel__section">
+          <Joystick
+            isEnabled={isDevConnected}
+            onPositionChange={(left: number, top: number) => {
+              onPositionChange(agent, { left, top });
+            }}
+          />
+        </div>
       </div>
     );
   }

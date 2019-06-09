@@ -1,0 +1,11 @@
+.jeep-panel {
+  @extend .dashboard__cell;
+  @extend .dashboard__cell--full;
+
+  &__section {
+    @extend .c-panel;
+    @extend .c-panel--separator;
+
+    padding-bottom: 5px;
+  }
+}
