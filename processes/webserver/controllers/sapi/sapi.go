@@ -1,10 +1,9 @@
 package sapi
 
 import (
-	"fmt"
 	aca "github.com/smart-evolution/agents-cmd-api"
+	"github.com/smart-evolution/smarthome/utils"
 	"golang.org/x/net/websocket"
-	"log"
 	"net"
 )
 
@@ -21,19 +20,21 @@ var (
 	devType string
 )
 
-func connect(device string) {
+func connect(ws *websocket.Conn, device string) {
 	if conn == nil {
 		conn, err = net.Dial("tcp", device+":81")
 
 		if err != nil {
-			fmt.Println("error connecting device " + device)
+			utils.Log("error connecting device " + device)
+			websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device `+device+`"}`)
 			return
 		}
 
 		_, err = conn.Write([]byte("CMDWHO"))
 
 		if err != nil {
-			fmt.Println("error getting device type")
+			utils.Log("error getting device type")
+			websocket.JSON.Send(ws, `{"type":"error","message":"Error getting device type"}`)
 			return
 		}
 
@@ -41,25 +42,28 @@ func connect(device string) {
 		n, err := conn.Read(buff)
 
 		if err != nil {
-			fmt.Println("error retrieving device type")
-			fmt.Println(err)
+			utils.Log("error retrieving device type")
+			websocket.JSON.Send(ws, `{"type":"error","message":"Error command failed"}`)
 			return
 		}
 
 		devType = string(buff[:n])
 
 		if _, ok := aca.ApiMap[devType]; !ok {
-			fmt.Println("unknown device type '" + devType + "'")
+			utils.Log("unknown device type '" + devType + "'")
+			websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
 			return
 		}
 
-		fmt.Println("connected to device type '" + devType + "'")
+		utils.Log("connected to device type '" + devType + "'")
+
+		websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '`+device+`'"}`)
 	}
 }
 
 var prevCmd string
 
-func move(m message) {
+func move(ws *websocket.Conn, m message) {
 	var cmd string
 
 	if m.Top < 15 {
@@ -82,7 +86,8 @@ func move(m message) {
 		for _, c := range hardwareComms {
 			_, err := conn.Write([]byte(c))
 			if err != nil {
-				fmt.Println("RES: sending command failed " + c)
+				websocket.JSON.Send(ws, "{\"type\":\"error\",\"message\":\"Sending command failed\"}")
+				utils.Log("RES: sending command failed " + c)
 				break
 			}
 		}
@@ -93,18 +98,22 @@ func move(m message) {
 func AgentStreaming(ws *websocket.Conn) {
 	var m message
 
-	if err := websocket.JSON.Receive(ws, &m); err != nil {
-		log.Println(err)
-		return
+	for {
+		err := websocket.JSON.Receive(ws, &m)
+
+		if err == nil {
+			go connect(ws, m.IP)
+			break
+		}
 	}
-	go connect(m.IP)
 
 	for {
 		if err := websocket.JSON.Receive(ws, &m); err != nil {
-			log.Println(err)
-			break
+			utils.Log(err)
+			ws.Close()
+			conn.Close()
 		}
 
-		move(m)
+		move(ws, m)
 	}
 }

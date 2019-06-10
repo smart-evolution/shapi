@@ -1,0 +1,15 @@
+.c-control {
+  display: inline-block;
+  border: 1px solid $brand-component-outline-color;
+  padding: 2px 7px;
+  color: $brand-text-color;
+  font-size: 10px;
+  text-transform: uppercase;
+  margin-right: 20px;
+
+  &__content {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+}
