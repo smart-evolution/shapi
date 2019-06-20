@@ -17,14 +17,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oskarszura/trips.git"
+    "url": "https://github.com/smart-evolution/smarthome.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oskarszura/smarthome/issues"
+    "url": "https://github.com/smart-evolution/smarthome/issues"
   },
-  "homepage": "https://github.com/oskarszura/smarthome",
+  "homepage": "https://github.com/smart-evolution/smarthome",
   "dependencies": {
     "d3": "^5.0.0",
     "graphen": "git://github.com/coda-it/graphen#v0.2.0",

@@ -10,23 +10,17 @@ mode=prod
 .PHONY: install
 install:
 	$(NPM) install
-	$(GOCMD) get github.com/coda-it/gowebserver
-	$(GOCMD) get github.com/smart-evolution/agents-cmd-api
-	$(GOCMD) get github.com/influxdata/influxdb1-client/v2
-	$(GOCMD) get gopkg.in/mgo.v2
-	$(GOCMD) get golang.org/x/lint/golint
-	$(GOCMD) get golang.org/x/net/websocket
 
 .PHONY: all
 all:
 	$(GOCMD) generate
-	$(GOCMD) build -o smarthome
+	$(GOCMD) build -mod=vendor -o smarthome
 	$(NPM) run build:$(mode)
 
 .PHONY: test
 test:
 	$(NPM) run test
-	$(GOCMD) test ./...
+	$(GOCMD) test -mod=vendor ./...
 
 .PHONY: lint
 lint:
