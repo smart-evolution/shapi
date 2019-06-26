@@ -49,7 +49,7 @@ func connect(ws *websocket.Conn, device string) {
 
 		devType = string(buff[:n])
 
-		if _, ok := aca.ApiMap[devType]; !ok {
+		if _, ok := aca.APIMap[devType]; !ok {
 			utils.Log("unknown device type '" + devType + "'")
 			websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
 			return
@@ -80,7 +80,7 @@ func move(ws *websocket.Conn, m message) {
 
 	if cmd != prevCmd {
 		prevCmd = cmd
-		apiVersion := aca.ApiMap[devType]
+		apiVersion := aca.APIMap[devType]
 		hardwareComms := aca.Comms[apiVersion][cmd]
 
 		for _, c := range hardwareComms {
