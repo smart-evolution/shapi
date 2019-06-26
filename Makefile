@@ -28,7 +28,7 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	./scripts/gofmt_test.sh
-	$(GOCMD) vet -mod=vendor ./... | grep -v vendor/
+	$(GOCMD) vet -mod=vendor ./... | grep -v vendor/ && exit 1 || exit 0
 
 .PHONY: fix
 fix:
