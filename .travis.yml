@@ -11,3 +11,8 @@ install:
 before_script:
   - make lint
   - make test
+
+script:
+  - env GO111MODULE=on go build
+  - env GO111MODULE=on go test
+  - env GO111MODULE=on go vet
