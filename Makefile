@@ -14,13 +14,13 @@ install:
 .PHONY: all
 all:
 	$(GOCMD) generate
-	$(GOCMD) build -mod=vendor -o smarthome
+	$(GOCMD) build -o smarthome
 	$(NPM) run build:$(mode)
 
 .PHONY: test
 test:
 	$(NPM) run test
-	$(GOCMD) test -mod=vendor ./...
+	$(GOCMD) test ./...
 
 .PHONY: lint
 lint:
