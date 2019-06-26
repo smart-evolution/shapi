@@ -13,8 +13,6 @@ install:
 
 .PHONY: all
 all:
-	$(GOCMD) get golang.org/x/lint/golint
-	$(GOCMD) get github.com/influxdata/influxdb1-client/v2
 	$(GOCMD) generate
 	$(GOCMD) build -mod=vendor -o smarthome
 	$(NPM) run build:$(mode)
