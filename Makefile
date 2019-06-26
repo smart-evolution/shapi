@@ -8,6 +8,7 @@ mode=prod
 
 .PHONY: install
 install:
+	$(GOCMD) mod download
 	$(NPM) install
 
 .PHONY: all
