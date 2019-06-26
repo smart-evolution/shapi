@@ -1,5 +1,4 @@
 GOCMD=go
-GOLINT=golint
 GOFMT=gofmt
 MAKE=make
 NPM=npm
@@ -28,7 +27,6 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	./scripts/gofmt_test.sh
-	$(GOLINT) ./...
 	$(GOCMD) vet ./...
 
 .PHONY: fix
