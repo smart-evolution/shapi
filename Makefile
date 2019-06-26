@@ -8,19 +8,19 @@ mode=prod
 
 .PHONY: install
 install:
-	$(GOCMD) mod download
+	$(GOCMD) mod vendor
 	$(NPM) install
 
 .PHONY: all
 all:
 	$(GOCMD) generate
-	$(GOCMD) build -o smarthome
+	$(GOCMD) build -mod=vendor -o smarthome
 	$(NPM) run build:$(mode)
 
 .PHONY: test
 test:
 	$(NPM) run test
-	$(GOCMD) test ./...
+	$(GOCMD) test -mod=vendor ./...
 
 .PHONY: lint
 lint:
