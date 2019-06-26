@@ -27,7 +27,6 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	./scripts/gofmt_test.sh
-	$(GOCMD) vet -mod=vendor ./...
 
 .PHONY: fix
 fix:
