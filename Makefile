@@ -15,6 +15,7 @@ install:
 all:
 	$(GOCMD) generate
 	$(GOCMD) build -mod=vendor -o smarthome
+	$(NPM) rebuild node-sass
 	$(NPM) run build:$(mode)
 
 .PHONY: test
