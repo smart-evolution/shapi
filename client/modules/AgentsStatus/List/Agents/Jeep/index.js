@@ -3,11 +3,12 @@ import Jeep from './Jeep';
 
 const mapStateToProps = (state, ownProps) => {
   const { agent } = ownProps;
-  const { id, name } = agent;
+  const { id, name, isOnline } = agent;
 
   return {
     id,
     name,
+    isOnline,
   };
 };
 

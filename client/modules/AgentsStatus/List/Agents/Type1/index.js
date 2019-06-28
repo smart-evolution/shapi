@@ -4,7 +4,7 @@ import Type1 from './Type1';
 
 const mapStateToProps = (state, ownProps) => {
   const { agent } = ownProps;
-  const { id, name } = agent;
+  const { id, name, isOnline } = agent;
 
   const temperature = queries.getTemperature(agent);
   const isMotion = queries.isMotion(agent);
@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     temperature,
     isMotion,
     isGas,
+    isOnline,
   };
 };
 

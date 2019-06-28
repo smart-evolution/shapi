@@ -5,6 +5,14 @@
     @extend %agents-list__link;
   }
 
+  &--disabled {
+    color: $brand-component-outline-color;
+
+    .agent-type2__link {
+      color: $brand-component-outline-color;
+    }
+  }
+
   &__toggle {
     @extend .c-btn;
     @extend .c-btn--accept;

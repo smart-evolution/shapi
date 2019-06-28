@@ -94,6 +94,7 @@ func (a *Type1) FetchPackage(
 	response, err := http.Get(apiURL)
 
 	if err != nil {
+		a.SetIsOnline(false)
 		utils.Log("data fetching request to agent [" + a.Name() + "] failed")
 		return
 	}
@@ -102,6 +103,7 @@ func (a *Type1) FetchPackage(
 	contents, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
+		a.SetIsOnline(false)
 		utils.Log("agent '"+a.Name()+"'", err)
 		return
 	}
@@ -109,9 +111,12 @@ func (a *Type1) FetchPackage(
 	unwrappedData, err := getPackageData(string(contents))
 
 	if err != nil {
+		a.SetIsOnline(false)
 		utils.Log("agent '"+a.Name()+"'", err)
 		return
 	}
+
+	a.SetIsOnline(true)
 
 	temperature := getTemperature(unwrappedData)
 	motion := getMotion(unwrappedData)

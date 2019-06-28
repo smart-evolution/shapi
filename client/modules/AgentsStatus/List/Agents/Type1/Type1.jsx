@@ -8,16 +8,18 @@ type Props = {
   temperature: string,
   isMotion: number,
   isGas: number,
+  isOnline: boolean,
 };
 
 const Type1 = (props: Props) => {
-  const { id, name, temperature, isGas, isMotion } = props;
+  const { id, name, temperature, isGas, isMotion, isOnline } = props;
 
+  const onlineClass = !isOnline ? 'agent-type1--disabled' : '';
   const motionColor = isMotion ? 'agent-type1__icon--alert' : '';
   const gasColor = isGas ? 'agent-type1__icon--alert' : '';
 
   return (
-    <li className="agent-type1">
+    <li className={`agent-type1 ${onlineClass}`}>
       <a className="agent-type1__link" href={`/agent/${id}`}>
         {name}
       </a>{' '}

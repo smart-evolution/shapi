@@ -68,6 +68,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				Data:      data,
 				AgentType: a.AgentType(),
 				IP:        a.IP(),
+				IsOnline:  a.IsOnline(),
 			}
 			agentsList = append(agentsList, agentJSON)
 		}
