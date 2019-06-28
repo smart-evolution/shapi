@@ -7,5 +7,5 @@ type AgentJSON struct {
 	Data      interface{} `json:"data"`
 	AgentType string      `json:"type"`
 	IP        string      `json:"ip"`
-	IsOnline  bool		  `json:"isOnline"`
+	IsOnline  bool        `json:"isOnline"`
 }

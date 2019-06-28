@@ -1,15 +1,15 @@
 .agent-jeep {
   @extend %agents-list__item;
 
+  &__link {
+    @extend %agents-list__link;
+  }
+
   &--disabled {
     color: $brand-component-outline-color;
 
     .agent-jeep__link {
       color: $brand-component-outline-color;
     }
-  }
-
-  &__link {
-    @extend %agents-list__link;
   }
 }

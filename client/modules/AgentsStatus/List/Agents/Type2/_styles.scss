@@ -1,16 +1,16 @@
 .agent-type2 {
   @extend %agents-list__item;
 
+  &__link {
+    @extend %agents-list__link;
+  }
+
   &--disabled {
     color: $brand-component-outline-color;
 
     .agent-type2__link {
       color: $brand-component-outline-color;
     }
-  }
-
-  &__link {
-    @extend %agents-list__link;
   }
 
   &__toggle {

@@ -1,7 +1,14 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Jeep = props => {
+type Props = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  isOnline: boolean,
+};
+
+const Jeep = (props: Props) => {
   const { id, name, isOnline } = props;
   const onlineClass = !isOnline ? 'agent-jeep--disabled' : '';
   return (
@@ -11,11 +18,6 @@ const Jeep = props => {
       </a>
     </li>
   );
-};
-
-Jeep.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
 };
 
 export default Jeep;

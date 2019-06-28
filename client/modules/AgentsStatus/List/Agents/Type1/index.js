@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     temperature,
     isMotion,
     isGas,
-    isOnline
+    isOnline,
   };
 };
 
