@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 type Props = {
-  id: PropTypes.string,
-  name: PropTypes.string,
+  id: string,
+  name: string,
   isOnline: boolean,
 };
 
