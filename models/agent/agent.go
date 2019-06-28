@@ -10,6 +10,8 @@ type IAgent interface {
 	SetIP(string)
 	AgentType() string
 	SetAgentType(string)
+	IsOnline() bool
+	SetIsOnline(bool)
 }
 
 // Agent - hardware entity
@@ -18,6 +20,7 @@ type Agent struct {
 	name      string
 	iP        string
 	agentType string
+	isOnline  bool
 }
 
 // New - creates new entity of Agent
@@ -27,6 +30,7 @@ func New(id string, name string, ip string, agentType string) *Agent {
 		name:      name,
 		iP:        ip,
 		agentType: agentType,
+		isOnline:  false,
 	}
 }
 
@@ -68,4 +72,14 @@ func (a *Agent) AgentType() string {
 // SetAgentType - agentType setter
 func (a *Agent) SetAgentType(agentType string) {
 	a.agentType = agentType
+}
+
+// IsOnline - isOnline getter
+func (a *Agent) IsOnline() bool {
+	return a.isOnline
+}
+
+// SetIsOnline - isOnline setter
+func (a *Agent) SetIsOnline(isOnline bool) {
+	a.isOnline = isOnline
 }
