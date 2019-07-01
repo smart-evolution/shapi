@@ -53,6 +53,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server.Router.AddRoute("/api/agents/{agent}/edit", api.CtrAgentEdit)
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)
 	server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
+	server.Router.AddRoute("/api/sniffagents", api.CtrSniffAgents)
 	http.Handle("/sapi", websocket.Handler(sapi.AgentStreaming))
 
 	server.AddDataSource("dataflux", store)

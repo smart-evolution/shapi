@@ -2,9 +2,11 @@
 import _ from 'lodash';
 import React from 'react';
 import * as agentsTypes from 'client/models/agents/types';
+import * as agentsQueries from 'client/models/agents/queries';
 import Jeep from './Agents/Jeep';
 import Type1 from './Agents/Type1';
 import Type2 from './Agents/Type2';
+import Unknown from './Agents/Unknown';
 
 type Props = {
   isLoading: boolean,
@@ -18,7 +20,9 @@ const List = (props: Props) => {
   const content = !_.isEmpty(agents) ? (
     <ul className="agents-list__list">
       {_.map(agents, agent => {
-        switch (agent.type) {
+        const noVersionedType = agentsQueries.getNoVersionedType(agent);
+
+        switch (noVersionedType) {
           case 'type1':
             return <Type1 key={agent.id} agent={agent} />;
 
@@ -29,7 +33,7 @@ const List = (props: Props) => {
             return <Jeep key={agent.id} agent={agent} />;
 
           default:
-            return null;
+            return <Unknown key={agent.id} agent={agent} />;
         }
       })}
     </ul>

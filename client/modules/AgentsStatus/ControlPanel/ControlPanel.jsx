@@ -1,14 +1,25 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Switch from 'client/components/Switch';
 
-const ControlPanel = props => {
-  const { isAlerts, onToggle, sendAlert } = props;
+type Props = {
+  isAlerts: boolean,
+  onToggle: () => void,
+  sendAlert: () => void,
+  sniffAgents: () => void,
+}
+
+const ControlPanel = (props: Props) => {
+  const { isAlerts, onToggle, sendAlert, sniffAgents } = props;
 
   return (
     <div className="control-panel">
       <div className="control-panel__title">Control Panel</div>
       <div className="control-panel__dashboard">
+        <div className="control-panel__control">
+          Sniff agents
+          <button className="control-panel__send-alert" onClick={sniffAgents} />
+        </div>
         <div className="control-panel__control">
           Alerts
           <Switch
@@ -24,12 +35,6 @@ const ControlPanel = props => {
       </div>
     </div>
   );
-};
-
-ControlPanel.propTypes = {
-  isAlerts: PropTypes.bool,
-  onToggle: PropTypes.func,
-  sendAlert: PropTypes.func,
 };
 
 export default ControlPanel;

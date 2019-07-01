@@ -2,6 +2,8 @@ import _ from 'lodash';
 import { delay } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
+import * as alertsActions from "../alerts/actions";
+import * as alertsConstants from "../alerts/constants";
 
 function getData() {
   return fetch('/api/agents')
@@ -84,7 +86,12 @@ export function* fetchAlerts() {
 
     yield put(actions.setAlerts(isAlerts));
   } else {
-    // @TODO: Figure out how to handle failed actions on the UI side
+    yield put(
+      alertsActions.addAlert(
+        'Alerts not fetched properly',
+        alertsConstants.ALERT_TYPE_ERROR
+      )
+    );
   }
 }
 
@@ -102,4 +109,32 @@ export function* toggleType2({ agentID }) {
 
     yield put(actions.setAlerts(isAlerts));
   }
+}
+
+function callSniffAgents() {
+  return fetch('/api/sniffagents', { method: 'POST' })
+    .then(response => response.json())
+    .catch(() => 'Toggling alerts failed');
+}
+
+export function* sniffAgents() {
+  yield put(actions.fetchData());
+
+  const data = yield call(callSniffAgents);
+
+  if (!_.isEmpty(data)) {
+    yield put(
+      alertsActions.addAlert(
+        'Agents sniffing in progress',
+        alertsConstants.ALERT_TYPE_INFO
+      )
+    );
+    return;
+  }
+  yield put(
+    alertsActions.addAlert(
+      'Agent sniffing failed',
+      alertsConstants.ALERT_TYPE_ERROR
+    )
+  );
 }

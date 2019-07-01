@@ -12,6 +12,7 @@ type IState interface {
 	IsAlerts() bool
 	SetSendAlert(bool)
 	SendAlert() bool
+	AddAgent(string, string, string, string)
 	Agents() []agent.IAgent
 	AgentByID(string) (agent.IAgent, error)
 }
