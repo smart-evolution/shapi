@@ -27,7 +27,7 @@ const (
 		"\\>"
 )
 
-// IType1 - infetrace for Unknown hardware
+// IType1 - infetrace for IType1 hardware
 type IType1 interface {
 	FetchPackage(
 		alertNotifier func(string),
@@ -37,7 +37,7 @@ type IType1 interface {
 	)
 }
 
-// Unknown - hardware entity
+// IType1 - hardware entity
 type Type1 struct {
 	agent.Agent
 	tmpNotifyTime    time.Time
