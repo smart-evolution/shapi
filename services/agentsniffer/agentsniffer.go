@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+var isSniffing = false
+
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
 
@@ -55,14 +57,36 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 }
 
 func SniffAgents(s state.IState) {
-	var (
-		wg sync.WaitGroup
+	const (
+		SUB_NETWORKS = 255
+		STATIONS = 255
 	)
 
-	for i := 1; i <= 255; i++ {
-		ip := "192.168.2." + strconv.Itoa(i)
-		wg.Add(1)
-		go scan(&wg, ip, s)
+	if !isSniffing {
+		isSniffing = true
+		var wg sync.WaitGroup
+		done := make(chan struct{})
+		wg.Add(SUB_NETWORKS * STATIONS)
+
+		for i := 1; i <= SUB_NETWORKS; i++ {
+			for j := 1; j <= STATIONS; j++ {
+				ip := "192.168." + strconv.Itoa(i) + "." + strconv.Itoa(j)
+				go scan(&wg, ip, s)
+			}
+		}
+
+		go func() {
+			wg.Wait()
+			close(done)
+		}()
+
+		select {
+		case <-done:
+			isSniffing = false
+			return
+		case <-time.After(3 * time.Second):
+			isSniffing = false
+			return
+		}
 	}
-	wg.Wait()
 }
