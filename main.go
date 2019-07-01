@@ -5,7 +5,6 @@ import (
 	"github.com/smart-evolution/smarthome/datasources/persistence"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/models/type1"
 	"github.com/smart-evolution/smarthome/models/user"
 	"github.com/smart-evolution/smarthome/processes/cliserver"
 	"github.com/smart-evolution/smarthome/processes/homebot"
@@ -13,42 +12,10 @@ import (
 	"github.com/smart-evolution/smarthome/services/email"
 	"github.com/smart-evolution/smarthome/utils"
 	"gopkg.in/mgo.v2/bson"
-	"io/ioutil"
 	"os"
-	"strings"
 )
 
 //go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
-
-func getAgents(hardwareFile string) []agent.IAgent {
-	var agents []agent.IAgent
-	agentsCnf, err := ioutil.ReadFile(hardwareFile)
-
-	if err != nil {
-		utils.Log(err)
-	}
-
-	agentsConf := strings.Split(string(agentsCnf), "\n")
-
-	for _, c := range agentsConf {
-		cnfRow := strings.Split(c, ":")
-
-		if len(cnfRow) == 4 {
-			id := cnfRow[0]
-			name := cnfRow[1]
-			ip := cnfRow[2]
-			agentType := cnfRow[3]
-
-			if agentType == "type1" {
-				agents = append(agents, type1.New(id, name, ip, agentType))
-			} else {
-				agents = append(agents, agent.New(id, name, ip, agentType))
-			}
-		}
-	}
-
-	return agents
-}
 
 func getRecipients(p *persistence.Persistance) []string {
 	var users []user.User
@@ -71,8 +38,7 @@ func getRecipients(p *persistence.Persistance) []string {
 func main() {
 	utils.VERSION = VERSION
 
-	agents := getAgents("hardware/agents.config")
-	s := state.New(agents)
+	s := state.New([]agent.IAgent{})
 
 	p := persistence.New(
 		os.Getenv("MONGOLAB_URI"),

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import { withRouter } from 'react-router';
 import * as agentTypes from 'client/models/agents/types';
+import * as agentQueries from 'client/models/agents/queries';
 import Type1 from './Type1';
 import Type2 from './Type2';
 import Jeep from './Jeep';
@@ -22,7 +23,8 @@ const Dashboard = (props: Props) => {
 
   let content;
 
-  switch (agent.type) {
+  const noVersionedAgentType = agentQueries.getNoVersionedType(agent);
+  switch (noVersionedAgentType) {
     case 'type1':
       content = <Type1 agent={agent} pathname={pathname} />;
       break;

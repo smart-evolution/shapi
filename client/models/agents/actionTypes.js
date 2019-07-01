@@ -1,11 +1,9 @@
-export const DATA_FETCH = 'agents-list/fetch';
-export const DATA_FETCH_SUCCESS = 'agents-list/fetch-success';
-export const DATA_FETCH_ERROR = 'agents-list/fetch-fail';
-
-export const TOGGLE_ALERTS = 'dashboard/toggle-alerts';
-export const SET_ALERTS = 'dashboard/set-alerts';
-export const FETCH_ALERTS = 'dashboard/fetch-alerts';
-
-export const SEND_ALERT = 'dashboard/send-alert';
-
-export const TOGGLE_TYPE2 = 'dashboard/toggle-type2';
+export const DATA_FETCH = 'agents/fetch';
+export const DATA_FETCH_SUCCESS = 'agents/fetch-success';
+export const DATA_FETCH_ERROR = 'agents/fetch-fail';
+export const TOGGLE_ALERTS = 'agents/toggle-alerts';
+export const SET_ALERTS = 'agents/set-alerts';
+export const FETCH_ALERTS = 'agents/fetch-alerts';
+export const SEND_ALERT = 'agents/send-alert';
+export const TOGGLE_TYPE2 = 'agents/toggle-type2';
+export const SNIFF_AGENTS = 'agents/sniff';

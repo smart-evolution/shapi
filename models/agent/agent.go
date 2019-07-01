@@ -30,7 +30,7 @@ func New(id string, name string, ip string, agentType string) *Agent {
 		name:      name,
 		iP:        ip,
 		agentType: agentType,
-		isOnline:  false,
+		isOnline:  true,
 	}
 }
 

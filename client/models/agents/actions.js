@@ -2,6 +2,10 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
+export const fetchData = () => ({
+  type: actionTypes.DATA_FETCH,
+});
+
 export const fetchDataSuccess = (agents: $ReadOnlyArray<types.Agent>) => ({
   type: actionTypes.DATA_FETCH_SUCCESS,
   agents,
@@ -32,4 +36,8 @@ export const setAlerts = (isAlerts: boolean) => ({
 export const toggleType2 = (agentID: string) => ({
   type: actionTypes.TOGGLE_TYPE2,
   agentID,
+});
+
+export const sniffAgents = () => ({
+  type: actionTypes.SNIFF_AGENTS,
 });

@@ -10,6 +10,7 @@ function* root() {
   yield [
     fork(agentsSagas.fetchData),
     fork(agentsSagas.fetchAlerts),
+    takeEvery(agentsActionTypes.SNIFF_AGENTS, agentsSagas.sniffAgents),
     takeEvery(agentConfigsActionTypes.FETCH_DATA, agentConfigsSagas.fetchData),
     takeEvery(
       agentConfigsActionTypes.POST_AGENT_CONFIG,

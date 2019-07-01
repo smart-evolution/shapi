@@ -1,0 +1,11 @@
+.agent-unknown {
+  @extend %agents-list__item;
+
+  &__link {
+    @extend %agents-list__link;
+  }
+
+  &--disabled {
+    color: $brand-component-outline-color;
+  }
+}
