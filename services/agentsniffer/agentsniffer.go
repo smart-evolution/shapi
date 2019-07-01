@@ -12,7 +12,13 @@ import (
 	"time"
 )
 
-var isSniffing = false
+const (
+	SUB_NETWORKS = 255
+	STATIONS = 255
+)
+var (
+	isSniffing = false
+)
 
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
@@ -57,11 +63,6 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 }
 
 func SniffAgents(s state.IState) {
-	const (
-		SUB_NETWORKS = 255
-		STATIONS = 255
-	)
-
 	if !isSniffing {
 		isSniffing = true
 		var wg sync.WaitGroup
