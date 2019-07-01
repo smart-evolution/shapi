@@ -14,14 +14,17 @@ import (
 
 const (
 	SUB_NETWORKS = 255
-	STATIONS = 255
+	STATIONS     = 255
 )
+
 var (
+	mutex      = &sync.Mutex{}
 	isSniffing = false
 )
 
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
+	utils.Log("sniffing device with IP: " + ip)
 
 	d := net.Dialer{Timeout: time.Duration(1000) * time.Millisecond}
 	conn, err := d.Dial("tcp", ip+":81")
@@ -64,7 +67,10 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 
 func SniffAgents(s state.IState) {
 	if !isSniffing {
+		mutex.Lock()
 		isSniffing = true
+		mutex.Unlock()
+
 		var wg sync.WaitGroup
 		done := make(chan struct{})
 		wg.Add(SUB_NETWORKS * STATIONS)
@@ -83,10 +89,14 @@ func SniffAgents(s state.IState) {
 
 		select {
 		case <-done:
+			mutex.Lock()
 			isSniffing = false
+			mutex.Unlock()
 			return
 		case <-time.After(3 * time.Second):
+			mutex.Lock()
 			isSniffing = false
+			mutex.Unlock()
 			return
 		}
 	}
