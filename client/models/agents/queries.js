@@ -65,4 +65,5 @@ export const isGas = (agent: types.Agent) => {
   return _.reduce(gas, (acc, val) => acc || Number(val), 0);
 };
 
-export const getNoVersionedType = (agent: types.Agent) => _.head(_.split(agent.type, '-'));
+export const getNoVersionedType = (agent: types.Agent) =>
+  _.head(_.split(agent.type, '-'));

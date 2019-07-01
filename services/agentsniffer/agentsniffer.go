@@ -5,7 +5,6 @@ import (
 	"github.com/smart-evolution/smarthome/utils"
 	"io/ioutil"
 	"net"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -45,14 +44,12 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 		contents, err := ioutil.ReadAll(resp.Body)
 		head := strings.Split(string(contents), "\n")[1]
 		hardwareVal := strings.Split(head, "=")[1]
-		hardwareID := hardwareVal[1:len(hardwareVal) - 1]
-
-		fmt.Println("----------" + hardwareID)
+		hardwareID := hardwareVal[1 : len(hardwareVal)-1]
 
 		if err != nil {
 			utils.Log("failed to fetch config of agent with IP:" + ip)
 		} else {
-			s.AddAgent(hardwareID, ip, ip, devType)
+			s.AddAgent(hardwareID, hardwareID, ip, devType)
 		}
 	}
 }

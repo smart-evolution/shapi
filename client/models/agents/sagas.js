@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { delay } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
-import * as alertsActions from "../alerts/actions";
-import * as alertsConstants from "../alerts/constants";
+import * as alertsActions from '../alerts/actions';
+import * as alertsConstants from '../alerts/constants';
 
 function getData() {
   return fetch('/api/agents')

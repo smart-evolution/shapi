@@ -7,7 +7,7 @@ type Props = {
   onToggle: () => void,
   sendAlert: () => void,
   sniffAgents: () => void,
-}
+};
 
 const ControlPanel = (props: Props) => {
   const { isAlerts, onToggle, sendAlert, sniffAgents } = props;
