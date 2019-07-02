@@ -15,6 +15,7 @@ type IState interface {
 	AddAgent(string, string, string, string)
 	Agents() []agent.IAgent
 	AgentByID(string) (agent.IAgent, error)
+	AgentByIP(string) (agent.IAgent, error)
 }
 
 // State - data source which keeps short data in memory
@@ -69,6 +70,17 @@ func (s *State) Agents() []agent.IAgent {
 func (s *State) AgentByID(id string) (agent.IAgent, error) {
 	for _, a := range s.agents {
 		if a.ID() == id {
+			return a, nil
+		}
+	}
+
+	return &agent.Agent{}, errors.New("No matching agent")
+}
+
+// AgentByIP - find corresponding agent by ID
+func (s *State) AgentByIP(ip string) (agent.IAgent, error) {
+	for _, a := range s.agents {
+		if a.IP() == ip {
 			return a, nil
 		}
 	}

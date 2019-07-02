@@ -47,7 +47,7 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 
 	devType := string(buff[:n])
 
-	_, err = s.AgentByID(ip)
+	_, err = s.AgentByIP(ip)
 	if err != nil {
 		resp, err := http.Get("http://" + ip + "/config")
 		defer resp.Body.Close()
