@@ -4,13 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/models/agent/types"
 	"reflect"
 	"testing"
 )
 
 func TestAgentByID(t *testing.T) {
-	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", "type1")
-	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", "type2")
+	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.TYPE1)
+	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.TYPE2)
 	agents := []agent.IAgent{agent1, agent2}
 
 	s := New(agents)

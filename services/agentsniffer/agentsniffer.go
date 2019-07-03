@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	SUB_NETWORKS = 255
-	STATIONS     = 255
+	SUB_NETWORKS = 2
+	STATIONS     = 254
 )
 
 var (
@@ -24,7 +24,6 @@ var (
 
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
-	utils.Log("sniffing device with IP: " + ip)
 
 	d := net.Dialer{Timeout: time.Duration(1000) * time.Millisecond}
 	conn, err := d.Dial("tcp", ip+":81")
@@ -60,21 +59,22 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 		if err != nil {
 			utils.Log("failed to fetch config of agent with IP:" + ip)
 		} else {
+			mutex.Lock()
 			s.AddAgent(hardwareID, hardwareID, ip, devType)
+			mutex.Unlock()
 		}
 	}
 }
 
 func SniffAgents(s state.IState) {
 	if !isSniffing {
-		mutex.Lock()
 		isSniffing = true
-		mutex.Unlock()
 
 		var wg sync.WaitGroup
 		done := make(chan struct{})
 		wg.Add(SUB_NETWORKS * STATIONS)
 
+		utils.Log("sniffing devices within range " + strconv.Itoa(SUB_NETWORKS) + "." + strconv.Itoa(STATIONS))
 		for i := 1; i <= SUB_NETWORKS; i++ {
 			for j := 1; j <= STATIONS; j++ {
 				ip := "192.168." + strconv.Itoa(i) + "." + strconv.Itoa(j)
@@ -89,14 +89,12 @@ func SniffAgents(s state.IState) {
 
 		select {
 		case <-done:
-			mutex.Lock()
 			isSniffing = false
-			mutex.Unlock()
+			utils.Log("sniffing devices completed")
 			return
 		case <-time.After(3 * time.Second):
-			mutex.Lock()
 			isSniffing = false
-			mutex.Unlock()
+			utils.Log("sniffing devices timedout")
 			return
 		}
 	}

@@ -1,5 +1,7 @@
 package agent
 
+import "strings"
+
 // IAgent - interface for Agent
 type IAgent interface {
 	ID() string
@@ -9,6 +11,7 @@ type IAgent interface {
 	IP() string
 	SetIP(string)
 	AgentType() string
+	RawType() string
 	SetAgentType(string)
 	IsOnline() bool
 	SetIsOnline(bool)
@@ -72,6 +75,11 @@ func (a *Agent) AgentType() string {
 // SetAgentType - agentType setter
 func (a *Agent) SetAgentType(agentType string) {
 	a.agentType = agentType
+}
+
+// RawType - gets unversioned agentType getter
+func (a *Agent) RawType() string {
+	return strings.Split(a.agentType, "-")[0]
 }
 
 // IsOnline - isOnline getter
