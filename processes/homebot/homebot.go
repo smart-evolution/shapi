@@ -97,10 +97,9 @@ func (hb *HomeBot) runCommunicationLoop() {
 		var wg sync.WaitGroup
 		wg.Add(len(agents))
 
-		for i := 0; i < len(agents); i++ {
-			a := agents[i]
-
+		for _, a := range agents {
 			at1, ok := a.(type1.IType1)
+
 			if ok {
 				err := c.Find(bson.M{
 					"agentId": a.ID(),

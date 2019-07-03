@@ -19,28 +19,32 @@ type Type1DataJSON struct {
 // FetchType1Data - fetches data for type1 agent
 func FetchType1Data(agentID string, df dataflux.IDataFlux) (Type1DataJSON, error) {
 	if df.IsConnected() != true {
-		return Type1DataJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
+		return Type1DataJSON{}, errors.New("cannot feed data , Influx seems to be down")
 	}
 
-	measurements := "/.*/"
+	measurement := "/.*/"
 
 	if agentID != "" {
-		measurements = agentID
+		measurement = agentID
 	}
 
 	q := client.Query{
-		Command:  "SELECT time, temperature, presence, gas, sound, agent FROM " + measurements + " ORDER BY time DESC LIMIT 30",
+		Command:  "SELECT time, temperature, presence, gas, sound, agent FROM \"" + measurement + "\" ORDER BY time DESC LIMIT 30",
 		Database: "smarthome",
 	}
 
 	if df.IsConnected() != true {
-		return Type1DataJSON{}, errors.New("webserver/FetchType1: cannot feed data , Influx seems to be down")
+		return Type1DataJSON{}, errors.New("cannot feed data , Influx seems to be down")
 	}
 
 	resp, err := df.GetData(q)
 
 	if err != nil {
 		return Type1DataJSON{}, err
+	}
+
+	if len(resp.Results) == 0 {
+		return Type1DataJSON{}, errors.New("not enough Results to fetch Series for measurement \"" + measurement + "\"")
 	}
 
 	series := resp.Results[0].Series

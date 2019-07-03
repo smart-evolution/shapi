@@ -8,6 +8,7 @@ import (
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/smarthome/datasources/dataflux"
 	"github.com/smart-evolution/smarthome/datasources/state"
+	"github.com/smart-evolution/smarthome/models/agent/types"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agents"
 	"github.com/smart-evolution/smarthome/utils"
 	"net/http"
@@ -43,20 +44,20 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				data interface{}
 				err  error
 			)
+			rawType := a.RawType()
 
-			if a.ID() == "type1" {
+			if rawType == types.TYPE1 {
 				data, err = agents.FetchType1Data(a.ID(), df)
-
 				if err != nil {
 					utils.Log(err)
 				}
-			} else if a.ID() == "type2" {
+			} else if rawType == types.TYPE2 {
 				data, err = agents.FetchType2(a.ID(), state.Agents())
 
 				if err != nil {
 					utils.Log(err)
 				}
-			} else if a.ID() == "jeep" {
+			} else if rawType == types.JEEP {
 				data = nil
 			} else {
 				data = nil

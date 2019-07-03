@@ -1,8 +1,11 @@
 package state
 
 import (
+	"github.com/smart-evolution/smarthome/models/type1"
+	"strings"
 	"errors"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/models/agent/types"
 	"github.com/smart-evolution/smarthome/utils"
 )
 
@@ -57,8 +60,15 @@ func (s *State) SendAlert() bool {
 // AddAgent - adds agent to the memory state
 func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 	utils.Log("adding home agent '" + name + "' with URL '" + ip + "'")
-	agent := agent.New(id, name, ip, agentType)
-	s.agents = append(s.agents, agent)
+	rawType := strings.Split(agentType, "-")[0]
+
+	if rawType == types.TYPE1 {
+		agent := type1.New(id, name, ip, agentType)
+		s.agents = append(s.agents, agent)
+	} else {
+		agent := agent.New(id, name, ip, agentType)
+		s.agents = append(s.agents, agent)
+	}
 }
 
 // Agents - returns list of available agents
