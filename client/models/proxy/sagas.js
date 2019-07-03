@@ -29,7 +29,7 @@ export function* createWebSocketClient(agent: agentTypes.Agent): Iterable<any> {
   while (true) {
     const data = yield take(channel);
 
-    if (data instanceof String) {
+    if (typeof data === 'string') {
       const { type, message } = JSON.parse(
         data.slice(1, -1).replace(/\\"/g, '"')
       );
