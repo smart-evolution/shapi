@@ -6,6 +6,7 @@ type Props = {
   name: string,
   toggle: string => void,
   isOnline: boolean,
+  type: string,
 };
 
 const Type2 = (props: Props) => {
