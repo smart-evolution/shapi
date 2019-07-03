@@ -112,6 +112,7 @@ func AgentStreaming(ws *websocket.Conn) {
 			utils.Log(err)
 			ws.Close()
 			conn.Close()
+			return
 		}
 
 		move(ws, m)
