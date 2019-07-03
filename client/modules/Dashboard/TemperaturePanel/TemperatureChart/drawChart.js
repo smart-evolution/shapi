@@ -4,7 +4,10 @@ import _ from 'lodash';
 import * as types from '../types';
 import * as constants from './constants';
 
-const drawChart = (chart: HTMLDivElement, temperatures: $ReadOnlyArray<types.Temperature>) => {
+const drawChart = (
+  chart: HTMLDivElement,
+  temperatures: $ReadOnlyArray<types.Temperature>
+) => {
   const d3Chart = d3.select(chart);
 
   d3Chart.select('svg').remove();
@@ -95,6 +98,6 @@ const drawChart = (chart: HTMLDivElement, temperatures: $ReadOnlyArray<types.Tem
     .attr('cx', (d, i) => xScale(i))
     .attr('cy', d => yScale(d.value))
     .attr('r', 5);
-}
+};
 
 export default drawChart;

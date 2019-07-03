@@ -4,7 +4,7 @@ import React from 'react';
 type Props = {
   isGas: number,
   isMotion: number,
-}
+};
 
 const CurrentPanel = (props: Props) => {
   const { isMotion, isGas } = props;

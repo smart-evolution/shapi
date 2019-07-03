@@ -14,12 +14,18 @@ class TemperatureChart extends React.PureComponent<Props> {
 
   componentDidMount() {
     const { temperatures } = this.props;
-    drawChart(this.chart, temperatures);
+
+    if (this.chart !== null) {
+      drawChart(this.chart, temperatures);
+    }
   }
 
   componentWillReceiveProps() {
     const { temperatures } = this.props;
-    drawChart(this.chart, temperatures);
+
+    if (this.chart !== null) {
+      drawChart(this.chart, temperatures);
+    }
   }
 
   chart: HTMLDivElement | null;
