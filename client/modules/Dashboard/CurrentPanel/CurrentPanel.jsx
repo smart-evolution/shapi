@@ -1,7 +1,12 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const CurrentPanel = props => {
+type Props = {
+  isGas: number,
+  isMotion: number,
+}
+
+const CurrentPanel = (props: Props) => {
   const { isMotion, isGas } = props;
 
   return (
@@ -28,11 +33,6 @@ const CurrentPanel = props => {
       </div>
     </div>
   );
-};
-
-CurrentPanel.propTypes = {
-  isGas: PropTypes.bool,
-  isMotion: PropTypes.bool,
 };
 
 CurrentPanel.defaultProps = {
