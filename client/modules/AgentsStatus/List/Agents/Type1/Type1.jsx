@@ -5,6 +5,7 @@ import Icon from 'client/components/Icon';
 type Props = {
   id: string,
   name: string,
+  type: string,
   temperature: string,
   isMotion: number,
   isGas: number,
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const Type1 = (props: Props) => {
-  const { id, name, temperature, isGas, isMotion, isOnline } = props;
+  const { id, name, temperature, type, isGas, isMotion, isOnline } = props;
 
   const onlineClass = !isOnline ? 'agent-type1--disabled' : '';
   const motionColor = isMotion ? 'agent-type1__icon--alert' : '';
@@ -21,7 +22,7 @@ const Type1 = (props: Props) => {
   return (
     <li className={`agent-type1 ${onlineClass}`}>
       <a className="agent-type1__link" href={`/agent/${id}`}>
-        {name}
+        {name} [{type}]
       </a>{' '}
       -{' '}
       <span>
