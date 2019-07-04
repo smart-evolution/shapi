@@ -9,6 +9,7 @@ import (
 	"github.com/smart-evolution/smarthome/processes/cliserver"
 	"github.com/smart-evolution/smarthome/processes/homebot"
 	"github.com/smart-evolution/smarthome/processes/webserver"
+	"github.com/smart-evolution/smarthome/services/agentsniffer"
 	"github.com/smart-evolution/smarthome/services/email"
 	"github.com/smart-evolution/smarthome/utils"
 	"gopkg.in/mgo.v2/bson"
@@ -60,6 +61,8 @@ func main() {
 	go hb.RunService()
 
 	go cliserver.RunService("3333")
+
+	go agentsniffer.SniffAgents(s)
 
 	ws := webserver.New(
 		os.Getenv("PORT"),
