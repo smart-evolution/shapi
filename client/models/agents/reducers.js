@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 import * as types from './types';
 
 const defaultState: types.State = {
-  isLoading: false,
+  isLoading: true,
   error: '',
   agents: [],
 };
