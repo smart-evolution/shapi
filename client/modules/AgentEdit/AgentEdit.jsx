@@ -13,8 +13,8 @@ type Props = {
 class AgentEdit extends React.Component<Props> {
   constructor(props) {
     super(props);
-    this.updateTemperature = this.updateTemperature.bind(this);
-    this.updateConfig = this.updateConfig.bind(this);
+    (this: any).updateTemperature = this.updateTemperature.bind(this);
+    (this: any).updateConfig = this.updateConfig.bind(this);
   }
 
   componentDidMount() {
@@ -23,14 +23,12 @@ class AgentEdit extends React.Component<Props> {
     fetchConfig(agentID);
   }
 
-  updateConfig: () => void;
   updateConfig() {
     const { agentID, config, updateConfig } = this.props;
 
     updateConfig(agentID, config);
   }
 
-  updateTemperature: Event => void;
   updateTemperature(e) {
     const temperature = e.target.value;
     const { agentID, updateTemperature } = this.props;
