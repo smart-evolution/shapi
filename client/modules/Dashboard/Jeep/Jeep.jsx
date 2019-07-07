@@ -27,27 +27,27 @@ const Jeep = (props: Props) => {
         <div className="c-control">
           Device connection
           <div className="c-control__content">
-            <Switch
-              className=""
-              isOn={isConnected}
-              onToggle={_.partial(onToggle, agent, isConnected)}
-            />
+            {!isPending && (
+              <Switch
+                className=""
+                isOn={isConnected}
+                onToggle={_.partial(onToggle, agent, isConnected)}
+              />
+            )}
+            {isPending && <div className="c-loader" />}
           </div>
         </div>
       </div>
       <div className="jeep-panel__section">
-        {!isPending && (
-          <Joystick
-            isEnabled={isConnected}
-            onPositionChange={(left: number, top: number) => {
-              onPositionChange(agent, { left, top, flag: null });
-            }}
-          />
-        )}
-        {isPending && <div className="c-loader" />}
+        <Joystick
+          isEnabled={isConnected}
+          onPositionChange={(left: number, top: number) => {
+            onPositionChange(agent, { left, top, flag: null });
+          }}
+        />
       </div>
     </div>
   );
-}
+};
 
 export default withRouter(Jeep);
