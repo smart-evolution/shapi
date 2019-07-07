@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch: Function, ownProps) => ({
-  onToggle: (agent: agentsTypes.Agent, isConnected: boolean)  => {
+  onToggle: (agent: agentsTypes.Agent, isConnected: boolean) => {
     if (isConnected) {
       dispatch(
         proxyActions.sendMessage(ownProps.agent, {
@@ -25,10 +25,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps) => ({
       dispatch(proxyActions.createWebSocketClient(agent));
     }
   },
-  onPositionChange: (
-    agent: agentsTypes.Agent,
-    msg: proxyTypes.Message
-  ) => {
+  onPositionChange: (agent: agentsTypes.Agent, msg: proxyTypes.Message) => {
     dispatch(proxyActions.sendMessage(agent, msg));
   },
 });

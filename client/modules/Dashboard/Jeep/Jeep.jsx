@@ -29,22 +29,24 @@ class Jeep extends React.PureComponent<Props> {
           <div className="c-control">
             Device connection
             <div className="c-control__content">
-              <Switch className="" isOn={isConnected} onToggle={_.partial(onToggle, agent, isConnected)} />
+              <Switch
+                className=""
+                isOn={isConnected}
+                onToggle={_.partial(onToggle, agent, isConnected)}
+              />
             </div>
           </div>
         </div>
         <div className="jeep-panel__section">
-          { !isPending &&
+          {!isPending && (
             <Joystick
               isEnabled={isConnected}
               onPositionChange={(left: number, top: number) => {
                 onPositionChange(agent, { left, top, flag: null });
               }}
             />
-          }
-          { isPending &&
-            <div className="c-loader" />
-          }
+          )}
+          {isPending && <div className="c-loader" />}
         </div>
       </div>
     );

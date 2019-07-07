@@ -21,7 +21,11 @@ function* createChannel(client: WebSocket) {
 }
 /* eslint-enable require-yield */
 
-export function* createWebSocketClient({ agent }: { agent: agentTypes.Agent }): Iterable<any> {
+export function* createWebSocketClient({
+  agent,
+}: {
+  agent: agentTypes.Agent,
+}): Iterable<any> {
   const { host } = window.location;
 
   const client: WebSocket = new WebSocket(`ws://${host}/sapi`);
@@ -52,9 +56,7 @@ export function* createWebSocketClient({ agent }: { agent: agentTypes.Agent }): 
           );
           yield put(actions.setDevStatus(constants.STATUS_CONNECTED));
         } else if (type === 'disconnect') {
-          yield put(
-            actions.removeWebSocketClient()
-          );
+          yield put(actions.removeWebSocketClient());
 
           yield put(
             alertsActions.addAlert(message, alertsConstants.ALERT_TYPE_INFO)
