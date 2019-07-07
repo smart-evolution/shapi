@@ -1,14 +1,16 @@
 // @flow
 import * as actionTypes from './actionTypes';
+import * as types from './types';
+import * as constants from './constants';
 
 type State = {
   wsClient: WebSocket | null,
-  isDevConnected: boolean,
+  status: types.Status,
 };
 
 const defaultState = {
   wsClient: null,
-  isDevConnected: false,
+  status: constants.STATUS_DISCONNECTED,
 };
 
 export default function reducers(state: State = defaultState, action: Object) {
@@ -18,9 +20,14 @@ export default function reducers(state: State = defaultState, action: Object) {
         wsClient: action.client,
       });
 
+    case actionTypes.PROXY_REMOVE_WS_CLIENT:
+      return Object.assign({}, state, {
+        wsClient: null,
+      });
+
     case actionTypes.PROXY_SET_DEV_STATUS:
       return Object.assign({}, state, {
-        isDevConnected: action.status,
+        status: action.status,
       });
 
     default:

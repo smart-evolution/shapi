@@ -12,6 +12,7 @@ type message struct {
 	Left int    `json:"left"`
 	Top  int    `json:"top"`
 	IP   string `json:"ip"`
+	Flag string `json:"flag"`
 }
 
 var (
@@ -21,44 +22,43 @@ var (
 )
 
 func connect(ws *websocket.Conn, device string) {
-	if conn == nil {
-		conn, err = net.Dial("tcp", device+":81")
+	utils.Log("connecting to device with ip '" + device + "'")
+	conn, err = net.Dial("tcp", device+":81")
 
-		if err != nil {
-			utils.Log("error connecting device " + device)
-			websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device `+device+`"}`)
-			return
-		}
-
-		_, err = conn.Write([]byte("CMDWHO"))
-
-		if err != nil {
-			utils.Log("error getting device type")
-			websocket.JSON.Send(ws, `{"type":"error","message":"Error getting device type"}`)
-			return
-		}
-
-		buff := make([]byte, 512)
-		n, err := conn.Read(buff)
-
-		if err != nil {
-			utils.Log("error retrieving device type")
-			websocket.JSON.Send(ws, `{"type":"error","message":"Error command failed"}`)
-			return
-		}
-
-		devType = string(buff[:n])
-
-		if _, ok := aca.APIMap[devType]; !ok {
-			utils.Log("unknown device type '" + devType + "'")
-			websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
-			return
-		}
-
-		utils.Log("connected to device type '" + devType + "'")
-
-		websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '`+device+`'"}`)
+	if err != nil {
+		utils.Log("error connecting device " + device)
+		websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device `+device+`"}`)
+		return
 	}
+
+	_, err = conn.Write([]byte("CMDWHO"))
+
+	if err != nil {
+		utils.Log("error getting device type")
+		websocket.JSON.Send(ws, `{"type":"error","message":"Error getting device type"}`)
+		return
+	}
+
+	buff := make([]byte, 512)
+	n, err := conn.Read(buff)
+
+	if err != nil {
+		utils.Log("error retrieving device type")
+		websocket.JSON.Send(ws, `{"type":"error","message":"Error command failed"}`)
+		return
+	}
+
+	devType = string(buff[:n])
+
+	if _, ok := aca.APIMap[devType]; !ok {
+		utils.Log("unknown device type '" + devType + "'")
+		websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
+		return
+	}
+
+	utils.Log("connected to device type '" + devType + "'")
+
+	websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '`+device+`'"}`)
 }
 
 var prevCmd string
@@ -115,6 +115,20 @@ func AgentStreaming(ws *websocket.Conn) {
 			return
 		}
 
-		move(ws, m)
+		if m.Flag == "disconnect" {
+			_, err := conn.Write([]byte("CMDDIS"))
+			if err != nil {
+				websocket.JSON.Send(ws, "{\"type\":\"disconnect\",\"message\":\"Disconnecting failed\"}")
+				utils.Log("RES: sending command failed CMDDIS")
+				return
+			}
+
+			websocket.JSON.Send(ws, "{\"type\":\"disconnect\",\"message\":\"Device disconnected\"}")
+
+			ws.Close()
+			conn.Close()
+		} else {
+			move(ws, m)
+		}
 	}
 }
