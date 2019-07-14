@@ -42,30 +42,30 @@ func main() {
 	s := state.New([]agent.IAgent{})
 
 	p := persistence.New(
-		os.Getenv("MONGOLAB_URI"),
-		os.Getenv("DB_NAME"),
+		os.Getenv("SH_MONGO_URI"),
+		os.Getenv("SH_MONGO_DB"),
 	)
 
-	df := dataflux.New("http://localhost:8086")
+	df := dataflux.New(os.Getenv("SH_INFLUX_URI"))
 
 	recipients := getRecipients(p)
 	m := email.New(
 		recipients,
-		os.Getenv("EMAILNAME"),
-		os.Getenv("EMAILPASS"),
-		os.Getenv("SMTPPORT"),
-		os.Getenv("SMTPAUTHURL"),
+		os.Getenv("SH_MAILER_EMAIL_NAME"),
+		os.Getenv("SH_MAILER_EMAIL_PASS"),
+		os.Getenv("SH_MAILER_SMTP_PORT"),
+		os.Getenv("SH_MAILER_SMTP_AUTHURL"),
 	)
 
 	hb := homebot.New(df, p, m, s)
 	go hb.RunService()
 
-	go cliserver.RunService("3333")
+	go cliserver.RunService(os.Getenv("SH_CLI_TCP_PORT"))
 
 	go agentsniffer.SniffAgents(s)
 
 	ws := webserver.New(
-		os.Getenv("PORT"),
+		os.Getenv("SH_HTTP_PORT"),
 		df,
 		p,
 		s,

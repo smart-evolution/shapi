@@ -3,10 +3,13 @@ import _ from 'lodash';
 import { put, call } from 'redux-saga/effects';
 import * as alertsActions from 'client/models/alerts/actions';
 import * as alertsConstants from 'client/models/alerts/constants';
+import * as agentTypes from 'client/models/agents/types';
 import * as actions from './actions';
+import * as types from './types';
+import * as constants from './constants';
 
 function getData(agentID) {
-  return fetch(`/api/agents/${agentID}/edit`)
+  return fetch(`${constants.AGENT_CONFIG_ENDPOINT}/${agentID}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
@@ -25,8 +28,8 @@ export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   const data = yield call(getData, agentID);
 
   if (data !== undefined) {
-    const { temperature } = data;
-    yield put(actions.updateTemperature(agentID, temperature));
+    const agentConfigs = data._embedded.configs;
+    yield put(actions.loadAgentConfigs(agentConfigs));
   } else {
     yield put(
       alertsActions.addAlert(
@@ -37,10 +40,10 @@ export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   }
 }
 
-function callUpdateData(agentID, data) {
-  return fetch(`/api/agents/${agentID}/edit`, {
+function callUpdateData(agentID: agentTypes.AgentID, config: types.AgentConfig) {
+  return fetch(`${constants.AGENT_CONFIG_ENDPOINT}/${agentID}`, {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(config),
   })
     .then(response => response.json())
     .catch(() => 'Updating agent config failed');
@@ -48,17 +51,17 @@ function callUpdateData(agentID, data) {
 
 export function* updateData({
   agentID,
-  data,
+  config,
 }: {
-  agentID: string,
-  data: Object,
+  agentID: agentTypes.AgentID,
+  config: types.AgentConfig,
 }): Iterable<any> {
-  const resp = yield call(callUpdateData, agentID, data);
+  const response = yield call(callUpdateData, agentID, config);
 
-  if (!_.isEmpty(resp)) {
+  if (!_.isEmpty(response)) {
     yield put(
       alertsActions.addAlert(
-        'Updated agent config successfuly',
+        'Updated agent config successfully',
         alertsConstants.ALERT_TYPE_INFO
       )
     );

@@ -3,6 +3,8 @@ import _ from 'lodash';
 import * as selectors from './selectors';
 import * as types from './types';
 
+export const getIsOnline = (agent: types.Agent): boolean => agent.isOnline;
+
 export const getTemperatures = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
 

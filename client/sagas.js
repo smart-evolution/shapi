@@ -1,4 +1,6 @@
 import { fork, takeEvery } from 'redux-saga/effects';
+import * as applicationSagas from './modules/Application/sagas';
+import * as applicationActionTypes from './modules/Application/actionTypes';
 import * as agentsSagas from './models/agents/sagas';
 import * as agentsActionTypes from './models/agents/actionTypes';
 import * as agentConfigsSagas from './models/agentConfigs/sagas';
@@ -8,6 +10,7 @@ import * as proxyActionTypes from './models/proxy/actionTypes';
 
 function* root() {
   yield [
+    takeEvery(applicationActionTypes.MOUNT, applicationSagas.mount),
     fork(agentsSagas.fetchData),
     fork(agentsSagas.fetchAlerts),
     takeEvery(agentsActionTypes.SNIFF_AGENTS, agentsSagas.sniffAgents),

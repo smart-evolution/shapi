@@ -1,4 +1,6 @@
+// @flow
 import * as actionTypes from './actionTypes';
+import * as types from './types';
 
 export const fetchData = agentID => ({
   type: actionTypes.FETCH_DATA,
@@ -13,10 +15,10 @@ export const fetchDataFail = () => ({
   type: actionTypes.FETCH_AGENT_CONFIG_FAILURE,
 });
 
-export const updateDate = (agentID, data) => ({
+export const updateDate = (agentID, config) => ({
   type: actionTypes.POST_AGENT_CONFIG,
   agentID,
-  data,
+  config,
 });
 
 export const updateDataSuccess = () => ({
@@ -27,8 +29,20 @@ export const updateDataFail = () => ({
   type: actionTypes.POST_AGENT_CONFIG_FAILURE,
 });
 
-export const updateTemperature = (agentID, temperature) => ({
-  type: actionTypes.UPDATE_TEMPERATURE,
+export const updateConfig = (agentID, config) => ({
+  type: actionTypes.UPDATE_CONFIG,
   agentID,
-  temperature,
+  config,
+});
+
+export const updateProperty = (agentID, key, value) => ({
+  type: actionTypes.UPDATE_PROPERTY,
+  agentID,
+  key,
+  value,
+});
+
+export const loadAgentConfigs = (configs: $ReadOnlyArray<types.AgentConfig>) => ({
+  type: actionTypes.LOAD_AGENT_CONFIGS,
+  configs,
 });

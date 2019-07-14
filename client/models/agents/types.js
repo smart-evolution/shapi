@@ -1,10 +1,13 @@
 // @flow
+export type AgentID = string;
+
 export type Agent = {
-  id: string,
+  id: AgentID,
   name: string,
   data: any,
   type: string,
   ip: string,
+  isOnline: boolean,
 };
 
 export type State = {

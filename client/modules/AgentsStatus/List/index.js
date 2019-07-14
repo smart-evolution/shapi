@@ -4,10 +4,12 @@ import List from './List';
 const mapStateToProps = state => {
   const {
     agents: { agents, isLoading },
+    agentConfigs,
   } = state;
 
   return {
     agents,
+    agentConfigs,
     isLoading,
   };
 };

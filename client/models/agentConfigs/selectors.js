@@ -1,15 +1,15 @@
+// @flow
 import _ from 'lodash';
+import * as types from './types';
+import * as queries from './queries';
 
-/* eslint-disable import/prefer-default-export */
-export const getAgentConfig = (state, agentID) => {
-  const config = state.agentConfigs.agentConfigs[agentID];
+export const getAgentConfigs = (state: Object): $ReadOnlyArray<types.AgentConfig> => {
+  return state.agentConfigs.agentConfigs || [];
+};
 
-  if (_.isEmpty(config)) {
-    return {
-      temperature: 0,
-    };
-  }
-
+export const getAgentConfigById = (state: Object, agentID: number): types.AgentConfig => {
+  const agentConfigs = getAgentConfigs(state);
+  const config = queries.getAgentConfigByAgentId(agentConfigs, agentID);
   return config;
 };
-/* eslint-enable import/prefer-default-export */
+

@@ -1,57 +1,80 @@
 // @flow
 import React from 'react';
 import { withRouter } from 'react-router';
+import * as agentsConstants from 'client/models/agents/constants';
+import * as agentTypes from 'client/models/agents/types';
+import * as agentQueries from 'client/models/agents/queries';
+import * as agentConfigTypes from 'client/models/agentConfigs/types';
 
-type Props = {
-  config: Object,
-  agentID: string,
+type Props = {|
+  agent: agentTypes.Agent,
+  agentConfig: agentConfigTypes.AgentConfig,
   fetchConfig: string => void,
-  updateConfig: (string, Object) => void,
-  updateTemperature: (string, string) => void,
-};
+  updateConfig: (agentTypes.AgentID, agentConfigTypes.AgentConfig) => void,
+  updateProperty: (agentTypes.AgentID, string, string) => void,
+|};
 
 class AgentEdit extends React.Component<Props> {
   constructor(props) {
     super(props);
     (this: any).updateTemperature = this.updateTemperature.bind(this);
+    (this: any).updateName = this.updateName.bind(this);
     (this: any).updateConfig = this.updateConfig.bind(this);
   }
 
   componentDidMount() {
-    const { agentID, fetchConfig } = this.props;
-
-    fetchConfig(agentID);
+    const { agent, fetchConfig } = this.props;
+    fetchConfig(agent.id);
   }
 
   updateConfig() {
-    const { agentID, config, updateConfig } = this.props;
-
-    updateConfig(agentID, config);
+    const { agent, agentConfig, updateConfig } = this.props;
+    updateConfig(agent.id, agentConfig);
   }
 
   updateTemperature(e) {
-    const temperature = e.target.value;
-    const { agentID, updateTemperature } = this.props;
+    const value = e.target.value;
+    const { agent, updateProperty } = this.props;
+    updateProperty(agent.id, 'temperature', value);
+  }
 
-    updateTemperature(agentID, temperature);
+  updateName(e) {
+    const value = e.target.value;
+    const { agent, updateProperty } = this.props;
+    updateProperty(agent.id, 'name', value);
   }
 
   render() {
     const {
-      config: { temperature },
+      agentConfig,
+      agent,
     } = this.props;
+
+    const rawType = agentQueries.getNoVersionedType(agent);
+
+    const temperatureAdjustment = (
+      <div className="c-input c-input__full">
+        <div className="c-input__label">Temperature modifier</div>
+        <input
+          className="c-input__field"
+          value={agentConfig.temperature || ''}
+          onChange={this.updateTemperature}
+        />
+      </div>
+    );
 
     return (
       <div>
-        <div className="c-input">
-          <div className="c-input__label">Temperature modifier</div>
+        <div className="c-input c-input__full">
+          <div className="c-input__label">Name</div>
           <input
             className="c-input__field"
-            value={temperature}
-            onChange={this.updateTemperature}
+            value={agentConfig.name || ''}
+            onChange={this.updateName}
           />
         </div>
-        <button className="c-btn c-btn--accept" onClick={this.updateConfig}>
+        { rawType === agentsConstants.Type1 && temperatureAdjustment }
+        <button className="c-btn c-btn--full c-btn--accept" onClick={this.updateConfig}>
           UPDATE
         </button>
       </div>

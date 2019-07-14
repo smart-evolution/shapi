@@ -5,7 +5,7 @@ import * as actions from './actions';
 import * as alertsActions from '../alerts/actions';
 import * as alertsConstants from '../alerts/constants';
 
-function getData() {
+export function getData() {
   return fetch('/api/agents')
     .then(response => {
       if (!response.ok) {
@@ -32,7 +32,6 @@ function callSendAlert() {
 }
 
 export function* fetchData() {
-  while (true) {
     const data = yield call(getData);
 
     if (_.isEmpty(data)) {
@@ -47,7 +46,11 @@ export function* fetchData() {
     } else {
       yield put(actions.fetchDataFail('Fetched data is not array of agents'));
     }
+}
 
+export function* subscribe() {
+  while (true) {
+    yield put(fetchData());
     yield delay(5000);
   }
 }
