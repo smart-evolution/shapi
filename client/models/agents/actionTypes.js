@@ -1,6 +1,6 @@
-export const DATA_FETCH = 'agents/fetch';
-export const DATA_FETCH_SUCCESS = 'agents/fetch-success';
-export const DATA_FETCH_ERROR = 'agents/fetch-fail';
+export const FETCH_AGENTS = 'agents/fetch-agents';
+export const LOAD_AGENTS = 'agents/load-agents';
+export const FETCH_AGENTS_ERROR = 'agents/fetch-agents-error';
 export const TOGGLE_ALERTS = 'agents/toggle-alerts';
 export const SET_ALERTS = 'agents/set-alerts';
 export const FETCH_ALERTS = 'agents/fetch-alerts';

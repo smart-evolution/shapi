@@ -1,5 +1,3 @@
-// @flow
-import _ from 'lodash';
 import React from 'react';
 import { shallow } from 'enzyme';
 import AgentEdit from './AgentEdit';
@@ -22,10 +20,7 @@ const agentConfig = {
 describe('AgentEdit', () => {
   it('should render correctly', () => {
     const component = shallow(
-      <AgentEdit
-        agent={agent}
-        agentConfig={agentConfig}
-      />
+      <AgentEdit agent={agent} agentConfig={agentConfig} />
     );
 
     expect(component).toMatchSnapshot();

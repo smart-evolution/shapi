@@ -7,11 +7,11 @@ import * as agentConfigActionTypes from 'client/models/agentConfigs/actionTypes'
 import * as actions from './actions';
 
 /* eslint-disable import/prefer-default-export */
-export function* mount(): Iterable<any> {
-  yield all([put(agentActions.fetchData())]);
-  yield take([agentActionTypes.DATA_FETCH_SUCCESS]);
+export function* onApplicationMount(): Iterable<any> {
+  yield all([put(agentActions.fetchAgents())]);
+  yield take([agentActionTypes.LOAD_AGENTS]);
 
-  yield put(agentConfigActions.fetchData());
+  yield put(agentConfigActions.fetchAgentConfig());
   yield take([agentConfigActionTypes.LOAD_AGENT_CONFIGS]);
 
   yield put(actions.loaded());

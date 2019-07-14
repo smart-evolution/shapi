@@ -3,15 +3,15 @@ import * as agentTypes from 'client/models/agents/types';
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-export const fetchData = () => ({
-  type: actionTypes.FETCH_DATA,
+export const fetchAgentConfig = () => ({
+  type: actionTypes.FETCH_AGENT_CONFIGS,
 });
 
 export const commitAgentConfig = (
   agentID: agentTypes.AgentID,
   config: types.AgentConfig
 ) => ({
-  type: actionTypes.POST_AGENT_CONFIG,
+  type: actionTypes.COMMIT_AGENT_CONFIG,
   agentID,
   config,
 });

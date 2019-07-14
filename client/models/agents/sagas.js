@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import { delay } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as alertsActions from '../alerts/actions';
 import * as alertsConstants from '../alerts/constants';
 
-export function getData() {
+export function callFetchAgents() {
   return fetch('/api/agents')
     .then(response => {
       if (!response.ok) {
@@ -25,37 +24,30 @@ export function getData() {
     .catch(e => e);
 }
 
-function callSendAlert() {
-  return fetch('/api/sendalert', { method: 'POST' })
-    .then(response => response.json())
-    .catch(() => 'Send alert failed');
-}
-
-export function* fetchData() {
-  const data = yield call(getData);
+export function* onFetchAgents() {
+  const data = yield call(callFetchAgents);
 
   if (_.isEmpty(data)) {
-    yield put(actions.fetchDataFail('Fetched data empty'));
+    yield put(actions.fetchAgentsError('Fetched data empty'));
     return;
   }
 
   const agents = data._embedded.agents;
 
   if (_.isArray(agents)) {
-    yield put(actions.fetchDataSuccess(agents));
+    yield put(actions.loadAgents(agents));
   } else {
-    yield put(actions.fetchDataFail('Fetched data is not array of agents'));
+    yield put(actions.fetchAgentsError('Fetched data is not array of agents'));
   }
 }
 
-export function* subscribe() {
-  while (true) {
-    yield put(fetchData());
-    yield delay(5000);
-  }
+function callSendAlert() {
+  return fetch('/api/sendalert', { method: 'POST' })
+    .then(response => response.json())
+    .catch(() => 'Send alert failed');
 }
 
-export function* sendAlert() {
+export function* onSendAlert() {
   yield call(callSendAlert);
 }
 
@@ -65,7 +57,7 @@ function callToggleAlerts() {
     .catch(() => 'Toggling alerts failed');
 }
 
-export function* toggleAlerts() {
+export function* onToggleAlerts() {
   const data = yield call(callToggleAlerts);
 
   if (_.isObject(data)) {
@@ -81,7 +73,7 @@ function callAlerts() {
     .catch(() => 'Toggling alerts failed');
 }
 
-export function* fetchAlerts() {
+export function* onFetchAlerts() {
   const data = yield call(callAlerts);
 
   if (_.isObject(data)) {
@@ -104,7 +96,7 @@ function callToggleType2(agentID) {
     .catch(() => 'Toggling Type2 failed');
 }
 
-export function* toggleType2({ agentID }) {
+export function* onToggleType2({ agentID }) {
   const data = yield call(callToggleType2, agentID);
 
   if (_.isObject(data)) {
@@ -120,8 +112,8 @@ function callSniffAgents() {
     .catch(() => 'Toggling alerts failed');
 }
 
-export function* sniffAgents() {
-  yield put(actions.fetchData());
+export function* onSniffAgents() {
+  yield put(actions.fetchAgents());
 
   const data = yield call(callSniffAgents);
 

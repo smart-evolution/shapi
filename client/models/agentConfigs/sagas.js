@@ -8,7 +8,7 @@ import * as actions from './actions';
 import * as types from './types';
 import * as constants from './constants';
 
-function getData(agentID) {
+function callFetchAgentConfigs(agentID: agentTypes.AgentID) {
   return fetch(`${constants.AGENT_CONFIG_ENDPOINT}/${agentID}`)
     .then(response => {
       if (!response.ok) {
@@ -24,8 +24,12 @@ function getData(agentID) {
     .catch(e => e);
 }
 
-export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
-  const data = yield call(getData, agentID);
+export function* onFetchAgentConfigs({
+  agentID,
+}: {
+  agentID: string,
+}): Iterable<any> {
+  const data = yield call(callFetchAgentConfigs, agentID);
 
   if (data !== undefined) {
     const agentConfigs = data._embedded.configs;
@@ -40,7 +44,7 @@ export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   }
 }
 
-function callUpdateData(
+function callCommitAgentConfig(
   agentID: agentTypes.AgentID,
   config: types.AgentConfig
 ) {
@@ -52,14 +56,14 @@ function callUpdateData(
     .catch(() => 'Updating agent config failed');
 }
 
-export function* updateData({
+export function* onCommitAgentConfig({
   agentID,
   config,
 }: {
   agentID: agentTypes.AgentID,
   config: types.AgentConfig,
 }): Iterable<any> {
-  const response = yield call(callUpdateData, agentID, config);
+  const response = yield call(callCommitAgentConfig, agentID, config);
 
   if (!_.isEmpty(response)) {
     yield put(

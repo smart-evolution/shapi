@@ -10,24 +10,30 @@ import * as proxyActionTypes from './models/proxy/actionTypes';
 
 function* root() {
   yield [
-    takeEvery(applicationActionTypes.MOUNT, applicationSagas.mount),
-    fork(agentsSagas.fetchData),
-    fork(agentsSagas.fetchAlerts),
-    takeEvery(agentsActionTypes.SNIFF_AGENTS, agentsSagas.sniffAgents),
-    takeEvery(agentConfigsActionTypes.FETCH_DATA, agentConfigsSagas.fetchData),
     takeEvery(
-      agentConfigsActionTypes.POST_AGENT_CONFIG,
-      agentConfigsSagas.updateData
+      applicationActionTypes.MOUNT,
+      applicationSagas.onApplicationMount
     ),
-    takeEvery(agentsActionTypes.TOGGLE_ALERTS, agentsSagas.toggleAlerts),
-    takeEvery(agentsActionTypes.FETCH_ALERTS, agentsSagas.fetchAlerts),
-    takeEvery(agentsActionTypes.SEND_ALERT, agentsSagas.sendAlert),
-    takeEvery(agentsActionTypes.TOGGLE_TYPE2, agentsSagas.toggleType2),
+    fork(agentsSagas.onFetchAgents),
+    fork(agentsSagas.onFetchAlerts),
+    takeEvery(agentsActionTypes.SNIFF_AGENTS, agentsSagas.onSniffAgents),
+    takeEvery(
+      agentConfigsActionTypes.FETCH_AGENT_CONFIGS,
+      agentConfigsSagas.onFetchAgentConfigs
+    ),
+    takeEvery(
+      agentConfigsActionTypes.COMMIT_AGENT_CONFIG,
+      agentConfigsSagas.onCommitAgentConfig
+    ),
+    takeEvery(agentsActionTypes.TOGGLE_ALERTS, agentsSagas.onToggleAlerts),
+    takeEvery(agentsActionTypes.FETCH_ALERTS, agentsSagas.onFetchAlerts),
+    takeEvery(agentsActionTypes.SEND_ALERT, agentsSagas.onSendAlert),
+    takeEvery(agentsActionTypes.TOGGLE_TYPE2, agentsSagas.onToggleType2),
     takeEvery(
       proxyActionTypes.PROXY_CREATE_WS_CLIENT,
-      proxySagas.createWebSocketClient
+      proxySagas.onCreateWebSocketClient
     ),
-    takeEvery(proxyActionTypes.PROXY_SEND_MESSAGE, proxySagas.sendMessage),
+    takeEvery(proxyActionTypes.PROXY_SEND_MESSAGE, proxySagas.onSendMessage),
   ];
 }
 
