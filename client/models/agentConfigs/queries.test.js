@@ -21,5 +21,10 @@ describe('models/agentConfigs/queries', () => {
       const result = queries.getAgentConfigByAgentId(agentConfigs, '90346453');
       expect(result).toEqual(agentConfigs[1]);
     });
+
+    it('should return empty object when no agentConfig found', () => {
+      const result = queries.getAgentConfigByAgentId(agentConfigs, '84750192');
+      expect(result).toEqual({});
+    });
   });
 });
