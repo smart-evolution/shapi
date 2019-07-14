@@ -21,7 +21,7 @@ const agentConfig = {
 describe('AgentEdit', () => {
   it('should render correctly', () => {
     const component = mount(
-      <Router>
+      <Router keyLength={0}>
         <AgentEdit agent={agent} agentConfig={agentConfig} />
       </Router>
     );

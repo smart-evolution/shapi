@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AgentEdit should render correctly 1`] = `
-<MemoryRouter>
+<MemoryRouter
+  keyLength={0}
+>
   <Router
     history={
       Object {
@@ -12,7 +14,6 @@ exports[`AgentEdit should render correctly 1`] = `
         "entries": Array [
           Object {
             "hash": "",
-            "key": "9ad4u4",
             "pathname": "/",
             "search": "",
             "state": undefined,
@@ -26,7 +27,6 @@ exports[`AgentEdit should render correctly 1`] = `
         "listen": [Function],
         "location": Object {
           "hash": "",
-          "key": "9ad4u4",
           "pathname": "/",
           "search": "",
           "state": undefined,
@@ -83,7 +83,6 @@ exports[`AgentEdit should render correctly 1`] = `
               "entries": Array [
                 Object {
                   "hash": "",
-                  "key": "9ad4u4",
                   "pathname": "/",
                   "search": "",
                   "state": undefined,
@@ -97,7 +96,6 @@ exports[`AgentEdit should render correctly 1`] = `
               "listen": [Function],
               "location": Object {
                 "hash": "",
-                "key": "9ad4u4",
                 "pathname": "/",
                 "search": "",
                 "state": undefined,
@@ -109,7 +107,6 @@ exports[`AgentEdit should render correctly 1`] = `
           location={
             Object {
               "hash": "",
-              "key": "9ad4u4",
               "pathname": "/",
               "search": "",
               "state": undefined,
