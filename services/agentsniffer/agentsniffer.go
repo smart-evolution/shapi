@@ -1,6 +1,7 @@
 package agentsniffer
 
 import (
+	"github.com/smart-evolution/smarthome/constants"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/utils"
 	"io/ioutil"
@@ -13,8 +14,9 @@ import (
 )
 
 const (
-	SUB_NETWORKS = 2
-	STATIONS     = 254
+	SNIFF_TIMEOUT = 5000
+	SUB_NETWORKS  = 2
+	STATIONS      = 254
 )
 
 var (
@@ -25,8 +27,8 @@ var (
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
 
-	d := net.Dialer{Timeout: time.Duration(1000) * time.Millisecond}
-	conn, err := d.Dial("tcp", ip+":81")
+	d := net.Dialer{Timeout: time.Duration(SNIFF_TIMEOUT) * time.Millisecond}
+	conn, err := d.Dial("tcp", ip+":"+constants.AGENT_TCP_PORT)
 	if err != nil {
 		return
 	}
@@ -92,9 +94,9 @@ func SniffAgents(s state.IState) {
 			isSniffing = false
 			utils.Log("sniffing devices completed")
 			return
-		case <-time.After(3 * time.Second):
+		case <-time.After(SNIFF_TIMEOUT * time.Millisecond):
 			isSniffing = false
-			utils.Log("sniffing devices timedout")
+			utils.Log("sniffing devices time out")
 			return
 		}
 	}

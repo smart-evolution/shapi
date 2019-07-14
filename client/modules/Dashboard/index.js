@@ -1,5 +1,6 @@
+// @flow
 import { connect } from 'react-redux';
-import * as queries from 'client/models/agents/queries';
+import * as agentSelectors from 'client/models/agents/selectors';
 import Dashboard from './Dashboard';
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     error: state.error,
-    agent: queries.getAgentById(state, agentId),
+    agent: agentSelectors.getAgentById(state, agentId),
     pathname,
   };
 };

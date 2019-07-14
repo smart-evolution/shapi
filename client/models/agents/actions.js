@@ -2,17 +2,17 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-export const fetchData = () => ({
-  type: actionTypes.DATA_FETCH,
+export const fetchAgents = () => ({
+  type: actionTypes.FETCH_AGENTS,
 });
 
-export const fetchDataSuccess = (agents: $ReadOnlyArray<types.Agent>) => ({
-  type: actionTypes.DATA_FETCH_SUCCESS,
+export const loadAgents = (agents: $ReadOnlyArray<types.Agent>) => ({
+  type: actionTypes.LOAD_AGENTS,
   agents,
 });
 
-export const fetchDataFail = (error: string) => ({
-  type: actionTypes.DATA_FETCH_ERROR,
+export const fetchAgentsError = (error: string) => ({
+  type: actionTypes.FETCH_AGENTS_ERROR,
   error,
 });
 

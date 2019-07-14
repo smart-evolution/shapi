@@ -21,7 +21,7 @@ function* createChannel(client: WebSocket) {
 }
 /* eslint-enable require-yield */
 
-export function* createWebSocketClient({
+export function* onCreateWebSocketClient({
   agent,
 }: {
   agent: agentTypes.Agent,
@@ -73,7 +73,7 @@ export function* createWebSocketClient({
   }
 }
 
-export function* sendMessage({
+export function* onSendMessage({
   agent,
   message,
 }: {

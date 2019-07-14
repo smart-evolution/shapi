@@ -1,4 +1,4 @@
-package api
+package agents
 
 import (
 	"encoding/json"
@@ -6,10 +6,10 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
+	"github.com/smart-evolution/smarthome/datasources"
 	"github.com/smart-evolution/smarthome/datasources/dataflux"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent/types"
-	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agents"
 	"github.com/smart-evolution/smarthome/utils"
 	"net/http"
 	"strconv"
@@ -22,15 +22,15 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 	switch r.Method {
 	case "GET":
-		var agentsList []agents.AgentJSON
-		dfc := s.GetDataSource("dataflux")
+		var list []AgentJSON
+		dfc := s.GetDataSource(datasources.Dataflux)
 
 		df, ok := dfc.(dataflux.IDataFlux)
 		if !ok {
 			utils.Log("Store should implement IDataFlux")
 			return
 		}
-		st := s.GetDataSource("state")
+		st := s.GetDataSource(datasources.State)
 
 		state, ok := st.(state.IState)
 		if !ok {
@@ -47,12 +47,12 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			rawType := a.RawType()
 
 			if rawType == types.TYPE1 {
-				data, err = agents.FetchType1Data(a.ID(), df)
+				data, err = FetchType1Data(a.ID(), df)
 				if err != nil {
 					utils.Log(err)
 				}
 			} else if rawType == types.TYPE2 {
-				data, err = agents.FetchType2(a.ID(), state.Agents())
+				data, err = FetchType2(a.ID(), state.Agents())
 
 				if err != nil {
 					utils.Log(err)
@@ -63,7 +63,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				data = nil
 			}
 
-			agentJSON := agents.AgentJSON{
+			agentJSON := AgentJSON{
 				ID:        a.ID(),
 				Name:      a.Name(),
 				Data:      data,
@@ -71,16 +71,16 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				IP:        a.IP(),
 				IsOnline:  a.IsOnline(),
 			}
-			agentsList = append(agentsList, agentJSON)
+			list = append(list, agentJSON)
 		}
 
-		if len(agentsList) == 0 {
+		if len(list) == 0 {
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 
 		data := map[string]string{
-			"count": strconv.Itoa(len(agentsList)),
+			"count": strconv.Itoa(len(list)),
 		}
 
 		links := map[string]map[string]string{
@@ -90,7 +90,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		}
 
 		embedded := map[string]interface{}{
-			"agents": agentsList,
+			"agents": list,
 		}
 
 		json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))

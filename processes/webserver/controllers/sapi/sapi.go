@@ -2,6 +2,7 @@ package sapi
 
 import (
 	aca "github.com/smart-evolution/agents-cmd-api"
+	"github.com/smart-evolution/smarthome/constants"
 	"github.com/smart-evolution/smarthome/utils"
 	"golang.org/x/net/websocket"
 	"net"
@@ -23,7 +24,7 @@ var (
 
 func connect(ws *websocket.Conn, device string) {
 	utils.Log("connecting to device with ip '" + device + "'")
-	conn, err = net.Dial("tcp", device+":81")
+	conn, err = net.Dial("tcp", device+":"+constants.AGENT_TCP_PORT)
 
 	if err != nil {
 		utils.Log("error connecting device " + device)

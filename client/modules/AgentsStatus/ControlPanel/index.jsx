@@ -1,3 +1,4 @@
+// @flow
 import { connect } from 'react-redux';
 import * as agentsActions from 'client/models/agents/actions';
 import * as actions from '../actions';

@@ -1,19 +1,32 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import AlertPanel from 'client/modules/AlertPanel';
 
-const Application = props => (
-  <div className="application">
-    {props.children}
-    <AlertPanel />
-  </div>
-);
-
-Application.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+type Props = {
+  isLoaded: boolean,
+  children: React$Element<any>,
+  mount: () => void,
 };
+
+class Application extends React.PureComponent<Props> {
+  componentDidMount() {
+    const { mount } = this.props;
+    mount();
+  }
+
+  render() {
+    const { children, isLoaded } = this.props;
+
+    const loader = <div className="c-loader" />;
+
+    return (
+      <div className="application">
+        {isLoaded && children}
+        {!isLoaded && loader}
+        <AlertPanel />
+      </div>
+    );
+  }
+}
 
 export default Application;

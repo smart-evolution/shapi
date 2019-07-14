@@ -2,7 +2,7 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-const defaultState: types.State = {
+const defaultState = {
   isLoading: true,
   error: '',
   agents: [],
@@ -10,18 +10,18 @@ const defaultState: types.State = {
 
 export default function reducers(
   state: types.State = defaultState,
-  action: Function
+  action: Object
 ) {
   const { agents, error } = action;
 
   switch (action.type) {
-    case actionTypes.DATA_FETCH:
+    case actionTypes.FETCH_AGENTS:
       return Object.assign({}, state, { isLoading: true });
 
-    case actionTypes.DATA_FETCH_SUCCESS:
+    case actionTypes.LOAD_AGENTS:
       return Object.assign({}, state, { agents, isLoading: false });
 
-    case actionTypes.DATA_FETCH_ERROR:
+    case actionTypes.FETCH_AGENTS_ERROR:
       return Object.assign({}, state, { error, isLoading: false });
 
     case actionTypes.SET_ALERTS:

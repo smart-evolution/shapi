@@ -1,32 +1,32 @@
+// @flow
 import { connect } from 'react-redux';
 import * as actions from 'client/models/agentConfigs/actions';
-import * as selectors from 'client/models/agentConfigs/selectors';
+import * as agentConfigSelectors from 'client/models/agentConfigs/selectors';
+import * as agentSelectors from 'client/models/agents/selectors';
 import AgentEdit from './AgentEdit';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    match: {
-      params: { agent },
-    },
+    match: { params },
   } = ownProps;
-  const agentID = agent;
-  const config = selectors.getAgentConfig(state, agentID);
+  const agentID = params.agent;
+  const agentConfig =
+    agentConfigSelectors.getAgentConfigById(state, agentID) || {};
+  const agent = agentSelectors.getAgentById(state, agentID);
 
   return {
-    agentID,
-    config,
+    timestamp: new Date(),
+    agent,
+    agentConfig,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchConfig: agentID => {
-    dispatch(actions.fetchData(agentID));
+  updateProperty: (agentID, key, value) => {
+    dispatch(actions.updateProperty(agentID, key, value));
   },
-  updateTemperature: (agentID, temperature) => {
-    dispatch(actions.updateTemperature(agentID, temperature));
-  },
-  updateConfig: (agentID, config) => {
-    dispatch(actions.updateDate(agentID, config));
+  commitConfig: (agentID, config) => {
+    dispatch(actions.commitAgentConfig(agentID, config));
   },
 });
 

@@ -8,6 +8,8 @@ import (
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agentconfigs"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/api/agents"
 	"github.com/smart-evolution/smarthome/processes/webserver/controllers/sapi"
 	"github.com/smart-evolution/smarthome/utils"
 	"golang.org/x/net/websocket"
@@ -48,9 +50,9 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server.Router.AddRoute("/login/logout", controllers.AuthenticateLogout)
 	server.Router.AddRoute("/login", controllers.Authenticate)
 	server.Router.AddRoute("/", controllers.CtrDashboard)
-	server.Router.AddRoute("/api/agents", api.CtrAgents)
-	server.Router.AddRoute("/api/agents/{agent}", api.CtrAgents)
-	server.Router.AddRoute("/api/agents/{agent}/edit", api.CtrAgentEdit)
+	server.Router.AddRoute("/api/agents", agents.CtrAgents)
+	server.Router.AddRoute("/api/agents/{agent}", agents.CtrAgents)
+	server.Router.AddRoute("/api/agent-configs/{agent}", agentconfigs.CtrAgentConfig)
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)
 	server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 	server.Router.AddRoute("/api/sniffagents", api.CtrSniffAgents)

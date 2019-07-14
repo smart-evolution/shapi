@@ -1,7 +1,8 @@
 // @flow
 import _ from 'lodash';
-import * as selectors from './selectors';
 import * as types from './types';
+
+export const isOnline = (agent: types.Agent): boolean => agent.isOnline;
 
 export const getTemperatures = (agent: types.Agent): $ReadOnlyArray<string> => {
   const { data } = agent;
@@ -49,11 +50,6 @@ export const getTicks = (times: Array<number>, values: number) =>
     time: new Date(times[index]),
     value,
   }));
-
-export const getAgentById = (state: Object, id: string) => {
-  const agents = selectors.getAgents(state);
-  return _.find(agents, { id });
-};
 
 export const isMotion = (agent: types.Agent) => {
   const presence = getMotion(agent);

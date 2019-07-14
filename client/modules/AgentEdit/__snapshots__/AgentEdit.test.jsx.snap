@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AgentEdit should render correctly 1`] = `
+<MemoryRouter
+  keyLength={0}
+>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "canGo": [Function],
+        "createHref": [Function],
+        "entries": Array [
+          Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+        ],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "index": 0,
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <withRouter(AgentEdit)
+      agent={
+        Object {
+          "data": Object {},
+          "id": "90346453",
+          "ip": "192.168.1.10",
+          "isOnline": true,
+          "name": "Livingroom",
+          "type": "type1-v0.3.3",
+        }
+      }
+      agentConfig={
+        Object {
+          "id": "90346453",
+          "name": "Livingroom",
+          "temperature": 0,
+        }
+      }
+    >
+      <Route>
+        <AgentEdit
+          agent={
+            Object {
+              "data": Object {},
+              "id": "90346453",
+              "ip": "192.168.1.10",
+              "isOnline": true,
+              "name": "Livingroom",
+              "type": "type1-v0.3.3",
+            }
+          }
+          agentConfig={
+            Object {
+              "id": "90346453",
+              "name": "Livingroom",
+              "temperature": 0,
+            }
+          }
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "canGo": [Function],
+              "createHref": [Function],
+              "entries": Array [
+                Object {
+                  "hash": "",
+                  "pathname": "/",
+                  "search": "",
+                  "state": undefined,
+                },
+              ],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "index": 0,
+              "length": 1,
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+                "state": undefined,
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+          location={
+            Object {
+              "hash": "",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            }
+          }
+          match={
+            Object {
+              "isExact": true,
+              "params": Object {},
+              "path": "/",
+              "url": "/",
+            }
+          }
+        >
+          <div>
+            <div
+              className="c-input c-input__full"
+            >
+              <div
+                className="c-input__label"
+              >
+                Name
+              </div>
+              <input
+                className="c-input__field"
+                onChange={[Function]}
+                value="Livingroom"
+              />
+            </div>
+            <div
+              className="c-input c-input__full"
+            >
+              <div
+                className="c-input__label"
+              >
+                Temperature modifier
+              </div>
+              <input
+                className="c-input__field"
+                onChange={[Function]}
+                value=""
+              />
+            </div>
+            <button
+              className="c-btn c-btn--full c-btn--accept"
+              onClick={[Function]}
+            >
+              UPDATE
+            </button>
+          </div>
+        </AgentEdit>
+      </Route>
+    </withRouter(AgentEdit)>
+  </Router>
+</MemoryRouter>
+`;
