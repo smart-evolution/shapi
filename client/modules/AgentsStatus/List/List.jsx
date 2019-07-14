@@ -2,8 +2,9 @@
 import _ from 'lodash';
 import React from 'react';
 import * as agentsTypes from 'client/models/agents/types';
-import * as agentConfigsTypes from 'client/models/agentConfigs/types';
 import * as agentsQueries from 'client/models/agents/queries';
+import * as agentConfigTypes from 'client/models/agentConfigs/types';
+import * as agentConfigQueries from 'client/models/agentConfigs/queries';
 import Jeep from './Agents/Jeep';
 import Type1 from './Agents/Type1';
 import Type2 from './Agents/Type2';
@@ -12,7 +13,7 @@ import Unknown from './Agents/Unknown';
 type Props = {
   isLoading: boolean,
   agents: $ReadOnlyArray<agentsTypes.Agent>,
-  agentConfigs: $ReadOnlyArray<agentConfigsTypes.AgentConfig>,
+  agentConfigs: $ReadOnlyArray<agentConfigTypes.AgentConfig>,
 };
 
 const List = (props: Props) => {
@@ -23,7 +24,7 @@ const List = (props: Props) => {
     <ul className="agents-list__list">
       {_.map(agents, agent => {
         const noVersionedType = agentsQueries.getNoVersionedType(agent);
-        const agentConfig = agentConfigs[agent.id] || {};
+        const agentConfig = agentConfigQueries.getAgentConfigByAgentId(agentConfigs, agent.id);
 
         switch (noVersionedType) {
           case 'type1':

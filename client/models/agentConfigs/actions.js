@@ -2,9 +2,8 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-export const fetchData = agentID => ({
+export const fetchData = () => ({
   type: actionTypes.FETCH_DATA,
-  agentID,
 });
 
 export const fetchDataSuccess = () => ({
