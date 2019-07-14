@@ -32,20 +32,20 @@ function callSendAlert() {
 }
 
 export function* fetchData() {
-    const data = yield call(getData);
+  const data = yield call(getData);
 
-    if (_.isEmpty(data)) {
-      yield put(actions.fetchDataFail('Fetched data empty'));
-      return;
-    }
+  if (_.isEmpty(data)) {
+    yield put(actions.fetchDataFail('Fetched data empty'));
+    return;
+  }
 
-    const agents = data._embedded.agents;
+  const agents = data._embedded.agents;
 
-    if (_.isArray(agents)) {
-      yield put(actions.fetchDataSuccess(agents));
-    } else {
-      yield put(actions.fetchDataFail('Fetched data is not array of agents'));
-    }
+  if (_.isArray(agents)) {
+    yield put(actions.fetchDataSuccess(agents));
+  } else {
+    yield put(actions.fetchDataFail('Fetched data is not array of agents'));
+  }
 }
 
 export function* subscribe() {

@@ -7,8 +7,8 @@ import * as selectors from './selectors';
 const mapStateToProps = state => {
   return {
     isLoaded: selectors.getIsLoaded(state),
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   mount: () => {

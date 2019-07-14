@@ -4,7 +4,9 @@ exports[`Application should render correctly 1`] = `
 <div
   className="application"
 >
-  Content
+  <div
+    className="c-loader"
+  />
   <Connect(AlertPanel) />
 </div>
 `;

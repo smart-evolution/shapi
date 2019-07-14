@@ -7,9 +7,7 @@ import AgentEdit from './AgentEdit';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    match: {
-      params,
-    },
+    match: { params },
   } = ownProps;
   const agentID = params.agent;
   const agentConfig = selectors.getAgentConfigById(state, agentID) || {};
@@ -18,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     timestamp: new Date(),
     agent,
-    agentConfig
+    agentConfig,
   };
 };
 

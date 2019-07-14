@@ -40,7 +40,10 @@ export function* fetchData({ agentID }: { agentID: string }): Iterable<any> {
   }
 }
 
-function callUpdateData(agentID: agentTypes.AgentID, config: types.AgentConfig) {
+function callUpdateData(
+  agentID: agentTypes.AgentID,
+  config: types.AgentConfig
+) {
   return fetch(`${constants.AGENT_CONFIG_ENDPOINT}/${agentID}`, {
     method: 'POST',
     body: JSON.stringify(config),

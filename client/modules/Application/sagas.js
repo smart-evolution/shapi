@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash';
 import { all, put, take } from 'redux-saga/effects';
 import * as agentActions from 'client/models/agents/actions';
 import * as agentActionTypes from 'client/models/agents/actionTypes';
@@ -9,9 +8,7 @@ import * as actions from './actions';
 
 /* eslint-disable import/prefer-default-export */
 export function* mount(): Iterable<any> {
-  yield all([
-    put(agentActions.fetchData()),
-  ]);
+  yield all([put(agentActions.fetchData())]);
   yield take([agentActionTypes.DATA_FETCH_SUCCESS]);
 
   yield put(agentConfigActions.fetchData());

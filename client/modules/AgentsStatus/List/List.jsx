@@ -24,20 +24,31 @@ const List = (props: Props) => {
     <ul className="agents-list__list">
       {_.map(agents, agent => {
         const noVersionedType = agentsQueries.getNoVersionedType(agent);
-        const agentConfig = agentConfigQueries.getAgentConfigByAgentId(agentConfigs, agent.id);
+        const agentConfig = agentConfigQueries.getAgentConfigByAgentId(
+          agentConfigs,
+          agent.id
+        );
 
         switch (noVersionedType) {
           case 'type1':
-            return <Type1 key={agent.id} agent={agent} agentConfig={agentConfig} />;
+            return (
+              <Type1 key={agent.id} agent={agent} agentConfig={agentConfig} />
+            );
 
           case 'type2':
-            return <Type2 key={agent.id} agent={agent} agentConfig={agentConfig} />;
+            return (
+              <Type2 key={agent.id} agent={agent} agentConfig={agentConfig} />
+            );
 
           case 'jeep':
-            return <Jeep key={agent.id} agent={agent} agentConfig={agentConfig} />;
+            return (
+              <Jeep key={agent.id} agent={agent} agentConfig={agentConfig} />
+            );
 
           default:
-            return <Unknown key={agent.id} agent={agent} agentConfig={agentConfig} />;
+            return (
+              <Unknown key={agent.id} agent={agent} agentConfig={agentConfig} />
+            );
         }
       })}
     </ul>

@@ -9,11 +9,12 @@ const defaultState = {
   agentConfigs: [],
 };
 
-function updateProperty(state, action) {
+function updateProperty(state: types.State, action: Object) {
   const { key, value, agentID } = action;
   const { agentConfigs } = state;
 
-  const agentConfig = queries.getAgentConfigByAgentId(agentConfigs, agentID) || {};
+  const agentConfig =
+    queries.getAgentConfigByAgentId(agentConfigs, agentID) || {};
   agentConfig[key] = value;
 
   const newAgentConfig = _.defaults(agentConfigs, {
@@ -27,7 +28,10 @@ function updateProperty(state, action) {
   });
 }
 
-export default function reducers(state: types.State = defaultState, action) {
+export default function reducers(
+  state: types.State = defaultState,
+  action: Object
+) {
   switch (action.type) {
     case actionTypes.LOAD_AGENT_CONFIGS:
       return Object.assign({}, state, { agentConfigs: action.configs });

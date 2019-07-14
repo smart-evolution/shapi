@@ -7,20 +7,29 @@ export const fetchData = () => ({
   type: actionTypes.FETCH_DATA,
 });
 
-export const commitAgentConfig = (agentID: agentTypes.AgentID, config: types.AgentConfig) => ({
+export const commitAgentConfig = (
+  agentID: agentTypes.AgentID,
+  config: types.AgentConfig
+) => ({
   type: actionTypes.POST_AGENT_CONFIG,
   agentID,
   config,
 });
 
-export const updateProperty = (agentID: agentTypes.AgentID, key: string, value: string) => ({
+export const updateProperty = (
+  agentID: agentTypes.AgentID,
+  key: string,
+  value: string
+) => ({
   type: actionTypes.UPDATE_PROPERTY,
   agentID,
   key,
   value,
 });
 
-export const loadAgentConfigs = (configs: $ReadOnlyArray<types.AgentConfig>) => ({
+export const loadAgentConfigs = (
+  configs: $ReadOnlyArray<types.AgentConfig>
+) => ({
   type: actionTypes.LOAD_AGENT_CONFIGS,
   configs,
 });

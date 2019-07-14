@@ -39,10 +39,7 @@ class AgentEdit extends React.Component<Props> {
   }
 
   render() {
-    const {
-      agentConfig,
-      agent,
-    } = this.props;
+    const { agentConfig, agent } = this.props;
 
     const rawType = agentQueries.getNoVersionedType(agent);
 
@@ -67,8 +64,11 @@ class AgentEdit extends React.Component<Props> {
             onChange={this.updateName}
           />
         </div>
-        { rawType === agentsConstants.Type1 && temperatureAdjustment }
-        <button className="c-btn c-btn--full c-btn--accept" onClick={this.updateConfig}>
+        {rawType === agentsConstants.Type1 && temperatureAdjustment}
+        <button
+          className="c-btn c-btn--full c-btn--accept"
+          onClick={this.updateConfig}
+        >
           UPDATE
         </button>
       </div>

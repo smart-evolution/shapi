@@ -18,7 +18,6 @@ const Type1 = (props: Props) => {
   const isMotion = agentQueries.isMotion(agent);
   const isGas = agentQueries.isGas(agent);
 
-
   const onlineClass = !agent.isOnline ? 'agent-type1--disabled' : '';
   const motionColor = isMotion ? 'agent-type1__icon--alert' : '';
   const gasColor = isGas ? 'agent-type1__icon--alert' : '';
@@ -28,7 +27,8 @@ const Type1 = (props: Props) => {
   return (
     <li className={`agent-type1 ${onlineClass}`}>
       <a className="agent-type1__link" href={`/agent/${agent.id}`}>
-        {humanName}{agent.name} [{agent.type}]
+        {humanName}
+        {agent.name} [{agent.type}]
       </a>{' '}
       -{' '}
       <span>

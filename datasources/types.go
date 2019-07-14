@@ -2,6 +2,6 @@ package datasources
 
 var (
 	Persistence = "persistence"
-	Dataflux = "dataflux"
-	State = "state"
+	Dataflux    = "dataflux"
+	State       = "state"
 )

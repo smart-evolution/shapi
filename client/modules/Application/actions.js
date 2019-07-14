@@ -7,4 +7,3 @@ export const mount = () => ({
 export const loaded = () => ({
   type: actionTypes.LOADED,
 });
-
