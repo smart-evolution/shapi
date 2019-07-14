@@ -1,3 +1,4 @@
+// @flow
 import { fork, takeEvery } from 'redux-saga/effects';
 import * as applicationSagas from './modules/Application/sagas';
 import * as applicationActionTypes from './modules/Application/actionTypes';
@@ -8,7 +9,7 @@ import * as agentConfigsActionTypes from './models/agentConfigs/actionTypes';
 import * as proxySagas from './models/proxy/sagas';
 import * as proxyActionTypes from './models/proxy/actionTypes';
 
-function* root() {
+function* root(): Iterable<any> {
   yield [
     takeEvery(
       applicationActionTypes.MOUNT,

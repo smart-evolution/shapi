@@ -1,9 +1,13 @@
+// @flow
 import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
 import Alert from './Alert';
 
-const AlertPanel = props => {
+type Props = {
+  alerts: $ReadOnly<any>,
+};
+
+const AlertPanel = (props: Props) => {
   const { alerts } = props;
 
   return (
@@ -20,10 +24,6 @@ const AlertPanel = props => {
       })}
     </div>
   );
-};
-
-AlertPanel.propTypes = {
-  alerts: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default AlertPanel;

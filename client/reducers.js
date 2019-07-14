@@ -1,3 +1,4 @@
+// @flow
 import { combineReducers } from 'redux';
 import agents from 'client/models/agents/reducers';
 import agentConfigs from 'client/models/agentConfigs/reducers';
