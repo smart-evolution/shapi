@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { MemoryRouter as Router } from 'react-router';
 import AgentEdit from './AgentEdit';
 
 const agent = {
@@ -19,8 +20,10 @@ const agentConfig = {
 
 describe('AgentEdit', () => {
   it('should render correctly', () => {
-    const component = shallow(
-      <AgentEdit agent={agent} agentConfig={agentConfig} />
+    const component = mount(
+      <Router>
+        <AgentEdit agent={agent} agentConfig={agentConfig} />
+      </Router>
     );
 
     expect(component).toMatchSnapshot();
