@@ -1,4 +1,4 @@
 package main
 
 // VERSION - current smarthome webserver version
-var VERSION = "v1.4.0"
+var VERSION = "v1.4.1"
