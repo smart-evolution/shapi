@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { delay } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import * as actions from './actions';
 import * as alertsActions from '../alerts/actions';
@@ -38,6 +39,13 @@ export function* onFetchAgents() {
     yield put(actions.loadAgents(agents));
   } else {
     yield put(actions.fetchAgentsError('Fetched data is not array of agents'));
+  }
+}
+
+export function* subscribeOnFetchAgents() {
+  while (true) {
+    yield onFetchAgents();
+    yield delay(5000);
   }
 }
 

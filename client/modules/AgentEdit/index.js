@@ -1,8 +1,8 @@
 // @flow
 import { connect } from 'react-redux';
 import * as actions from 'client/models/agentConfigs/actions';
-import * as selectors from 'client/models/agentConfigs/selectors';
-import * as agentQueries from 'client/models/agents/queries';
+import * as agentConfigSelectors from 'client/models/agentConfigs/selectors';
+import * as agentSelectors from 'client/models/agents/selectors';
 import AgentEdit from './AgentEdit';
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,8 +10,9 @@ const mapStateToProps = (state, ownProps) => {
     match: { params },
   } = ownProps;
   const agentID = params.agent;
-  const agentConfig = selectors.getAgentConfigById(state, agentID) || {};
-  const agent = agentQueries.getAgentById(state, agentID);
+  const agentConfig =
+    agentConfigSelectors.getAgentConfigById(state, agentID) || {};
+  const agent = agentSelectors.getAgentById(state, agentID);
 
   return {
     timestamp: new Date(),

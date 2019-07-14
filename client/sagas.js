@@ -14,7 +14,7 @@ function* root() {
       applicationActionTypes.MOUNT,
       applicationSagas.onApplicationMount
     ),
-    fork(agentsSagas.onFetchAgents),
+    fork(agentsSagas.subscribeOnFetchAgents),
     fork(agentsSagas.onFetchAlerts),
     takeEvery(agentsActionTypes.SNIFF_AGENTS, agentsSagas.onSniffAgents),
     takeEvery(

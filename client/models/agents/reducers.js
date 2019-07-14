@@ -2,7 +2,7 @@
 import * as actionTypes from './actionTypes';
 import * as types from './types';
 
-const defaultState: types.State = {
+const defaultState = {
   isLoading: true,
   error: '',
   agents: [],
