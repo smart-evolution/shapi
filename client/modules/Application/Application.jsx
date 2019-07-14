@@ -4,7 +4,7 @@ import AlertPanel from 'client/modules/AlertPanel';
 
 type Props = {
   isLoaded: boolean,
-  children: $ReadOnlyArray<HTMLDivElement>,
+  children: $ReadOnlyArray<ReactDOM>,
   mount: () => void,
 };
 
@@ -21,7 +21,7 @@ class Application extends React.PureComponent<Props> {
 
     return (
       <div className="application">
-        { isLoaded && children}
+        { isLoaded && children }
         { !isLoaded && loader }
         <AlertPanel />
       </div>

@@ -23,14 +23,11 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchConfig: agentID => {
-    dispatch(actions.fetchData(agentID));
-  },
   updateProperty: (agentID, key, value) => {
     dispatch(actions.updateProperty(agentID, key, value));
   },
-  updateConfig: (agentID, config) => {
-    dispatch(actions.updateDate(agentID, config));
+  commitConfig: (agentID, config) => {
+    dispatch(actions.commitAgentConfig(agentID, config));
   },
 });
 

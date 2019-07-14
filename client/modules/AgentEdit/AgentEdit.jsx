@@ -9,8 +9,7 @@ import * as agentConfigTypes from 'client/models/agentConfigs/types';
 type Props = {|
   agent: agentTypes.Agent,
   agentConfig: agentConfigTypes.AgentConfig,
-  fetchConfig: string => void,
-  updateConfig: (agentTypes.AgentID, agentConfigTypes.AgentConfig) => void,
+  commitConfig: (agentTypes.AgentID, agentConfigTypes.AgentConfig) => void,
   updateProperty: (agentTypes.AgentID, string, string) => void,
 |};
 
@@ -22,14 +21,9 @@ class AgentEdit extends React.Component<Props> {
     (this: any).updateConfig = this.updateConfig.bind(this);
   }
 
-  componentDidMount() {
-    const { agent, fetchConfig } = this.props;
-    fetchConfig(agent.id);
-  }
-
   updateConfig() {
-    const { agent, agentConfig, updateConfig } = this.props;
-    updateConfig(agent.id, agentConfig);
+    const { agent, agentConfig, commitConfig } = this.props;
+    commitConfig(agent.id, agentConfig);
   }
 
   updateTemperature(e) {

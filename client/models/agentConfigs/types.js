@@ -7,9 +7,9 @@ export type AgentConfig = {
   temperature: number,
 };
 
-export type AgentConfigs = $ReadOnlyArray<AgentConfig>;
+export type AgentConfigs = Array<AgentConfig>;
 
 export type State = {
-  agentConfigs: AgentConfig,
+  agentConfigs: AgentConfigs,
   error: string,
 };

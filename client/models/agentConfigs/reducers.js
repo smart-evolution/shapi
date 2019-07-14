@@ -22,27 +22,15 @@ function updateProperty(state, action) {
 
   agentConfigs[agentID] = newAgentConfig;
 
-  const newState = Object.assign({}, state, {
+  return Object.assign({}, state, {
     agentConfigs,
   });
-
-  return newState;
 }
 
 export default function reducers(state: types.State = defaultState, action) {
-  const { agentID } = action;
-
   switch (action.type) {
     case actionTypes.LOAD_AGENT_CONFIGS:
-      const newState = Object.assign({}, state, { agentConfigs: action.configs });
-      return newState;
-
-    case actionTypes.UPDATE_CONFIG:
-      return _.merge({}, state, {
-        agentConfigs: {
-          [agentID]: action.config,
-        },
-      });
+      return Object.assign({}, state, { agentConfigs: action.configs });
 
     case actionTypes.UPDATE_PROPERTY:
       return updateProperty(state, action);
