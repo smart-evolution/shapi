@@ -32,7 +32,7 @@ export function* onFetchAgentConfigs({
   const data = yield call(callFetchAgentConfigs, agentID);
 
   if (data !== undefined) {
-    const agentConfigs = data._embedded.configs;
+    const agentConfigs = data._embedded.configs || [];
     yield put(actions.loadAgentConfigs(agentConfigs));
   } else {
     yield put(

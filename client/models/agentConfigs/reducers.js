@@ -12,19 +12,24 @@ const defaultState = {
 function updateProperty(state: types.State, action: Object) {
   const { key, value, agentID } = action;
   const { agentConfigs } = state;
+  let newAgentConfigs = [];
 
   const agentConfig =
     queries.getAgentConfigByAgentId(agentConfigs, agentID) || {};
-  agentConfig[key] = value;
 
-  const newAgentConfig = _.defaults(agentConfigs, {
-    [action.key]: action.value,
-  });
-
-  agentConfigs[agentID] = newAgentConfig;
+  if (_.isEmpty(agentConfig)) {
+    const newAgentConfig = {
+      agentId: agentID,
+      [action.key]: action.value,
+    }
+    newAgentConfigs = _.concat(agentConfigs, [newAgentConfig]);
+  } else {
+    agentConfig[key] = value;
+    newAgentConfigs = _.concat(_.filter(agentConfigs, c => c.agentId != agentID), [agentConfig]);
+  }
 
   return Object.assign({}, state, {
-    agentConfigs,
+    agentConfigs: newAgentConfigs,
   });
 }
 
