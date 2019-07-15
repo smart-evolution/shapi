@@ -21,11 +21,14 @@ function updateProperty(state: types.State, action: Object) {
     const newAgentConfig = {
       agentId: agentID,
       [action.key]: action.value,
-    }
+    };
     newAgentConfigs = _.concat(agentConfigs, [newAgentConfig]);
   } else {
     agentConfig[key] = value;
-    newAgentConfigs = _.concat(_.filter(agentConfigs, c => c.agentId != agentID), [agentConfig]);
+    newAgentConfigs = _.concat(
+      _.filter(agentConfigs, c => c.agentId !== agentID),
+      [agentConfig]
+    );
   }
 
   return Object.assign({}, state, {
