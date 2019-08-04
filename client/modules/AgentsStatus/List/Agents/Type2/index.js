@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as actions from '../../../actions';
+import * as agentActions from 'client/models/agents/actions';
 import Type2 from './Type2';
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   toggle: agentID => () => {
-    dispatch(actions.toggleType2(agentID));
+    dispatch(agentActions.toggleType2(agentID));
   },
 });
 

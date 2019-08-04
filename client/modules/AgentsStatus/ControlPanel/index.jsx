@@ -1,7 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
 import * as agentsActions from 'client/models/agents/actions';
-import * as actions from '../actions';
 import ControlPanel from './ControlPanel';
 
 const mapStateToProps = state => ({
@@ -13,10 +12,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(agentsActions.sniffAgents());
   },
   onToggle: () => {
-    dispatch(actions.toggleAlerts());
+    dispatch(agentsActions.toggleAlerts());
   },
   sendAlert: () => {
-    dispatch(actions.sendAlert());
+    dispatch(agentsActions.sendAlert());
   },
 });
 
