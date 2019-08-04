@@ -8,6 +8,9 @@ export const getAgents = (state: Object): $ReadOnlyArray<types.Agent> =>
 export const isLoading = (state: Object): $ReadOnlyArray<types.Agent> =>
   state.agents.isLoading;
 
+export const isAlerts = (state: Object): $ReadOnlyArray<types.Agent> =>
+  state.agents.isAlerts;
+
 export const getAgentById = (state: Object, id: string) => {
   const agents = getAgents(state);
   return _.find(agents, { id });

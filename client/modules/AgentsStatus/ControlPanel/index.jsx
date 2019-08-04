@@ -1,22 +1,22 @@
 // @flow
 import { connect } from 'react-redux';
-import * as agentsActions from 'client/models/agents/actions';
-import * as actions from '../actions';
+import * as agentActions from 'client/models/agents/actions';
+import * as agentSelectors from 'client/models/agents/selectors';
 import ControlPanel from './ControlPanel';
 
 const mapStateToProps = state => ({
-  isAlerts: state.isAlerts,
+  isAlerts: agentSelectors.isAlerts(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   sniffAgents: () => {
-    dispatch(agentsActions.sniffAgents());
+    dispatch(agentActions.sniffAgents());
   },
   onToggle: () => {
-    dispatch(actions.toggleAlerts());
+    dispatch(agentActions.toggleAlerts());
   },
   sendAlert: () => {
-    dispatch(actions.sendAlert());
+    dispatch(agentActions.sendAlert());
   },
 });
 
