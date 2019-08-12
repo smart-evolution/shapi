@@ -30,7 +30,7 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	./scripts/gofmt_test.sh
-	$(GOLINT) vet -mod=vendor ./... | grep -v vendor/ && exit 1 || exit 0
+	$(GOLINT) ./... | grep -v vendor/ && exit 1 || exit 0
 	$(GOCMD) vet -mod=vendor ./... | grep -v vendor/ && exit 1 || exit 0
 
 .PHONY: fix
