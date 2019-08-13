@@ -6,5 +6,5 @@ const (
 	// Type2 agent identifier
 	Type2 = "type2"
 	// Jeep agent identifier
-	Jeep  = "JEEP"
+	Jeep = "JEEP"
 )

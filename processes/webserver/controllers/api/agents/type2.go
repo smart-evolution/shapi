@@ -14,12 +14,12 @@ func FetchType2(agentID string, agents []agent.IAgent) ([]AgentJSON, error) {
 	var agentsJSON []AgentJSON
 
 	for _, a := range agents {
-		if a.AgentType() == types.TYPE2 {
+		if a.AgentType() == types.Type2 {
 			agent := AgentJSON{
 				ID:        a.ID(),
 				Name:      a.Name(),
 				Data:      struct{}{},
-				AgentType: types.TYPE2,
+				AgentType: types.Type2,
 				IP:        a.IP(),
 			}
 

@@ -16,7 +16,7 @@ import (
 const (
 	sniffTimeout = 5000
 	subNetworks  = 2
-	stations      = 254
+	stations     = 254
 )
 
 var (
@@ -51,6 +51,11 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	_, err = s.AgentByIP(ip)
 	if err != nil {
 		resp, err := http.Get("http://" + ip + "/config")
+
+		if err != nil {
+			return
+		}
+
 		defer resp.Body.Close()
 
 		contents, err := ioutil.ReadAll(resp.Body)
