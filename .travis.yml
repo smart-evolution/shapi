@@ -18,6 +18,7 @@ before_script:
   - docker pull oszura/smarthome-server-prod
   - docker run -d -p 3222:3222 oszura/smarthome-server-prod /bin/sh
   - docker ps -a
+  - sleep 15
+  - docker ps -a
   - make lint
   - make test
-  - docker ps -a
