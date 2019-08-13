@@ -1,7 +1,10 @@
 package datasources
 
 var (
+	// Persistence - persistence data source
 	Persistence = "persistence"
-	Dataflux    = "dataflux"
-	State       = "state"
+	// Dataflux - dataflux data source
+	Dataflux = "dataflux"
+	// State - state data source
+	State = "state"
 )

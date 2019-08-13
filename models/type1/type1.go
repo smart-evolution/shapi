@@ -37,7 +37,7 @@ type IType1 interface {
 	)
 }
 
-// IType1 - hardware entity
+// Type1 - hardware entity
 type Type1 struct {
 	agent.Agent
 	tmpNotifyTime    time.Time

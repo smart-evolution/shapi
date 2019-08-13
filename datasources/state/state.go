@@ -62,7 +62,7 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 	utils.Log("adding home agent '" + name + "' with URL '" + ip + "'")
 	rawType := strings.Split(agentType, "-")[0]
 
-	if rawType == types.TYPE1 {
+	if rawType == types.Type1 {
 		agent := type1.New(id, name, ip, agentType)
 		s.agents = append(s.agents, agent)
 	} else {

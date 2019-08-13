@@ -24,7 +24,7 @@ var (
 
 func connect(ws *websocket.Conn, device string) {
 	utils.Log("connecting to device with ip '" + device + "'")
-	conn, err = net.Dial("tcp", device+":"+constants.AGENT_TCP_PORT)
+	conn, err = net.Dial("tcp", device+":"+constants.AgentTCPPort)
 
 	if err != nil {
 		utils.Log("error connecting device " + device)

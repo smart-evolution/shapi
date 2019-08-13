@@ -10,8 +10,8 @@ import (
 )
 
 func TestAgentByID(t *testing.T) {
-	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.TYPE1)
-	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.TYPE2)
+	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.Type1)
+	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
 	agents := []agent.IAgent{agent1, agent2}
 
 	s := New(agents)

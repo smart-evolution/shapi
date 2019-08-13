@@ -46,18 +46,18 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			)
 			rawType := a.RawType()
 
-			if rawType == types.TYPE1 {
+			if rawType == types.Type1 {
 				data, err = FetchType1Data(a.ID(), df)
 				if err != nil {
 					utils.Log(err)
 				}
-			} else if rawType == types.TYPE2 {
+			} else if rawType == types.Type2 {
 				data, err = FetchType2(a.ID(), state.Agents())
 
 				if err != nil {
 					utils.Log(err)
 				}
-			} else if rawType == types.JEEP {
+			} else if rawType == types.Jeep {
 				data = nil
 			} else {
 				data = nil

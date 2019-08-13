@@ -1,4 +1,5 @@
 GOCMD=go
+GOLINT=golint
 GOFMT=gofmt
 MAKE=make
 NPM=npm
@@ -8,6 +9,7 @@ mode=prod
 
 .PHONY: install
 install:
+	$(shell cd /; $(GOCMD) get -u golang.org/x/lint/golint)
 	$(GOCMD) mod vendor
 	$(NPM) install
 
@@ -28,6 +30,7 @@ lint:
 	$(NPM) run lint
 	$(NPM) run csslint
 	./scripts/gofmt_test.sh
+	$(GOLINT) ./... | grep -v vendor/ && exit 1 || exit 0
 	$(GOCMD) vet -mod=vendor ./... | grep -v vendor/ && exit 1 || exit 0
 
 .PHONY: fix

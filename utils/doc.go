@@ -1,4 +1,2 @@
-/*
-	Set of helper functions.
-*/
+/*Package utils - a set of helper functions.*/
 package utils
