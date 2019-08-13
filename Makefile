@@ -23,6 +23,7 @@ all:
 test:
 	$(NPM) run test
 	$(GOCMD) test -mod=vendor ./...
+	$(NPM) run cypress:run
 
 .PHONY: lint
 lint:

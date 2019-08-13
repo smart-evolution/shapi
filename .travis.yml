@@ -6,11 +6,16 @@ go:
 env:
   - GO111MODULE=on
 
+services:
+  - docker
+
 install:
   - . $HOME/.nvm/nvm.sh
   - nvm install
   - make install
 
 before_script:
+  - docker pull oszura/smarthome-server-prod
+  - docker run -d -p 3222:3222 oszura/smarthome-server-prod /bin/sh
   - make lint
   - make test
