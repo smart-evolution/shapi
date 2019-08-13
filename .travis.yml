@@ -20,3 +20,4 @@ before_script:
   - docker ps -a
   - make lint
   - make test
+  - docker ps -a
