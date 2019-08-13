@@ -1,5 +1,4 @@
-/*
-	Smarthome webserver module
+/*Smarthome webserver module
 
 	This module contains:
 	- homebot

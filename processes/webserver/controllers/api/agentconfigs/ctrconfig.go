@@ -15,7 +15,7 @@ import (
 	"strconv"
 )
 
-// CtrAgentEdit - controller for agents list
+// CtrAgentConfig - controller for agents list
 func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	defer r.Body.Close()
 	agentID := opt.Params["agent"]

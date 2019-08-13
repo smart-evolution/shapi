@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	SNIFF_TIMEOUT = 5000
-	SUB_NETWORKS  = 2
-	STATIONS      = 254
+	sniffTimeout = 5000
+	subNetworks  = 2
+	stations      = 254
 )
 
 var (
@@ -27,8 +27,8 @@ var (
 func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	defer wg.Done()
 
-	d := net.Dialer{Timeout: time.Duration(SNIFF_TIMEOUT) * time.Millisecond}
-	conn, err := d.Dial("tcp", ip+":"+constants.AGENT_TCP_PORT)
+	d := net.Dialer{Timeout: time.Duration(sniffTimeout) * time.Millisecond}
+	conn, err := d.Dial("tcp", ip+":"+constants.AgentTCPPort)
 	if err != nil {
 		return
 	}
@@ -68,17 +68,18 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 	}
 }
 
+// SniffAgents - function looking for agents by sending CMDWHO
 func SniffAgents(s state.IState) {
 	if !isSniffing {
 		isSniffing = true
 
 		var wg sync.WaitGroup
 		done := make(chan struct{})
-		wg.Add(SUB_NETWORKS * STATIONS)
+		wg.Add(subNetworks * stations)
 
-		utils.Log("sniffing devices within range " + strconv.Itoa(SUB_NETWORKS) + "." + strconv.Itoa(STATIONS))
-		for i := 1; i <= SUB_NETWORKS; i++ {
-			for j := 1; j <= STATIONS; j++ {
+		utils.Log("sniffing devices within range " + strconv.Itoa(subNetworks) + "." + strconv.Itoa(stations))
+		for i := 1; i <= subNetworks; i++ {
+			for j := 1; j <= stations; j++ {
 				ip := "192.168." + strconv.Itoa(i) + "." + strconv.Itoa(j)
 				go scan(&wg, ip, s)
 			}
@@ -94,7 +95,7 @@ func SniffAgents(s state.IState) {
 			isSniffing = false
 			utils.Log("sniffing devices completed")
 			return
-		case <-time.After(SNIFF_TIMEOUT * time.Millisecond):
+		case <-time.After(sniffTimeout * time.Millisecond):
 			isSniffing = false
 			utils.Log("sniffing devices time out")
 			return

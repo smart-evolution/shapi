@@ -1,6 +1,8 @@
 package constants
 
 const (
-	AGENT_HTTP_PORT = "80"
-	AGENT_TCP_PORT  = "81"
+	// AgentHTTPPort - a port on which agents do listen for incomming HTTP requests
+	AgentHTTPPort = "80"
+	// AgentTCPPort - a port on which agents do listen for incomming HTTP requests
+	AgentTCPPort  = "81"
 )
