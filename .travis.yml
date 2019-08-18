@@ -17,9 +17,8 @@ install:
 before_script:
   - docker pull oszura/smarthome-server-test
   - docker run -d -p 127.0.0.1:3222:3222 oszura/smarthome-server-test /bin/sh
-  - docker ps -a
-  - sleep 15
-  - docker ps -a
   - make lint
   - make test
+  - sleep 60
+  - docker ps -a
   - make integration-test
