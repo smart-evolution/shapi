@@ -1,6 +1,6 @@
 describe('Login page', () => {
   it('should render successfully', () => {
-    cy.visit('http://localhost:3222');
+    cy.visit('http://127.0.0.1:3222');
     cy.screenshot();
   });
 
