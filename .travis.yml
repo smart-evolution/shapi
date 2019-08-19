@@ -11,19 +11,10 @@ services:
 
 before_install:
   - docker pull oszura/smarthome-server-dev
-  - docker run -d --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-dev /root/scripts/entrypoint-dev.sh
-
-install:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make install
-
-before_script:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make lint
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make test
 
 script:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make
+  - docker run -d --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-test
 
 after_success:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; ./smarthome
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make integration-test
+  - make integration-test
 
