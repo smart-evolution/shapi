@@ -10,7 +10,7 @@ services:
   - docker
 
 before_install:
-  - docker pull oszura/smarthome-server-dev
+  - docker pull oszura/smarthome-server-test
 
 script:
   - docker run -d --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-test
