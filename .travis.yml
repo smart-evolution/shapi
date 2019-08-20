@@ -17,8 +17,7 @@ install:
   - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make install
 
 script:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; ./smarthome
+  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make; ./smarthome
   - sleep 30
   - make integration-test
 
