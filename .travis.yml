@@ -6,20 +6,12 @@ go:
 env:
   - GO111MODULE=on
 
-services:
-  - docker
-
-before_install:
-  - docker pull oszura/smarthome-server-test
-
 install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install
   - make install
 
-script:
-  - make build-frontend
-  - docker run -it -d --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-test /bin/bash
-  - sleep 30
-  - docker ps
-  - docker logs build
+before_script:
+  - make lint
+  - make test
   - make integration-test
-

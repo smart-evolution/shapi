@@ -1,6 +1,6 @@
 describe('Login page', () => {
   it('should render successfully', () => {
-    cy.visit('http://127.0.0.1:3222');
+    cy.visit(Cypress.env('SH_CYPRESS_URL'));
     cy.screenshot();
   });
 
