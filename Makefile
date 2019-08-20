@@ -15,14 +15,26 @@ install:
 
 .PHONY: all
 all:
-	$(GOCMD) build -mod=vendor -o smarthome
+	$(MAKE) build-frontend
+	$(MAKE) build-backend
+
+.PHONY: build-frontend
+build-frontend:
 	$(NPM) rebuild node-sass
 	$(NPM) run build:$(mode)
+
+.PHONY: build-backend
+build-backend:
+	$(GOCMD) build -mod=vendor -o smarthome
 
 .PHONY: test
 test:
 	$(NPM) run test
 	$(GOCMD) test -mod=vendor ./...
+
+.PHONY: integration-test
+integration-test:
+	$(NPM) run cypress:run
 
 .PHONY: lint
 lint:

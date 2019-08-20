@@ -14,7 +14,8 @@
     "document": true,
     "fetch": true,
     "WebSocket": true,
-    "cy": true
+    "cy": true,
+    "Cypress": true
   },
   "env": {
     "jest": true
