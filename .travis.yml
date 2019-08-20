@@ -11,13 +11,10 @@ services:
 
 before_install:
   - docker pull oszura/smarthome-server-test
-  - docker run -it -d --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-test /bin/bash
-
-install:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make install
+  - docker run -it --name build -p 127.0.0.1:3222:3222 -v $PWD:/root/go/src/github.com/smart-evolution/smarthome oszura/smarthome-server-test /bin/bash
 
 script:
-  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome; make; ./smarthome
+  - docker exec build cd /root/go/src/github.com/smart-evolution/smarthome && make install && make && ./smarthome
   - sleep 30
   - make integration-test
 
