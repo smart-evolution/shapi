@@ -16,4 +16,8 @@ install:
 before_script:
   - make lint
   - make test
-  - make integration-test
+  - |
+    if [[ $IS_INTEGRATION_TESTS == "true" ]]
+    then
+      make integration-test
+    fi
