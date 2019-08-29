@@ -47,7 +47,7 @@ class Scroller extends React.PureComponent<Props, State> {
     const rect: ClientRect = node.getBoundingClientRect();
     const mappedX = clientX - rect.left;
     const maxWidth = rect.width;
-    const scaledX = (mappedX / maxWidth) * (max - min);
+    const scaledX = (mappedX / maxWidth) * (max - min) + min;
 
     this.move(mappedX, scaledX, maxWidth);
   }

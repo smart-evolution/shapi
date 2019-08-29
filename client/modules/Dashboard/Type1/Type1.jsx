@@ -18,12 +18,20 @@ const Type1 = (props: Props) => {
   return (
     <>
       <div className="dashboard__cell dashboard__cell--full">
-        <a className="c-btn c-btn--edit" href={`${pathname}/edit`}>
-          Edit
-        </a>
+        <div className="c-panel c-panel--separator">
+          <div className="c-panel__content">
+            <a className="c-btn c-btn--edit" href={`${pathname}/edit`}>
+              Edit
+            </a>
+          </div>
+        </div>
       </div>
       <div className="dashboard__cell dashboard__cell--full">
-        <Scroller onScrollChange={onScroll} min={30} max={300} />
+        <div className="c-panel c-panel--separator">
+          <div className="c-panel__content">
+            <Scroller onScrollChange={onScroll} min={30} max={300} />
+          </div>
+        </div>
       </div>
       <div className="dashboard__cell dashboard__cell--full">
         <CurrentPanel agent={agent} />
