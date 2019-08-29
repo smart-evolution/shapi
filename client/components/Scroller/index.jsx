@@ -24,6 +24,16 @@ class Scroller extends React.PureComponent<Props, State> {
     };
   }
 
+  onMove(event: SyntheticDragEvent<Element>) {
+    event.preventDefault();
+    this.scroll(event);
+  }
+
+  onDragEnd(event: SyntheticDragEvent<Element>) {
+    event.preventDefault();
+    this.scroll(event);
+  }
+
   scroll(event: SyntheticDragEvent<Element>) {
     const { clientX } = event;
     const { min, max } = this.props;
@@ -40,16 +50,6 @@ class Scroller extends React.PureComponent<Props, State> {
     const scaledX = (mappedX / maxWidth) * (max - min);
 
     this.move(mappedX, scaledX, maxWidth);
-  }
-
-  onMove(event: SyntheticDragEvent<Element>) {
-    event.preventDefault();
-    this.scroll(event);
-  }
-
-  onDragEnd(event: SyntheticDragEvent<Element>) {
-    event.preventDefault();
-    this.scroll(event);
   }
 
   move(x: number, vx: number, maxWidth: number) {
@@ -69,7 +69,7 @@ class Scroller extends React.PureComponent<Props, State> {
     const { value } = this.state;
 
     return (
-      <div className='c-scroller'>
+      <div className="c-scroller">
         <div
           className="c-scroller__knob"
           style={{
