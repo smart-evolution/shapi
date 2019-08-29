@@ -7,7 +7,6 @@ const KNOB_SIZE = 12;
 const BORDER_SIZE = 1;
 
 type Props = {
-  className?: string,
   onScrollChange: (value: number) => void,
   min: number,
   max: number,
@@ -18,10 +17,6 @@ type State = {
 };
 
 class Scroller extends React.PureComponent<Props, State> {
-  static defaultProps = {
-    className: '',
-  };
-
   constructor() {
     super();
     this.state = {
@@ -71,12 +66,10 @@ class Scroller extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { className } = this.props;
     const { value } = this.state;
-    const classes = `c-scroller ${className}`;
 
     return (
-      <div className={classes}>
+      <div className='c-scroller'>
         <div
           className="c-scroller__knob"
           style={{

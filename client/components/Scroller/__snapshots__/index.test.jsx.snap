@@ -2,13 +2,12 @@
 
 exports[`Scroller should render correctly 1`] = `
 <Scroller
-  className=""
   max={100}
   min={10}
   onScrollChange={[Function]}
 >
   <div
-    className="c-scroller "
+    className="c-scroller"
   >
     <div
       className="c-scroller__knob"
