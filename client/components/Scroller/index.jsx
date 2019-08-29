@@ -1,14 +1,16 @@
 // @flow
 import _ from 'lodash';
 import React from 'react';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 const KNOB_SIZE = 12;
 const BORDER_SIZE = 1;
 
 type Props = {
-  className: string,
+  className?: string,
   onScrollChange: (value: number) => void,
+  min: number,
+  max: number,
 };
 
 type State = {
@@ -29,6 +31,7 @@ class Scroller extends React.PureComponent<Props, State> {
 
   scroll(event: SyntheticDragEvent<Element>) {
     const { clientX } = event;
+    const { min, max } = this.props;
 
     /* eslint-disable react/no-find-dom-node */
     const node: null | Element | Text = ReactDOM.findDOMNode(this);
@@ -39,8 +42,9 @@ class Scroller extends React.PureComponent<Props, State> {
     const rect: ClientRect = node.getBoundingClientRect();
     const mappedX = clientX - rect.left;
     const maxWidth = rect.width;
+    const scaledX = (mappedX / maxWidth) * (max - min);
 
-    this.move(mappedX, maxWidth);
+    this.move(mappedX, scaledX, maxWidth);
   }
 
   onMove(event: SyntheticDragEvent<Element>) {
@@ -53,11 +57,14 @@ class Scroller extends React.PureComponent<Props, State> {
     this.scroll(event);
   }
 
-  move(x: number, maxWidth: number) {
+  move(x: number, vx: number, maxWidth: number) {
     const { onScrollChange } = this.props;
-    const value = _.min([_.max([x, 0]), maxWidth - KNOB_SIZE - 2 * BORDER_SIZE]);
+    const value = _.min([
+      _.max([x, 0]),
+      maxWidth - KNOB_SIZE - 2 * BORDER_SIZE,
+    ]);
 
-    onScrollChange(value);
+    onScrollChange(vx);
     this.setState({
       value,
     });
@@ -68,28 +75,29 @@ class Scroller extends React.PureComponent<Props, State> {
     const { value } = this.state;
     const classes = `c-scroller ${className}`;
 
-    return (<div className={classes}>
-      <div
-        className="c-scroller__knob"
-        style={{
-          left: value,
-        }}
-      />
-      <div
-        className="c-scroller__drag"
-        draggable
-        onDrag={(event: SyntheticDragEvent<HTMLDivElement>) => {
-          this.onMove(event);
-        }}
-        onDragEnd={(event: SyntheticDragEvent<HTMLDivElement>) => {
-          this.onDragEnd(event);
-        }}
-        style={{
-          left: value,
-        }}
-      />
-    </div>)
-
+    return (
+      <div className={classes}>
+        <div
+          className="c-scroller__knob"
+          style={{
+            left: value,
+          }}
+        />
+        <div
+          className="c-scroller__drag"
+          draggable
+          onDrag={(event: SyntheticDragEvent<HTMLDivElement>) => {
+            this.onMove(event);
+          }}
+          onDragEnd={(event: SyntheticDragEvent<HTMLDivElement>) => {
+            this.onDragEnd(event);
+          }}
+          style={{
+            left: value,
+          }}
+        />
+      </div>
+    );
   }
 }
 

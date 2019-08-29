@@ -17,7 +17,7 @@ type Type1DataJSON struct {
 }
 
 // FetchType1Data - fetches data for type1 agent
-func FetchType1Data(agentID string, df dataflux.IDataFlux) (Type1DataJSON, error) {
+func FetchType1Data(agentID string, period string, df dataflux.IDataFlux) (Type1DataJSON, error) {
 	if df.IsConnected() != true {
 		return Type1DataJSON{}, errors.New("cannot feed data , Influx seems to be down")
 	}
@@ -29,7 +29,7 @@ func FetchType1Data(agentID string, df dataflux.IDataFlux) (Type1DataJSON, error
 	}
 
 	q := client.Query{
-		Command:  "SELECT time, temperature, presence, gas, sound, agent FROM \"" + measurement + "\" ORDER BY time DESC LIMIT 30",
+		Command:  "SELECT time, temperature, presence, gas, sound, agent FROM \"" + measurement + "\" ORDER BY time DESC LIMIT " + period,
 		Database: "smarthome",
 	}
 

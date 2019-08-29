@@ -14,4 +14,5 @@ export type State = {
   isLoading: boolean,
   error: string,
   agents: $ReadOnlyArray<Agent>,
+  period: number,
 };

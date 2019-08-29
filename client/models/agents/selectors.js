@@ -15,3 +15,5 @@ export const getAgentById = (state: Object, id: string) => {
   const agents = getAgents(state);
   return _.find(agents, { id });
 };
+
+export const getPeriod = (state: Object): number => state.agents.period;

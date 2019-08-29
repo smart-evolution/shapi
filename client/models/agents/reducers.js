@@ -6,6 +6,7 @@ const defaultState = {
   isLoading: true,
   error: '',
   agents: [],
+  period: 30,
 };
 
 export default function reducers(
@@ -26,6 +27,9 @@ export default function reducers(
 
     case actionTypes.SET_ALERTS:
       return Object.assign({}, state, { isAlerts: action.isAlerts });
+
+    case actionTypes.CHANGE_PERIOD:
+      return Object.assign({}, state, { period: action.period });
 
     default:
       return state;

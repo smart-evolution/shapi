@@ -41,3 +41,8 @@ export const toggleType2 = (agentID: string) => ({
 export const sniffAgents = () => ({
   type: actionTypes.SNIFF_AGENTS,
 });
+
+export const changePeriod = (period: number) => ({
+  type: actionTypes.CHANGE_PERIOD,
+  period,
+});

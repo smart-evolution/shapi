@@ -19,6 +19,11 @@ import (
 func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	agentID := opt.Params["agent"]
+	period := r.URL.Query().Get("period")
+
+	if period == "" {
+		period = "30"
+	}
 
 	switch r.Method {
 	case "GET":
@@ -47,7 +52,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			rawType := a.RawType()
 
 			if rawType == types.Type1 {
-				data, err = FetchType1Data(a.ID(), df)
+				data, err = FetchType1Data(a.ID(), period, df)
 				if err != nil {
 					utils.Log(err)
 				}
