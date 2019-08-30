@@ -7,7 +7,7 @@ import * as alertsActions from '../alerts/actions';
 import * as alertsConstants from '../alerts/constants';
 
 export function callFetchAgents(period) {
-  return fetch(`/api/agents?peroid=${period}`)
+  return fetch(`/api/agents?period=${period}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
