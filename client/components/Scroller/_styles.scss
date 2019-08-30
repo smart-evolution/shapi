@@ -1,0 +1,28 @@
+$c-scroller-size: 12px;
+
+.c-scroller {
+  position: relative;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $brand-component-outline-color;
+  background-color: $brand-component-bg-color;
+  border-radius: $radius-small;
+  height: $c-scroller-size;
+
+  &__knob {
+    position: absolute;
+    border-radius: $radius-small;
+    background-color: $color-mercury;
+    height: $c-scroller-size;
+    width: $c-scroller-size;
+  }
+
+  &__drag {
+    position: absolute;
+    opacity: 0;
+    border-radius: $radius-small;
+    background-color: $color-mercury;
+    height: $c-scroller-size;
+    width: $c-scroller-size;
+  }
+}

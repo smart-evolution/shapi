@@ -29,7 +29,7 @@
   "homepage": "https://github.com/smart-evolution/smarthome",
   "dependencies": {
     "d3": "^5.0.0",
-    "graphen": "git://github.com/coda-it/graphen#v0.2.0",
+    "graphen": "git://github.com/coda-it/graphen#v1.1.0",
     "history": "^4.7.2",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",

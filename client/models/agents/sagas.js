@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import { delay } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { put, call, select } from 'redux-saga/effects';
 import * as actions from './actions';
+import * as selectors from './selectors';
 import * as alertsActions from '../alerts/actions';
 import * as alertsConstants from '../alerts/constants';
 
-export function callFetchAgents() {
-  return fetch('/api/agents')
+export function callFetchAgents(period) {
+  return fetch(`/api/agents?period=${period}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`Fetching data error: ${response.statusText}`);
@@ -26,7 +27,8 @@ export function callFetchAgents() {
 }
 
 export function* onFetchAgents() {
-  const data = yield call(callFetchAgents);
+  const period = yield select(selectors.getPeriod);
+  const data = yield call(callFetchAgents, period);
 
   if (_.isEmpty(data)) {
     yield put(actions.fetchAgentsError('Fetched data empty'));

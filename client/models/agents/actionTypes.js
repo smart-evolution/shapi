@@ -7,3 +7,4 @@ export const FETCH_ALERTS = 'agents/fetch-alerts';
 export const SEND_ALERT = 'agents/send-alert';
 export const TOGGLE_TYPE2 = 'agents/toggle-type2';
 export const SNIFF_AGENTS = 'agents/sniff';
+export const CHANGE_PERIOD = 'agents/change-period';
