@@ -35,7 +35,7 @@ export function* onFetchAgents() {
     return;
   }
 
-  const agents = data._embedded.agents;
+  const agents = data?._embedded?.agents;
 
   if (_.isArray(agents)) {
     yield put(actions.loadAgents(agents));
