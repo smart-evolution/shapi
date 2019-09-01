@@ -27,11 +27,16 @@ class Scroller extends React.PureComponent<Props, State> {
   onMove(event: SyntheticDragEvent<Element>) {
     event.preventDefault();
     this.scroll(event);
+    return false;
   }
 
-  onDragEnd(event: SyntheticDragEvent<Element>) {
+  onDrop(event: SyntheticDragEvent<Element>) {
     event.preventDefault();
-    this.scroll(event);
+    const { onScrollChange } = this.props;
+    const { value } = this.state;
+
+    onScrollChange(value);
+    return false;
   }
 
   scroll(event: SyntheticDragEvent<Element>) {
@@ -53,13 +58,11 @@ class Scroller extends React.PureComponent<Props, State> {
   }
 
   move(x: number, vx: number, maxWidth: number) {
-    const { onScrollChange } = this.props;
     const value = _.min([
       _.max([x, 0]),
       maxWidth - KNOB_SIZE - 2 * BORDER_SIZE,
     ]);
 
-    onScrollChange(vx);
     this.setState({
       value,
     });
@@ -69,7 +72,16 @@ class Scroller extends React.PureComponent<Props, State> {
     const { value } = this.state;
 
     return (
-      <div className="c-scroller">
+      <div
+        className="c-scroller"
+        onDragOver={(event: SyntheticDragEvent<HTMLDivElement>) => {
+          event.preventDefault();
+          return false;
+        }}
+        onDrop={(event: SyntheticDragEvent<HTMLDivElement>) => {
+          this.onDrop(event);
+        }}
+      >
         <div
           className="c-scroller__knob"
           style={{
@@ -78,12 +90,9 @@ class Scroller extends React.PureComponent<Props, State> {
         />
         <div
           className="c-scroller__drag"
-          draggable
+          draggable="true"
           onDrag={(event: SyntheticDragEvent<HTMLDivElement>) => {
             this.onMove(event);
-          }}
-          onDragEnd={(event: SyntheticDragEvent<HTMLDivElement>) => {
-            this.onDragEnd(event);
           }}
           style={{
             left: value,
