@@ -8,6 +8,8 @@ exports[`Scroller should render correctly 1`] = `
 >
   <div
     className="c-scroller"
+    onDragOver={[Function]}
+    onDrop={[Function]}
   >
     <div
       className="c-scroller__knob"
@@ -19,9 +21,8 @@ exports[`Scroller should render correctly 1`] = `
     />
     <div
       className="c-scroller__drag"
-      draggable={true}
+      draggable="true"
       onDrag={[Function]}
-      onDragEnd={[Function]}
       style={
         Object {
           "left": 0,
