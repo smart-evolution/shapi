@@ -2,8 +2,8 @@
 import _ from 'lodash';
 import React from 'react';
 import { withRouter } from 'react-router';
+import { Joystick } from 'graphen';
 import * as agentsTypes from 'client/models/agents/types';
-import Joystick from 'client/components/Joystick';
 import Switch from 'client/components/Switch';
 import * as proxyTypes from 'client/models/proxy/types';
 import * as proxyConstants from 'client/models/proxy/constants';
