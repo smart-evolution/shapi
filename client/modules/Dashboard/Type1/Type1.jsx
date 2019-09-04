@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
+import { Scroller } from 'graphen';
 import * as agentsTypes from 'client/models/agents/types';
-import Scroller from 'client/components/Scroller';
 import TemperaturePanel from '../TemperaturePanel';
 import SoundPanel from '../SoundPanel';
 import CurrentPanel from '../CurrentPanel';
