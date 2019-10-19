@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// AuthenticateByCredentials - authenticate user with credentials
 func AuthenticateByCredentials(username string, password string, p persistence.IPersistance) (user.User, error) {
 	var user user.User
 
@@ -31,6 +32,7 @@ func AuthenticateByCredentials(username string, password string, p persistence.I
 	return user, nil
 }
 
+// CreateClientSession - authenticate uer with credentials and create session cookie
 func CreateClientSession(w http.ResponseWriter, r *http.Request, username string, password string, p persistence.IPersistance, sm session.ISessionManager) bool {
 	expiration := time.Now().Add(365 * 24 * time.Hour)
 	authenticatedUser, err := AuthenticateByCredentials(username, password, p)
@@ -50,7 +52,6 @@ func CreateClientSession(w http.ResponseWriter, r *http.Request, username string
 
 		http.SetCookie(w, &cookie)
 		return true
-	} else {
-		return false
 	}
+	return false
 }
