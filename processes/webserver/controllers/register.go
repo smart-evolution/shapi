@@ -32,10 +32,14 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
 		c := p.GetCollection("users")
 
+		username := r.PostFormValue("username")
+		password := r.PostFormValue("password")
+
 		newUser = &user.User{
 			ID:       bson.NewObjectId(),
-			Username: r.PostFormValue("username"),
-			Password: utils.HashString(r.PostFormValue("password")),
+			Username: username,
+			Password: utils.HashString(password),
+			APIKey: utils.HashString(username + password),
 		}
 
 		err := c.Insert(newUser)

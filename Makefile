@@ -65,6 +65,10 @@ version:
 	git tag --delete $(V)
 	git tag $(V)
 
+.PHONY: run
+run:
+	SH_MONGO_URI=mongodb://localhost:27017 SH_MONGO_DB=smarthome SH_INFLUX_URI=http://localhost:8086 SH_CLI_TCP_PORT=3333 SH_PANEL_PORT=3222 SH_HTTP_PORT=3222 ./smarthome
+
 .PHONY: help
 help:
 	@echo  '=================================='

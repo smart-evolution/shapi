@@ -25,19 +25,19 @@ func RenderTemplate(
 ) {
 	sessionID, _ := GetSessionID(r)
 	isLogged := sm.IsExist(sessionID)
-	isPrivate := IsRequestFromIntranet(r)
+	//isPrivate := IsRequestFromIntranet(r)
 
 	if !isLogged {
 		ClearSession(w)
 
 		if r.URL.Path != "/login" && r.URL.Path != "/login/register" {
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			http.Redirect(w, r, "/login?a=1", http.StatusSeeOther)
 		}
 	}
 
-	if !isPrivate && r.URL.Path == "/login/register" {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-	}
+	//if !isPrivate && r.URL.Path == "/login/register" {
+	//	http.Redirect(w, r, "/login?b=2", http.StatusSeeOther)
+	//}
 
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 

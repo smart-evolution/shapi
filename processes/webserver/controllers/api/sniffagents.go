@@ -39,5 +39,6 @@ func CtrSniffAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 	go agentsniffer.SniffAgents(state)
 	embedded := map[string]string{}
 
+	w.Header().Set("Access-Control-Allow-Origin", "http://shpanel.xyz")
 	json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
 }
