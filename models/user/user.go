@@ -7,5 +7,5 @@ type User struct {
 	ID       bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Username string        `bson:"username"`
 	Password string        `bson:"password"`
-	APIKey	 string        `bson:"apiKey"`
+	APIKey   string        `bson:"apiKey"`
 }

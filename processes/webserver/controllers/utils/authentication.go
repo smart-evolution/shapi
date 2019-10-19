@@ -54,4 +54,3 @@ func CreateClientSession(w http.ResponseWriter, r *http.Request, username string
 		return false
 	}
 }
-

@@ -39,7 +39,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 			ID:       bson.NewObjectId(),
 			Username: username,
 			Password: utils.HashString(password),
-			APIKey: utils.HashString(username + password),
+			APIKey:   utils.HashString(username + password),
 		}
 
 		err := c.Insert(newUser)
