@@ -5,6 +5,7 @@
 [[Tasks board]](https://trello.com/b/QtZlwkhQ/project-smart-home)
 
 ### Description
-Repository holds code for two processes handling smarthome tasks:
-- homebot - Fetching and collecting data from agents. Managing agents network. 
-- webserver - Presents currently collected data to the user. Expose admin panel for the system. 
+Repository holds code for the following processes:
+- homebot - fetching and collecting data from agents. Managing agents network. 
+- webserver - get data from databases and expose it in REST API form
+- cliserver - service handling command line interface for smarthome users

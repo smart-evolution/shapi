@@ -15,10 +15,6 @@ import (
 // Register - handle register page and register user process
 func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	switch r.Method {
-	case "GET":
-		params := make(map[string]interface{})
-		utils.RenderTemplate(w, r, "register", sm, s, params)
-
 	case "POST":
 		var newUser *user.User
 
@@ -44,12 +40,11 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
 		err := c.Insert(newUser)
 		if err != nil {
-			utl.Log(err)
+			utl.Log("Registering user '" + newUser.Username + "' failed")
+			return
 		}
 
-		utl.Log("Registered user", newUser)
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		utl.Log("Registered user '" + newUser.Username + "'")
 	default:
 	}
 }

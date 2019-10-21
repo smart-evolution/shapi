@@ -22,13 +22,12 @@ import (
 // CtrAgentConfig - controller for agents list
 func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	defer r.Body.Close()
-	agentID := opt.Params["agent"]
-	fmt.Println("===== CtrAgentConfig")
-
 	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+	agentID := opt.Params["agent"]
 
 	dfc := s.GetDataSource(datasources.Persistence)
 
@@ -49,7 +48,6 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 
 	switch r.Method {
 	case "OPTIONS":
-		fmt.Println("===== OPTIONS")
 		return
 	case "GET":
 		sessionID, _ := utils.GetSessionID(r)

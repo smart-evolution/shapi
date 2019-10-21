@@ -15,16 +15,6 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 	defer r.Body.Close()
 
 	switch r.Method {
-	case "GET":
-		_, ok := r.URL.Query()["err"]
-		params := make(map[string]interface{})
-
-		if ok {
-			params["IsError"] = true
-		}
-
-		utils.RenderTemplate(w, r, "login", sm, s, params)
-
 	case "POST":
 		sessionID, _ := utils.GetSessionID(r)
 		isLogged := sm.IsExist(sessionID)

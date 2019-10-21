@@ -2,8 +2,6 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
-NPM=npm
-mode=prod
 
 .DEFAULT_GOAL := all
 
@@ -15,41 +13,20 @@ install:
 
 .PHONY: all
 all:
-	$(MAKE) build-frontend
-	$(MAKE) build-backend
-
-.PHONY: build-frontend
-build-frontend:
-	$(NPM) rebuild node-sass
-	$(NPM) run build:$(mode)
-
-.PHONY: build-backend
-build-backend:
 	$(GOCMD) build -mod=vendor -o smarthome
 
 .PHONY: test
 test:
-	$(NPM) run test
 	$(GOCMD) test -mod=vendor ./...
-
-.PHONY: integration-test
-integration-test:
-	$(NPM) run cypress:run
 
 .PHONY: lint
 lint:
-	$(NPM) run flow
-	$(NPM) run lint
-	$(NPM) run csslint
 	./scripts/gofmt_test.sh
 	$(GOLINT) ./... | grep -v vendor/ && exit 1 || exit 0
 	$(GOCMD) vet -mod=vendor ./... | grep -v vendor/ && exit 1 || exit 0
 
 .PHONY: fix
 fix:
-	$(NPM) run prettify
-	$(NPM) run lint:fix
-	$(NPM) run csslint:fix
 	$(GOFMT) -w .
 
 .PHONY: version
@@ -57,17 +34,11 @@ version:
 	git tag $(V)
 	./scripts/changelog.sh
 	go generate
-	$(NPM) version $(V) --no-git-tag-version
-	git add package.json
 	git add ./version.go || true
 	git add ./docs/changelogs/CHANGELOG_$(V).md
 	git commit --allow-empty -m "Build $(V)"
 	git tag --delete $(V)
 	git tag $(V)
-
-.PHONY: run
-run:
-	SH_MONGO_URI=mongodb://localhost:27017 SH_MONGO_DB=smarthome SH_INFLUX_URI=http://localhost:8086 SH_CLI_TCP_PORT=3333 SH_PANEL_PORT=3222 SH_HTTP_PORT=3222 ./smarthome
 
 .PHONY: help
 help:

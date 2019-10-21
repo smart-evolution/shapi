@@ -15,6 +15,10 @@ import (
 // CtrAlerts - api controller for sending alerts to agents
 func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	dfc := s.GetDataSource("state")
 
@@ -22,10 +26,6 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 	if !ok {
 		utils.Log("Invalid store")
 		return
-	}
-
-	if r.Method == "POST" {
-		st.SetIsAlerts(!st.IsAlerts())
 	}
 
 	data := struct {
@@ -42,6 +42,14 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 	embedded := map[string]string{}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://shpanel.xyz")
-	json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+	switch r.Method {
+	case "OPTIONS":
+		return
+	case "GET":
+		json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+		return
+	case "POST":
+		json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+		return
+	}
 }

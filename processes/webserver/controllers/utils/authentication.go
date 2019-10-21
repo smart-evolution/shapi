@@ -27,7 +27,7 @@ func AuthenticateByCredentials(username string, password string, p persistence.I
 		return user, errors.New("User not found")
 	}
 
-	utl.Log("webserver/authenticateUser: Logged in as user", user)
+	utl.Log("Logged in as user", user)
 
 	return user, nil
 }
