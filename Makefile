@@ -9,7 +9,6 @@ MAKE=make
 install:
 	$(shell cd /; $(GOCMD) get -u golang.org/x/lint/golint)
 	$(GOCMD) mod vendor
-	$(NPM) install
 
 .PHONY: all
 all:
