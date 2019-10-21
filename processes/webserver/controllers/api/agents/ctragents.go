@@ -3,7 +3,6 @@ package agents
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
@@ -59,7 +58,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				credentials, err := base64.StdEncoding.DecodeString(token)
 
 				if err != nil {
-					fmt.Println("error:", err)
+					utl.Log("Decoding auth token failed")
 				}
 
 				credArr := strings.Split(string(credentials), ":")
