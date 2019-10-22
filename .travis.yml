@@ -7,17 +7,9 @@ env:
   - GO111MODULE=on
 
 install:
-  - sudo apt-get update
-  - sudo apt-get install libgconf-2-4 # required by Cypress
-  - . $HOME/.nvm/nvm.sh
-  - nvm install
   - make install
 
 before_script:
   - make lint
   - make test
-  - |
-    if [[ $IS_INTEGRATION_TESTS == "true" ]]
-    then
-      make integration-test
-    fi
+

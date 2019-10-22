@@ -1,6 +1,7 @@
 package agents
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
@@ -8,16 +9,24 @@ import (
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/smarthome/datasources"
 	"github.com/smart-evolution/smarthome/datasources/dataflux"
+	"github.com/smart-evolution/smarthome/datasources/persistence"
 	"github.com/smart-evolution/smarthome/datasources/state"
 	"github.com/smart-evolution/smarthome/models/agent/types"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
+	utl "github.com/smart-evolution/smarthome/utils"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 // CtrAgents - controller for retrieving agents list data
 func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	agentID := opt.Params["agent"]
 	period := r.URL.Query().Get("period")
 
@@ -26,24 +35,58 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 	}
 
 	switch r.Method {
+	case "OPTIONS":
+		return
 	case "GET":
+		pc := s.GetDataSource("persistence")
+
+		p, ok := pc.(persistence.IPersistance)
+		if !ok {
+			utl.Log("Invalid store")
+			return
+		}
+
+		sessionID, _ := utils.GetSessionID(r)
+		isLogged := sm.IsExist(sessionID)
+
+		if !isLogged {
+			authorization := r.Header.Get("Authorization")
+
+			if authorization != "" {
+				authData := strings.Split(authorization, " ")
+				token := authData[1]
+				credentials, err := base64.StdEncoding.DecodeString(token)
+
+				if err != nil {
+					utl.Log("Decoding auth token failed")
+				}
+
+				credArr := strings.Split(string(credentials), ":")
+				username := credArr[0]
+				password := credArr[1]
+
+				utils.CreateClientSession(w, r, username, password, p, sm)
+			}
+		}
+
 		var list []AgentJSON
 		dfc := s.GetDataSource(datasources.Dataflux)
 
 		df, ok := dfc.(dataflux.IDataFlux)
 		if !ok {
-			utils.Log("Store should implement IDataFlux")
+			utl.Log("Store should implement IDataFlux")
 			return
 		}
 		st := s.GetDataSource(datasources.State)
 
 		state, ok := st.(state.IState)
 		if !ok {
-			utils.Log("Store should implement IState")
+			utl.Log("Store should implement IState")
 			return
 		}
 
 		cnfAgents := state.Agents()
+
 		for _, a := range cnfAgents {
 			var (
 				data interface{}
@@ -54,13 +97,13 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			if rawType == types.Type1 {
 				data, err = FetchType1Data(a.ID(), period, df)
 				if err != nil {
-					utils.Log(err)
+					utl.Log(err)
 				}
 			} else if rawType == types.Type2 {
 				data, err = FetchType2(a.ID(), state.Agents())
 
 				if err != nil {
-					utils.Log(err)
+					utl.Log(err)
 				}
 			} else if rawType == types.Jeep {
 				data = nil
@@ -104,7 +147,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		dfc := s.GetDataSource("state")
 		st, ok := dfc.(state.IState)
 		if !ok {
-			utils.Log("Store should implement IState")
+			utl.Log("Store should implement IState")
 			return
 		}
 
@@ -112,7 +155,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			utils.Log(err)
+			utl.Log(err)
 			return
 		}
 
@@ -120,7 +163,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			utils.Log(err)
+			utl.Log(err)
 			return
 		}
 

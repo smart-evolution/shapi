@@ -23,7 +23,7 @@ type WebServer struct {
 
 func getServerAddress(port string) (string, error) {
 	if port == "" {
-		return "", errors.New("Port not set")
+		return "", errors.New("HTTP server port not set")
 	}
 	return ":" + port, nil
 }
@@ -44,12 +44,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 
 	server := gowebserver.New(serverOptions, controllers.NotFound)
 
-	server.Router.AddRoute("/agent/{agent}", controllers.CtrDashboard)
-	server.Router.AddRoute("/agent/{agent}/edit", controllers.CtrAgentEdit)
 	server.Router.AddRoute("/login/register", controllers.Register)
-	server.Router.AddRoute("/login/logout", controllers.AuthenticateLogout)
-	server.Router.AddRoute("/login", controllers.Authenticate)
-	server.Router.AddRoute("/", controllers.CtrDashboard)
 	server.Router.AddRoute("/api/agents", agents.CtrAgents)
 	server.Router.AddRoute("/api/agents/{agent}", agents.CtrAgents)
 	server.Router.AddRoute("/api/agent-configs/{agent}", agentconfigs.CtrAgentConfig)

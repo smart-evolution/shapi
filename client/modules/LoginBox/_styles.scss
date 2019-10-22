@@ -1,8 +1,0 @@
-.login-box {
-  &__alert {
-    @extend .c-alert;
-    @extend .c-alert--danger;
-
-    margin-bottom: $spacing-large;
-  }
-}

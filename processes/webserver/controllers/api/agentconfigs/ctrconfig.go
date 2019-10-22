@@ -1,7 +1,9 @@
 package agentconfigs
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
@@ -9,15 +11,22 @@ import (
 	"github.com/smart-evolution/smarthome/datasources"
 	"github.com/smart-evolution/smarthome/datasources/persistence"
 	"github.com/smart-evolution/smarthome/models/agent"
+	"github.com/smart-evolution/smarthome/processes/webserver/controllers/utils"
 	utl "github.com/smart-evolution/smarthome/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 // CtrAgentConfig - controller for agents list
 func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	defer r.Body.Close()
+	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+
 	agentID := opt.Params["agent"]
 
 	dfc := s.GetDataSource(datasources.Persistence)
@@ -38,7 +47,32 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 	}
 
 	switch r.Method {
+	case "OPTIONS":
+		return
 	case "GET":
+		sessionID, _ := utils.GetSessionID(r)
+		isLogged := sm.IsExist(sessionID)
+
+		if !isLogged {
+			authorization := r.Header.Get("Authorization")
+
+			if authorization != "" {
+				authData := strings.Split(authorization, " ")
+				token := authData[1]
+				credentials, err := base64.StdEncoding.DecodeString(token)
+
+				if err != nil {
+					fmt.Println("error:", err)
+				}
+
+				credArr := strings.Split(string(credentials), ":")
+				username := credArr[0]
+				password := credArr[1]
+
+				utils.CreateClientSession(w, r, username, password, p, sm)
+			}
+		}
+
 		var list []agent.Config
 
 		err := c.Find(bson.M{}).All(&list)
