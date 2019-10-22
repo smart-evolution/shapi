@@ -2,6 +2,7 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
+IMAGE_NAME="oszura/sh-dashboard-dev"
 
 .DEFAULT_GOAL := all
 
@@ -27,6 +28,18 @@ lint:
 .PHONY: fix
 fix:
 	$(GOFMT) -w .
+
+.PHONY: build-image
+build-image:
+	docker build --tag $(IMAGE_NAME) --file=./docker/Dockerfile .
+
+.PHONY: run-container
+run-container:
+	docker run --network=docker_default -it -v $(PWD):/root/go/src/github.com/smart-evolution/smarthome \
+	    -e SH_MONGO_URI=mongodb://172.18.0.2:27017 \
+	    -e SH_MONGO_DB=smarthome \
+	    -e SH_PANEL_PORT=3222 $(IMAGE_NAME)
+
 
 .PHONY: version
 version:
