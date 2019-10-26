@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sh-api
+spec:
+  externalIPs:
+    - 192.168.2.250
+  ports:
+    - port: 3222
+      protocol: TCP
+      targetPort: 3222
+      nodePort: 33222
+  selector:
+    app: smarthome
+  type: NodePort
+

@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: smarthome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smarthome
+  template:
+    metadata:
+      labels:
+        app: smarthome
+    spec:
+      containers:
+        - image: oszura/sh-dashboard-prod
+          imagePullPolicy: Always
+          name: sh-api-prod
+        - image:  mongo:latest
+          imagePullPolicy: Always
+          name: sh-api-prod-mongodb
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-db
+      volumes:
+        - name: mongo-db
+          hostPath:
+            path: /data/db-backup
+            type: Directory

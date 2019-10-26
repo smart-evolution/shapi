@@ -2,7 +2,8 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
-IMAGE_NAME="oszura/sh-dashboard-dev"
+IMAGE_NAME="oszura/sh-api"
+ENV=prod
 
 .DEFAULT_GOAL := all
 
@@ -29,19 +30,9 @@ lint:
 fix:
 	$(GOFMT) -w .
 
-.PHONY: build-image-dev
-build-image:
-	docker build --tag $(IMAGE_NAME) --file=./docker/Dockerfile .
-
-
-.PHONY: build-image-prod
-build-image-prod:
-	docker build --tag oszura/sh-dashboard-prod --file=./docker/prod/Dockerfile .
-
-.PHONY: build-image-prod-nocache
-build-image-prod-nocache:
-	docker build --no-cache --tag oszura/sh-dashboard-prod --file=./docker/prod/Dockerfile .
-
+.PHONY: image
+image:
+	docker build --tag $(IMAGE_NAME) --file=./docker/$(ENV)/Dockerfile .
 
 .PHONY: run-container
 run-container:
