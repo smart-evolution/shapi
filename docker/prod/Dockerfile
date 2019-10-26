@@ -24,8 +24,6 @@ RUN mkdir -p /root/go/src/github.com/smart-evolution/smarthome/public
 # Add mocks
 RUN mkdir /root/mocks && \
 mkdir /root/scripts
-ADD ./public /root/go/src/github.com/smart-evolution/smarthome/public/
-ADD ./views /root/go/src/github.com/smart-evolution/smarthome/views/
 COPY ./smarthome /root/go/src/github.com/smart-evolution/smarthome/smarthome
 COPY ./mock_data.sh /root/scripts/
 COPY ./start_smarthome.sh /root/scripts/
