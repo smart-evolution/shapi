@@ -29,9 +29,19 @@ lint:
 fix:
 	$(GOFMT) -w .
 
-.PHONY: build-image
+.PHONY: build-image-dev
 build-image:
 	docker build --tag $(IMAGE_NAME) --file=./docker/Dockerfile .
+
+
+.PHONY: build-image-prod
+build-image-prod:
+	docker build --tag oszura/sh-dashboard-prod --file=./docker/prod/Dockerfile .
+
+.PHONY: build-image-prod-nocache
+build-image-prod-nocache:
+	docker build --no-cache --tag oszura/sh-dashboard-prod --file=./docker/prod/Dockerfile .
+
 
 .PHONY: run-container
 run-container:
@@ -39,7 +49,6 @@ run-container:
 	    -e SH_MONGO_URI=mongodb://172.18.0.2:27017 \
 	    -e SH_MONGO_DB=smarthome \
 	    -e SH_PANEL_PORT=3222 $(IMAGE_NAME)
-
 
 .PHONY: version
 version:
