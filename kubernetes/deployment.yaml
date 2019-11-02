@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - image: oszura/sh-dashboard-prod
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: sh-api-prod
-        - image:  mongo:latest
-          imagePullPolicy: Always
+        - image: oszura/sh-mongodb
+          imagePullPolicy: IfNotPresent
           name: sh-api-prod-mongodb
           volumeMounts:
             - mountPath: /data/db

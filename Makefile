@@ -32,14 +32,18 @@ fix:
 
 .PHONY: image
 image:
-	docker build --tag $(IMAGE_NAME) --file=./docker/$(ENV)/Dockerfile .
+	docker build --tag "$(IMAGE_NAME)-$(ENV)" --file=./docker/$(ENV)/Dockerfile .
+
+.PHONY: compose-up
+compose-up:
+	cd docker/dev && docker-compose --verbose up
 
 .PHONY: run-container
 run-container:
 	docker run --network=docker_default -it -v $(PWD):/root/go/src/github.com/smart-evolution/smarthome \
 	    -e SH_MONGO_URI=mongodb://172.18.0.2:27017 \
 	    -e SH_MONGO_DB=smarthome \
-	    -e SH_PANEL_PORT=3222 $(IMAGE_NAME)
+	    -e SH_PANEL_PORT=3222 $(IMAGE_NAME)-dev
 
 .PHONY: version
 version:
