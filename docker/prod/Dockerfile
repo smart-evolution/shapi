@@ -9,7 +9,6 @@ ENV GOPATH=/root/go \
 PATH="${PATH}:${GOPATH}/bin" \
 SH_HTTP_PORT=3222 \
 SH_CLI_TCP_PORT=3333 \
-SH_INFLUX_URI=http://localhost:8086 \
 SH_MAILER_EMAIL_NAME="" \
 SH_MAILER_EMAIL_PASS="" \
 SH_MAILER_SMTP_PORT=smtp.gmail.com:587 \

@@ -2,7 +2,7 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
-IMAGE_NAME="oszura/sh-api"
+IMAGE_NAME=oszura/sh-api
 ENV=prod
 
 .DEFAULT_GOAL := all
@@ -32,7 +32,7 @@ fix:
 
 .PHONY: image
 image:
-	docker build --tag "$(IMAGE_NAME)-$(ENV)" --file=./docker/$(ENV)/Dockerfile .
+	docker build --tag $(IMAGE_NAME)-$(ENV) --file=./docker/$(ENV)/Dockerfile .
 
 .PHONY: compose-up
 compose-up:
@@ -40,10 +40,12 @@ compose-up:
 
 .PHONY: run-container
 run-container:
-	docker run --network=docker_default -it -v $(PWD):/root/go/src/github.com/smart-evolution/smarthome \
-	    -e SH_MONGO_URI=mongodb://172.18.0.2:27017 \
+	docker run --network=host -p 3222:3222 -it -v $(shell pwd):/root/go/src/github.com/smart-evolution/smarthome \
+	    -e SH_MONGO_URI=mongodb://127.0.0.1:27017 \
 	    -e SH_MONGO_DB=smarthome \
-	    -e SH_PANEL_PORT=3222 $(IMAGE_NAME)-dev
+	    -e SH_HTTP_PORT=3222 \
+	    -e SH_INFLUX_URI=http://localhost:8086 \
+	    $(IMAGE_NAME)-dev
 
 .PHONY: version
 version:

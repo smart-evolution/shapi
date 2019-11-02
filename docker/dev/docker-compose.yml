@@ -4,3 +4,7 @@ services:
     image: oszura/sh-mongodb
     ports:
       - "27017:27017"
+  influxdb:
+    image: oszura/sh-influxdb
+    ports:
+      - "8086:8086"

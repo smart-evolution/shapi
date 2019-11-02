@@ -42,7 +42,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 		StaticFilesDir: "public",
 	}
 
-	server := gowebserver.New(serverOptions, controllers.NotFound)
+	server := gowebserver.New(serverOptions, api.CtrNotFound)
 
 	server.Router.AddRoute("/login/register", controllers.Register)
 	server.Router.AddRoute("/api/agents", agents.CtrAgents)
@@ -51,6 +51,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)
 	server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 	server.Router.AddRoute("/api/sniffagents", api.CtrSniffAgents)
+	server.Router.AddRoute("/api", api.CtrFront)
 	http.Handle("/sapi", websocket.Handler(sapi.AgentStreaming))
 
 	server.AddDataSource("dataflux", store)
