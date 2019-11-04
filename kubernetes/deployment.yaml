@@ -12,6 +12,7 @@ spec:
       labels:
         app: sh-api
     spec:
+      nodeName: debian
       containers:
         - image: oszura/sh-api-prod
           imagePullPolicy: IfNotPresent
