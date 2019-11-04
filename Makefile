@@ -66,7 +66,7 @@ run-container:
 .PHONY: deploy
 deploy:
 	kubectl apply -f ./kubernetes/deployment.yaml
-	kubectl apply -f ./kubernetes/services.yaml
+	kubectl apply -f ./kubernetes/service.yaml
 
 ### Utilities
 .PHONY: version

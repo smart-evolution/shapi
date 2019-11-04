@@ -9,7 +9,7 @@ spec:
     - port: 3222
       protocol: TCP
       targetPort: 3222
-      nodePort: 33222
+      nodePort: 30222
   selector:
     app: smarthome
   type: NodePort
