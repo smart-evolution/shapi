@@ -17,7 +17,7 @@ func CtrFront(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
-	data := struct {}{}
+	data := struct{}{}
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
