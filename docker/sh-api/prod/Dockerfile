@@ -24,7 +24,7 @@ RUN mkdir -p /root/go/src/github.com/smart-evolution/smarthome/public
 RUN mkdir /root/mocks && \
 mkdir /root/scripts
 COPY ./smarthome /root/go/src/github.com/smart-evolution/smarthome/smarthome
-COPY ./docker/sh-api/rod/mock_data.sh /root/scripts/
+COPY ./docker/sh-api/prod/mock_data.sh /root/scripts/
 COPY ./docker/sh-api/prod/start_smarthome.sh /root/scripts/
 COPY ./docker/sh-api/prod/entrypoint-prod.sh /root/scripts/
 
