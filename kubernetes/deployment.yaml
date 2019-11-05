@@ -14,7 +14,7 @@ spec:
     spec:
       nodeName: debian
       containers:
-        - image: oszura/sh-api-prod
+        - image: oszura/sh-api-prod:v1.5.1
           imagePullPolicy: IfNotPresent
           name: sh-api
         - image: oszura/sh-mongodb
