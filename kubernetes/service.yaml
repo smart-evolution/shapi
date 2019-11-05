@@ -4,13 +4,13 @@ metadata:
   name: sh-api
 spec:
   externalIPs:
-    - 192.168.2.250
+    - 192.168.2.198
   ports:
     - port: 3222
       protocol: TCP
       targetPort: 3222
       nodePort: 30222
   selector:
-    app: smarthome
+    app: sh-api
   type: NodePort
 
