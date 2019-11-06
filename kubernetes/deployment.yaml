@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sh-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sh-api
+  template:
+    metadata:
+      labels:
+        app: sh-api
+    spec:
+      nodeName: raspberrypi
+      containers:
+        - image: oszura/sh-api-prod:v1.5.1
+          imagePullPolicy: IfNotPresent
+          name: sh-api
+        - image: oszura/sh-mongodb
+          imagePullPolicy: IfNotPresent
+          name: sh-mongodb
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-db
+        - image: oszura/sh-influxdb
+          imagePullPolicy: IfNotPresent
+          name: sh-influxdb
+      volumes:
+        - name: mongo-db
+          hostPath:
+            path: /data/db-backup
+            type: Directory

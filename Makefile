@@ -2,6 +2,14 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
+IMAGE_NAME=oszura/sh-api
+ENV=prod
+
+SH_HTTP_PORT=3222
+SH_CLI_TCP_PORT=3333
+SH_MONGO_URI=mongodb://localhost:27017
+SH_MONGO_DB=smarthome
+SH_INFLUX_URI=http://localhost:8086
 
 .DEFAULT_GOAL := all
 
@@ -28,6 +36,39 @@ lint:
 fix:
 	$(GOFMT) -w .
 
+.PHONY: run
+run:
+	SH_MONGO_URI=$(SH_MONGO_URI) \
+	SH_MONGO_DB=$(SH_MONGO_DB) \
+	SH_HTTP_PORT=$(SH_HTTP_PORT) \
+	SH_INFLUX_URI=$(SH_INFLUX_URI) \
+	./smarthome
+
+### Containerization
+.PHONY: image
+image:
+	docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/sh-api/$(ENV)/Dockerfile .
+
+.PHONY: compose-up
+compose-up:
+	cd docker/sh-api/dev && docker-compose --verbose up
+
+.PHONY: run-container
+run-container:
+	docker run --network=host -p $(SH_HTTP_PORT):$(SH_HTTP_PORT) -it -v $(shell pwd):/root/go/src/github.com/smart-evolution/smarthome \
+	    -e SH_MONGO_URI=$(SH_MONGO_URI) \
+	    -e SH_MONGO_DB=$(SH_MONGO_DB) \
+	    -e SH_HTTP_PORT=$(SH_HTTP_PORT) \
+	    -e SH_INFLUX_URI=$(SH_INFLUX_URI) \
+	    $(IMAGE_NAME)-dev
+
+### Deployment
+.PHONY: deploy
+deploy:
+	kubectl apply -f ./kubernetes/deployment.yaml
+	kubectl apply -f ./kubernetes/service.yaml
+
+### Utilities
 .PHONY: version
 version:
 	git tag $(V)
