@@ -34,7 +34,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 		newUser = &user.User{
 			ID:       bson.NewObjectId(),
 			Username: username,
-			Password: utils.HashString(password),
+			Password: password,
 			APIKey:   utils.HashString(username + password),
 		}
 
