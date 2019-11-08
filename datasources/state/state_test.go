@@ -3,8 +3,8 @@ package state
 import (
 	"errors"
 	"fmt"
-	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/models/agent/types"
+	"github.com/smart-evolution/shapi/models/agent"
+	"github.com/smart-evolution/shapi/models/agent/types"
 	"reflect"
 	"testing"
 )

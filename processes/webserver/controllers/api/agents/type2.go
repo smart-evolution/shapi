@@ -1,8 +1,8 @@
 package agents
 
 import (
-	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/models/agent/types"
+	"github.com/smart-evolution/shapi/models/agent"
+	"github.com/smart-evolution/shapi/models/agent/types"
 )
 
 // Type2DataJSON - entity representing agent data

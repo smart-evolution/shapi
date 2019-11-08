@@ -2,10 +2,10 @@ package state
 
 import (
 	"errors"
-	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/models/agent/types"
-	"github.com/smart-evolution/smarthome/models/type1"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/models/agent"
+	"github.com/smart-evolution/shapi/models/agent/types"
+	"github.com/smart-evolution/shapi/models/type1"
+	"github.com/smart-evolution/shapi/utils"
 	"strings"
 )
 

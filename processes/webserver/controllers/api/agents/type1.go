@@ -3,8 +3,8 @@ package agents
 import (
 	"errors"
 	"github.com/influxdata/influxdb1-client/v2"
-	"github.com/smart-evolution/smarthome/datasources/dataflux"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/datasources/dataflux"
+	"github.com/smart-evolution/shapi/utils"
 )
 
 // Type1DataJSON - entity representing agent data

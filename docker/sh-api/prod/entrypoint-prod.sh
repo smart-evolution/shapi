@@ -1,2 +1,2 @@
-/root/scripts/start_smarthome.sh
+/root/scripts/start_shapi.sh
 
