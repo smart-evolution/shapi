@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/smart-evolution/smarthome/datasources/dataflux"
-	"github.com/smart-evolution/smarthome/datasources/persistence"
-	"github.com/smart-evolution/smarthome/datasources/state"
-	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/models/user"
-	"github.com/smart-evolution/smarthome/processes/cliserver"
-	"github.com/smart-evolution/smarthome/processes/homebot"
-	"github.com/smart-evolution/smarthome/processes/webserver"
-	"github.com/smart-evolution/smarthome/services/agentsniffer"
-	"github.com/smart-evolution/smarthome/services/email"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/datasources/dataflux"
+	"github.com/smart-evolution/shapi/datasources/persistence"
+	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/models/agent"
+	"github.com/smart-evolution/shapi/models/user"
+	"github.com/smart-evolution/shapi/processes/cliserver"
+	"github.com/smart-evolution/shapi/processes/homebot"
+	"github.com/smart-evolution/shapi/processes/webserver"
+	"github.com/smart-evolution/shapi/services/agentsniffer"
+	"github.com/smart-evolution/shapi/services/email"
+	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"os"
 )

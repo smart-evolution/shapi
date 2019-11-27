@@ -2,8 +2,8 @@ package type1
 
 import (
 	"errors"
-	"github.com/smart-evolution/smarthome/models/agent"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/models/agent"
+	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net/http"
 	"regexp"
