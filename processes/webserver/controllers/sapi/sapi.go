@@ -2,8 +2,8 @@ package sapi
 
 import (
 	aca "github.com/smart-evolution/agents-cmd-api"
-	"github.com/smart-evolution/smarthome/constants"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/constants"
+	"github.com/smart-evolution/shapi/utils"
 	"golang.org/x/net/websocket"
 	"net"
 )

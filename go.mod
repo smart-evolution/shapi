@@ -1,4 +1,4 @@
-module github.com/smart-evolution/smarthome
+module github.com/smart-evolution/shapi
 
 go 1.12
 

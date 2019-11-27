@@ -3,9 +3,9 @@ package utils
 import (
 	"errors"
 	"github.com/coda-it/gowebserver/session"
-	"github.com/smart-evolution/smarthome/datasources/persistence"
-	"github.com/smart-evolution/smarthome/models/user"
-	utl "github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/datasources/persistence"
+	"github.com/smart-evolution/shapi/models/user"
+	utl "github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"time"

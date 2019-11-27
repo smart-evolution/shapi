@@ -18,12 +18,12 @@ SH_MONGO_DB=smarthome \
 SH_INFLUX_URI=http://localhost:8086
 
 # Install smarthome project
-RUN mkdir -p /root/go/src/github.com/smart-evolution/smarthome/public
+RUN mkdir -p /root/go/src/github.com/smart-evolution/shapi/public
 
 # Add mocks
 RUN mkdir /root/mocks && \
 mkdir /root/scripts
-COPY ./smarthome /root/go/src/github.com/smart-evolution/smarthome/smarthome
+COPY ./smarthome /root/go/src/github.com/smart-evolution/shapi/smarthome
 COPY ./docker/sh-api/prod/mock_data.sh /root/scripts/
 COPY ./docker/sh-api/prod/start_smarthome.sh /root/scripts/
 COPY ./docker/sh-api/prod/entrypoint-prod.sh /root/scripts/

@@ -6,8 +6,8 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
-	"github.com/smart-evolution/smarthome/datasources/state"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
 )

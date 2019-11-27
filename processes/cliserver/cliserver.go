@@ -3,7 +3,7 @@ package cliserver
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/utils"
 	"net"
 )
 

@@ -20,7 +20,7 @@ install:
 
 .PHONY: all
 all:
-	$(GOCMD) build -mod=vendor -o smarthome
+	$(GOCMD) build -mod=vendor -o shapi
 
 .PHONY: test
 test:
@@ -42,7 +42,7 @@ run:
 	SH_MONGO_DB=$(SH_MONGO_DB) \
 	SH_HTTP_PORT=$(SH_HTTP_PORT) \
 	SH_INFLUX_URI=$(SH_INFLUX_URI) \
-	./smarthome
+	./shapi
 
 ### Containerization
 .PHONY: image
@@ -55,7 +55,7 @@ compose-up:
 
 .PHONY: run-container
 run-container:
-	docker run --network=host -p $(SH_HTTP_PORT):$(SH_HTTP_PORT) -it -v $(shell pwd):/root/go/src/github.com/smart-evolution/smarthome \
+	docker run --network=host -p $(SH_HTTP_PORT):$(SH_HTTP_PORT) -it -v $(shell pwd):/root/go/src/github.com/smart-evolution/shapi \
 	    -e SH_MONGO_URI=$(SH_MONGO_URI) \
 	    -e SH_MONGO_DB=$(SH_MONGO_DB) \
 	    -e SH_HTTP_PORT=$(SH_HTTP_PORT) \

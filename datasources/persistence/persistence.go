@@ -1,7 +1,7 @@
 package persistence
 
 import (
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2"
 )
 

@@ -1,9 +1,9 @@
 package agentsniffer
 
 import (
-	"github.com/smart-evolution/smarthome/constants"
-	"github.com/smart-evolution/smarthome/datasources/state"
-	"github.com/smart-evolution/smarthome/utils"
+	"github.com/smart-evolution/shapi/constants"
+	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net"
 	"net/http"
