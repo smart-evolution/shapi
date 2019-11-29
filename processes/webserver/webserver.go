@@ -45,7 +45,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server := gowebserver.New(serverOptions, api.CtrNotFound)
 
 	server.Router.AddRoute("/login/register", controllers.Register)
-	server.Router.AddRoute("/api/agents", agents.CtrAgents)
+	server.Router.AddRoute("/api/agents/add", agents.CtrAdd)
 	server.Router.AddRoute("/api/agents/{agent}", agents.CtrAgents)
 	server.Router.AddRoute("/api/agent-configs/{agent}", agentconfigs.CtrAgentConfig)
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)

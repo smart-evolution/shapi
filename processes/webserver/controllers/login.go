@@ -5,7 +5,7 @@ import (
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/persistence"
-	"github.com/smart-evolution/shapi/processes/webserver/controllers/utils"
+	"github.com/smart-evolution/shapi/processes/webserver/utils"
 	utl "github.com/smart-evolution/shapi/utils"
 	"net/http"
 )

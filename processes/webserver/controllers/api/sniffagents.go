@@ -7,10 +7,13 @@ import (
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/services/agentsniffer"
 	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 )
+
+const sniffAgentsHref string = "/api/sniffagents"
 
 // CtrSniffAgents - api controller for sniffing agents
 func CtrSniffAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
@@ -28,7 +31,7 @@ func CtrSniffAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
-			"href": "/api/sniffagents",
+			"href": sniffAgentsHref,
 		},
 	}
 
@@ -37,6 +40,7 @@ func CtrSniffAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 	state, ok := st.(state.IState)
 	if !ok {
 		utils.Log("Store should implement IState")
+		handlers.HandleError(w, sniffAgentsHref, "controller store error", http.StatusInternalServerError)
 		return
 	}
 

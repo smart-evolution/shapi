@@ -24,7 +24,8 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 	st, ok := dfc.(state.IState)
 	if !ok {
-		utils.Log("Invalid store")
+		utils.Log("store should implement IState")
+		http.Error(w, "store should implement IState", http.StatusInternalServerError)
 		return
 	}
 

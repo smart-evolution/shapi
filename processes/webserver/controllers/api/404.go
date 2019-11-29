@@ -1,11 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
+	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 )
 
@@ -17,23 +16,9 @@ func CtrNotFound(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, 
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
-	data := struct {
-		Message string `json:"message"`
-	}{
-		"Endpoint not found",
-	}
-
-	links := map[string]map[string]string{
-		"self": map[string]string{
-			"href": "/api/404",
-		},
-	}
-
-	embedded := map[string]string{}
-
 	switch r.Method {
 	case "GET":
-		json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+		handlers.HandleError(w, "/api/404", "endpoint not found", http.StatusNotFound)
 		return
 	}
 }

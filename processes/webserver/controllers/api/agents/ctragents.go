@@ -12,7 +12,8 @@ import (
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/models/agent/types"
-	"github.com/smart-evolution/shapi/processes/webserver/controllers/utils"
+	"github.com/smart-evolution/shapi/processes/webserver/handlers"
+	"github.com/smart-evolution/shapi/processes/webserver/utils"
 	utl "github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
@@ -29,6 +30,8 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 	agentID := opt.Params["agent"]
 	period := r.URL.Query().Get("period")
+
+	href := "/api/agents/" + agentID
 
 	if period == "" {
 		period = "30"
@@ -75,6 +78,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		df, ok := dfc.(dataflux.IDataFlux)
 		if !ok {
 			utl.Log("Store should implement IDataFlux")
+			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 		st := s.GetDataSource(datasources.State)
@@ -82,6 +86,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		state, ok := st.(state.IState)
 		if !ok {
 			utl.Log("Store should implement IState")
+			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
@@ -133,7 +138,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		links := map[string]map[string]string{
 			"self": map[string]string{
-				"href": "/api/agents/" + agentID,
+				"href": href,
 			},
 		}
 
@@ -148,22 +153,23 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		st, ok := dfc.(state.IState)
 		if !ok {
 			utl.Log("Store should implement IState")
+			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
 		agent, err := st.AgentByID(agentID)
 
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			utl.Log(err)
+			utl.Log("Agent with id = " + agentID + " not found")
+			handlers.HandleError(w, href, "agent not found", http.StatusNotFound)
 			return
 		}
 
 		_, err = http.Get(agent.IP())
 
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			utl.Log(err)
+			utl.Log("Requesting agent with IP = " + agent.IP() + " failed")
+			handlers.HandleError(w, href, "error contacting agent", http.StatusInternalServerError)
 			return
 		}
 

@@ -6,7 +6,8 @@ import (
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/user"
-	"github.com/smart-evolution/shapi/processes/webserver/controllers/utils"
+	"github.com/smart-evolution/shapi/processes/webserver/handlers"
+	"github.com/smart-evolution/shapi/processes/webserver/utils"
 	utl "github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
@@ -22,7 +23,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
 		p, ok := dfc.(persistence.IPersistance)
 		if !ok {
-			utl.Log("Invalid store")
+			handlers.HandleError(w, "/register", "controller store error", http.StatusInternalServerError)
 			return
 		}
 
@@ -40,7 +41,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 
 		err := c.Insert(newUser)
 		if err != nil {
-			utl.Log("Registering user '" + newUser.Username + "' failed")
+			handlers.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
 			return
 		}
 
