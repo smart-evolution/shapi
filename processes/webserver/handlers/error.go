@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// HandleError - handle request which errored
 func HandleError(w http.ResponseWriter, href string, msg string, status int) {
 	data := struct {
 		Message string `json:"message"`
