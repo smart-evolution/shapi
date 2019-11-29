@@ -8,6 +8,8 @@ import (
 
 // HandleError - handle request which errored
 func HandleError(w http.ResponseWriter, href string, msg string, status int) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
 	data := struct {
 		Message string `json:"message"`
 	}{

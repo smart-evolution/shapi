@@ -3,7 +3,6 @@ package agentconfigs
 import (
 	"encoding/base64"
 	"encoding/json"
-	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
@@ -21,11 +20,7 @@ import (
 
 // CtrAgentConfig - controller for agents list
 func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-	defer r.Body.Close()
-	w.Header().Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
-	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	handlers.CorsHeaders(w, r)
 
 	agentID := opt.Params["agent"]
 	href := "api/agentsConfig/" + agentID
@@ -94,10 +89,11 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 		embedded := map[string]interface{}{
 			"configs": list,
 		}
-		json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 
 	case "POST":
 		decoder := json.NewDecoder(r.Body)
+		defer r.Body.Close()
 		decoder.Decode(&config)
 		config.AgentID = agentID
 		_, err := c.Upsert(
@@ -112,7 +108,7 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 		}
 
 		embedded := map[string]string{}
-		json.NewEncoder(w).Encode(helpers.ServeHal(config, embedded, links))
+		handlers.HandleResponse(w, config, embedded, links, http.StatusOK)
 
 	default:
 	}
