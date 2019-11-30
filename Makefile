@@ -46,9 +46,9 @@ fix:
 .PHONY: image
 image:
 	@if [ -z "$ENV" ]; then\
-		docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
+		docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .\
 	else\
-		docker build --tag $(IMAGE_NAME)-$(ENV)):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
+		docker build --tag $(IMAGE_NAME)-$(ENV)):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .\
 	fi\
 
 .PHONY: run-services
