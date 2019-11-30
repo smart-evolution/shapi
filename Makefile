@@ -45,11 +45,11 @@ fix:
 ### Containerization
 .PHONY: image
 image:
-	ifdef $(ENV)
-		docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
-	else
-		docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
-	endif
+ifdef $(ENV)
+	docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
+else
+	docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
+endif
 
 .PHONY: run-services
 run-services:
