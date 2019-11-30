@@ -6,6 +6,7 @@ wget \
 python \
 vim \
 git \
+curl \
 build-essential 
 
 # Install influxdb
