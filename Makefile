@@ -2,8 +2,6 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
-IMAGE_NAME=oszura/sh-api
-ENV=prod
 
 SH_HTTP_PORT=3222
 SH_CLI_TCP_PORT=3333
