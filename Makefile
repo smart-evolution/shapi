@@ -2,6 +2,7 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
+FULL_IMAGE_NAME=oszura/$(IMAGE_NAME)
 
 SH_HTTP_PORT=3222
 SH_CLI_TCP_PORT=3333
@@ -44,9 +45,9 @@ fix:
 .PHONY: image
 image:
 ifdef $(ENV)
-	docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
+	docker build --tag $(FULL_IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
 else
-	docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_NAME)/Dockerfile .
+	docker build --tag $(FULL_IMAGE_NAME):$(V) --file=./docker/$(IMAGE_NAME)/Dockerfile .
 endif
 
 .PHONY: run-services
@@ -60,7 +61,7 @@ run-container:
 	    -e SH_MONGO_DB=$(SH_MONGO_DB) \
 	    -e SH_HTTP_PORT=$(SH_HTTP_PORT) \
 	    -e SH_INFLUX_URI=$(SH_INFLUX_URI) \
-	    $(IMAGE_NAME)-dev
+	    $(FULL_IMAGE_NAME)-dev
 
 ### Deployment
 .PHONY: deploy
