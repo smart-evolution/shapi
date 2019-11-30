@@ -11,14 +11,6 @@ SH_MONGO_URI=mongodb://localhost:27017
 SH_MONGO_DB=smarthome
 SH_INFLUX_URI=http://localhost:8086
 
-@if [ -z "$ENV" ]; then\
-	$(eval IMAGE=$(IMAGE_NAME))\
-	$(eval IMAGE_PATH=$(IMAGE_NAME))\
-else\
-	$(eval IMAGE=$(IMAGE_NAME)-$(ENV))\
-	$(eval IMAGE_PATH=$(IMAGE_NAME)/$(ENV))\
-fi\
-
 .DEFAULT_GOAL := all
 
 .PHONY: all
@@ -53,7 +45,11 @@ fix:
 ### Containerization
 .PHONY: image
 image:
-	docker build --tag $(IMAGE):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
+	@if [ -z "$ENV" ]; then\
+		docker build --tag $(IMAGE_NAME):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
+	else\
+		docker build --tag $(IMAGE_NAME)-$(ENV)):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
+	fi\
 
 .PHONY: run-services
 run-services:
