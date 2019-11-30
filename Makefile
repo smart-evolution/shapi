@@ -13,15 +13,21 @@ SH_INFLUX_URI=http://localhost:8086
 
 .DEFAULT_GOAL := all
 
-.PHONY: install
-install:
+.PHONY: all
+all:
+	$(MAKE) deps
+	$(MAKE) shapi
+
+### Build
+.PHONY: deps
+deps:
 	$(shell cd /; $(GOCMD) get -u golang.org/x/lint/golint)
 	$(GOCMD) mod vendor
 
-.PHONY: all
-all:
+shapi:
 	$(GOCMD) build -mod=vendor -o shapi
 
+### Code quality
 .PHONY: test
 test:
 	$(GOCMD) test -mod=vendor ./...
@@ -36,29 +42,21 @@ lint:
 fix:
 	$(GOFMT) -w .
 
-.PHONY: run
-run:
-	SH_MONGO_URI=$(SH_MONGO_URI) \
-	SH_MONGO_DB=$(SH_MONGO_DB) \
-	SH_HTTP_PORT=$(SH_HTTP_PORT) \
-	SH_INFLUX_URI=$(SH_INFLUX_URI) \
-	./shapi
-
 ### Containerization
 .PHONY: image
 image:
 	@if [ -z "$ENV" ]; then\
-		IMAGE=$(IMAGE_NAME);\
-		IMAGE_PATH=$(IMAGE_NAME);\
+		$(eval IMAGE=$(IMAGE_NAME))\
+		$(eval IMAGE_PATH=$(IMAGE_NAME))\
 	else\
-		IMAGE=$(IMAGE_NAME)-$(ENV);\
-		IMAGE_PATH=$(IMAGE_NAME)/$(ENV);\
+		$(eval IMAGE=$(IMAGE_NAME)-$(ENV))\
+		$(eval IMAGE_PATH=$(IMAGE_NAME)/$(ENV))\
 	fi\
 
 	docker build --tag $(IMAGE):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
 
-.PHONY: compose-up
-compose-up:
+.PHONY: run-services
+run-services:
 	cd docker/sh-api/dev && docker-compose --verbose up
 
 .PHONY: run-container
@@ -77,6 +75,19 @@ deploy:
 	kubectl apply -f ./kubernetes/service.yaml
 
 ### Utilities
+.PHONY: run
+run:
+	SH_MONGO_URI=$(SH_MONGO_URI) \
+	SH_MONGO_DB=$(SH_MONGO_DB) \
+	SH_HTTP_PORT=$(SH_HTTP_PORT) \
+	SH_INFLUX_URI=$(SH_INFLUX_URI) \
+	./shapi
+
+.PHONY: clean
+clean:
+	rm shapi
+	rm -rf vendor
+
 .PHONY: version
 version:
 	git tag $(V)
