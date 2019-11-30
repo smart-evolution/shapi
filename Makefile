@@ -47,7 +47,13 @@ run:
 ### Containerization
 .PHONY: image
 image:
-	docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/sh-api/$(ENV)/Dockerfile .
+	@if [ -z "$IMAGE_NAME" ]; then\
+		IMAGE=$(IMAGE_NAME)-$(ENV)\
+	else\
+		IMAGE=$(IMAGE_NAME)-$(ENV)\
+	fi
+
+	docker build --tag $(IMAGE):$(V) --file=./docker/$($IMAGE_NAME)/$(ENV)/Dockerfile .
 
 .PHONY: compose-up
 compose-up:
