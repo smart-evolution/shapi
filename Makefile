@@ -52,7 +52,7 @@ image:
 		IMAGE_PATH=$(IMAGE_NAME);\
 	else\
 		IMAGE=$(IMAGE_NAME)-$(ENV);\
-        IMAGE_PATH=$(IMAGE_NAME)/$(ENV);\
+		IMAGE_PATH=$(IMAGE_NAME)/$(ENV);\
 	fi\
 
 	docker build --tag $(IMAGE):$(V) --file=./docker/$(IMAGE_PATH)/Dockerfile .
