@@ -12,7 +12,7 @@ build-essential
 # Install influxdb
 RUN curl -sL https://repos.influxdata.com/influxdb.key | apt-key add - && \
 apt install apt-transport-https && \
-echo "deb https://repos.influxdata.com/debian stretch stable" | tee /etc/apt/sources.list.d/influxdb.list && \
+echo "deb https://repos.influxdata.com/debian buster stable" | tee /etc/apt/sources.list.d/influxdb.list && \
 apt update && \
 apt install influxdb  
 
