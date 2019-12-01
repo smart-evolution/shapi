@@ -37,13 +37,22 @@ func getRecipients(p *persistence.Persistance) []string {
 }
 
 func main() {
+	SHPanelMongoURI := os.Getenv("SH_MONGO_URI")
+	SHPanelMongoDB := os.Getenv("SH_MONGO_DB")
+	SHHTTPPort := os.Getenv("SH_HTTP_PORT")
+
+	utils.Log("Staring sh-api with the following ENV variables")
+	utils.Log("SH_PANEL_MONGO_URI = " + SHPanelMongoURI)
+	utils.Log("SH_PANEL_MONGO_DB = " + SHPanelMongoDB)
+	utils.Log("SH_HTTP_PORT = " + SHHTTPPort)
+
 	utils.VERSION = VERSION
 
 	s := state.New([]agent.IAgent{})
 
 	p := persistence.New(
-		os.Getenv("SH_MONGO_URI"),
-		os.Getenv("SH_MONGO_DB"),
+		SHPanelMongoURI,
+		SHPanelMongoDB,
 	)
 
 	df := dataflux.New(os.Getenv("SH_INFLUX_URI"))
@@ -65,7 +74,7 @@ func main() {
 	go agentsniffer.SniffAgents(s)
 
 	ws := webserver.New(
-		os.Getenv("SH_HTTP_PORT"),
+		SHHTTPPort,
 		df,
 		p,
 		s,

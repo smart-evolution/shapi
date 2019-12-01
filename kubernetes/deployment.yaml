@@ -19,15 +19,15 @@ spec:
           name: sh-api
         - image: mongo:latest
           imagePullPolicy: IfNotPresent
-          name: sh-api-mongodb
+          name: sh-mongodb
           volumeMounts:
             - mountPath: /data/db
-              name: sh-api-mongo-db
+              name: mongo-db
         - image: oszura/sh-influxdb
           imagePullPolicy: IfNotPresent
-          name: sh-api-influxdb
+          name: sh-influxdb
       volumes:
-        - name: sh-api-mongo-db
+        - name: mongo-db
           hostPath:
-            path: /data/db-backup
+            path: /data/db-shapi
             type: Directory
