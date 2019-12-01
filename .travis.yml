@@ -7,7 +7,7 @@ env:
   - GO111MODULE=on
 
 install:
-  - make install
+  - make deps
 
 before_script:
   - make lint

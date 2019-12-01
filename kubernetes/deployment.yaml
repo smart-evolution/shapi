@@ -12,22 +12,22 @@ spec:
       labels:
         app: sh-api
     spec:
-      nodeName: raspberrypi
+      nodeName: debian
       containers:
-        - image: oszura/sh-api-prod:v1.5.1
+        - image: oszura/sh-api-prod:v1.5.2
           imagePullPolicy: IfNotPresent
           name: sh-api
-        - image: oszura/sh-mongodb
+        - image: mongo:latest
           imagePullPolicy: IfNotPresent
           name: sh-mongodb
           volumeMounts:
             - mountPath: /data/db
               name: mongo-db
-        - image: oszura/sh-influxdb
+        - image: oszura/sh-influxdb:v1.0.0
           imagePullPolicy: IfNotPresent
           name: sh-influxdb
       volumes:
         - name: mongo-db
           hostPath:
-            path: /data/db-backup
+            path: /data/db-shapi
             type: Directory

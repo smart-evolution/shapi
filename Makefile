@@ -2,8 +2,7 @@ GOCMD=go
 GOLINT=golint
 GOFMT=gofmt
 MAKE=make
-IMAGE_NAME=oszura/sh-api
-ENV=prod
+FULL_IMAGE_NAME=oszura/$(IMAGE_NAME)
 
 SH_HTTP_PORT=3222
 SH_CLI_TCP_PORT=3333
@@ -13,15 +12,21 @@ SH_INFLUX_URI=http://localhost:8086
 
 .DEFAULT_GOAL := all
 
-.PHONY: install
-install:
+.PHONY: all
+all:
+	$(MAKE) deps
+	$(MAKE) shapi
+
+### Build
+.PHONY: deps
+deps:
 	$(shell cd /; $(GOCMD) get -u golang.org/x/lint/golint)
 	$(GOCMD) mod vendor
 
-.PHONY: all
-all:
+shapi:
 	$(GOCMD) build -mod=vendor -o shapi
 
+### Code quality
 .PHONY: test
 test:
 	$(GOCMD) test -mod=vendor ./...
@@ -36,21 +41,17 @@ lint:
 fix:
 	$(GOFMT) -w .
 
-.PHONY: run
-run:
-	SH_MONGO_URI=$(SH_MONGO_URI) \
-	SH_MONGO_DB=$(SH_MONGO_DB) \
-	SH_HTTP_PORT=$(SH_HTTP_PORT) \
-	SH_INFLUX_URI=$(SH_INFLUX_URI) \
-	./shapi
-
 ### Containerization
 .PHONY: image
 image:
-	docker build --tag $(IMAGE_NAME)-$(ENV):$(V) --file=./docker/sh-api/$(ENV)/Dockerfile .
+ifdef ENV
+	docker build --tag $(FULL_IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
+else
+	docker build --tag $(FULL_IMAGE_NAME):$(V) --file=./docker/$(IMAGE_NAME)/Dockerfile .
+endif
 
-.PHONY: compose-up
-compose-up:
+.PHONY: run-services
+run-services:
 	cd docker/sh-api/dev && docker-compose --verbose up
 
 .PHONY: run-container
@@ -60,7 +61,7 @@ run-container:
 	    -e SH_MONGO_DB=$(SH_MONGO_DB) \
 	    -e SH_HTTP_PORT=$(SH_HTTP_PORT) \
 	    -e SH_INFLUX_URI=$(SH_INFLUX_URI) \
-	    $(IMAGE_NAME)-dev
+	    $(FULL_IMAGE_NAME)-dev
 
 ### Deployment
 .PHONY: deploy
@@ -69,6 +70,19 @@ deploy:
 	kubectl apply -f ./kubernetes/service.yaml
 
 ### Utilities
+.PHONY: run
+run:
+	SH_MONGO_URI=$(SH_MONGO_URI) \
+	SH_MONGO_DB=$(SH_MONGO_DB) \
+	SH_HTTP_PORT=$(SH_HTTP_PORT) \
+	SH_INFLUX_URI=$(SH_INFLUX_URI) \
+	./shapi
+
+.PHONY: clean
+clean:
+	rm shapi
+	rm -rf vendor
+
 .PHONY: version
 version:
 	git tag $(V)

@@ -4,7 +4,7 @@ metadata:
   name: sh-api
 spec:
   externalIPs:
-    - 192.168.2.198
+    - 192.168.2.117
   ports:
     - port: 3222
       protocol: TCP
