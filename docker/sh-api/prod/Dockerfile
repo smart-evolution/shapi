@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM debian:buster
 
 # Install generictools
 RUN apt-get update && apt-get upgrade && apt-get install -y \
