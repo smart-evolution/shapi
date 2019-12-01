@@ -17,6 +17,6 @@ apt update && \
 apt install influxdb  
 
 RUN mkdir /root/scripts
-COPY entrypoint-influxdb.sh /root/scripts
+COPY ./docker/sh-influxdb/entrypoint-influxdb.sh /root/scripts
 
 ENTRYPOINT /root/scripts/entrypoint-influxdb.sh
