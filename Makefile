@@ -44,7 +44,7 @@ fix:
 ### Containerization
 .PHONY: image
 image:
-ifdef $(ENV)
+ifdef ENV
 	docker build --tag $(FULL_IMAGE_NAME)-$(ENV):$(V) --file=./docker/$(IMAGE_NAME)/$(ENV)/Dockerfile .
 else
 	docker build --tag $(FULL_IMAGE_NAME):$(V) --file=./docker/$(IMAGE_NAME)/Dockerfile .
