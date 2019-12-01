@@ -1,7 +1,7 @@
 FROM debian:buster
 
 # Install generictools
-RUN apt-get update && apt-get upgrade && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 wget
 
 # Set env variables
@@ -23,7 +23,7 @@ RUN mkdir -p /root/go/src/github.com/smart-evolution/shapi/public
 # Add mocks
 RUN mkdir /root/mocks && \
 mkdir /root/scripts
-COPY ./smarthome /root/go/src/github.com/smart-evolution/shapi/smarthome
+COPY ./shapi /root/go/src/github.com/smart-evolution/shapi/shapi
 COPY ./docker/sh-api/prod/mock_data.sh /root/scripts/
 COPY ./docker/sh-api/prod/start_smarthome.sh /root/scripts/
 COPY ./docker/sh-api/prod/entrypoint-prod.sh /root/scripts/
