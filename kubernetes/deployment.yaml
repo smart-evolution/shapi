@@ -23,7 +23,7 @@ spec:
           volumeMounts:
             - mountPath: /data/db
               name: mongo-db
-        - image: oszura/sh-influxdb
+        - image: oszura/sh-influxdb:v1.0.0
           imagePullPolicy: IfNotPresent
           name: sh-influxdb
       volumes:
