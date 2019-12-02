@@ -14,9 +14,10 @@ import (
 )
 
 type body struct {
-	Name string
-	IP   string
-	Type string
+	ID   string `json:"agentID"`
+	Name string `json:"agentName"`
+	IP   string `json:"agentIP"`
+	Type string `json:"agentType"`
 }
 
 // CtrAdd - add new agent by IP
@@ -52,7 +53,7 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 			return
 		}
 
-		state.AddAgent("", msg.Name, msg.IP, msg.Type)
+		state.AddAgent(msg.ID, msg.Name, msg.IP, msg.Type)
 
 		data := struct {
 			Devices string `json:"message"`

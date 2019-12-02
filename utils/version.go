@@ -1,4 +1,4 @@
 package utils
 
-// VERSION - current verion of the smarthome web server
+// VERSION - current version of the smarthome web server
 var VERSION string
