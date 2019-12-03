@@ -1,26 +1,28 @@
 package api
 
 import (
-	"encoding/json"
-	"github.com/coda-it/gowebserver/helpers"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
 )
 
+const sendAlertHref string = "/api/sendalert"
+
 // CtrSendAlert - api controller for sending alerts to agents
 func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	handlers.CorsHeaders(w, r)
 
 	st := s.GetDataSource("state")
 
 	state, ok := st.(state.IState)
 	if !ok {
-		utils.Log("Invalid store")
+		utils.Log("store should implement IState")
+		handlers.HandleError(w, sendAlertHref, "controller store error", http.StatusInternalServerError)
 		return
 	}
 
@@ -36,12 +38,11 @@ func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
-			"href": "/api/sendalert",
+			"href": sendAlertHref,
 		},
 	}
 
 	embedded := map[string]string{}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://shpanel.xyz")
-	json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
+	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 }

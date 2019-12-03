@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/smart-evolution/smarthome.svg?branch=master)](https://travis-ci.org/smart-evolution/smarthome)
+[![Build Status](https://travis-ci.org/smart-evolution/shapi.svg?branch=master)](https://travis-ci.org/smart-evolution/shapi)
 
 # SH-API
 [[Documentation]]()
