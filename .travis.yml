@@ -4,7 +4,7 @@ go:
   - 1.x
 
 env:
-  - GO111MODULE=on
+  - GO111MODULE=on APP_VERSION=v2.1.0
 
 install:
   - make deps
@@ -13,3 +13,16 @@ before_script:
   - make lint
   - make test
 
+script:
+  - make all ENV=prod
+
+after_success:
+  - |
+    if [[ ($TRAVIS_PULL_REQUEST == "false") && ($TRAVIS_COMMIT_MESSAGE =~ ^Build.*) ]]
+    then
+      echo "$DOCKER_PASS" | docker login -u "$DOCKER_LOGIN" --password-stdin
+      make image IMAGE_NAME=sh-api ENV=prod V=$APP_VERSION
+      docker push oszura/sh-api-prod
+      make image IMAGE_NAME=sh-api ENV=dev V=$APP_VERSION
+      docker push oszura/sh-panel-api
+    fi

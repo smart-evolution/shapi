@@ -87,9 +87,13 @@ clean:
 version:
 	git tag $(V)
 	./scripts/changelog.sh
+	git add ./docs/changelogs/CHANGELOG_$(V).md
 	go generate
 	git add ./version.go || true
-	git add ./docs/changelogs/CHANGELOG_$(V).md
+	sed -i "" "s/APP_VERSION=.*/APP_VERSION=$(V)/g" .travis.yml
+	git add .travis.yml
+	sed -i "" "s/oszura\/sh-panel-prod:.*/oszura\/sh-panel-prod:$(V)/g" ./kubernetes/deployment.yaml
+	git add ./kubernetes/deployment.yaml
 	git commit --allow-empty -m "Build $(V)"
 	git tag --delete $(V)
 	git tag $(V)
