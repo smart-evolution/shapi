@@ -1,0 +1,1 @@
+curl -d "SHPANEL_V=$APP_VERSION" -X POST $CEAR_URL

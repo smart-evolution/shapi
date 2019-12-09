@@ -26,3 +26,10 @@ after_success:
       make image IMAGE_NAME=sh-api ENV=dev V=$APP_VERSION
       docker push oszura/sh-panel-api
     fi
+
+deploy:
+  provider: script
+  script: bash scripts/deploy.sh
+  on:
+    branch: master
+    condition: $TRAVIS_COMMIT_MESSAGE =~ ^Build.*
