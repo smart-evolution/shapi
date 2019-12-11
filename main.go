@@ -48,12 +48,12 @@ func main() {
 
 	utils.VERSION = VERSION
 
-	s := state.New([]agent.IAgent{})
-
 	p := persistence.New(
 		SHPanelMongoURI,
 		SHPanelMongoDB,
 	)
+
+	s := state.New(p, []agent.IAgent{})
 
 	df := dataflux.New(os.Getenv("SH_INFLUX_URI"))
 

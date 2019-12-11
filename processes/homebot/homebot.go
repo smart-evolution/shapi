@@ -62,14 +62,21 @@ func persistDataFactory(
 	store dataflux.IDataFlux,
 	agentConfig agent.Config,
 ) func(agent.IAgent, map[string]interface{}) {
-	return func(agent agent.IAgent, data map[string]interface{}) {
-		utils.Log("Persisting data for agent [" + agent.Name() + "]")
+	return func(ia agent.IAgent, data map[string]interface{}) {
+		a, ok := ia.(*agent.Agent)
+
+		if !ok {
+			utils.Log("assertion type error")
+			return
+		}
+
+		utils.Log("Persisting data for agent [" + a.Name + "]")
 
 		adjustedData := adjustValues(data, agentConfig)
 
 		pt, _ := client.NewPoint(
-			agent.ID(),
-			map[string]string{"home": agent.Name()},
+			a.ID,
+			map[string]string{"home": a.Name},
 			adjustedData,
 			time.Now(),
 		)
@@ -77,7 +84,7 @@ func persistDataFactory(
 		err := store.AddData(pt)
 
 		if err != nil {
-			utils.Log(err)
+			utils.Log("failed adding agent to store")
 		}
 	}
 }
@@ -97,22 +104,25 @@ func (hb *HomeBot) runCommunicationLoop() {
 		var wg sync.WaitGroup
 		wg.Add(len(agents))
 
-		for _, a := range agents {
-			at1, ok := a.(type1.IType1)
+		for _, it1 := range agents {
+			t1, ok := it1.(*type1.Type1)
 
-			if ok {
-				err := c.Find(bson.M{
-					"agentId": a.ID(),
-				}).One(&agentConfig)
-
-				if err != nil {
-					utils.Log("AgentConfig not found for agent [" + a.Name() + "]")
-				}
-
-				persistData := persistDataFactory(hb.store, agentConfig)
-
-				go at1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
+			if !ok {
+				utils.Log("type assertion error")
+				return
 			}
+
+			err := c.Find(bson.M{
+				"agentId": t1.ID,
+			}).One(&agentConfig)
+
+			if err != nil {
+				utils.Log("AgentConfig not found for agent [" + t1.Name + "]")
+			}
+
+			persistData := persistDataFactory(hb.store, agentConfig)
+
+			go t1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
 		}
 
 		go func() {

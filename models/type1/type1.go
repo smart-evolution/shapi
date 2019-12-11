@@ -29,6 +29,7 @@ const (
 
 // IType1 - infetrace for IType1 hardware
 type IType1 interface {
+	agent.IAgent
 	FetchPackage(
 		alertNotifier func(string),
 		persistData func(agent.IAgent, map[string]interface{}),
@@ -45,7 +46,7 @@ type Type1 struct {
 	gasNotifyTime    time.Time
 }
 
-// New - creates new entity of Agent
+// New - creates new entity of Type1 Agent
 func New(id string, name string, ip string, agentType string) *Type1 {
 	a := agent.New(id, name, ip, agentType)
 
@@ -89,13 +90,13 @@ func (a *Type1) FetchPackage(
 	wg *sync.WaitGroup,
 ) {
 	defer wg.Done()
-	utils.Log("fetching data from agent [" + a.Name() + "]")
-	apiURL := "http://" + a.IP() + "/api"
+	utils.Log("fetching data from agent [" + a.Name + "]")
+	apiURL := "http://" + a.IP + "/api"
 	response, err := http.Get(apiURL)
 
 	if err != nil {
-		a.SetIsOnline(false)
-		utils.Log("data fetching request to agent [" + a.Name() + "] failed")
+		a.IsOnline = false
+		utils.Log("data fetching request to agent [" + a.Name + "] failed")
 		return
 	}
 	defer response.Body.Close()
@@ -103,20 +104,20 @@ func (a *Type1) FetchPackage(
 	contents, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		a.SetIsOnline(false)
-		utils.Log("agent '"+a.Name()+"'", err)
+		a.IsOnline = false
+		utils.Log("agent '"+a.Name+"'", err)
 		return
 	}
 
 	unwrappedData, err := getPackageData(string(contents))
 
 	if err != nil {
-		a.SetIsOnline(false)
-		utils.Log("agent '"+a.Name()+"'", err)
+		a.IsOnline = false
+		utils.Log("agent '"+a.Name+"'", err)
 		return
 	}
 
-	a.SetIsOnline(true)
+	a.IsOnline = true
 
 	temperature := getTemperature(unwrappedData)
 	motion := getMotion(unwrappedData)
@@ -130,7 +131,7 @@ func (a *Type1) FetchPackage(
 
 				if now.Sub(a.tmpNotifyTime).Hours() >= 1 {
 					a.tmpNotifyTime = now
-					alertNotifier("[" + now.UTC().String() + "][" + a.Name() + "] temperature = " + temperature)
+					alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] temperature = " + temperature)
 				}
 			}
 		}
@@ -140,7 +141,7 @@ func (a *Type1) FetchPackage(
 
 			if now.Sub(a.motionNotifyTime).Hours() >= 1 {
 				a.motionNotifyTime = now
-				alertNotifier("[" + now.UTC().String() + "][" + a.Name() + "] motion detected")
+				alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] motion detected")
 			}
 		}
 
@@ -149,7 +150,7 @@ func (a *Type1) FetchPackage(
 
 			if now.Sub(a.gasNotifyTime).Hours() >= 1 {
 				a.gasNotifyTime = now
-				alertNotifier("[" + now.UTC().String() + "][" + a.Name() + "] gas detected")
+				alertNotifier("[" + now.UTC().String() + "][" + a.Name + "] gas detected")
 			}
 		}
 	}
@@ -159,7 +160,7 @@ func (a *Type1) FetchPackage(
 		"presence":    motion,
 		"gas":         gas,
 		"sound":       sound,
-		"agent":       a.Name(),
+		"agent":       a.Name,
 	}
 
 	persistData(a, data)
