@@ -131,23 +131,6 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 	}
 
 	c := s.src.GetCollection("state")
-	//data, _ := bson.Marshal(s.model)
-	//
-	//var agents []agent.Agent
-	//
-	//for _, v := range s.model.Agents {
-	//	agents = append(agents, *agent.New(v.ID, v.Name, v.IP, v.AgentType))
-	//}
-	//
-	//data := struct{
-	//	IsAlerts  bool			`bson:"isAlerts"`
-	//	SendAlert bool			`bson:"sendAlert"`
-	//	Agents    []agent.Agent `bson:"agents"`
-	//}{
-	//	IsAlerts: s.model.IsAlerts,
-	//	SendAlert: s.model.SendAlert,
-	//	Agents: agents,
-	//}
 
 	_, err := c.Upsert(
 		bson.M{},
