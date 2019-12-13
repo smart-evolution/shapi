@@ -96,9 +96,6 @@ func (hb *HomeBot) runCommunicationLoop() {
 			return
 		}
 
-		var agentConfig agent.Config
-
-		c := hb.persistence.GetCollection("agentConfigs")
 		agents := hb.state.Agents()
 		done := make(chan struct{})
 		var wg sync.WaitGroup
@@ -112,15 +109,15 @@ func (hb *HomeBot) runCommunicationLoop() {
 				return
 			}
 
-			err := c.Find(bson.M{
+			cnf, err := hb.persistence.FindOneAgentConfig(bson.M{
 				"agentId": t1.ID,
-			}).One(&agentConfig)
+			})
 
 			if err != nil {
 				utils.Log("AgentConfig not found for agent [" + t1.Name + "]")
 			}
 
-			persistData := persistDataFactory(hb.store, agentConfig)
+			persistData := persistDataFactory(hb.store, cnf)
 
 			go t1.FetchPackage(hb.mailer.BulkEmail, persistData, hb.state.IsAlerts(), &wg)
 		}

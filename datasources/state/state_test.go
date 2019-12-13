@@ -2,7 +2,7 @@ package state
 
 import (
 	"errors"
-	"fmt"
+	"github.com/smart-evolution/shapi/mock"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
 	"reflect"
@@ -14,9 +14,12 @@ func TestAgentByID(t *testing.T) {
 	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
 	agents := []agent.IAgent{agent1, agent2}
 
-	s := New(nil, agents)
+	p := mock.NewPersistanceMock(
+		"db-uri",
+		"smarthome",
+	)
 
-	fmt.Println(s.Agents())
+	s := New(p, agents)
 
 	t.Run("Should find agent by matching ID", func(t *testing.T) {
 		expectedResult := agent1

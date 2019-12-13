@@ -2,7 +2,6 @@ package state
 
 import (
 	"errors"
-	"fmt"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
@@ -28,12 +27,12 @@ type IState interface {
 // State - data source which keeps short data in memory
 type State struct {
 	model  modelState.State
-	src    *persistence.Persistance
+	src    persistence.IPersistance
 	loaded bool
 }
 
 // New - creates new instance of State
-func New(src *persistence.Persistance, agents []agent.IAgent) *State {
+func New(src persistence.IPersistance, agents []agent.IAgent) *State {
 	model := modelState.State{
 		IsAlerts:  false,
 		SendAlert: false,
@@ -48,23 +47,14 @@ func New(src *persistence.Persistance, agents []agent.IAgent) *State {
 }
 
 func (s *State) load() {
-	c := s.src.GetCollection("state")
-
-	var states []modelState.State
-	err := c.Find(nil).All(&states)
+	st, err := s.src.FindOneState(bson.M{})
 
 	if err != nil {
-		fmt.Println("----", err)
 		utils.Log("failed to load `State`")
 		return
 	}
 
-	if len(states) == 0 {
-		utils.Log("state persistence empty")
-	} else {
-		s.model = states[0]
-	}
-
+	s.model = st
 	s.loaded = true
 }
 
@@ -72,11 +62,7 @@ func (s *State) load() {
 func (s *State) SetIsAlerts(i bool) {
 	s.model.IsAlerts = i
 
-	c := s.src.GetCollection("state")
-	_, err := c.Upsert(
-		nil,
-		s.model,
-	)
+	err := s.src.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
 		utils.Log("failed to persist `isAlerts`")
@@ -96,11 +82,7 @@ func (s *State) IsAlerts() bool {
 func (s *State) SetSendAlert(i bool) {
 	s.model.SendAlert = i
 
-	c := s.src.GetCollection("state")
-	_, err := c.Upsert(
-		bson.M{},
-		s.model,
-	)
+	err := s.src.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
 		utils.Log("failed to persist `sendAlert`")
@@ -130,12 +112,7 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 		s.model.Agents = append(s.model.Agents, a)
 	}
 
-	c := s.src.GetCollection("state")
-
-	_, err := c.Upsert(
-		bson.M{},
-		s.model,
-	)
+	err := s.src.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
 		utils.Log("failed to persist `agent`")

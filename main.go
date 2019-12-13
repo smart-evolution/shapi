@@ -5,7 +5,6 @@ import (
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/models/agent"
-	"github.com/smart-evolution/shapi/models/user"
 	"github.com/smart-evolution/shapi/processes/cliserver"
 	"github.com/smart-evolution/shapi/processes/homebot"
 	"github.com/smart-evolution/shapi/processes/webserver"
@@ -19,14 +18,12 @@ import (
 //go:generate bash ./scripts/version.sh ./scripts/version_tpl.txt ./version.go
 
 func getRecipients(p *persistence.Persistance) []string {
-	var users []user.User
 	var recipients []string
 
-	c := p.GetCollection("users")
-	err := c.Find(bson.M{}).All(&users)
+	users, err := p.FindAllUsers(bson.M{})
 
 	if err != nil {
-		utils.Log("Alert recipients not found", err)
+		utils.Log("alert recipients not found")
 	}
 
 	for _, u := range users {
