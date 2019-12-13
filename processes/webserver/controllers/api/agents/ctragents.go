@@ -9,6 +9,7 @@ import (
 	"github.com/smart-evolution/shapi/datasources/dataflux"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
+	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/utils"
@@ -77,29 +78,35 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		}
 		st := s.GetDataSource(datasources.State)
 
-		state, ok := st.(state.IState)
+		is, ok := st.(state.IState)
 		if !ok {
-			utl.Log("Store should implement IState")
+			utl.Log("store should implement IState")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
-		cnfAgents := state.Agents()
-
-		for _, a := range cnfAgents {
+		for _, ia := range is.Agents() {
 			var (
 				data interface{}
 				err  error
 			)
+
+			a, ok := ia.(*agent.Agent)
+
+			if !ok {
+				utl.Log("type assertion error")
+				return
+			}
+
 			rawType := a.RawType()
 
 			if rawType == types.Type1 {
-				data, err = FetchType1Data(a.ID(), period, df)
+				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
 					utl.Log(err)
 				}
 			} else if rawType == types.Type2 {
-				data, err = FetchType2(a.ID(), state.Agents())
+				data, err = FetchType2(a.ID, is.Agents())
 
 				if err != nil {
 					utl.Log(err)
@@ -111,12 +118,12 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			}
 
 			agentJSON := AgentJSON{
-				ID:        a.ID(),
-				Name:      a.Name(),
+				ID:        a.ID,
+				Name:      a.Name,
 				Data:      data,
-				AgentType: a.AgentType(),
-				IP:        a.IP(),
-				IsOnline:  a.IsOnline(),
+				AgentType: a.AgentType,
+				IP:        a.IP,
+				IsOnline:  a.IsOnline,
 			}
 			list = append(list, agentJSON)
 		}
@@ -144,14 +151,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 	case "POST":
 		dfc := s.GetDataSource("state")
-		st, ok := dfc.(state.IState)
+		is, ok := dfc.(state.IState)
 		if !ok {
 			utl.Log("Store should implement IState")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
-		agent, err := st.AgentByID(agentID)
+		ia, err := is.AgentByID(agentID)
 
 		if err != nil {
 			utl.Log("Agent with id = " + agentID + " not found")
@@ -159,10 +166,17 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			return
 		}
 
-		_, err = http.Get(agent.IP())
+		a, ok := ia.(*agent.Agent)
+
+		if !ok {
+			utl.Log("type assertion error")
+			return
+		}
+
+		_, err = http.Get(a.IP)
 
 		if err != nil {
-			utl.Log("Requesting agent with IP = " + agent.IP() + " failed")
+			utl.Log("Requesting agent with IP = " + a.IP + " failed")
 			handlers.HandleError(w, href, "error contacting agent", http.StatusInternalServerError)
 			return
 		}

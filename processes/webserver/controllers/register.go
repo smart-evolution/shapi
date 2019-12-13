@@ -27,8 +27,6 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 			return
 		}
 
-		c := p.GetCollection("users")
-
 		username := r.PostFormValue("username")
 		password := r.PostFormValue("password")
 
@@ -39,7 +37,8 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 			APIKey:   utils.HashString(username + password),
 		}
 
-		err := c.Insert(newUser)
+		err := p.Insert("users", newUser)
+
 		if err != nil {
 			handlers.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
 			return

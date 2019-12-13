@@ -33,9 +33,6 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 		handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 		return
 	}
-	c := p.GetCollection("agentConfigs")
-
-	var config agent.Config
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
@@ -72,13 +69,12 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 			}
 		}
 
-		var list []agent.Config
-
-		err := c.Find(bson.M{}).All(&list)
+		list, err := p.FindAllAgentConfigs(bson.M{})
 
 		if err != nil {
-			utl.Log("AgentConfig not found")
-			handlers.HandleError(w, href, "agentConfig not found", http.StatusNotFound)
+			msg := "AgentConfig not found"
+			utl.Log(msg)
+			handlers.HandleError(w, href, msg, http.StatusNotFound)
 			return
 		}
 
@@ -92,14 +88,13 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 
 	case "POST":
+		var config agent.Config
 		decoder := json.NewDecoder(r.Body)
 		defer r.Body.Close()
 		decoder.Decode(&config)
 		config.AgentID = agentID
-		_, err := c.Upsert(
-			bson.M{"agentId": agentID},
-			config,
-		)
+
+		err := p.Upsert("agentConfigs", bson.M{"agentId": agentID}, config)
 
 		if err != nil {
 			utl.Log("error while posting agentConfig")

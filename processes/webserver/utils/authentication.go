@@ -13,23 +13,20 @@ import (
 
 // AuthenticateByCredentials - authenticate user with credentials
 func AuthenticateByCredentials(username string, password string, p persistence.IPersistance) (user.User, error) {
-	var user user.User
-
-	c := p.GetCollection("users")
-
-	err := c.Find(bson.M{
+	usr, err := p.FindOneUser(bson.M{
 		"username": username,
 		"password": password,
-	}).One(&user)
+	})
 
 	if err != nil {
-		utl.Log("User not found err=", err)
-		return user, errors.New("User not found")
+		msg := "user not found"
+		utl.Log(msg)
+		return user.User{}, errors.New(msg)
 	}
 
-	utl.Log("Logged in as user", user)
+	utl.Log("logged in as user", usr)
 
-	return user, nil
+	return usr, nil
 }
 
 // CreateClientSession - authenticate uer with credentials and create session cookie
