@@ -56,7 +56,7 @@ func (p *Persistance) FindOneUser(query interface{}) (user.User, error) {
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg, err)
+		utils.Log(msg)
 		return user.User{}, errors.New(msg)
 	}
 
@@ -72,7 +72,7 @@ func (p *Persistance) FindAllUsers(query interface{}) ([]user.User, error) {
 
 	if err != nil {
 		msg := "objects not found"
-		utils.Log(msg, err)
+		utils.Log(msg)
 		return nil, errors.New(msg)
 	}
 
@@ -88,7 +88,7 @@ func (p *Persistance) FindOneAgentConfig(query interface{}) (agent.Config, error
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg, err)
+		utils.Log(msg)
 		return agent.Config{}, errors.New(msg)
 	}
 
@@ -104,7 +104,7 @@ func (p *Persistance) FindAllAgentConfigs(query interface{}) ([]agent.Config, er
 
 	if err != nil {
 		msg := "objects not found"
-		utils.Log(msg, err)
+		utils.Log(msg)
 		return nil, errors.New(msg)
 	}
 
@@ -120,7 +120,7 @@ func (p *Persistance) FindOneState(query interface{}) (state.State, error) {
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg, err)
+		utils.Log(msg)
 		return state.State{}, errors.New(msg)
 	}
 
