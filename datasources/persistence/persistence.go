@@ -131,7 +131,7 @@ func (p *Persistance) FindOneState(query interface{}) (state.State, error) {
 func (p *Persistance) Insert(collection string, docs ...interface{}) error {
 	c := p.getCollection(collection)
 
-	err := c.Insert(docs)
+	err := c.Insert(docs...)
 
 	if err != nil {
 		msg := "object not inserted"
