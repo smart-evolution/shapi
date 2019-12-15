@@ -6,13 +6,24 @@ import (
 )
 
 // Log - print logs int standard output
-func Log(msg interface{}, args ...interface{}) {
+func Log(args ...interface{}) {
 	pc, _, line, ok := runtime.Caller(1)
+
 	if ok {
+		name := runtime.FuncForPC(pc).Name()
+		params := append([]interface{}{name, line}, args[0])
+
+		for _, v := range args[1:] {
+			params = append(params, " / ", v)
+		}
+
 		log.Println(
-			runtime.FuncForPC(pc).Name(),
-			line,
-			msg,
+			params...,
 		)
+		return
 	}
+
+	log.Println(
+		args...,
+	)
 }
