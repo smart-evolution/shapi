@@ -33,7 +33,7 @@ func New(dbURI string, dbName string) *Persistance {
 	session.SetMode(mgo.Monotonic, true)
 
 	if err != nil {
-		utils.Log("error dialing mongodb")
+		utils.Log("error dialing mongodb", err)
 		panic(err)
 	}
 
@@ -134,8 +134,8 @@ func (p *Persistance) Insert(collection string, docs ...interface{}) error {
 	err := c.Insert(docs)
 
 	if err != nil {
-		msg := "object not upserted"
-		utils.Log(msg)
+		msg := "object not inserted"
+		utils.Log(msg, err)
 		return errors.New(msg)
 	}
 
@@ -150,7 +150,7 @@ func (p *Persistance) Upsert(collection string, selector interface{}, update int
 
 	if err != nil {
 		msg := "object not upserted"
-		utils.Log(msg)
+		utils.Log(msg, err)
 		return errors.New(msg)
 	}
 

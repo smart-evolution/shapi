@@ -4,6 +4,7 @@ import (
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
 	"github.com/smart-evolution/shapi/models/type1"
+	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"strings"
 )
@@ -26,6 +27,7 @@ func (al *AgentList) SetBSON(raw bson.Raw) error {
 	err := raw.Unmarshal(&a)
 
 	if err != nil {
+		utils.Log("error setting BSON", err)
 		return err
 	}
 

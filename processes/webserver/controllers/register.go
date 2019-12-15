@@ -18,10 +18,9 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 	switch r.Method {
 	case "POST":
 		var newUser *user.User
-
 		dfc := s.GetDataSource("persistence")
-
 		p, ok := dfc.(persistence.IPersistance)
+
 		if !ok {
 			handlers.HandleError(w, "/register", "controller store error", http.StatusInternalServerError)
 			return
@@ -40,11 +39,12 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 		err := p.Insert("users", newUser)
 
 		if err != nil {
+			utl.Log("error while registering user", err)
 			handlers.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
 			return
 		}
 
-		utl.Log("Registered user '" + newUser.Username + "'")
+		utl.Log("registered user '" + newUser.Username + "'")
 	default:
 	}
 }

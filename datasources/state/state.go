@@ -58,7 +58,7 @@ func (s *State) load() {
 	s.loaded = true
 }
 
-// SetIsAlerts - setted for `isAlerts`
+// SetIsAlerts - setter for `isAlerts`
 func (s *State) SetIsAlerts(i bool) {
 	s.model.IsAlerts = i
 
@@ -115,7 +115,7 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 	err := s.src.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
-		utils.Log("failed to persist `agent`")
+		utils.Log("failed to persist `agent`", err)
 	}
 }
 

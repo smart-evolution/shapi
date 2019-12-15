@@ -23,7 +23,7 @@ func getRecipients(p *persistence.Persistance) []string {
 	users, err := p.FindAllUsers(bson.M{})
 
 	if err != nil {
-		utils.Log("alert recipients not found")
+		utils.Log("alert recipients not found", err)
 	}
 
 	for _, u := range users {
