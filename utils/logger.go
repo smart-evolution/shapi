@@ -14,7 +14,7 @@ func Log(args ...interface{}) {
 		params := append([]interface{}{name, line}, args[0])
 
 		for _, v := range args[1:] {
-			params = append(params, " / ", v)
+			params = append(params, " | ", v)
 		}
 
 		log.Println(
