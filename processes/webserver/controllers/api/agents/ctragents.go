@@ -10,7 +10,7 @@ import (
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/models/agent"
-	"github.com/smart-evolution/shapi/models/agent/types"
+	"github.com/smart-evolution/shapi/models/type1"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/utils"
 	utl "github.com/smart-evolution/shapi/utils"
@@ -91,41 +91,41 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				err  error
 			)
 
-			a, ok := ia.(*agent.Agent)
-
-			if !ok {
-				utl.Log("type assertion error")
-				return
-			}
-
-			rawType := a.RawType()
-
-			if rawType == types.Type1 {
+			switch a := ia.(type) {
+			case *agent.Agent:
 				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
 					utl.Log(err)
 				}
-			} else if rawType == types.Type2 {
-				data, err = FetchType2(a.ID, is.Agents())
 
+				agentJSON := AgentJSON{
+					ID:        a.ID,
+					Name:      a.Name,
+					Data:      data,
+					AgentType: a.AgentType,
+					IP:        a.IP,
+					IsOnline:  a.IsOnline,
+				}
+				list = append(list, agentJSON)
+			case *type1.Type1:
+				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
 					utl.Log(err)
 				}
-			} else if rawType == types.Jeep {
-				data = nil
-			} else {
-				data = nil
-			}
 
-			agentJSON := AgentJSON{
-				ID:        a.ID,
-				Name:      a.Name,
-				Data:      data,
-				AgentType: a.AgentType,
-				IP:        a.IP,
-				IsOnline:  a.IsOnline,
+				agentJSON := AgentJSON{
+					ID:        a.ID,
+					Name:      a.Name,
+					Data:      data,
+					AgentType: a.AgentType,
+					IP:        a.IP,
+					IsOnline:  a.IsOnline,
+				}
+				list = append(list, agentJSON)
+			default:
+				utl.Log("type assertion error")
+				continue
 			}
-			list = append(list, agentJSON)
 		}
 
 		if len(list) == 0 {
