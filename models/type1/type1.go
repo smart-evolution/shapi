@@ -40,7 +40,7 @@ type IType1 interface {
 
 // Type1 - hardware entity
 type Type1 struct {
-	agent.Agent
+	agent.Agent      `bson:",inline"`
 	tmpNotifyTime    time.Time
 	motionNotifyTime time.Time
 	gasNotifyTime    time.Time

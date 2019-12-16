@@ -63,7 +63,7 @@ func persistDataFactory(
 	agentConfig agent.Config,
 ) func(agent.IAgent, map[string]interface{}) {
 	return func(ia agent.IAgent, data map[string]interface{}) {
-		a, ok := ia.(*agent.Agent)
+		a, ok := ia.(*type1.Type1)
 
 		if !ok {
 			utils.Log("assertion type error")
@@ -105,8 +105,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 			t1, ok := it1.(*type1.Type1)
 
 			if !ok {
-				utils.Log("type assertion error")
-				return
+				continue
 			}
 
 			cnf, err := hb.persistence.FindOneAgentConfig(bson.M{
