@@ -24,12 +24,6 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		return
 	}
 
-	data := struct {
-		IsAlerts string `json:"isAlerts"`
-	}{
-		strconv.FormatBool(st.IsAlerts()),
-	}
-
 	links := map[string]map[string]string{
 		"self": map[string]string{
 			"href": "/api/alerts",
@@ -42,9 +36,21 @@ func CtrAlerts(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 	case "OPTIONS":
 		return
 	case "GET":
+		data := struct {
+			IsAlerts string `json:"isAlerts"`
+		}{
+			strconv.FormatBool(st.IsAlerts()),
+		}
 		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 		return
 	case "POST":
+		st.SetIsAlerts(!st.IsAlerts())
+
+		data := struct {
+			IsAlerts string `json:"isAlerts"`
+		}{
+			strconv.FormatBool(st.IsAlerts()),
+		}
 		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 		return
 	}
