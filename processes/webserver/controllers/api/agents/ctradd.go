@@ -8,7 +8,7 @@ import (
 	"github.com/smart-evolution/shapi/datasources"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
-	utl "github.com/smart-evolution/shapi/utils"
+	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net/http"
 )
@@ -24,12 +24,11 @@ type body struct {
 func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	handlers.CorsHeaders(w, r)
 
-	st := s.GetDataSource(datasources.State)
-
-	state, ok := st.(state.IState)
+	dst := s.GetDataSource(datasources.State)
+	st, ok := dst.(state.IState)
 
 	if !ok {
-		utl.Log("Store should implement IState")
+		utils.Log("Store should implement IState")
 		http.Error(w, "Store should implement IState", http.StatusInternalServerError)
 		return
 	}
@@ -39,7 +38,7 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 		defer r.Body.Close()
 
 		if err != nil {
-			utl.Log("error reading request body")
+			utils.Log("error reading request body")
 			http.Error(w, "error reading request body", http.StatusInternalServerError)
 			return
 		}
@@ -48,12 +47,12 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 		err = json.Unmarshal(b, &msg)
 
 		if err != nil {
-			utl.Log("error parsing request body")
+			utils.Log("error parsing request body")
 			http.Error(w, "error parsing request body", http.StatusInternalServerError)
 			return
 		}
 
-		state.AddAgent(msg.ID, msg.Name, msg.IP, msg.Type)
+		st.AddAgent(msg.ID, msg.Name, msg.IP, msg.Type)
 
 		data := struct {
 			Devices string `json:"message"`

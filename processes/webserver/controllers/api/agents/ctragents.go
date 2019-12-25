@@ -11,9 +11,10 @@ import (
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/type1"
+	ctrHandlers "github.com/smart-evolution/shapi/processes/webserver/controllers/api/agents/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
-	"github.com/smart-evolution/shapi/processes/webserver/utils"
-	utl "github.com/smart-evolution/shapi/utils"
+	webSrvUtils "github.com/smart-evolution/shapi/processes/webserver/utils"
+	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
 	"strings"
@@ -36,15 +37,16 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 	case "OPTIONS":
 		return
 	case "GET":
-		pc := s.GetDataSource("persistence")
+		dsp := s.GetDataSource(datasources.Persistence)
+		p, ok := dsp.(persistence.IPersistance)
 
-		p, ok := pc.(persistence.IPersistance)
 		if !ok {
-			utl.Log("Invalid store")
+			utils.Log("store should implement persistence")
+			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
-		sessionID, _ := utils.GetSessionID(r)
+		sessionID, _ := webSrvUtils.GetSessionID(r)
 		isLogged := sm.IsExist(sessionID)
 
 		if !isLogged {
@@ -56,14 +58,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				credentials, err := base64.StdEncoding.DecodeString(token)
 
 				if err != nil {
-					utl.Log("Decoding auth token failed")
+					utils.Log("Decoding auth token failed")
 				}
 
 				credArr := strings.Split(string(credentials), ":")
 				username := credArr[0]
 				password := credArr[1]
 
-				utils.CreateClientSession(w, r, username, password, p, sm)
+				webSrvUtils.CreateClientSession(w, r, username, password, p, sm)
 			}
 		}
 
@@ -72,7 +74,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		df, ok := dfc.(dataflux.IDataFlux)
 		if !ok {
-			utl.Log("Store should implement IDataFlux")
+			utils.Log("store should implement dataflux")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -80,7 +82,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		is, ok := st.(state.IState)
 		if !ok {
-			utl.Log("store should implement IState")
+			utils.Log("store should implement state")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -95,7 +97,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			case *agent.Agent:
 				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
-					utl.Log(err)
+					utils.Log(err)
 				}
 
 				agentJSON := AgentJSON{
@@ -110,7 +112,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			case *type1.Type1:
 				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
-					utl.Log(err)
+					utils.Log(err)
 				}
 
 				agentJSON := AgentJSON{
@@ -123,7 +125,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				}
 				list = append(list, agentJSON)
 			default:
-				utl.Log("type assertion error")
+				utils.Log("type assertion error")
 				continue
 			}
 		}
@@ -150,36 +152,41 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
 
 	case "POST":
-		dfc := s.GetDataSource("state")
-		is, ok := dfc.(state.IState)
+		dss := s.GetDataSource(datasources.State)
+		st, ok := dss.(state.IState)
 		if !ok {
-			utl.Log("Store should implement IState")
+			utils.Log("store should implement state")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
 
-		ia, err := is.AgentByID(agentID)
+		ia, err := st.AgentByID(agentID)
 
 		if err != nil {
-			utl.Log("Agent with id = " + agentID + " not found")
+			utils.Log("agent with id = " + agentID + " not found")
 			handlers.HandleError(w, href, "agent not found", http.StatusNotFound)
 			return
 		}
 
-		a, ok := ia.(*agent.Agent)
+		foundAgent, ok := ia.(*agent.Agent)
 
 		if !ok {
-			utl.Log("type assertion error")
+			utils.Log("type assertion error")
 			return
 		}
 
-		_, err = http.Get(a.IP)
+		_, err = http.Get(foundAgent.IP)
 
 		if err != nil {
-			utl.Log("Requesting agent with IP = " + a.IP + " failed")
+			utils.Log("requesting agent with IP = " + foundAgent.IP + " failed")
 			handlers.HandleError(w, href, "error contacting agent", http.StatusInternalServerError)
 			return
 		}
+
+	case "DELETE":
+		dss := s.GetDataSource(datasources.State)
+		st := dss.(state.IState)
+		ctrHandlers.Delete(st, w, href, agentID)
 
 	default:
 	}
