@@ -163,8 +163,6 @@ func (s *State) RemoveAgent(id string) error {
 				s.persist()
 				return nil
 			}
-		default:
-			return errors.New("type assertion error")
 		}
 
 	}
