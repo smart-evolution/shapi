@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// Delete - handles agent delete action
 func Delete(s state.IState, w http.ResponseWriter, href string, agentID string) {
 	err := s.RemoveAgent(agentID)
 
