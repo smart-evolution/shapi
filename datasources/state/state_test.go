@@ -31,7 +31,7 @@ func TestAgentByID(t *testing.T) {
 	})
 
 	t.Run("Should return error when no agent match by ID", func(t *testing.T) {
-		expectedResult := errors.New("No matching agent")
+		expectedResult := errors.New("no matching agent")
 		_, err := s.AgentByID("kidsroom")
 
 		if err.Error() != expectedResult.Error() {
