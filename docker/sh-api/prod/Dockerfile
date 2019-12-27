@@ -2,7 +2,8 @@ FROM debian:buster
 
 # Install generictools
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-wget
+wget \
+curl
 
 # Set env variables
 ENV GOPATH=/root/go \
