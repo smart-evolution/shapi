@@ -14,9 +14,13 @@ spec:
     spec:
       nodeName: debian
       containers:
-        - image: oszura/sh-api-prod:v2.2.4
+        - image: oszura/sh-api-prod:v2.2.5
           imagePullPolicy: IfNotPresent
           name: sh-api
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", 'curl -X POST -H "Content-type: application/json" --data "{\"text\":\"sh-api deployed\"}" NOTIFIER_URL']
         - image: mongo:latest
           imagePullPolicy: IfNotPresent
           name: sh-mongodb
