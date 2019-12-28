@@ -22,17 +22,18 @@ type IState interface {
 	Agents() []agent.IAgent
 	AgentByID(string) (agent.IAgent, error)
 	AgentByIP(string) (agent.IAgent, error)
+	RemoveAgent(string) error
 }
 
 // State - data source which keeps short data in memory
 type State struct {
-	model  modelState.State
-	src    persistence.IPersistance
-	loaded bool
+	model       modelState.State
+	persistence persistence.IPersistance
+	loaded      bool
 }
 
 // New - creates new instance of State
-func New(src persistence.IPersistance, agents []agent.IAgent) *State {
+func New(p persistence.IPersistance, agents []agent.IAgent) *State {
 	model := modelState.State{
 		IsAlerts:  false,
 		SendAlert: false,
@@ -41,61 +42,54 @@ func New(src persistence.IPersistance, agents []agent.IAgent) *State {
 
 	return &State{
 		model,
-		src,
+		p,
 		false,
 	}
 }
 
 func (s *State) load() {
-	st, err := s.src.FindOneState(bson.M{})
+	if s.loaded == false {
+		persistedState, err := s.persistence.FindOneState(bson.M{})
+
+		if err != nil {
+			utils.Log("failed to load state")
+			return
+		}
+
+		s.model = persistedState
+		s.loaded = true
+	}
+}
+
+func (s *State) persist() {
+	err := s.persistence.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
-		utils.Log("failed to load `State`")
-		return
+		utils.Log("failed to persist state")
 	}
-
-	s.model = st
-	s.loaded = true
 }
 
 // SetIsAlerts - setter for `isAlerts`
 func (s *State) SetIsAlerts(i bool) {
 	s.model.IsAlerts = i
-
-	err := s.src.Upsert("state", bson.M{}, s.model)
-
-	if err != nil {
-		utils.Log("failed to persist `isAlerts`")
-	}
+	s.persist()
 }
 
 // IsAlerts - getter for `isAlerts`
 func (s *State) IsAlerts() bool {
-	if s.loaded == false {
-		s.load()
-	}
-
+	s.load()
 	return s.model.IsAlerts
 }
 
 // SetSendAlert - setter for `sendAlert`
 func (s *State) SetSendAlert(i bool) {
 	s.model.SendAlert = i
-
-	err := s.src.Upsert("state", bson.M{}, s.model)
-
-	if err != nil {
-		utils.Log("failed to persist `sendAlert`")
-		return
-	}
+	s.persist()
 }
 
 // SendAlert - getter for `sendAlert`
 func (s *State) SendAlert() bool {
-	if s.loaded == false {
-		s.load()
-	}
-
+	s.load()
 	return s.model.SendAlert
 }
 
@@ -112,27 +106,18 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 		s.model.Agents = append(s.model.Agents, a)
 	}
 
-	err := s.src.Upsert("state", bson.M{}, s.model)
-
-	if err != nil {
-		utils.Log("failed to persist `agent`", err)
-	}
+	s.persist()
 }
 
 // Agents - returns list of available agents
 func (s *State) Agents() []agent.IAgent {
-	if s.loaded == false {
-		s.load()
-	}
-
+	s.load()
 	return s.model.Agents
 }
 
 // AgentByID - find corresponding agent by ID
 func (s *State) AgentByID(id string) (agent.IAgent, error) {
-	if s.loaded == false {
-		s.load()
-	}
+	s.load()
 
 	for _, ia := range s.model.Agents {
 		a, ok := ia.(*agent.Agent)
@@ -146,14 +131,12 @@ func (s *State) AgentByID(id string) (agent.IAgent, error) {
 		}
 	}
 
-	return &agent.Agent{}, errors.New("No matching agent")
+	return &agent.Agent{}, errors.New("no matching agent")
 }
 
 // AgentByIP - find corresponding agent by ID
 func (s *State) AgentByIP(ip string) (agent.IAgent, error) {
-	if s.loaded == false {
-		s.load()
-	}
+	s.load()
 
 	for _, ia := range s.model.Agents {
 		a, ok := ia.(*agent.Agent)
@@ -167,5 +150,22 @@ func (s *State) AgentByIP(ip string) (agent.IAgent, error) {
 		}
 	}
 
-	return &agent.Agent{}, errors.New("No matching agent")
+	return &agent.Agent{}, errors.New("no matching agent")
+}
+
+// RemoveAgent - remove agent by ID
+func (s *State) RemoveAgent(id string) error {
+	for i, ia := range s.model.Agents {
+		switch a := ia.(type) {
+		case *type1.Type1:
+			if a.ID == id {
+				s.model.Agents = append(s.model.Agents[:i], s.model.Agents[i+1:]...)
+				s.persist()
+				return nil
+			}
+		}
+
+	}
+
+	return errors.New("no corresponding agent found")
 }
