@@ -18,6 +18,7 @@ func TestAgentByID(t *testing.T) {
 	p := mock.NewPersistanceMock(
 		"db-uri",
 		"smarthome",
+		false,
 	)
 
 	s := New(p, agents)
@@ -49,6 +50,7 @@ func TestRemoveAgent(t *testing.T) {
 	p := mock.NewPersistanceMock(
 		"db-uri",
 		"smarthome",
+		false,
 	)
 
 	s := New(p, agents)
@@ -71,6 +73,41 @@ func TestRemoveAgent(t *testing.T) {
 
 		if err.Error() != expectedResult.Error() {
 			t.Errorf("Wrong error returned")
+		}
+	})
+}
+
+func TestAddAgent(t *testing.T) {
+	agents := []agent.IAgent{}
+
+	p := mock.NewPersistanceMock(
+		"db-uri",
+		"smarthome",
+		true,
+	)
+
+	t.Run("Should add agent", func(t *testing.T) {
+		s := New(p, agents)
+		s.AddAgent("bedroom", "Bed room", "192.168.1.3", types.Type2)
+
+		if len(s.model.Agents) != 1 {
+			t.Errorf("Should have added one agent")
+		}
+
+		s.AddAgent("livingroom", "Living room", "192.168.1.2", types.Type1)
+
+		if len(s.model.Agents) != 2 {
+			t.Errorf("Should have added second agent")
+		}
+	})
+
+	t.Run("Should not add duplicated agents", func(t *testing.T) {
+		s := New(p, agents)
+		s.AddAgent("bedroom", "Bed room 1", "192.168.1.2", types.Type2)
+		s.AddAgent("bedroom", "Bed room 2", "192.168.1.3", types.Type2)
+
+		if len(s.model.Agents) != 1 {
+			t.Errorf("Should have added one agent")
 		}
 	})
 }
