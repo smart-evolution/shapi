@@ -12,13 +12,15 @@ import (
 type PersistanceMock struct {
 	session *mgo.Session
 	dbName  string
+	empty   bool
 }
 
 // NewPersistanceMock - creates new persistence mock
-func NewPersistanceMock(dbURI string, dbName string) *PersistanceMock {
+func NewPersistanceMock(dbURI string, dbName string, empty bool) *PersistanceMock {
 	return &PersistanceMock{
 		&mgo.Session{},
 		dbName,
+		empty,
 	}
 }
 
@@ -48,9 +50,13 @@ func (p *PersistanceMock) FindAllAgentConfigs(query interface{}) ([]agent.Config
 
 // FindOneState - find one state entry
 func (p *PersistanceMock) FindOneState(query interface{}) (state.State, error) {
-	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.Type1)
-	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
-	agents := []agent.IAgent{agent1, agent2}
+	agents := []agent.IAgent{}
+
+	if !p.empty {
+		agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.Type1)
+		agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
+		agents = append(agents, agent1, agent2)
+	}
 
 	s := state.State{
 		IsAlerts:  false,

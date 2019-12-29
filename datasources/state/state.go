@@ -95,6 +95,13 @@ func (s *State) SendAlert() bool {
 
 // AddAgent - adds agent to the memory state
 func (s *State) AddAgent(id string, name string, ip string, agentType string) {
+	_, err := s.AgentByID(id)
+
+	if err == nil {
+		utils.Log("not adding agent '" + id + "', agent already exists")
+		return
+	}
+
 	utils.Log("adding home agent '" + name + "' with URL '" + ip + "'")
 	rawType := strings.Split(agentType, "-")[0]
 
