@@ -97,7 +97,7 @@ func (p *Persistance) FindOneAgentConfig(query interface{}) (agent.Config, error
 
 // FindAllAgentConfigs - find all agentConfigs
 func (p *Persistance) FindAllAgentConfigs(query interface{}) ([]agent.Config, error) {
-	c := p.getCollection("users")
+	c := p.getCollection("agentConfigs")
 
 	var configs []agent.Config
 	err := c.Find(query).All(&configs)
