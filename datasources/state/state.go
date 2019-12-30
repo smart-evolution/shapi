@@ -95,6 +95,7 @@ func (s *State) SendAlert() bool {
 
 // AddAgent - adds agent to the memory state
 func (s *State) AddAgent(id string, name string, ip string, agentType string) {
+	s.load()
 	_, err := s.AgentByID(id)
 
 	if err == nil {
