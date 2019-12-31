@@ -1,1 +1,1 @@
-curl --header "X-Cear-Auth: $CEAR_KEY" --header "X-Cear-Params: SLACK_NOTIFIER_URL=$SLACK_NOTIFIER_URL SHAPI_V=$APP_VERSION" -X POST $CEAR_URL
+curl --header "X-Cear-Auth: $CEAR_KEY" --header "X-Cear-Params: SHAPI_V=$APP_VERSION" -X POST $CEAR_URL
