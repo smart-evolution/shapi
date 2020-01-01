@@ -128,14 +128,11 @@ func (s *State) AgentByID(id string) (agent.IAgent, error) {
 	s.load()
 
 	for _, ia := range s.model.Agents {
-		a, ok := ia.(*agent.Agent)
-
-		if !ok {
-			return &agent.Agent{}, errors.New("type assertion error")
-		}
-
-		if a.ID == id {
-			return ia, nil
+		switch a := ia.(type) {
+		case *type1.Type1:
+			if a.ID == id {
+				return a, nil
+			}
 		}
 	}
 
