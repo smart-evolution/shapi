@@ -4,7 +4,7 @@ go:
   - 1.x
 
 env:
-  - GO111MODULE=on APP_VERSION=v2.3.6
+  - GO111MODULE=on APP_VERSION=v2.3.7
 
 install:
   - make deps

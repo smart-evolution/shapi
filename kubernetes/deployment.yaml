@@ -14,7 +14,7 @@ spec:
     spec:
       nodeName: debian
       containers:
-        - image: oszura/sh-api-prod:v2.3.6
+        - image: oszura/sh-api-prod:v2.3.7
           imagePullPolicy: IfNotPresent
           name: sh-api
           lifecycle:
