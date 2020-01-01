@@ -11,8 +11,8 @@ import (
 )
 
 func TestAgentByID(t *testing.T) {
-	agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.Type1)
-	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
+	agent1 := type1.New("livingroom", "Living room", "192.168.1.2", types.Type1)
+	agent2 := type1.New("bedroom", "Bed room", "192.168.1.3", types.Type1)
 	agents := []agent.IAgent{agent1, agent2}
 
 	p := mock.NewPersistanceMock(
@@ -44,7 +44,7 @@ func TestAgentByID(t *testing.T) {
 
 func TestRemoveAgent(t *testing.T) {
 	agent1 := type1.New("livingroom", "Living room", "192.168.1.2", types.Type1)
-	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
+	agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type1)
 	agents := []agent.IAgent{agent1, agent2}
 
 	p := mock.NewPersistanceMock(
@@ -88,7 +88,7 @@ func TestAddAgent(t *testing.T) {
 
 	t.Run("Should add agent", func(t *testing.T) {
 		s := New(p, agents)
-		s.AddAgent("bedroom", "Bed room", "192.168.1.3", types.Type2)
+		s.AddAgent("bedroom", "Bed room", "192.168.1.3", types.Type1)
 
 		if len(s.model.Agents) != 1 {
 			t.Errorf("Should have added one agent")
@@ -103,8 +103,8 @@ func TestAddAgent(t *testing.T) {
 
 	t.Run("Should not add duplicated agents", func(t *testing.T) {
 		s := New(p, agents)
-		s.AddAgent("bedroom", "Bed room 1", "192.168.1.2", types.Type2)
-		s.AddAgent("bedroom", "Bed room 2", "192.168.1.3", types.Type2)
+		s.AddAgent("bedroom", "Bed room 1", "192.168.1.2", types.Type1)
+		s.AddAgent("bedroom", "Bed room 2", "192.168.1.3", types.Type1)
 
 		if len(s.model.Agents) != 1 {
 			t.Errorf("Should have added one agent")

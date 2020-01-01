@@ -2,6 +2,7 @@ package state
 
 import (
 	"errors"
+	"fmt"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
@@ -128,6 +129,7 @@ func (s *State) AgentByID(id string) (agent.IAgent, error) {
 	s.load()
 
 	for _, ia := range s.model.Agents {
+		fmt.Println(ia)
 		switch a := ia.(type) {
 		case *type1.Type1:
 			if a.ID == id {

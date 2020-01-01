@@ -4,6 +4,7 @@ import (
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
 	"github.com/smart-evolution/shapi/models/state"
+	"github.com/smart-evolution/shapi/models/type1"
 	"github.com/smart-evolution/shapi/models/user"
 	"gopkg.in/mgo.v2"
 )
@@ -53,8 +54,8 @@ func (p *PersistanceMock) FindOneState(query interface{}) (state.State, error) {
 	agents := []agent.IAgent{}
 
 	if !p.empty {
-		agent1 := agent.New("livingroom", "Living room", "192.168.1.2", types.Type1)
-		agent2 := agent.New("bedroom", "Bed room", "192.168.1.3", types.Type2)
+		agent1 := type1.New("livingroom", "Living room", "192.168.1.2", types.Type1)
+		agent2 := type1.New("bedroom", "Bed room", "192.168.1.3", types.Type1)
 		agents = append(agents, agent1, agent2)
 	}
 
