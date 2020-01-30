@@ -5,6 +5,7 @@ import (
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
+	"github.com/smart-evolution/shapi/models/linux"
 	modelState "github.com/smart-evolution/shapi/models/state"
 	"github.com/smart-evolution/shapi/models/type1"
 	"github.com/smart-evolution/shapi/utils"
@@ -108,6 +109,9 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 
 	if rawType == types.Type1 {
 		a := type1.New(id, name, ip, agentType)
+		s.model.Agents = append(s.model.Agents, a)
+	} else if rawType == types.Linux {
+		a := linux.New(id, name, ip, agentType)
 		s.model.Agents = append(s.model.Agents, a)
 	} else {
 		a := agent.New(id, name, ip, agentType)
