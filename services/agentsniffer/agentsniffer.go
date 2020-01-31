@@ -53,6 +53,7 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 		resp, err := http.Get("http://" + ip + "/config")
 
 		if err != nil {
+			utils.Log("agent doesn't provide /config endpoint")
 			return
 		}
 

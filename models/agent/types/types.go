@@ -7,4 +7,6 @@ const (
 	Type2 = "type2"
 	// Jeep agent identifier
 	Jeep = "JEEP"
+	// Linux agent identifier
+	Linux = "linux"
 )
