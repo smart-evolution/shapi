@@ -24,6 +24,7 @@ type IState interface {
 	AgentByID(string) (agent.IAgent, error)
 	AgentByIP(string) (agent.IAgent, error)
 	RemoveAgent(string) error
+	Reset()
 }
 
 // State - data source which keeps short data in memory
@@ -173,8 +174,15 @@ func (s *State) RemoveAgent(id string) error {
 				return nil
 			}
 		}
-
 	}
 
 	return errors.New("no corresponding agent found")
+}
+
+// Reset - clears
+func (s *State) Reset() {
+	s.model.Agents = nil
+	s.model.SendAlert = false
+	s.model.IsAlerts = false
+	s.persist()
 }
