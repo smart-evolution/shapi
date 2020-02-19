@@ -13,7 +13,7 @@ import (
 
 const resetHref string = "/api/reset"
 
-// CtrNotFound - api 404 page
+// CtrResetDb - resets state
 func CtrResetDb(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm session.ISessionManager, s store.IStore) {
 	handlers.CorsHeaders(w, r)
 
