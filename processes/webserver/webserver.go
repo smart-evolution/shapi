@@ -3,6 +3,7 @@ package webserver
 import (
 	"errors"
 	"github.com/coda-it/gowebserver"
+	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/datasources/dataflux"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
@@ -14,6 +15,7 @@ import (
 	"github.com/smart-evolution/shapi/utils"
 	"golang.org/x/net/websocket"
 	"net/http"
+	"os"
 )
 
 // WebServer - adapter for gowebserver instance
@@ -49,6 +51,9 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	server.Router.AddRoute("/api/agents/{agent}", agents.CtrAgents)
 	server.Router.AddRoute("/api/agent-configs/{agent}", agentconfigs.CtrAgentConfig)
 	server.Router.AddRoute("/api/alerts", api.CtrAlerts)
+	if os.Getenv("SH_ENV") == constants.Test {
+		server.Router.AddRoute("/api/reset", api.CtrResetDb)
+	}
 	server.Router.AddRoute("/api/sendalert", api.CtrSendAlert)
 	server.Router.AddRoute("/api/sniffagents", api.CtrSniffAgents)
 	server.Router.AddRoute("/api", api.CtrFront)
