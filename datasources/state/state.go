@@ -173,6 +173,12 @@ func (s *State) RemoveAgent(id string) error {
 				s.persist()
 				return nil
 			}
+		case *agent.Agent:
+			if a.ID == id {
+				s.model.Agents = append(s.model.Agents[:i], s.model.Agents[i+1:]...)
+				s.persist()
+				return nil
+			}
 		}
 	}
 
