@@ -2,13 +2,13 @@ package agents
 
 import (
 	"encoding/json"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
-	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net/http"
 )
@@ -28,7 +28,7 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 	st, ok := dst.(state.IState)
 
 	if !ok {
-		utils.Log("Store should implement IState")
+		logger.Log("Store should implement IState")
 		http.Error(w, "Store should implement IState", http.StatusInternalServerError)
 		return
 	}
@@ -38,7 +38,7 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 		defer r.Body.Close()
 
 		if err != nil {
-			utils.Log("error reading request body")
+			logger.Log("error reading request body")
 			http.Error(w, "error reading request body", http.StatusInternalServerError)
 			return
 		}
@@ -47,7 +47,7 @@ func CtrAdd(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm se
 		err = json.Unmarshal(b, &msg)
 
 		if err != nil {
-			utils.Log("error parsing request body")
+			logger.Log("error parsing request body")
 			http.Error(w, "error parsing request body", http.StatusInternalServerError)
 			return
 		}

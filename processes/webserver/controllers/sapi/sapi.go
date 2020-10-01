@@ -1,6 +1,7 @@
 package sapi
 
 import (
+	"github.com/coda-it/goutils/logger"
 	aca "github.com/smart-evolution/agents-cmd-api"
 	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/utils"
@@ -23,11 +24,11 @@ var (
 )
 
 func connect(ws *websocket.Conn, device string) {
-	utils.Log("connecting to device with ip '" + device + "'")
+	logger.Log("connecting to device with ip '" + device + "'")
 	conn, err = net.Dial("tcp", device+":"+constants.AgentTCPPort)
 
 	if err != nil {
-		utils.Log("error connecting device " + device)
+		logger.Log("error connecting device " + device)
 		websocket.JSON.Send(ws, `{"type":"error","message":"Error connecting to device `+device+`"}`)
 		return
 	}
@@ -35,7 +36,7 @@ func connect(ws *websocket.Conn, device string) {
 	_, err = conn.Write([]byte("CMDWHO"))
 
 	if err != nil {
-		utils.Log("error getting device type")
+		logger.Log("error getting device type")
 		websocket.JSON.Send(ws, `{"type":"error","message":"Error getting device type"}`)
 		return
 	}
@@ -44,7 +45,7 @@ func connect(ws *websocket.Conn, device string) {
 	n, err := conn.Read(buff)
 
 	if err != nil {
-		utils.Log("error retrieving device type")
+		logger.Log("error retrieving device type")
 		websocket.JSON.Send(ws, `{"type":"error","message":"Error command failed"}`)
 		return
 	}
@@ -52,12 +53,12 @@ func connect(ws *websocket.Conn, device string) {
 	devType = string(buff[:n])
 
 	if _, ok := aca.APIMap[devType]; !ok {
-		utils.Log("unknown device type '" + devType + "'")
+		logger.Log("unknown device type '" + devType + "'")
 		websocket.JSON.Send(ws, `{"type":"error","message":"Unknown device type '`+devType+`'"}`)
 		return
 	}
 
-	utils.Log("connected to device type '" + devType + "'")
+	logger.Log("connected to device type '" + devType + "'")
 
 	websocket.JSON.Send(ws, `{"type":"connected","message":"Connected to the device '`+device+`'"}`)
 }
@@ -88,7 +89,7 @@ func move(ws *websocket.Conn, m message) {
 			_, err := conn.Write([]byte(c))
 			if err != nil {
 				websocket.JSON.Send(ws, "{\"type\":\"error\",\"message\":\"Sending command failed\"}")
-				utils.Log("RES: sending command failed " + c)
+				logger.Log("RES: sending command failed " + c)
 				break
 			}
 		}
@@ -110,7 +111,7 @@ func AgentStreaming(ws *websocket.Conn) {
 
 	for {
 		if err := websocket.JSON.Receive(ws, &m); err != nil {
-			utils.Log(err)
+			logger.Log(err)
 			ws.Close()
 			conn.Close()
 			return
@@ -120,7 +121,7 @@ func AgentStreaming(ws *websocket.Conn) {
 			_, err := conn.Write([]byte("CMDDIS"))
 			if err != nil {
 				websocket.JSON.Send(ws, "{\"type\":\"disconnect\",\"message\":\"Disconnecting failed\"}")
-				utils.Log("RES: sending command failed CMDDIS")
+				logger.Log("RES: sending command failed CMDDIS")
 				return
 			}
 

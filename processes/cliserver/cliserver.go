@@ -3,18 +3,18 @@ package cliserver
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/smart-evolution/shapi/utils"
+	"github.com/coda-it/goutils/logger"
 	"net"
 )
 
 func handleRequest(conn net.Conn) {
-	utils.Log("received cli message")
+	logger.Log("received cli message")
 
 	buff := make([]byte, 512)
 	n, err := conn.Read(buff)
 
 	if err != nil {
-		utils.Log("error reading cli message")
+		logger.Log("error reading cli message")
 		return
 	}
 
@@ -67,7 +67,7 @@ func handleRequest(conn net.Conn) {
 			}
 		}
 	} else {
-		utils.Log("invalid cli command '" + cmd + "'")
+		logger.Log("invalid cli command '" + cmd + "'")
 	}
 
 	conn.Close()
@@ -78,7 +78,7 @@ func RunService(port string) {
 	l, err := net.Listen("tcp", ":"+port)
 
 	if err != nil {
-		utils.Log("failed to setup cli tcp server")
+		logger.Log("failed to setup cli tcp server")
 	}
 
 	defer l.Close()
@@ -87,7 +87,7 @@ func RunService(port string) {
 		conn, err := l.Accept()
 
 		if err != nil {
-			utils.Log("failed to accept cli tcp connection")
+			logger.Log("failed to accept cli tcp connection")
 		}
 
 		go handleRequest(conn)

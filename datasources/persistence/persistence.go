@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/state"
 	"github.com/smart-evolution/shapi/models/user"
@@ -28,12 +29,12 @@ type Persistance struct {
 
 // New - creates new instance of Persistance
 func New(dbURI string, dbName string) *Persistance {
-	utils.Log("connecting to mgo with URI '" + dbURI + "'")
+	logger.Log("connecting to mgo with URI '" + dbURI + "'")
 	session, err := mgo.Dial(dbURI)
 	session.SetMode(mgo.Monotonic, true)
 
 	if err != nil {
-		utils.Log("error dialing mongodb", err)
+		logger.Log("error dialing mongodb", err)
 		panic(err)
 	}
 
@@ -56,7 +57,7 @@ func (p *Persistance) FindOneUser(query interface{}) (user.User, error) {
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg)
+		logger.Log(msg)
 		return user.User{}, errors.New(msg)
 	}
 
@@ -72,7 +73,7 @@ func (p *Persistance) FindAllUsers(query interface{}) ([]user.User, error) {
 
 	if err != nil {
 		msg := "objects not found"
-		utils.Log(msg)
+		logger.Log(msg)
 		return nil, errors.New(msg)
 	}
 
@@ -88,7 +89,7 @@ func (p *Persistance) FindOneAgentConfig(query interface{}) (agent.Config, error
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg)
+		logger.Log(msg)
 		return agent.Config{}, errors.New(msg)
 	}
 
@@ -104,7 +105,7 @@ func (p *Persistance) FindAllAgentConfigs(query interface{}) ([]agent.Config, er
 
 	if err != nil {
 		msg := "objects not found"
-		utils.Log(msg)
+		logger.Log(msg)
 		return nil, errors.New(msg)
 	}
 
@@ -120,7 +121,7 @@ func (p *Persistance) FindOneState(query interface{}) (state.State, error) {
 
 	if err != nil {
 		msg := "object not found"
-		utils.Log(msg)
+		logger.Log(msg)
 		return state.State{}, errors.New(msg)
 	}
 
@@ -135,7 +136,7 @@ func (p *Persistance) Insert(collection string, docs ...interface{}) error {
 
 	if err != nil {
 		msg := "object not inserted"
-		utils.Log(msg, err)
+		logger.Log(msg, err)
 		return errors.New(msg)
 	}
 
@@ -150,7 +151,7 @@ func (p *Persistance) Upsert(collection string, selector interface{}, update int
 
 	if err != nil {
 		msg := "object not upserted"
-		utils.Log(msg, err)
+		logger.Log(msg, err)
 		return errors.New(msg)
 	}
 

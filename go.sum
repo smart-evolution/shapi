@@ -1,3 +1,5 @@
+github.com/coda-it/goutils v0.0.1 h1:1oh77r/w3alKktV1tZxD4ga28YXxsMJrz4c712JeTBU=
+github.com/coda-it/goutils v0.0.1/go.mod h1:JDLjsDAubl3lvopKddkM1vZK8Ckq3FIeS6Ap5H6jTH0=
 github.com/coda-it/gowebserver v0.3.0 h1:f2vW5mBPvTW7a5E3N1k9bZVZp9KU18LWtki+7sAU+Gk=
 github.com/coda-it/gowebserver v0.3.0/go.mod h1:o+uiz08s1yFRU7uT6+iNheCxfUBjWDyamSGkgfZ+kig=
 github.com/influxdata/influxdb1-client v0.0.0-20190402204710-8ff2fc3824fc h1:KpMgaYJRieDkHZJWY3LMafvtqS/U8xX6+lUN+OKpl/Y=

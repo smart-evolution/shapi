@@ -1,6 +1,7 @@
 package agentsniffer
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/utils"
@@ -53,7 +54,7 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 		resp, err := http.Get("http://" + ip + "/config")
 
 		if err != nil {
-			utils.Log("agent doesn't provide /config endpoint")
+			logger.Log("agent doesn't provide /config endpoint")
 			return
 		}
 
@@ -65,7 +66,7 @@ func scan(wg *sync.WaitGroup, ip string, s state.IState) {
 		hardwareID := hardwareVal[1 : len(hardwareVal)-1]
 
 		if err != nil {
-			utils.Log("failed to fetch config of agent with IP:" + ip)
+			logger.Log("failed to fetch config of agent with IP:" + ip)
 		} else {
 			mutex.Lock()
 			s.AddAgent(hardwareID, hardwareID, ip, devType)
@@ -83,7 +84,7 @@ func SniffAgents(s state.IState) {
 		done := make(chan struct{})
 		wg.Add(subNetworks * stations)
 
-		utils.Log("sniffing devices within range " + strconv.Itoa(subNetworks) + "." + strconv.Itoa(stations))
+		logger.Log("sniffing devices within range " + strconv.Itoa(subNetworks) + "." + strconv.Itoa(stations))
 		for i := 1; i <= subNetworks; i++ {
 			for j := 1; j <= stations; j++ {
 				ip := "192.168." + strconv.Itoa(i) + "." + strconv.Itoa(j)
@@ -99,11 +100,11 @@ func SniffAgents(s state.IState) {
 		select {
 		case <-done:
 			isSniffing = false
-			utils.Log("sniffing devices completed")
+			logger.Log("sniffing devices completed")
 			return
 		case <-time.After(sniffTimeout * time.Millisecond):
 			isSniffing = false
-			utils.Log("sniffing devices time out")
+			logger.Log("sniffing devices time out")
 			return
 		}
 	}

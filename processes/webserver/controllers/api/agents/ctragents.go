@@ -2,6 +2,7 @@ package agents
 
 import (
 	"encoding/base64"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
@@ -14,7 +15,6 @@ import (
 	ctrHandlers "github.com/smart-evolution/shapi/processes/webserver/controllers/api/agents/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	webSrvUtils "github.com/smart-evolution/shapi/processes/webserver/utils"
-	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
 	"strings"
@@ -41,7 +41,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		p, ok := dsp.(persistence.IPersistance)
 
 		if !ok {
-			utils.Log("store should implement persistence")
+			logger.Log("store should implement persistence")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -58,7 +58,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				credentials, err := base64.StdEncoding.DecodeString(token)
 
 				if err != nil {
-					utils.Log("Decoding auth token failed")
+					logger.Log("Decoding auth token failed")
 				}
 
 				credArr := strings.Split(string(credentials), ":")
@@ -74,7 +74,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		df, ok := dfc.(dataflux.IDataFlux)
 		if !ok {
-			utils.Log("store should implement dataflux")
+			logger.Log("store should implement dataflux")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -82,7 +82,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 
 		is, ok := st.(state.IState)
 		if !ok {
-			utils.Log("store should implement state")
+			logger.Log("store should implement state")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -97,7 +97,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			case *agent.Agent:
 				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
-					utils.Log(err)
+					logger.Log(err)
 				}
 
 				agentJSON := AgentJSON{
@@ -112,7 +112,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			case *type1.Type1:
 				data, err = FetchType1Data(a.ID, period, df)
 				if err != nil {
-					utils.Log(err)
+					logger.Log(err)
 				}
 
 				agentJSON := AgentJSON{
@@ -125,7 +125,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 				}
 				list = append(list, agentJSON)
 			default:
-				utils.Log("type assertion error")
+				logger.Log("type assertion error")
 				continue
 			}
 		}
@@ -155,7 +155,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		dss := s.GetDataSource(datasources.State)
 		st, ok := dss.(state.IState)
 		if !ok {
-			utils.Log("store should implement state")
+			logger.Log("store should implement state")
 			handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 			return
 		}
@@ -163,7 +163,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		ia, err := st.AgentByID(agentID)
 
 		if err != nil {
-			utils.Log("agent with id = " + agentID + " not found")
+			logger.Log("agent with id = " + agentID + " not found")
 			handlers.HandleError(w, href, "agent not found", http.StatusNotFound)
 			return
 		}
@@ -171,14 +171,14 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 		foundAgent, ok := ia.(*agent.Agent)
 
 		if !ok {
-			utils.Log("type assertion error")
+			logger.Log("type assertion error")
 			return
 		}
 
 		_, err = http.Get(foundAgent.IP)
 
 		if err != nil {
-			utils.Log("requesting agent with IP = " + foundAgent.IP + " failed")
+			logger.Log("requesting agent with IP = " + foundAgent.IP + " failed")
 			handlers.HandleError(w, href, "error contacting agent", http.StatusInternalServerError)
 			return
 		}

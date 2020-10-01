@@ -2,14 +2,14 @@ package homebot
 
 import (
 	"fmt"
+	"github.com/coda-it/goutils/logger"
+	"github.com/coda-it/goutils/mailer"
 	"github.com/influxdata/influxdb1-client/v2"
 	"github.com/smart-evolution/shapi/datasources/dataflux"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/type1"
-	"github.com/smart-evolution/shapi/services/email"
-	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"strconv"
 	"sync"
@@ -21,14 +21,14 @@ type HomeBot struct {
 	store       dataflux.IDataFlux
 	state       state.IState
 	persistence persistence.IPersistance
-	mailer      email.IMailer
+	mailer      mailer.IMailer
 }
 
 // New - creates new instances of HomeBot
 func New(
 	store dataflux.IDataFlux,
 	p persistence.IPersistance,
-	mailer email.IMailer,
+	mailer mailer.IMailer,
 	st state.IState,
 ) *HomeBot {
 	return &HomeBot{
@@ -54,7 +54,7 @@ func adjustValues(
 	tmpAdjustedStr := fmt.Sprintf("%.2f", tmpAdjustedNumber)
 	data["temperature"] = tmpAdjustedStr
 
-	utils.Log("Temperature adjustment [" + tmpStr + " + " + agentConfig.TmpAdjust + " = " + tmpAdjustedStr + "]")
+	logger.Log("Temperature adjustment [" + tmpStr + " + " + agentConfig.TmpAdjust + " = " + tmpAdjustedStr + "]")
 	return data
 }
 
@@ -66,11 +66,11 @@ func persistDataFactory(
 		a, ok := ia.(*type1.Type1)
 
 		if !ok {
-			utils.Log("assertion type error")
+			logger.Log("assertion type error")
 			return
 		}
 
-		utils.Log("Persisting data for agent [" + a.Name + "]")
+		logger.Log("Persisting data for agent [" + a.Name + "]")
 
 		adjustedData := adjustValues(data, agentConfig)
 
@@ -84,7 +84,7 @@ func persistDataFactory(
 		err := store.AddData(pt)
 
 		if err != nil {
-			utils.Log("failed adding agent to store")
+			logger.Log("failed adding agent to store")
 		}
 	}
 }
@@ -92,7 +92,7 @@ func persistDataFactory(
 func (hb *HomeBot) runCommunicationLoop() {
 	for range time.Tick(time.Second * 10) {
 		if hb.store.IsConnected() == false {
-			utils.Log("cannot fetch packages, Influx is down")
+			logger.Log("cannot fetch packages, Influx is down")
 			return
 		}
 
@@ -113,7 +113,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 			})
 
 			if err != nil {
-				utils.Log("AgentConfig not found for agent [" + t1.Name + "]")
+				logger.Log("AgentConfig not found for agent [" + t1.Name + "]")
 			}
 
 			persistData := persistDataFactory(hb.store, cnf)

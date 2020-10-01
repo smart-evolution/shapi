@@ -2,9 +2,9 @@ package agents
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/influxdata/influxdb1-client/v2"
 	"github.com/smart-evolution/shapi/datasources/dataflux"
-	"github.com/smart-evolution/shapi/utils"
 )
 
 // Type1DataJSON - entity representing agent data
@@ -108,7 +108,7 @@ func FetchType1Data(agentID string, period string, df dataflux.IDataFlux) (Type1
 		}
 
 		if err != nil {
-			utils.Log(err)
+			logger.Log(err)
 		}
 	}
 
