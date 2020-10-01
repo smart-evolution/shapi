@@ -2,8 +2,8 @@ package utils
 
 import (
 	"errors"
-	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/goutils/logger"
+	"github.com/coda-it/gowebserver/session"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/user"
 	"gopkg.in/mgo.v2/bson"
