@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
@@ -8,7 +9,6 @@ import (
 	"github.com/smart-evolution/shapi/models/user"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/utils"
-	utl "github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 )
@@ -39,12 +39,12 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 		err := p.Insert("users", newUser)
 
 		if err != nil {
-			utl.Log("error while registering user", err)
+			logger.Log("error while registering user", err)
 			handlers.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
 			return
 		}
 
-		utl.Log("registered user '" + newUser.Username + "'")
+		logger.Log("registered user '" + newUser.Username + "'")
 	default:
 	}
 }

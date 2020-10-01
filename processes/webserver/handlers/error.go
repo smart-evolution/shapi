@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/helpers"
-	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 )
 
@@ -29,6 +29,6 @@ func HandleError(w http.ResponseWriter, href string, msg string, status int) {
 	err := json.NewEncoder(w).Encode(helpers.ServeHal(data, embedded, links))
 
 	if err != nil {
-		utils.Log("error parsing response")
+		logger.Log("error parsing response")
 	}
 }

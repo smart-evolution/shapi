@@ -1,12 +1,12 @@
 package controllers
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/processes/webserver/utils"
-	utl "github.com/smart-evolution/shapi/utils"
 	"net/http"
 )
 
@@ -27,7 +27,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
 			p, ok := dfc.(persistence.IPersistance)
 			if !ok {
-				utl.Log("Invalid store")
+				logger.Log("Invalid store")
 				return
 			}
 

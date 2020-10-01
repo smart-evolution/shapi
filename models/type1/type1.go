@@ -2,8 +2,8 @@ package type1
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/models/agent"
-	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net/http"
 	"regexp"
@@ -90,13 +90,13 @@ func (a *Type1) FetchPackage(
 	wg *sync.WaitGroup,
 ) {
 	defer wg.Done()
-	utils.Log("fetching data from agent [" + a.Name + "]")
+	logger.Log("fetching data from agent [" + a.Name + "]")
 	apiURL := "http://" + a.IP + "/api"
 	response, err := http.Get(apiURL)
 
 	if err != nil {
 		a.IsOnline = false
-		utils.Log("data fetching request to agent [" + a.Name + "] failed")
+		logger.Log("data fetching request to agent [" + a.Name + "] failed")
 		return
 	}
 	defer response.Body.Close()
@@ -105,7 +105,7 @@ func (a *Type1) FetchPackage(
 
 	if err != nil {
 		a.IsOnline = false
-		utils.Log("agent '"+a.Name+"'", err)
+		logger.Log("agent '"+a.Name+"'", err)
 		return
 	}
 
@@ -113,7 +113,7 @@ func (a *Type1) FetchPackage(
 
 	if err != nil {
 		a.IsOnline = false
-		utils.Log("agent '"+a.Name+"'", err)
+		logger.Log("agent '"+a.Name+"'", err)
 		return
 	}
 

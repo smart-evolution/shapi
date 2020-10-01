@@ -3,6 +3,7 @@ package agentconfigs
 import (
 	"encoding/base64"
 	"encoding/json"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
@@ -11,7 +12,6 @@ import (
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/processes/webserver/utils"
-	utl "github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"strconv"
@@ -29,7 +29,7 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 
 	p, ok := dfc.(persistence.IPersistance)
 	if !ok {
-		utl.Log("Invalid store - should implement `IPersistance`")
+		logger.Log("Invalid store - should implement `IPersistance`")
 		handlers.HandleError(w, href, "controller store error", http.StatusInternalServerError)
 		return
 	}
@@ -56,7 +56,7 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 				credentials, err := base64.StdEncoding.DecodeString(token)
 
 				if err != nil {
-					utl.Log("Encoding credentials failed")
+					logger.Log("Encoding credentials failed")
 					handlers.HandleError(w, href, "error encoding credentials", http.StatusInternalServerError)
 					return
 				}
@@ -73,7 +73,7 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 
 		if err != nil {
 			msg := "AgentConfig not found"
-			utl.Log(msg)
+			logger.Log(msg)
 			handlers.HandleError(w, href, msg, http.StatusNotFound)
 			return
 		}
@@ -97,7 +97,7 @@ func CtrAgentConfig(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 		err := p.Upsert("agentConfigs", bson.M{"agentId": agentID}, config)
 
 		if err != nil {
-			utl.Log("error while posting agentConfig")
+			logger.Log("error while posting agentConfig")
 			handlers.HandleError(w, href, "error while posting agentConfig", http.StatusInternalServerError)
 			return
 		}

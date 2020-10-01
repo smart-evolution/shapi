@@ -2,10 +2,10 @@ package utils
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/user"
-	utl "github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"time"
@@ -20,11 +20,11 @@ func AuthenticateByCredentials(username string, password string, p persistence.I
 
 	if err != nil {
 		msg := "user not found"
-		utl.Log(msg)
+		logger.Log(msg)
 		return user.User{}, errors.New(msg)
 	}
 
-	utl.Log("logged in as user", usr)
+	logger.Log("logged in as user", usr)
 
 	return usr, nil
 }

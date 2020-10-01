@@ -1,8 +1,8 @@
 package dataflux
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/influxdata/influxdb1-client/v2"
-	"github.com/smart-evolution/shapi/utils"
 )
 
 // IDataFlux -  interface for datasource to keep IOT data
@@ -30,7 +30,7 @@ func New(dbURI string) *DataFlux {
 	})
 
 	if err != nil {
-		utils.Log(err)
+		logger.Log(err)
 		return &DataFlux{}
 	}
 
@@ -40,7 +40,7 @@ func New(dbURI string) *DataFlux {
 	})
 
 	if err != nil {
-		utils.Log(err)
+		logger.Log(err)
 		return &DataFlux{}
 	}
 

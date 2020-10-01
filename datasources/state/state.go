@@ -2,13 +2,13 @@ package state
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
 	"github.com/smart-evolution/shapi/models/linux"
 	modelState "github.com/smart-evolution/shapi/models/state"
 	"github.com/smart-evolution/shapi/models/type1"
-	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2/bson"
 	"strings"
 )
@@ -54,7 +54,7 @@ func (s *State) load() {
 		persistedState, err := s.persistence.FindOneState(bson.M{})
 
 		if err != nil {
-			utils.Log("failed to load state")
+			logger.Log("failed to load state")
 			return
 		}
 
@@ -67,7 +67,7 @@ func (s *State) persist() {
 	err := s.persistence.Upsert("state", bson.M{}, s.model)
 
 	if err != nil {
-		utils.Log("failed to persist state")
+		logger.Log("failed to persist state")
 	}
 }
 
@@ -101,11 +101,11 @@ func (s *State) AddAgent(id string, name string, ip string, agentType string) {
 	_, err := s.AgentByID(id)
 
 	if err == nil {
-		utils.Log("not adding agent '" + id + "', agent already exists")
+		logger.Log("not adding agent '" + id + "', agent already exists")
 		return
 	}
 
-	utils.Log("adding home agent '" + name + "' with URL '" + ip + "'")
+	logger.Log("adding home agent '" + name + "' with URL '" + ip + "'")
 	rawType := strings.Split(agentType, "-")[0]
 
 	if rawType == types.Type1 {

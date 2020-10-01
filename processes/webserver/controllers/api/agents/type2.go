@@ -1,9 +1,9 @@
 package agents
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/agent/types"
-	"github.com/smart-evolution/shapi/utils"
 )
 
 // Type2DataJSON - entity representing agent data
@@ -18,7 +18,7 @@ func FetchType2(agentID string, agents []agent.IAgent) ([]AgentJSON, error) {
 		a, ok := ia.(*agent.Agent)
 
 		if !ok {
-			utils.Log("type assertion error")
+			logger.Log("type assertion error")
 			continue
 		}
 

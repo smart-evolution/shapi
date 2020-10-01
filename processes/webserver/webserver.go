@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"errors"
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver"
 	"github.com/smart-evolution/shapi/datasources/dataflux"
 	"github.com/smart-evolution/shapi/datasources/persistence"
@@ -11,7 +12,6 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/agentconfigs"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/agents"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/sapi"
-	"github.com/smart-evolution/shapi/utils"
 	"golang.org/x/net/websocket"
 	"net/http"
 )
@@ -33,7 +33,7 @@ func New(port string, store dataflux.IDataFlux, persistence persistence.IPersist
 	addr, err := getServerAddress(port)
 
 	if err != nil {
-		utils.Log(err)
+		logger.Log(err)
 	}
 
 	serverOptions := gowebserver.WebServerOptions{

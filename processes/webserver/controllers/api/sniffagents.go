@@ -1,13 +1,13 @@
 package api
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"github.com/smart-evolution/shapi/services/agentsniffer"
-	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 )
 
@@ -33,7 +33,7 @@ func CtrSniffAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOption
 
 	state, ok := st.(state.IState)
 	if !ok {
-		utils.Log("Store should implement IState")
+		logger.Log("Store should implement IState")
 		handlers.HandleError(w, sniffAgentsHref, "controller store error", http.StatusInternalServerError)
 		return
 	}

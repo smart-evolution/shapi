@@ -1,12 +1,12 @@
 package api
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/datasources/state"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
-	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 	"strconv"
 )
@@ -21,7 +21,7 @@ func CtrSendAlert(w http.ResponseWriter, r *http.Request, opt router.UrlOptions,
 
 	state, ok := st.(state.IState)
 	if !ok {
-		utils.Log("store should implement IState")
+		logger.Log("store should implement IState")
 		handlers.HandleError(w, sendAlertHref, "controller store error", http.StatusInternalServerError)
 		return
 	}
