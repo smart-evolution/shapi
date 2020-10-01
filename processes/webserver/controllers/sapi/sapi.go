@@ -4,7 +4,6 @@ import (
 	"github.com/coda-it/goutils/logger"
 	aca "github.com/smart-evolution/agents-cmd-api"
 	"github.com/smart-evolution/shapi/constants"
-	"github.com/smart-evolution/shapi/utils"
 	"golang.org/x/net/websocket"
 	"net"
 )

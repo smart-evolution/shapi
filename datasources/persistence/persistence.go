@@ -6,7 +6,6 @@ import (
 	"github.com/smart-evolution/shapi/models/agent"
 	"github.com/smart-evolution/shapi/models/state"
 	"github.com/smart-evolution/shapi/models/user"
-	"github.com/smart-evolution/shapi/utils"
 	"gopkg.in/mgo.v2"
 )
 

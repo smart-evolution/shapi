@@ -3,7 +3,7 @@ module github.com/smart-evolution/shapi
 go 1.12
 
 require (
-	github.com/coda-it/goutils v0.0.1 // indirect
+	github.com/coda-it/goutils v0.0.1
 	github.com/coda-it/gowebserver v0.3.0
 	github.com/influxdata/influxdb1-client v0.0.0-20190402204710-8ff2fc3824fc
 	github.com/kr/pretty v0.1.0 // indirect
