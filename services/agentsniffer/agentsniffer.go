@@ -4,7 +4,6 @@ import (
 	"github.com/coda-it/goutils/logger"
 	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/datasources/state"
-	"github.com/smart-evolution/shapi/utils"
 	"io/ioutil"
 	"net"
 	"net/http"
