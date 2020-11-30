@@ -3,7 +3,9 @@ package utils
 import (
 	"errors"
 	"github.com/coda-it/goutils/logger"
+	goutilsSession "github.com/coda-it/goutils/session"
 	"github.com/coda-it/gowebserver/session"
+	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/user"
 	"gopkg.in/mgo.v2/bson"
@@ -37,10 +39,10 @@ func CreateClientSession(w http.ResponseWriter, r *http.Request, username string
 	if err == nil {
 		t := time.Now()
 		timeStr := t.Format(time.RFC850)
-		cookieValue := CreateSessionID(username, password, timeStr)
+		cookieValue := goutilsSession.CreateSessionID(username, password, timeStr)
 
 		cookie := http.Cookie{
-			Name:    "sid",
+			Name:    constants.SessionKey,
 			Value:   cookieValue,
 			Expires: expiration}
 

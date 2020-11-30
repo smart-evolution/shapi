@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/coda-it/goutils/hash"
 	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
@@ -8,7 +9,6 @@ import (
 	"github.com/smart-evolution/shapi/datasources/persistence"
 	"github.com/smart-evolution/shapi/models/user"
 	"github.com/smart-evolution/shapi/processes/webserver/handlers"
-	"github.com/smart-evolution/shapi/processes/webserver/utils"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 )
@@ -33,7 +33,7 @@ func Register(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm 
 			ID:       bson.NewObjectId(),
 			Username: username,
 			Password: password,
-			APIKey:   utils.HashString(username + password),
+			APIKey:   hash.EncryptString(username + password),
 		}
 
 		err := p.Insert("users", newUser)

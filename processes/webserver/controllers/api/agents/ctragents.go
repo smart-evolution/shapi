@@ -3,9 +3,11 @@ package agents
 import (
 	"encoding/base64"
 	"github.com/coda-it/goutils/logger"
+	goutilsSession "github.com/coda-it/goutils/session"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
+	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/datasources"
 	"github.com/smart-evolution/shapi/datasources/dataflux"
 	"github.com/smart-evolution/shapi/datasources/persistence"
@@ -46,7 +48,7 @@ func CtrAgents(w http.ResponseWriter, r *http.Request, opt router.UrlOptions, sm
 			return
 		}
 
-		sessionID, _ := webSrvUtils.GetSessionID(r)
+		sessionID, _ := goutilsSession.GetSessionID(r, constants.SessionKey)
 		isLogged := sm.IsExist(sessionID)
 
 		if !isLogged {
