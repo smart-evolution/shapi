@@ -1,9 +1,13 @@
+github.com/coda-it/goappframe v0.1.0 h1:GjvthAoNkWw2oyM8T94lYw3KFcR2v+d3hhL8uhLwdp0=
+github.com/coda-it/goappframe v0.1.0/go.mod h1:mablgD9EOHOwfuF/5hn5s+so4rMrXBC4jG+x+o/egCg=
 github.com/coda-it/goutils v0.0.1 h1:1oh77r/w3alKktV1tZxD4ga28YXxsMJrz4c712JeTBU=
 github.com/coda-it/goutils v0.0.1/go.mod h1:JDLjsDAubl3lvopKddkM1vZK8Ckq3FIeS6Ap5H6jTH0=
 github.com/coda-it/goutils v0.1.0 h1:cK2xlksT2yD9uIVOJHxQcHGtbY3v6m0pcL/xiB7WX/I=
 github.com/coda-it/goutils v0.1.0/go.mod h1:JDLjsDAubl3lvopKddkM1vZK8Ckq3FIeS6Ap5H6jTH0=
 github.com/coda-it/gowebserver v0.3.0 h1:f2vW5mBPvTW7a5E3N1k9bZVZp9KU18LWtki+7sAU+Gk=
 github.com/coda-it/gowebserver v0.3.0/go.mod h1:o+uiz08s1yFRU7uT6+iNheCxfUBjWDyamSGkgfZ+kig=
+github.com/coda-it/gowebserver v1.1.0 h1:TBgIDt2ytzQzgZaA7wSn8H7mbH2AQVgwzjiCYA8fOZo=
+github.com/coda-it/gowebserver v1.1.0/go.mod h1:o+uiz08s1yFRU7uT6+iNheCxfUBjWDyamSGkgfZ+kig=
 github.com/influxdata/influxdb1-client v0.0.0-20190402204710-8ff2fc3824fc h1:KpMgaYJRieDkHZJWY3LMafvtqS/U8xX6+lUN+OKpl/Y=
 github.com/influxdata/influxdb1-client v0.0.0-20190402204710-8ff2fc3824fc/go.mod h1:qj24IKcXYK6Iy9ceXlo3Tc+vtHo9lIhSX5JddghvEPo=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
@@ -23,5 +27,7 @@ gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 h1:qIbj1fsPNlZgppZ+VLlY7N33
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce h1:xcEWjVhvbDy+nHP67nPDDpbYrY+ILlfndk4bRioVHaU=
 gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce/go.mod h1:yeKp02qBN3iKW1OzL3MGk2IdtZzaj7SFntXj72NppTA=
+gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 h1:VpOs+IwYnYBaFnrNAeB8UUWtL3vEUnzSCL1nVjPhqrw=
+gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22/go.mod h1:yeKp02qBN3iKW1OzL3MGk2IdtZzaj7SFntXj72NppTA=
 gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=

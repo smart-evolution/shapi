@@ -5,11 +5,11 @@ import (
 	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/goutils/mailer"
 	"github.com/influxdata/influxdb1-client/v2"
-	"github.com/smart-evolution/shapi/datasources/dataflux"
-	"github.com/smart-evolution/shapi/datasources/persistence"
-	"github.com/smart-evolution/shapi/datasources/state"
-	"github.com/smart-evolution/shapi/models/agent"
-	"github.com/smart-evolution/shapi/models/type1"
+	"github.com/smart-evolution/shapi/data/dataflux"
+	"github.com/smart-evolution/shapi/data/repositories/agentconfigs"
+	"github.com/smart-evolution/shapi/data/repositories/state"
+	"github.com/smart-evolution/shapi/domain/models/agent"
+	"github.com/smart-evolution/shapi/domain/models/type1"
 	"gopkg.in/mgo.v2/bson"
 	"strconv"
 	"sync"
@@ -18,24 +18,24 @@ import (
 
 // HomeBot - struct for homebot administrator
 type HomeBot struct {
-	store       dataflux.IDataFlux
-	state       state.IState
-	persistence persistence.IPersistance
-	mailer      mailer.IMailer
+	store        dataflux.IDataFlux
+	state        state.Repository
+	agentconfigs agentconfigs.Repository
+	mailer       mailer.IMailer
 }
 
 // New - creates new instances of HomeBot
 func New(
 	store dataflux.IDataFlux,
-	p persistence.IPersistance,
+	ac agentconfigs.Repository,
 	mailer mailer.IMailer,
-	st state.IState,
+	st state.Repository,
 ) *HomeBot {
 	return &HomeBot{
-		store:       store,
-		persistence: p,
-		state:       st,
-		mailer:      mailer,
+		store:        store,
+		agentconfigs: ac,
+		state:        st,
+		mailer:       mailer,
 	}
 }
 
@@ -108,7 +108,7 @@ func (hb *HomeBot) runCommunicationLoop() {
 				continue
 			}
 
-			cnf, err := hb.persistence.FindOneAgentConfig(bson.M{
+			cnf, err := hb.agentconfigs.FindOneAgentConfig(bson.M{
 				"agentId": t1.ID,
 			})
 
