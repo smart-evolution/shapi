@@ -5,13 +5,13 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/base"
 )
 
-// Controller -
+// Controller - agent sniffer controller
 type Controller struct {
 	*base.Controller
 	UserUsecases agentUsecases.Usecase
 }
 
-// New -
+// New - creates instance of agent sniffer controller
 func New(b *base.Controller, au agentUsecases.Usecase) *Controller {
 	return &Controller{
 		b,

@@ -68,32 +68,32 @@ func (u *Usecase) CreateClientSession(w http.ResponseWriter, r *http.Request, us
 	return false
 }
 
-// RegisterUser -
+// RegisterUser - registers user
 func (u *Usecase) RegisterUser(user userModel.User) error {
 	return u.userRepository.RegisterUser(user)
 }
 
-// FindAllUsers -
+// FindAllUsers - gets all registered users
 func (u *Usecase) FindAllUsers() ([]userModel.User, error) {
 	return u.userRepository.FindAllUsers(bson.M{})
 }
 
-// SetIsAlerts -
+// SetIsAlerts - sets alerts
 func (u *Usecase) SetIsAlerts(i bool) {
 	u.stateRepository.SetIsAlerts(i)
 }
 
-// IsAlerts -
+// IsAlerts - gets are alerts turned on
 func (u *Usecase) IsAlerts() bool {
 	return u.stateRepository.IsAlerts()
 }
 
-// SetSendAlert -
+// SetSendAlert - sets should alerts be sent
 func (u *Usecase) SetSendAlert(i bool) {
 	u.stateRepository.SetSendAlert(i)
 }
 
-// SendAlert -
+// SendAlert - sends alerts
 func (u *Usecase) SendAlert() bool {
 	return u.stateRepository.SendAlert()
 }

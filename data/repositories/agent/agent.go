@@ -12,19 +12,19 @@ const (
 	databaseName = "smarthome"
 )
 
-// Repository -
+// Repository -  agents repository
 type Repository struct {
 	Dataflux dataflux.IDataFlux
 }
 
-// New -
+// New - creates agents repository instance
 func New(d dataflux.IDataFlux) *Repository {
 	return &Repository{
 		d,
 	}
 }
 
-// FetchType1Data -
+// FetchType1Data - fetches data from agent-type-1
 func (r *Repository) FetchType1Data(agentID string, period string) (agentModel.Type1DataJSON, error) {
 	if r.Dataflux.IsConnected() != true {
 		return agentModel.Type1DataJSON{}, errors.New("cannot feed data , Influx seems to be down")

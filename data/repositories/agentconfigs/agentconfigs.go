@@ -12,12 +12,12 @@ const (
 	collectionName = "agentConfigs"
 )
 
-// Repository -
+// Repository - agent configs repository
 type Repository struct {
 	persistence persistence.IPersistance
 }
 
-// New -
+// New - creates new agent configs repository
 func New(p persistence.IPersistance) *Repository {
 	return &Repository{
 		p,
@@ -56,7 +56,7 @@ func (r *Repository) FindAllAgentConfigs(query interface{}) ([]agent.Config, err
 	return configs, nil
 }
 
-// UpdateAgentConfigs -
+// UpdateAgentConfigs - updates agent config
 func (r *Repository) UpdateAgentConfigs(agentID string, config interface{}) error {
 	c := r.persistence.GetCollection(collectionName)
 	_, err := c.Upsert(bson.M{"agentId": agentID}, config)

@@ -5,13 +5,13 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/base"
 )
 
-// Controller -
+// Controller - user register controller
 type Controller struct {
 	*base.Controller
 	UserUsecases userUsecases.Usecase
 }
 
-// New -
+// New - creates new instance of user register controller
 func New(b *base.Controller, uu userUsecases.Usecase) *Controller {
 	return &Controller{
 		b,

@@ -5,13 +5,13 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/base"
 )
 
-// Controller -
+// Controller - reset database controller
 type Controller struct {
 	*base.Controller
 	PlatformUsecases platformUsecases.Usecase
 }
 
-// New -
+// New - creates new instance of reset database controller
 func New(b *base.Controller, pu platformUsecases.Usecase) *Controller {
 	return &Controller{
 		b,

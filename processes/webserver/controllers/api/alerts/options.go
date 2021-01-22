@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-// CtrAlertsOptions -
+// CtrAlertsOptions - options handler
 func (c *Controller) CtrAlertsOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	handlers.CorsHeaders(w, r)
 	return

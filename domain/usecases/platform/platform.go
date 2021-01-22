@@ -1,18 +1,18 @@
 package platform
 
-// Usecase -
+// Usecase - platform usecases
 type Usecase struct {
 	repository IRepository
 }
 
-// New -
+// New - creates platform usecases instance
 func New(r IRepository) *Usecase {
 	return &Usecase{
 		r,
 	}
 }
 
-// Drop -
+// Drop - drops database
 func (u *Usecase) Drop() error {
 	return u.repository.Drop()
 }

@@ -17,14 +17,14 @@ const (
 	collectionName = "state"
 )
 
-// Repository -
+// Repository - state repository
 type Repository struct {
 	persistence persistence.IPersistance
 	loaded      bool
 	model       modelState.State
 }
 
-// New - creates new instance of State
+// New - creates new instance of state repository
 func New(p persistence.IPersistance, agents []agent.IAgent) *Repository {
 	return &Repository{
 		p,

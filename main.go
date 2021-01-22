@@ -101,8 +101,8 @@ func main() {
 			},
 			{
 				Path:      "/api/agents/{agent}",
-				Method:    "OPTION",
-				Handler:   agentsCtl.CtrAgentsOption,
+				Method:    "OPTIONS",
+				Handler:   agentsCtl.CtrAgentsOptions,
 				Protected: false,
 			},
 			{

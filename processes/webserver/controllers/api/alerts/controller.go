@@ -6,13 +6,13 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/base"
 )
 
-// Controller -
+// Controller - alerts controller
 type Controller struct {
 	*base.Controller
 	UserUsecases userUsecases.Usecase
 }
 
-// New -
+// New - creates new instance of alerts controller
 func New(b *base.Controller, u userUsecases.Usecase, a agentUsecases.Usecase) *Controller {
 	return &Controller{
 		b,

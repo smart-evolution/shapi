@@ -2,19 +2,19 @@ package platform
 
 import "github.com/smart-evolution/shapi/data/persistence"
 
-// Repository -
+// Repository - platform repository
 type Repository struct {
 	Persistence persistence.IPersistance
 }
 
-// New -
+// New - creates new platform repository
 func New(p persistence.IPersistance) *Repository {
 	return &Repository{
 		p,
 	}
 }
 
-// Drop -
+// Drop - drops whole database
 func (r *Repository) Drop() error {
 	return r.Persistence.DropDatabase()
 }

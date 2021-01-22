@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CtrAgentsGet -
+// CtrAgentsGet - get handler
 func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	handlers.CorsHeaders(w, r)
 

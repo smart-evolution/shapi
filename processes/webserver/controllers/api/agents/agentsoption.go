@@ -8,8 +8,8 @@ import (
 	"net/http"
 )
 
-// CtrAgentsOption -
-func (c *Controller) CtrAgentsOption(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
+// CtrAgentsOptions - options handler
+func (c *Controller) CtrAgentsOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	handlers.CorsHeaders(w, r)
 
 	switch r.Method {

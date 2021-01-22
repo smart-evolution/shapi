@@ -1,6 +1,6 @@
 package platform
 
-// IRepository -
+// IRepository - platform repository interface
 type IRepository interface {
 	Drop() error
 }

@@ -12,7 +12,7 @@ import (
 	"net/http"
 )
 
-// CtrRegisterPost -
+// CtrRegisterPost - post handler
 func (c *Controller) CtrRegisterPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	username := r.PostFormValue("username")
 	password := r.PostFormValue("password")
