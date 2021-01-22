@@ -182,7 +182,7 @@ func main() {
 		Enabled: true,
 		Routes: []route.Route{
 			{
-				Path:      "/reset",
+				Path:      "/api/reset",
 				Method:    "POST",
 				Handler:   resetDbCtl.CtrResetDbPost,
 				Protected: false,
