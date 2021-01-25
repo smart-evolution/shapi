@@ -10,7 +10,6 @@ import (
 	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/domain/models/agent"
 	"github.com/smart-evolution/shapi/domain/models/type1"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 	"strconv"
 	"strings"
@@ -18,7 +17,7 @@ import (
 
 // CtrAgentsGet - get handler
 func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	agentID := opt.Params["agent"]
 	period := r.URL.Query().Get("period")
@@ -116,5 +115,5 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 		"agents": list,
 	}
 
-	handlers.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }
