@@ -169,7 +169,7 @@ func main() {
 		Enabled: true,
 		Routes: []route.Route{
 			{
-				Path:      "/login",
+				Path:      "/api/login",
 				Method:    "POST",
 				Handler:   userLoginCtl.CtrLoginPost,
 				Protected: false,
