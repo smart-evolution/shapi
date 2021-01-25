@@ -4,14 +4,13 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 	"strconv"
 )
 
 // CtrAlertsGet - get handler
 func (c *Controller) CtrAlertsGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
@@ -26,5 +25,5 @@ func (c *Controller) CtrAlertsGet(w http.ResponseWriter, r *http.Request, opt ro
 	}{
 		strconv.FormatBool(c.UserUsecases.IsAlerts()),
 	}
-	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }

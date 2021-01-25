@@ -23,12 +23,28 @@ func (c *Controller) CtrLoginPost(w http.ResponseWriter, r *http.Request, opt ro
 
 		isSession := c.UserUsecases.CreateClientSession(w, r, username, password, sm)
 
+		links := map[string]map[string]string{
+			"self": map[string]string{
+				"href": "/api/",
+			},
+		}
+
+		embedded := map[string]string{}
+
 		if isSession {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			data := struct {
+				IsSession bool `json:"isSession"`
+			}{
+				true,
+			}
+			c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 		} else {
-			http.Redirect(w, r, "/login?err", http.StatusSeeOther)
+			data := struct {
+				IsSession bool `json:"isSession"`
+			}{
+				false,
+			}
+			c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 		}
 	}
-
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }

@@ -24,12 +24,12 @@ import (
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/agents"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/alerts"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/front"
+	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/login"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/notfound"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/resetdb"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/sendalert"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/api/sniffagents"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/base"
-	"github.com/smart-evolution/shapi/processes/webserver/controllers/login"
 	"github.com/smart-evolution/shapi/processes/webserver/controllers/register"
 	"github.com/smart-evolution/shapi/utils"
 	"os"
@@ -169,7 +169,7 @@ func main() {
 		Enabled: true,
 		Routes: []route.Route{
 			{
-				Path:      "/login",
+				Path:      "/api/login",
 				Method:    "POST",
 				Handler:   userLoginCtl.CtrLoginPost,
 				Protected: false,

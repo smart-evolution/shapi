@@ -4,7 +4,6 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 )
 
@@ -12,7 +11,7 @@ const resetHref string = "/api/reset"
 
 // CtrResetDbPost - resets state
 func (c *Controller) CtrResetDbPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	switch r.Method {
 	case "POST":
@@ -36,7 +35,7 @@ func (c *Controller) CtrResetDbPost(w http.ResponseWriter, r *http.Request, opt 
 
 		embedded := map[string]string{}
 
-		handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+		c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 		return
 	}
 }

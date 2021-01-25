@@ -4,13 +4,12 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 )
 
 // CtrFrontAll - api landing page
 func (c *Controller) CtrFrontAll(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	data := struct{}{}
 
@@ -22,5 +21,5 @@ func (c *Controller) CtrFrontAll(w http.ResponseWriter, r *http.Request, opt rou
 
 	embedded := map[string]string{}
 
-	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }

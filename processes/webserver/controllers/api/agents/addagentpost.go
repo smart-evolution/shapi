@@ -6,7 +6,6 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"io/ioutil"
 	"net/http"
 )
@@ -20,7 +19,7 @@ type body struct {
 
 // CtrAdd - add new agent by IP
 func (c *Controller) CtrAdd(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	b, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
@@ -56,5 +55,5 @@ func (c *Controller) CtrAdd(w http.ResponseWriter, r *http.Request, opt router.U
 		},
 	}
 
-	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }

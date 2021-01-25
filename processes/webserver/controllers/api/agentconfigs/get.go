@@ -8,7 +8,6 @@ import (
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/constants"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"strconv"
@@ -17,7 +16,7 @@ import (
 
 // CtrAgentConfigGet - get handler
 func (c *Controller) CtrAgentConfigGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	agentID := opt.Params["agent"]
 	href := "api/agentsConfig/" + agentID
@@ -41,7 +40,7 @@ func (c *Controller) CtrAgentConfigGet(w http.ResponseWriter, r *http.Request, o
 
 			if err != nil {
 				logger.Log("Encoding credentials failed")
-				handlers.HandleError(w, href, "error encoding credentials", http.StatusInternalServerError)
+				c.HandleError(w, href, "error encoding credentials", http.StatusInternalServerError)
 				return
 			}
 
@@ -58,7 +57,7 @@ func (c *Controller) CtrAgentConfigGet(w http.ResponseWriter, r *http.Request, o
 	if err != nil {
 		msg := "AgentConfig not found"
 		logger.Log(msg)
-		handlers.HandleError(w, href, msg, http.StatusNotFound)
+		c.HandleError(w, href, msg, http.StatusNotFound)
 		return
 	}
 
@@ -69,5 +68,5 @@ func (c *Controller) CtrAgentConfigGet(w http.ResponseWriter, r *http.Request, o
 	embedded := map[string]interface{}{
 		"configs": list,
 	}
-	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }
