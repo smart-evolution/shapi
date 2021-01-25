@@ -116,5 +116,5 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 		"agents": list,
 	}
 
-	handlers.HandleResponse(w, data, embedded, links, http.StatusOK)
+	handlers.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }

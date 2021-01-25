@@ -7,13 +7,12 @@ import (
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	"github.com/smart-evolution/shapi/domain/models/agent"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"net/http"
 )
 
 // CtrAgentConfigPost - post handler
 func (c *Controller) CtrAgentConfigPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	handlers.CorsHeaders(w, r)
+	c.CorsHeaders(w, r)
 
 	agentID := opt.Params["agent"]
 	href := "api/agentsConfig/" + agentID
@@ -34,10 +33,10 @@ func (c *Controller) CtrAgentConfigPost(w http.ResponseWriter, r *http.Request, 
 
 	if err != nil {
 		logger.Log("error while posting agentConfig")
-		handlers.HandleError(w, href, "error while posting agentConfig", http.StatusInternalServerError)
+		c.HandleError(w, href, "error while posting agentConfig", http.StatusInternalServerError)
 		return
 	}
 
 	embedded := map[string]string{}
-	handlers.HandleResponse(w, config, embedded, links, http.StatusOK)
+	c.HandleJSONResponse(w, config, embedded, links, http.StatusOK)
 }

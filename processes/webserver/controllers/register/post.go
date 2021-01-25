@@ -7,7 +7,6 @@ import (
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
 	userModel "github.com/smart-evolution/shapi/domain/models/user"
-	"github.com/smart-evolution/shapi/processes/webserver/handlers"
 	"gopkg.in/mgo.v2/bson"
 	"net/http"
 )
@@ -28,7 +27,7 @@ func (c *Controller) CtrRegisterPost(w http.ResponseWriter, r *http.Request, opt
 
 	if err != nil {
 		logger.Log("error while registering user", err)
-		handlers.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
+		c.HandleError(w, "/register", "user registration failed", http.StatusInternalServerError)
 		return
 	}
 
