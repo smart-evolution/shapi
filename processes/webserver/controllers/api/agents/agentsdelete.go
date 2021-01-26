@@ -10,7 +10,7 @@ import (
 
 // CtrAgentsDelete - delete handler
 func (c *Controller) CtrAgentsDelete(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	agentID := opt.Params["agent"]
 	href := "/api/agents/" + agentID

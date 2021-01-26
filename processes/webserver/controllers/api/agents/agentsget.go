@@ -10,6 +10,7 @@ import (
 	"github.com/smart-evolution/shapi/constants"
 	"github.com/smart-evolution/shapi/domain/models/agent"
 	"github.com/smart-evolution/shapi/domain/models/type1"
+	agentViewModel "github.com/smart-evolution/shapi/processes/webserver/viewmodels/agent"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,7 +18,7 @@ import (
 
 // CtrAgentsGet - get handler
 func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	agentID := opt.Params["agent"]
 	period := r.URL.Query().Get("period")
@@ -51,7 +52,7 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 		}
 	}
 
-	var list []AgentJSON
+	var list []agentViewModel.Agent
 
 	for _, ia := range c.AgentUsecases.Agents() {
 		var (
@@ -66,7 +67,7 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 				logger.Log(err)
 			}
 
-			agentJSON := AgentJSON{
+			agentJSON := agentViewModel.Agent{
 				ID:        a.ID,
 				Name:      a.Name,
 				Data:      data,
@@ -81,7 +82,7 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 				logger.Log(err)
 			}
 
-			agentJSON := AgentJSON{
+			agentJSON := agentViewModel.Agent{
 				ID:        a.ID,
 				Name:      a.Name,
 				Data:      data,
@@ -104,13 +105,11 @@ func (c *Controller) CtrAgentsGet(w http.ResponseWriter, r *http.Request, opt ro
 	data := map[string]string{
 		"count": strconv.Itoa(len(list)),
 	}
-
 	links := map[string]map[string]string{
 		"self": map[string]string{
 			"href": href,
 		},
 	}
-
 	embedded := map[string]interface{}{
 		"agents": list,
 	}

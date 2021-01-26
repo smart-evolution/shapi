@@ -16,7 +16,7 @@ import (
 
 // CtrAgentConfigGet - get handler
 func (c *Controller) CtrAgentConfigGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	agentID := opt.Params["agent"]
 	href := "api/agentsConfig/" + agentID

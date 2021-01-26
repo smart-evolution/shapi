@@ -9,6 +9,6 @@ import (
 
 // CtrNotFound - api 404 page
 func (c *Controller) CtrNotFound(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 	c.HandleError(w, "/api/404", "endpoint not found", http.StatusNotFound)
 }

@@ -6,23 +6,16 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
+	addedAgentViewModel "github.com/smart-evolution/shapi/processes/webserver/viewmodels/addedagent"
 	"io/ioutil"
 	"net/http"
 )
 
-type body struct {
-	ID   string `json:"agentID"`
-	Name string `json:"agentName"`
-	IP   string `json:"agentIP"`
-	Type string `json:"agentType"`
-}
-
 // CtrAdd - add new agent by IP
 func (c *Controller) CtrAdd(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	b, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
 
 	if err != nil {
 		logger.Log("error reading request body")
@@ -30,7 +23,7 @@ func (c *Controller) CtrAdd(w http.ResponseWriter, r *http.Request, opt router.U
 		return
 	}
 
-	var msg body
+	var msg addedAgentViewModel.AddedAgent
 	err = json.Unmarshal(b, &msg)
 
 	if err != nil {

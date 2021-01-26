@@ -9,5 +9,6 @@ import (
 
 // CtrAgentConfigOptions - options handler
 func (c *Controller) CtrAgentConfigOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	return
+	defer r.Body.Close()
+	c.CorsHeaders(w, r)
 }

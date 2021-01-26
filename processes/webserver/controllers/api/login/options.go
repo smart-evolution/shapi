@@ -9,6 +9,6 @@ import (
 
 // CtrLoginOptions - options handler
 func (c *Controller) CtrLoginOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
+	defer r.Body.Close()
 	c.CorsHeaders(w, r)
-	return
 }

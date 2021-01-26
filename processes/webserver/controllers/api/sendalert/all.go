@@ -12,7 +12,7 @@ const sendAlertHref string = "/api/sendalert"
 
 // CtrSendAlertAll - api controller for sending alerts to agents
 func (c *Controller) CtrSendAlertAll(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	if r.Method == "POST" {
 		c.UserUsecases.SetSendAlert(true)

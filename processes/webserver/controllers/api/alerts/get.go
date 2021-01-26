@@ -10,7 +10,7 @@ import (
 
 // CtrAlertsGet - get handler
 func (c *Controller) CtrAlertsGet(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	links := map[string]map[string]string{
 		"self": map[string]string{

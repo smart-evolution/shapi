@@ -9,10 +9,6 @@ import (
 
 // CtrAgentsOptions - options handler
 func (c *Controller) CtrAgentsOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
+	defer r.Body.Close()
 	c.CorsHeaders(w, r)
-
-	switch r.Method {
-	case "OPTIONS":
-		return
-	}
 }
