@@ -170,6 +170,12 @@ func main() {
 		Routes: []route.Route{
 			{
 				Path:      "/api/login",
+				Method:    "OPTIONS",
+				Handler:   userLoginCtl.CtrLoginOptions,
+				Protected: false,
+			},
+			{
+				Path:      "/api/login",
 				Method:    "POST",
 				Handler:   userLoginCtl.CtrLoginPost,
 				Protected: false,

@@ -13,6 +13,7 @@ import (
 // CtrLoginPost - handle login page and login process
 func (c *Controller) CtrLoginPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	defer r.Body.Close()
+	c.CorsHeaders(w, r)
 
 	links := map[string]map[string]string{
 		"self": map[string]string{
