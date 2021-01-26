@@ -8,7 +8,7 @@ import (
 )
 
 // CtrAlertsOptions - options handler
-func (c *Controller) CtrAlertsOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
+func (c *Controller) CtrLoginOptions(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
 	c.CorsHeaders(w, r)
 	return
 }

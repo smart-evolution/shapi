@@ -171,7 +171,7 @@ func main() {
 			{
 				Path:      "/api/login",
 				Method:    "OPTIONS",
-				Handler:   userLoginCtl.CtrLoginPost,
+				Handler:   userLoginCtl.CtrLoginOptions,
 				Protected: false,
 			},
 			{
