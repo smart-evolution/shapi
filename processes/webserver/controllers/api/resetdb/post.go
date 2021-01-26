@@ -1,6 +1,7 @@
 package resetdb
 
 import (
+	"github.com/coda-it/goutils/logger"
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
@@ -11,31 +12,28 @@ const resetHref string = "/api/reset"
 
 // CtrResetDbPost - resets state
 func (c *Controller) CtrResetDbPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
-	switch r.Method {
-	case "POST":
-		data := struct {
-			Message string `json:"message"`
-		}{
-			"state cleared",
-		}
-
-		err := c.PlatformUsecases.Drop()
-
+	err := c.PlatformUsecases.Drop()
+	if err != nil {
 		if err != nil {
-			// throw error
+			logger.Log("resetdb errored")
+			c.HandleError(w, "/api/reset", "resetdb errored", http.StatusInternalServerError)
+			return
 		}
-
-		links := map[string]map[string]string{
-			"self": map[string]string{
-				"href": resetHref,
-			},
-		}
-
-		embedded := map[string]string{}
-
-		c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
-		return
 	}
+
+	data := struct {
+		Message string `json:"message"`
+	}{
+		"state cleared",
+	}
+	links := map[string]map[string]string{
+		"self": map[string]string{
+			"href": resetHref,
+		},
+	}
+	embedded := map[string]string{}
+
+	c.HandleJSONResponse(w, data, embedded, links, http.StatusOK)
 }

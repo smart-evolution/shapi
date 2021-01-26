@@ -11,7 +11,7 @@ import (
 
 // CtrAgentsPost - post handler
 func (c *Controller) CtrAgentsPost(w http.ResponseWriter, r *http.Request, opt router.URLOptions, sm session.ISessionManager, s store.IStore) {
-	c.CorsHeaders(w, r)
+	defer r.Body.Close()
 
 	agentID := opt.Params["agent"]
 

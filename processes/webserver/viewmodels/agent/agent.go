@@ -1,7 +1,7 @@
-package agents
+package agent
 
-// AgentJSON - entity representing agent state
-type AgentJSON struct {
+// Agent - entity representing agent state
+type Agent struct {
 	ID        string      `json:"id"`
 	Name      string      `json:"name"`
 	Data      interface{} `json:"data"`
