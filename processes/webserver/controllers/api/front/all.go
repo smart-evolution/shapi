@@ -4,6 +4,7 @@ import (
 	"github.com/coda-it/gowebserver/router"
 	"github.com/coda-it/gowebserver/session"
 	"github.com/coda-it/gowebserver/store"
+	"github.com/smart-evolution/shapi/utils"
 	"net/http"
 )
 
@@ -12,7 +13,9 @@ func (c *Controller) CtrFrontAll(w http.ResponseWriter, r *http.Request, opt rou
 	defer r.Body.Close()
 	c.CorsHeaders(w, r)
 
-	data := struct{}{}
+	data := map[string]string{
+		"version": utils.VERSION,
+	}
 	links := map[string]map[string]string{
 		"self": map[string]string{
 			"href": "/api/",
